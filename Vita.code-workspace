@@ -3,6 +3,12 @@
     {
       "name": "Vita Work Space",
       "path": "."
+    },
+    {
+      "path": "client"
+    },
+    {
+      "path": "api"
     }
   ],
   "settings": {}
