@@ -5,11 +5,18 @@
       "path": "."
     },
     {
+      "name": "frontend",
       "path": "client"
     },
     {
+      "name": "backend",
       "path": "api"
     }
   ],
-  "settings": {}
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/package-lock.json": true
+    }
+  }
 }

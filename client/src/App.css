@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: transparent;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,21 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+#tsparticles {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  background-color: #242424;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+}
+
+#tsparticles canvas {
+  position: absolute !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
 }
