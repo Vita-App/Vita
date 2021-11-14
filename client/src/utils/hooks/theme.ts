@@ -1,12 +1,20 @@
 import { createTheme } from '@mui/material/styles';
 type ThemeMode = 'light' | 'dark';
 
-const getTheme = (mode: ThemeMode) =>
-  createTheme({
+// https://mui.com/customization/theme-components/#adding-new-component-variants
+// https://mui.com/customization/theming/#createtheme-options-args-theme
+
+const getTheme = (mode: ThemeMode) => {
+  let theme = createTheme({
     palette: {
       mode,
     },
   });
+
+  theme = createTheme(theme, {});
+
+  return theme;
+};
 
 export default getTheme;
 

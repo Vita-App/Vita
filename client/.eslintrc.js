@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     indent: ['error', 2],
     'object-curly-spacing': ['error', 'always'],
+    'arrow-parens': 'off',
     'no-warning-comments': 'off',
     'no-unused-vars': [
       'warn',

@@ -3,6 +3,7 @@ import logo from 'logo.svg';
 import Appbar from 'components/Appbar';
 import Box from '@mui/material/Box';
 import Particles from 'components/Particles';
+import Pagination from 'components/Pagination';
 
 const FillerComponent = () => (
   <div className="App">
@@ -34,6 +35,7 @@ const Landing = () => (
   >
     <Appbar />
     <FillerComponent />
+    <Pagination />
     <Particles />
   </Box>
 );
