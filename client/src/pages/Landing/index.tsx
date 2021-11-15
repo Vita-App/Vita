@@ -4,6 +4,7 @@ import Appbar from 'components/Appbar';
 import Box from '@mui/material/Box';
 import Particles from 'components/Particles';
 import Pagination from 'components/Pagination';
+import Hero from 'components/Hero';
 
 const FillerComponent = () => (
   <div className="App">
@@ -34,6 +35,7 @@ const Landing = () => (
     }}
   >
     <Appbar />
+    <Hero />
     <FillerComponent />
     <Pagination />
     <Particles />

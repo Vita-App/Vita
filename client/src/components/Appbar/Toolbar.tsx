@@ -7,8 +7,8 @@ import MaterialButton from '@mui/material/Button';
 
 const Toolbar = () => (
   <div>
-    <MaterialToolbar sx={{ mt: 4 }}>
-      <Box sx={{ flexGrow: 1, marginLeft: '10%' }}>
+    <MaterialToolbar sx={{ mt: 4, paddingLeft: '34px! important' }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Button>VITA APP</Button>
       </Box>
       {/* </Typography> */}
