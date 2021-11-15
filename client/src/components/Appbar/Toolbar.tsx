@@ -7,15 +7,11 @@ import MaterialButton from '@mui/material/Button';
 
 const Toolbar = () => (
   <div>
-    <MaterialToolbar sx={{ mt: 4, paddingLeft: '34px! important' }}>
+    <MaterialToolbar>
       <Box sx={{ flexGrow: 1 }}>
         <Button>VITA APP</Button>
       </Box>
-      {/* </Typography> */}
       <Stack direction="row" spacing={3}>
-        <MaterialButton variant="contained" disableElevation>
-          Hey
-        </MaterialButton>
         <Button>Get a match</Button>
         <Button>Find a mentor</Button>
         <Button sx={{ color: 'palevioletred' }}>Login</Button>

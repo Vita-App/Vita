@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
 
 const App = () => {
-  const theme = getTheme('light');
+  const theme = getTheme('dark');
   return (
     <ThemeProvider theme={theme}>
       <Routes />

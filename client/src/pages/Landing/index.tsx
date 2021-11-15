@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Particles from 'components/Particles';
 import Pagination from 'components/Pagination';
 import Hero from 'components/Hero';
+import { styled } from '@mui/material/styles';
 
 const FillerComponent = () => (
   <div className="App">
@@ -17,29 +18,30 @@ const FillerComponent = () => (
         className="App-link"
         href="https://reactjs.org"
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         Learn React
       </a>
     </header>
   </div>
 );
 
+const PageOne = styled(Box)({
+  backgroundColor: 'transparent',
+  height: '100vh',
+  width: '100%',
+  position: 'relative',
+});
+
 const Landing = () => (
-  <Box
-    sx={{
-      backgroundColor: 'transparent',
-      height: '100vw',
-      width: '100%',
-      position: 'relative',
-    }}
-  >
-    <Appbar />
-    <Hero />
-    <FillerComponent />
+  <>
+    <PageOne sx={{}}>
+      <Appbar />
+      <Hero />
+      {/* <FillerComponent /> */}
+      <Particles />
+    </PageOne>
     <Pagination />
-    <Particles />
-  </Box>
+  </>
 );
 
 export default Landing;

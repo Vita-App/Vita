@@ -31,6 +31,18 @@ module.exports = {
         classPropertiesAllowed: false,
       },
     ],
+    'no-mixed-operators': [
+      'warn',
+      {
+        groups: [
+          ['&', '|', '^', '~', '<<', '>>', '>>>'],
+          ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
+          ['&&', '||'],
+          ['in', 'instanceof'],
+        ],
+        allowSamePrecedence: false,
+      },
+    ],
   },
   settings: {
     react: {

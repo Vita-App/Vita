@@ -7,10 +7,10 @@ const Appbar = () => (
   <>
     <MaterialAppBar
       variant="elevation"
-      position="relative"
+      position="absolute"
       color="transparent"
       elevation={0}
-    >
+      sx={{ p: 4 }}>
       <ToolBar />
     </MaterialAppBar>
     <div id="back-to-top-anchor" />
