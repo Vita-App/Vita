@@ -3,7 +3,6 @@ import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Button from 'components/common/Button';
-import MaterialButton from '@mui/material/Button';
 
 const Toolbar = () => (
   <div>

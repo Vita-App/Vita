@@ -6,7 +6,7 @@ const Prototype = () => {
   const x = 1;
 
   return (
-    <Box height="100vh" sx={{ background: '#f5f5f5' }}>
+    <Box height="100vh" sx={{ background: '#242424' }}>
       <CenteredDiv>
         <Component />
       </CenteredDiv>

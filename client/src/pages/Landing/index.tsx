@@ -40,6 +40,7 @@ const Landing = () => (
       {/* <FillerComponent /> */}
       <Particles />
     </PageOne>
+    <FillerComponent />
     <Pagination />
   </>
 );

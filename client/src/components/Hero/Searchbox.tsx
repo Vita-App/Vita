@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 import React, { useState } from 'react';
-import Select from './Select';
+import Select from 'components/common/Select';
 import { styled, Button } from '@mui/material';
 
 const motivationData = [

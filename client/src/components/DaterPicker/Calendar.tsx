@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable operator-linebreak */
+// @ts-nocheck
 import * as React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -7,11 +9,17 @@ import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 
 const Wrapper = styled('div')`
+  color: white;
   div[role='presentation'] {
     pointer-events: none;
   }
   button[aria-label='calendar view is open, switch to year view'] {
     display: none;
+  }
+  .Mui-selected {
+    background-color: #7e74e7 !important;
+    font-weight: 800 !important;
+    color: white !important;
   }
 `;
 
@@ -26,23 +34,29 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate }) => {
   const maxDate = new Date(currDate.getFullYear(), currDate.getMonth() + 2, 0);
   const [highlightedDays] = React.useState([1, 2, 3, 4, 5]);
 
-  const classes = {
-    selected: {
-      border: '1px solid #1565c0',
-      color: '#1565c0',
-    },
-    notSelected: {},
-  } as const;
+  const StyledPickersDay = styled(PickersDay)`
+    background: transparent;
+    font-weight: 800;
+    font-size: 16px;
+    color: ${(props) => (props.validDay ? '#cdc8ff' : 'white')};
+    opacity: ${(props) => (props.validDay ? 1 : 0.3)};
+    background: ${(props) => (props.validDay ? '' : 'transparent')};
+    border: ${(props) => (props.validDay ? '2px solid #7e74e7b0' : '')};
+  `;
 
   return (
-    <div style={{ backgroundColor: 'white' }}>
+    <div style={{ backgroundColor: '#292727' }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Wrapper>
           <CalendarPicker
             date={date}
             minDate={minDate}
             maxDate={maxDate}
-            onChange={(e) => setDate(e)}
+            onChange={(e) => {
+              console.log(e);
+              console.log(typeof e);
+              setDate(e);
+            }}
             renderLoading={() => <CalendarPickerSkeleton />}
             renderDay={(day, _value, DayComponentProps) => {
               const isSelected =
@@ -52,11 +66,11 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate }) => {
                 ...DayComponentProps,
                 disabled: !isSelected,
               };
+              // @ts-ignore
               return (
-                <PickersDay
+                <StyledPickersDay
                   {...DayComponentProps}
-                  style={{ fontWeight: 700, fontSize: '14px' }}
-                  sx={isSelected ? classes.selected : classes.notSelected}
+                  validDay={isSelected}
                 />
               );
             }}
