@@ -5,7 +5,7 @@ import TimeSelector from './TimeSelector';
 import Confirmation from './ConfirmationPage';
 const Scheduler = () => {
   const [date, setDate] = useState<Date | null>(null);
-  const [time, setTime] = useState<Date | null>(new Date());
+  const [time, setTime] = useState<Date | null>(null);
   return (
     <>
       {time === null && (

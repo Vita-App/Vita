@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from 'logo.svg';
 import Appbar from 'components/Appbar';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Particles from 'components/Particles';
 import Pagination from 'components/Pagination';
 import Hero from 'components/Hero';
@@ -25,7 +25,7 @@ const FillerComponent = () => (
   </div>
 );
 
-const PageOne = styled(Box)({
+const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
   height: '100vh',
   width: '100%',
@@ -34,12 +34,17 @@ const PageOne = styled(Box)({
 
 const Landing = () => (
   <>
-    <PageOne sx={{}}>
-      <Appbar />
-      <Hero />
-      {/* <FillerComponent /> */}
-      <Particles />
-    </PageOne>
+    <PageOneWrapper>
+      <Grid container direction="column" wrap="nowrap" sx={{ height: '100%' }}>
+        <Grid item>
+          <Appbar />
+        </Grid>
+        <Grid item sx={{ display: 'flex', flexGrow: 1 }}>
+          <Hero />
+        </Grid>
+        <Particles />
+      </Grid>
+    </PageOneWrapper>
     <FillerComponent />
     <Pagination />
   </>

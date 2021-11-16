@@ -16,6 +16,12 @@ const getDate = (_date: Date | null) => {
 const StyledButton = styled(Button)`
   color: white;
   margin: 8px;
+  /* border: 1px solid rgb(122 99 240 / 50%); */
+
+  :hover {
+    /* border: 1px solid rgb(122 99 240 / 50%); */
+    /* background: rgb(122 99 240 / 50%); */
+  }
 `;
 
 const TimeSelector: React.FC<TimeSelectorProps> = ({ date, time, setTime }) => {
@@ -35,12 +41,12 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ date, time, setTime }) => {
       <div style={{ fontWeight: 600, marginBottom: '8px' }}>
         {getDate(date)}
       </div>
-      {data.map((el) => (
+      {data.map((el, index) => (
         <StyledButton
           variant="outlined"
           key={el.key}
           onClick={() => setTime(new Date())}>
-          {el.value}
+          {`${index + 1}:00 PM`}
         </StyledButton>
       ))}
     </Grid>
