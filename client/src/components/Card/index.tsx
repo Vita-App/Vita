@@ -41,12 +41,11 @@ const Card = () => {
         sx={{
           height: '100%',
           borderRadius: '16px',
-          backgroundColor: 'success.light',
+          backgroundColor: 'success.dark',
           padding: '4rem 3rem',
           color: 'black',
           zIndex: 1,
-        }}
-      >
+        }}>
         <Box
           sx={{
             height: '100%',
@@ -54,8 +53,7 @@ const Card = () => {
             borderRadius: '4px',
             backgroundColor: 'darkseagreen',
             position: 'relative',
-          }}
-        >
+          }}>
           <IconDiv>🎂</IconDiv>
           <Grid container wrap="nowrap" alignItems="center">
             <Grid item sx={{ padding: '16px ' }}>
@@ -74,18 +72,16 @@ const Card = () => {
               top: '6px',
               left: '4px',
               borderRadius: '4px',
-              backgroundColor: `${alpha('#f4f81c', 0.5)}`,
+              backgroundColor: `${alpha('#47471e', 0.5)}`,
               position: 'absolute',
               zIndex: -1,
-            }}
-          ></Box>
+            }}></Box>
         </Box>
       </Grid>
       <Grid item zeroMinWidth>
         <Typography
           variant="h6"
-          style={{ fontWeight: 700, padding: '4px 8px', margin: '0px' }}
-        >
+          style={{ fontWeight: 700, padding: '4px 8px', margin: '0px' }}>
           Fostering A good Team Culture
         </Typography>
         <Typography
@@ -96,8 +92,7 @@ const Card = () => {
             width: '100%',
             opacity: 0.6,
             textOverflow: 'ellipsis',
-          }}
-        >
+          }}>
           how To create a po sitive workspace culture that drives collaboration
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti,
           soluta.

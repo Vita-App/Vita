@@ -72,8 +72,8 @@ const SelectComponent: React.FC<SelectComponentProps> = ({
           id={`id-${dropDownLabel}`}
           value={option}
           label={dropDownLabel}>
-          {data.map(({ key, value }) => (
-            <option value={value} key={key}>
+          {data.map(({ key, value }, index) => (
+            <option value={value} key={index}>
               {key}
             </option>
           ))}

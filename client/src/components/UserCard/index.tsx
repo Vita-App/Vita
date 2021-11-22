@@ -1,4 +1,4 @@
-import { Paper, styled } from '@mui/material';
+import { Paper, styled, Grid } from '@mui/material';
 import React from 'react';
 
 const StyledPaper = styled(Paper)`
@@ -12,10 +12,18 @@ const StyledPaper = styled(Paper)`
 `;
 
 const UserCard = () => {
-  const x = 1;
+  const name = 'Rishabh Malhotra';
+  const company = 'Adobe';
+  const position = 'MTS -1';
+  const topics = ['Carrer Advice', 'Motivation', 'Leadership'];
   return (
     <StyledPaper sx={{}}>
-      <div className="">heyere</div>
+      <Grid container flexDirection="column-reverse">
+        <Grid item>{name}</Grid>
+        <Grid item></Grid>
+        <Grid item></Grid>
+        <Grid item></Grid>
+      </Grid>
     </StyledPaper>
   );
 };

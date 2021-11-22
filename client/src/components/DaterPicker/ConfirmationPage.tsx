@@ -69,6 +69,10 @@ const StyledSelect = styled(Select)`
     /* cursor: pointer; */
     background-color: #424040;
   }
+  .select__option--is-focused:hover {
+    /* cursor: pointer; */
+    background-color: #424040;
+  }
 `;
 
 const TextArea = styled(TextareaAutosize)`

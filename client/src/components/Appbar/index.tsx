@@ -6,11 +6,10 @@ import ToolBar from './Toolbar';
 const Appbar = () => (
   <>
     <MaterialAppBar
-      variant="elevation"
+      variant="outlined"
       position="relative"
-      color="transparent"
       elevation={0}
-      sx={{ padding: '2rem 2rem 0rem 2rem' }}>
+      sx={{ padding: '8px', backgroundColor: '#242424' }}>
       <ToolBar />
     </MaterialAppBar>
     <div id="back-to-top-anchor" />

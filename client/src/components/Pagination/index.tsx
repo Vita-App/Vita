@@ -25,9 +25,8 @@ const Pagination = () => {
       <Stack direction="row" alignItems="center">
         <Typography
           variant="h5"
-          sx={{ fontWeight: 700, flexGrow: 1, color: '#f5f5f5' }}
-        >
-          Discover alumini or faculity to get mentored from
+          sx={{ fontWeight: 700, flexGrow: 1, color: '#f5f5f5' }}>
+          Explore impactful topics
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button sx={{ p: 1 }}>Explore all</Button>

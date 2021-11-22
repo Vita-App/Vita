@@ -44,7 +44,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ date, time, setTime }) => {
       {data.map((el, index) => (
         <StyledButton
           variant="outlined"
-          key={el.key}
+          key={index}
           onClick={() => setTime(new Date())}>
           {`${index + 1}:00 PM`}
         </StyledButton>

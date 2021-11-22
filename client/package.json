@@ -15,6 +15,8 @@
     "@types/node": "^12.20.37",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
+    "@types/react-select": "^5.0.1",
+    "cors": "^2.8.5",
     "date-fns": "^2.25.0",
     "http-proxy-middleware": "^2.0.1",
     "luxon": "^1.28.0",
@@ -23,8 +25,10 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
+    "react-show-more-text": "^1.5.0",
     "react-spring": "^9.3.0",
     "react-tsparticles": "^1.37.3",
+    "socket-io": "^1.0.0",
     "typescript": "^4.4.4",
     "web-vitals": "^1.1.2"
   },
@@ -53,8 +57,10 @@
     ]
   },
   "devDependencies": {
+    "@types/react-show-more-text": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
+    "chalk": "^4.1.2",
     "eslint-config-xo": "^0.39.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-react": "^7.27.0"

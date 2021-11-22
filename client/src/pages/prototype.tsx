@@ -1,6 +1,6 @@
 import React from 'react';
 import CenteredDiv from 'components/common/CenteredDiv';
-import Component from 'components/DaterPicker';
+import Component from 'components/UserCard';
 import Box from '@mui/material/Box';
 const Prototype = () => {
   const x = 1;
