@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from 'logo.svg';
 import Appbar from 'components/Appbar';
 import Grid from '@mui/material/Grid';
 import Particles from 'components/Particles';

@@ -2,55 +2,7 @@ import { Grid } from '@mui/material';
 import React, { useState } from 'react';
 import Select from 'components/common/Select';
 import { styled, Button } from '@mui/material';
-
-const motivationData = [
-  {
-    key: '',
-    value: '',
-  },
-  {
-    key: 'Job Search',
-    value: 'Job search',
-  },
-  {
-    key: 'Carrer advice',
-    value: 'Carrer advice',
-  },
-  {
-    key: 'Leadership',
-    value: 'Leadership',
-  },
-  {
-    key: 'Mentorship',
-    value: 'Mentorship',
-  },
-  {
-    key: 'Skills',
-    value: 'Skills',
-  },
-];
-const expertiseData = [
-  {
-    key: '',
-    value: '',
-  },
-  {
-    key: 'Design',
-    value: 'Design',
-  },
-  {
-    key: 'Product Management',
-    value: 'Product Management',
-  },
-  {
-    key: 'Marketing',
-    value: 'Marketing',
-  },
-  {
-    key: 'Software Development',
-    value: 'Software Development',
-  },
-];
+import { expertiseOptions, motivationOptions } from 'data';
 
 const StyledButton = styled(Button)`
   background-size: 200%;
@@ -86,14 +38,14 @@ const Seachbox = () => {
       <Grid container item>
         <StyledGrid item xs={12}>
           <Select
-            data={motivationData}
+            data={motivationOptions}
             option={motivation}
             setOption={setMotivation}
             dropDownLabel="Motivation"
             helperText="What do you need help with?"
           />
           <Select
-            data={expertiseData}
+            data={expertiseOptions}
             option={expertise}
             setOption={setExpertise}
             dropDownLabel="Expertise"

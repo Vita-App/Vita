@@ -16,34 +16,26 @@ export const colourOptions = [
   {
     value: 'General Mentorship',
     label: 'General Mentorship',
-    color: '#00B8D9',
-    isFixed: true,
   },
   {
     value: 'Acing the Technical Interview',
     label: 'Acing the Technical Interview',
-    color: '#0052CC',
   },
   {
     value: 'Mock Coding Interview',
     label: 'Mock Coding Interview',
-    color: '#5243AA',
   },
   {
     value: 'Make the Most out of your Internship',
     label: 'Make the Most out of your Internship',
-    color: '#FF5630',
-    isFixed: true,
   },
   {
     value: 'Dealing with Imposter Syndrome',
     label: 'Dealing with Imposter Syndrome',
-    color: '#FF8B00',
   },
   {
     value: 'Managing Burnout',
     label: 'Managing Burnout',
-    color: '#FF8B00',
   },
   // { value: 'yellow', label: 'Yellow', color: '#FFC400' },
   // { value: 'green', label: 'Green', color: '#36B37E' },

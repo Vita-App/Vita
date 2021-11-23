@@ -1,11 +1,6 @@
 import { Topic } from 'types';
 
-// Const topic = 'General Mentorship';
-// const topicLabel = 'mentorship';
-// // prettier-ignore
-// const topicDetails = 'Introduce yourself, define mentoring expectations and goals. Learn and grow together.';
-
-const topics: Topic[] = [
+export const topicOptions: Topic[] = [
   {
     motivation: 'mentorship',
     topicName: 'General Mentorship',
@@ -50,4 +45,52 @@ const topics: Topic[] = [
   },
 ];
 
-export default topics;
+export const motivationOptions = [
+  {
+    value: 'All',
+    label: 'All',
+  },
+  {
+    value: 'Job search',
+    label: 'Job Search',
+  },
+  {
+    value: 'Carrer advice',
+    label: 'Carrer advice',
+  },
+  {
+    value: 'Leadership',
+    label: 'Leadership',
+  },
+  {
+    value: 'Mentorship',
+    label: 'Mentorship',
+  },
+  {
+    value: 'Skills',
+    label: 'Skills',
+  },
+];
+
+export const expertiseOptions = [
+  {
+    value: '',
+    label: '',
+  },
+  {
+    value: 'Design',
+    label: 'Design',
+  },
+  {
+    value: 'Product Management',
+    label: 'Product Management',
+  },
+  {
+    value: 'Marketing',
+    label: 'Marketing',
+  },
+  {
+    value: 'Software Development',
+    label: 'Software Development',
+  },
+];

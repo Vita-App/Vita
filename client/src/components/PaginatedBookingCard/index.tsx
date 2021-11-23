@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Grid, List, Pagination, styled } from '@mui/material';
 import BookingCard from './BookingCard';
 import { Topic } from 'types';
-import topicList from 'data/topics';
+import { topicOptions } from 'data';
 
 interface PaginatedBookingCardProps {
   motivation: string;
@@ -25,12 +25,12 @@ const CssPagination = styled(Pagination)({
   },
 });
 
-const filterTopics = (topicsList: Topic[], motivation: string) => {
+const filterTopics = (topicOptions: Topic[], motivation: string) => {
   if (motivation === 'All') {
-    return topicsList;
+    return topicOptions;
   }
 
-  return topicsList.filter((topic: Topic) => topic.motivation === motivation);
+  return topicOptions.filter((topic: Topic) => topic.motivation === motivation);
 };
 
 const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
@@ -44,7 +44,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
-  const topics = filterTopics(topicList, motivation);
+  const topics = filterTopics(topicOptions, motivation);
   const count = Math.floor(
     topics.length % rowsPerPage === 0
       ? topics.length / rowsPerPage

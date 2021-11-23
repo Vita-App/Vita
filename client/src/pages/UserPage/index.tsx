@@ -4,9 +4,10 @@ import { Favorite, LinkedIn } from '@mui/icons-material';
 import { lightGreen } from '@mui/material/colors';
 import PaginatedBookingCard from 'components/PaginatedBookingCard';
 import ShowMoreText from 'react-show-more-text';
-import Select from 'react-select';
 import Divider from '@mui/material/Divider';
 import { commaString } from 'utils/helper';
+import { ReactSelect as Select } from 'components/common/Select';
+import { motivationOptions } from 'data';
 
 const Wrapper = styled('div')`
   font-family: 'Circular Std';
@@ -17,29 +18,6 @@ const Wrapper = styled('div')`
   width: '100vw';
   background-color: #242424;
   color: #f5f5f5;
-`;
-
-const StyledSelect = styled(Select)`
-  margin: 1rem 0rem;
-  .select__single-value {
-    color: #f5f5f5;
-  }
-  .select__control {
-    cursor: pointer;
-    background-color: #303030;
-  }
-  .select__menu {
-    /* cursor: pointer; */
-    background-color: #272626;
-  }
-  .select__option--is-focused {
-    /* cursor: pointer; */
-    background-color: #424040;
-  }
-  .select__option--is-focused:hover {
-    /* cursor: pointer; */
-    background-color: #424040;
-  }
 `;
 
 const TextWrapper = styled('div')`
@@ -111,32 +89,6 @@ const UserPage = () => {
   ];
   const mentorExpertise = ['Software Development', 'Product Management'];
   const mentorLanguage = ['Hindi', 'English'];
-  const topicOptions = [
-    {
-      value: 'All',
-      label: 'All',
-    },
-    {
-      value: 'Job Search',
-      label: 'Job Search',
-    },
-    {
-      value: 'Leadership',
-      label: 'Leadership',
-    },
-    {
-      value: 'Carrer Advice',
-      label: 'Carrer Advice',
-    },
-    {
-      value: 'Mentorship',
-      label: 'Mentorship',
-    },
-    {
-      value: 'Skills',
-      label: 'Skills',
-    },
-  ];
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [motivation, setMotivation] = useState<string>('All');
@@ -211,9 +163,9 @@ const UserPage = () => {
 
           {/* adding select here */}
           <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
-            <StyledSelect
+            <Select
               name="Topic"
-              options={topicOptions}
+              options={motivationOptions}
               // @ts-ignore
               onChange={({ value }) => setMotivation(value)} // Value - label
               isSearchable={true}

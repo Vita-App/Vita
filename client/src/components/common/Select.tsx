@@ -4,6 +4,27 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { styled } from '@mui/material';
+import Reactselect from 'react-select';
+
+export const ReactSelect = styled(Reactselect)({
+  margin: '1rem 0rem',
+  '.select__single-value': {
+    color: '#f5f5f5',
+  },
+  '.select__control': {
+    cursor: 'pointer',
+    backgroundColor: '#303030',
+  },
+  '.select__menu': {
+    backgroundColor: '#272626',
+  },
+  '.select__option--is-focused': {
+    backgroundColor: '#424040',
+  },
+  '.select__option--is-focused:hover': {
+    backgroundColor: '#424040',
+  },
+});
 
 const WrapperDiv = styled('div')({
   width: '100%',
@@ -38,8 +59,8 @@ interface SelectComponentProps {
   dropDownLabel: string;
   helperText: string;
   data: {
-    key: string;
     value: string;
+    label: string;
   }[];
   option: string | undefined;
   setOption: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -72,9 +93,9 @@ const SelectComponent: React.FC<SelectComponentProps> = ({
           id={`id-${dropDownLabel}`}
           value={option}
           label={dropDownLabel}>
-          {data.map(({ key, value }, index) => (
+          {data.map(({ value, label }, index) => (
             <option value={value} key={index}>
-              {key}
+              {label}
             </option>
           ))}
         </Select>
