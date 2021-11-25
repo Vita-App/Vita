@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node-dev --respawn src/index.ts",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "dev2": "nodemon --exec ts-node src/index2.ts"
   },
   "author": "Rishabh Malhotra",
   "license": "MIT",

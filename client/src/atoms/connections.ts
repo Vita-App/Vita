@@ -1,8 +1,6 @@
 import { atom, DefaultValue, selector } from 'recoil';
 import { Socket, io } from 'socket.io-client';
 
-declare const window: any;
-
 export const createSocket = (): Socket => {
   const port = process.env.REACT_APP_SOCKET_PORT;
   const { origin } = window.location;
@@ -12,21 +10,20 @@ export const createSocket = (): Socket => {
     withCredentials: Boolean(process.env.REACT_APP_SOCKET_URL),
   });
 
-  // Socket.onAny((event, ...args) => {
+  // socket.onAny((event, ...args) => {
   //     console.log(`got ${event} with args:`, ...args)
   // })
 
   return socket;
 };
 
-// Storing socket
 export const socketState = atom<Socket>({
   key: 'socketState',
   default: createSocket(),
 });
 
 export interface Room {
-  id?: string; // Server version of Room has id required, not here when filling details
+  id?: string; // server version of Room has id required, not here when filling details
   created_by?: string;
   name?: string;
   opts?: {
@@ -34,7 +31,7 @@ export interface Room {
   };
 }
 
-// Current room user is in, null redirects to landing page
+// current room user is in, null maps to landing page
 export const roomState = atom<Room | null>({
   key: 'roomState',
   default: null,
@@ -52,11 +49,9 @@ export const remoteStreamsState = atom<RemoteStream[]>({
   default: [],
 });
 
-// Understand what is this function user for???
-// append remote stream to the already stream that we have?
 export const addRemoteStreamsSelector = selector<RemoteStream[]>({
   key: 'addRemoteStreamsSelector',
-  get: ({ get }) => get(remoteStreamsState), // Read the docs
+  get: ({ get }) => get(remoteStreamsState),
   set: ({ get, set }, newVal) => {
     if (newVal instanceof DefaultValue) {
       throw Error('What were you thinking dude');
@@ -66,7 +61,6 @@ export const addRemoteStreamsSelector = selector<RemoteStream[]>({
     const remoteStreams = get(remoteStreamsState);
     let rStreams = remoteStreams;
 
-    // Adding the user to the remoteStream if its display is on and no in the stream already
     if (
       user &&
       !remoteStreams.find((r) => !r.isDisplay && r.partnerId === user.partnerId)
@@ -74,7 +68,6 @@ export const addRemoteStreamsSelector = selector<RemoteStream[]>({
       rStreams = rStreams.concat(user);
     }
 
-    //
     if (
       display &&
       !remoteStreams.find(
@@ -88,6 +81,18 @@ export const addRemoteStreamsSelector = selector<RemoteStream[]>({
       /* Now allowing multiple display streams, if they reach this point */
 
       // remove other display tracks
+      // rStreams = rStreams.filter(({ isDisplay, stream }) => {
+      //     if (isDisplay) {
+      //         stream.getTracks().forEach(t => {
+      //             console.log('add remote, remove other displays, stopping track', t)
+      //             t.stop()
+      //             stream.removeTrack(t)
+      //         })
+      //         return false
+      //     }
+      //     return true
+      // })
+
       // remove prev display tracks from this peer, if any
       rStreams = rStreams.filter(({ isDisplay, stream, partnerId }) => {
         if (isDisplay && partnerId === display.partnerId) {
@@ -104,7 +109,7 @@ export const addRemoteStreamsSelector = selector<RemoteStream[]>({
     }
 
     if (!display) {
-      // Remove display streams from this peer
+      // remove display streams from this peer
       rStreams = rStreams.filter(({ isDisplay, stream, partnerId }) => {
         if (isDisplay && partnerId === user?.partnerId) {
           stream.getTracks().forEach((t) => {
@@ -133,11 +138,9 @@ export const connectionsState = atom<Connection[]>({
   default: [],
 });
 
-// This is used for linkning the connection to all the peers
-// for creating the mesh network
 export const addConnectionsSelector = selector<Connection[]>({
   key: 'addConnectionsSelector',
-  get: ({ get }) => get(connectionsState), // Returns connectionsState as it is
+  get: ({ get }) => get(connectionsState), // returns connectionsState as it is
   set: ({ get, set }, newVal) => {
     if (newVal instanceof DefaultValue) {
       throw Error('What were you thinking dude');
@@ -150,20 +153,18 @@ export const addConnectionsSelector = selector<Connection[]>({
         toAdd.push(val);
       }
     });
-    if (toAdd.length) {
-      set(connectionsState, connections.concat(toAdd));
-    }
+    if (toAdd.length) set(connectionsState, connections.concat(toAdd));
   },
 });
 export const removeConnectionsSelector = selector<Connection[]>({
   key: 'removeConnectionsSelector',
-  get: ({ get }) => get(connectionsState), // Returns connectionsState as it is
+  get: ({ get }) => get(connectionsState), // returns connectionsState as it is
   set: ({ get, set }, newVal) => {
     if (newVal instanceof DefaultValue) {
       throw Error('What were you thinking dude');
     }
 
-    // Remove remote streams with remote ids as that of vals
+    // remove remote streams with remote ids as that of vals
     const remoteStreams = get(remoteStreamsState);
     set(
       remoteStreamsState,
@@ -172,7 +173,7 @@ export const removeConnectionsSelector = selector<Connection[]>({
       ),
     );
 
-    // Set new connections with val ones removed
+    // set new connections with val ones removed
     const connections = get(connectionsState);
     set(
       connectionsState,
@@ -181,11 +182,10 @@ export const removeConnectionsSelector = selector<Connection[]>({
       ),
     );
 
-    // Remove those peers
+    // remove those peers
     if (window.moozPeers) {
       window.moozPeers = window.moozPeers.filter(
-        (p: Record<string, unknown>) =>
-          !newVal.find((v) => v.partnerId === p.partnerId),
+        (p) => !newVal.find((v) => v.partnerId === p.partnerId),
       );
     }
   },
