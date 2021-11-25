@@ -9,9 +9,10 @@ import { styled } from '@mui/material/styles';
 import MentorsPage from './MentorsPage';
 import TopicsPage from './TopicsPage';
 import Select from 'react-select';
+import ScrollToTop from 'components/ScrollToTop';
 
 const SearchPage = () => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState('2');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -37,29 +38,31 @@ const SearchPage = () => {
   });
 
   return (
-    <Wrapper>
-      <Appbar />
-      <Box sx={{ width: '100%' }}>
-        <TabContext value={value}>
-          <Box className="Tab_Box">
-            <TabList
-              onChange={handleChange}
-              aria-label="mentor-topics switch"
-              textColor="secondary"
-              indicatorColor="secondary">
-              <Tab label="Mentors" value="1" sx={{ typography: 'h4' }} />
-              <Tab label="Topics" value="2" sx={{ typography: 'h4' }} />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            <MentorsPage />
-          </TabPanel>
-          <TabPanel value="2">
-            <TopicsPage />
-          </TabPanel>
-        </TabContext>
-      </Box>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Appbar />
+        <Box sx={{ width: '100%' }}>
+          <TabContext value={value}>
+            <Box className="Tab_Box">
+              <TabList
+                onChange={handleChange}
+                aria-label="mentor-topics switch"
+                textColor="secondary"
+                indicatorColor="secondary">
+                <Tab label="Mentors" value="1" sx={{ typography: 'h4' }} />
+                <Tab label="Topics" value="2" sx={{ typography: 'h4' }} />
+              </TabList>
+            </Box>
+            <TabPanel value="1" sx={{ padding: '0px 32px 32px 32px' }}>
+              <MentorsPage />
+            </TabPanel>
+            <TabPanel value="2">
+              <TopicsPage />
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </Wrapper>
+    </>
   );
 };
 

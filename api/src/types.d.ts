@@ -1,12 +1,15 @@
-export interface OAUTH_TABLE {
-  id: number;
+import { ObjectId } from 'mongoose';
+
+export interface UserModelType {
   user_id: string;
   name: string;
+  email: string;
   image_link: string;
-  create_time: string;
+  create_time: Date;
   oauth_provider: string;
-  access_token: string;
-  refresh_token?: string;
+  isMentor: boolean;
+  signupCompleted: boolean;
+  mentorInformation: ObjectId | undefined;
 }
 
 export interface UserInfo {

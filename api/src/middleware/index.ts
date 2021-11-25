@@ -4,7 +4,7 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-import { COOKIE_KEYS, CLIENT_URL, port } from '../config.keys';
+import { COOKIE_KEYS, CLIENT_URL, port } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
   app.use(

@@ -8,6 +8,9 @@ const Wrapper = styled(Paper)`
   height: 400px;
   width: 300px;
   position: relative;
+  border-radius: 16px;
+  margin: 1rem;
+  cursor: pointer;
 `;
 
 const StyledImage = styled('img')`
@@ -17,10 +20,12 @@ const StyledImage = styled('img')`
   object-fit: cover;
   object-position: center center;
   background-color: #131313;
+  border-radius: 16px;
 `;
 
 const AbsoluteGrid = styled(Grid)`
   background: rgb(0, 0, 0, 0.4);
+  border-radius: 16px;
   position: absolute;
   flex-direction: column-reverse;
   width: 100%;

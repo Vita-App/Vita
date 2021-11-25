@@ -7,13 +7,17 @@ import { styled } from '@mui/material';
 import Reactselect from 'react-select';
 
 export const ReactSelect = styled(Reactselect)({
-  margin: '1rem 0rem',
+  width: '100%',
   '.select__single-value': {
     color: '#f5f5f5',
   },
   '.select__control': {
+    borderColor: 'transparent',
     cursor: 'pointer',
-    backgroundColor: '#303030',
+    backgroundColor: '#0D0D0D',
+  },
+  '.select__control:hover': {
+    borderColor: 'transparent',
   },
   '.select__menu': {
     backgroundColor: '#272626',

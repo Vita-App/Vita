@@ -43,6 +43,7 @@ module.exports = {
         allowSamePrecedence: false,
       },
     ],
+    'operator-linebreak': 'off',
   },
   settings: {
     react: {

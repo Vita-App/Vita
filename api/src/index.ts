@@ -1,23 +1,25 @@
 import express from 'express';
 import chalk from 'chalk';
-import authRoutes from './routes/auth-routes';
-import apiRoutes from './routes/api-routes';
+// import socketioService from './service/socket-io-service';
 import http from 'http';
-import socketioService from './service/socket-io-service';
-import './service/passport';
-import { COOKIE_KEYS, CLIENT_URL, port } from './config.keys';
-import useMiddleWare from 'middleware/index';
-
-// import cookieSession from "cookie-session";
+import { COOKIE_KEYS, CLIENT_URL, port, DATABASE_URL } from './config/keys';
+import useMiddleWare from './middleware/index';
+import mongoose from 'mongoose';
+import apiRoutes from './routes/apiRoutes';
+import authRoutes from './routes/authRoutes';
+import './config/passport';
+import connectDB from './config/connectDatabase';
+import './Models/User';
 
 const app = express();
 const httpServer = new http.Server(app);
 
+connectDB();
 useMiddleWare(app);
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
-socketioService(httpServer);
+// socketioService(httpServer);
 
 app.use('/', (req, res) =>
   res.send(`

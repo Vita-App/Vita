@@ -91,7 +91,7 @@ const UserPage = () => {
   const mentorLanguage = ['Hindi', 'English'];
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [motivation, setMotivation] = useState<string>('All');
+  const [motivation, setMotivation] = useState('All');
   const [heart, setHeart] = useState<'error' | 'inherit'>('inherit');
 
   return (
@@ -163,15 +163,17 @@ const UserPage = () => {
 
           {/* adding select here */}
           <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
-            <Select
-              name="Topic"
-              options={motivationOptions}
-              // @ts-ignore
-              onChange={({ value }) => setMotivation(value)} // Value - label
-              isSearchable={true}
-              classNamePrefix="select"
-              placeholder={<span>Filter by Motivation</span>}
-            />
+            <div style={{ margin: '1rem 0rem' }}>
+              <Select
+                name="Topic"
+                options={motivationOptions}
+                // @ts-ignore
+                onChange={({ value }) => setMotivation(value)} // Value - label
+                isSearchable={true}
+                classNamePrefix="select"
+                placeholder={<span>Filter by Motivation</span>}
+              />
+            </div>
           </Grid>
 
           <Grid container>
