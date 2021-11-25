@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Stack, Typography, Grid, alpha, styled } from '@mui/material';
-import Badge from '@mui/material/Badge';
+import { Box, Typography, Grid, styled, Paper } from '@mui/material';
+import { colorPalatte } from 'utils/helper';
+import { MotivationEnumType } from 'types';
 
 const EmojiIcon = styled('div')`
   position: relative;
@@ -19,7 +20,7 @@ const EmojiIcon = styled('div')`
   overflow: visible;
   user-select: none;
   color: rgb(255, 255, 255);
-  background-color: palevioletred;
+  background-color: #c3c3c385;
 `;
 
 const IconBadge = styled('div')`
@@ -35,6 +36,7 @@ const GridWrapper = styled(Grid)({
   width: '320px',
   padding: '1rem',
   position: 'sticky',
+  cursor: 'pointer',
 });
 
 const TopGrid = styled(Grid)({
@@ -48,11 +50,11 @@ const TopGrid = styled(Grid)({
   zIndex: 1,
 
   '.topics__container': {
+    color: 'inherit',
     display: 'flex',
-    // Height: '100%',
     width: '100%',
     borderRadius: '12px',
-    // BackgroundColor: 'darkseagreen',
+    backgroundColor: '#f4f4f4',
     position: 'relative',
     border: '2px solid black',
   },
@@ -63,8 +65,6 @@ const TopGrid = styled(Grid)({
     top: '6px',
     left: '6px',
     borderRadius: '12px',
-    // BackgroundColor: `${alpha('#47471e', 0.5)}`,
-    // backgroundColor: 'pink',
     position: 'absolute',
     zIndex: -1,
     border: '2px solid black',
@@ -88,43 +88,31 @@ const TopicCard = () => {
   const emojiIcon = '🔥';
   const emojiBadge = '🎂';
   const heading = 'Fostering A good Team Culture';
+  const motivation: MotivationEnumType = 'Job Search';
   const description =
     'How to create a positive workplace culture that drives collaboration and productivity?';
 
-  const palatte = {
-    outerBackground: '#f4cd5a',
-    innerBackground: '#f4f4f4',
-    iconBackground: 'palevioletred',
-    overlay: '#c69938',
-  };
+  const { background, overlay } = colorPalatte[motivation];
 
-  const { outerBackground, innerBackground, iconBackground, overlay } = palatte;
-
-  // Const bg1 = '#eee'; // Outer background
-  // const bg2 = '#dcdcdc'; // Inner background
-  // const bg3 = 'palevioletred'; // Iconbackground
-  // const bg4 = 'pink'; // Inner-overlay
   return (
     <GridWrapper container>
-      <TopGrid container item sx={{ backgroundColor: outerBackground }}>
-        <Box
-          className="topics__container"
-          sx={{ backgroundColor: innerBackground }}>
+      <TopGrid container item sx={{ backgroundColor: background }}>
+        <Paper elevation={4} className="topics__container">
           <IconBadge>{emojiBadge}</IconBadge>
           <Grid container wrap="nowrap" alignItems="center">
             <Grid item sx={{ padding: '16px ' }}>
-              <EmojiIcon style={{ backgroundColor: iconBackground }}>
-                {emojiIcon}
-              </EmojiIcon>
+              <EmojiIcon>{emojiIcon}</EmojiIcon>
             </Grid>
             <Grid item>
-              <Typography fontWeight={700}>{heading}</Typography>
+              <Typography fontWeight={700} sx={{ paddingRight: '4px' }}>
+                {heading}
+              </Typography>
             </Grid>
           </Grid>
           <Box
             className="topics__overlay"
             sx={{ backgroundColor: overlay }}></Box>
-        </Box>
+        </Paper>
       </TopGrid>
       <BottomGrid item zeroMinWidth>
         <Typography variant="h6" className="topics__heading">

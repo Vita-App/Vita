@@ -2,11 +2,11 @@ import { Schema, model } from 'mongoose';
 import { UserModelType } from '../types';
 
 const TopicsSchema = new Schema({
-  JobSearch: [Number],
-  CarrerAdvice: [Number],
-  Mentorship: [Number],
-  Leadership: [Number],
-  Skills: [Number],
+  emojiIcon: String,
+  emojiBadge: String,
+  motivation: String,
+  topicName: String,
+  topicDescription: String,
 });
 
 const MentorSchema = new Schema({
@@ -19,7 +19,7 @@ const MentorSchema = new Schema({
   language: [String],
   linkedIn: String,
   isMentoring: Boolean,
-  topics: TopicsSchema,
+  topics: [TopicsSchema],
 });
 
 const UserSchema = new Schema<UserModelType>({
@@ -42,4 +42,4 @@ const UserSchema = new Schema<UserModelType>({
 });
 
 export const UserModel = model('User', UserSchema);
-export const MentorModel = model('Mentor', UserSchema);
+export const MentorModel = model('Mentor', MentorSchema);

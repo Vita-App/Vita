@@ -7,7 +7,7 @@ import useMiddleWare from './middleware/index';
 import mongoose from 'mongoose';
 import apiRoutes from './routes/apiRoutes';
 import authRoutes from './routes/authRoutes';
-import './config/passport';
+import './service/socket-io-service.ts/passport';
 import connectDB from './config/connectDatabase';
 import './Models/User';
 

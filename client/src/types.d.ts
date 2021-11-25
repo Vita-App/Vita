@@ -16,3 +16,10 @@ export interface Topic {
   topicDescription: string;
   topicColor: string;
 }
+
+export type MotivationEnumType =
+  | 'Job Search'
+  | 'Carrrer Advice'
+  | 'Mentorship'
+  | 'Leadership'
+  | 'Skill';

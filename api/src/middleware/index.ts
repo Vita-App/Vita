@@ -3,8 +3,7 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import bodyParser from 'body-parser';
-import { COOKIE_KEYS, CLIENT_URL, port } from '../config/keys';
+import { COOKIE_KEYS, CLIENT_URL } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
   app.use(
@@ -31,7 +30,6 @@ const addMiddleWare = (app: Express) => {
         maxAge: 24 * 60 * 60 * 1000,
         sameSite: true,
         httpOnly: true,
-        // 2nd change.
         secure: false,
       },
     }),

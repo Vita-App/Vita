@@ -23,30 +23,6 @@ export const googleRedirectController = passport.authenticate('google', {
   failureRedirect: '/login/failed',
 });
 
-export const githubController = (req: Request, res: Response) => {
-  passport.authenticate('github', {
-    scope: ['profile'],
-  });
-};
-
-export const githubRedirectController = passport.authenticate('github', {
-  successRedirect: `${CLIENT_URL}`,
-  failureRedirect: '/login/failed',
-});
-
-export const twitterController = (req: Request, res: Response) => {
-  const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
-  passport.authenticate('twitter', {
-    scope: ['profile'],
-    state: isMentor,
-  });
-};
-
-export const twitterRedirectController = passport.authenticate('twitter', {
-  successRedirect: `${CLIENT_URL}`,
-  failureRedirect: '/login/failed',
-});
-
 export const authController = (req: Request, res: Response) => {
   if (!req.user) {
     return res.status(200).json({
