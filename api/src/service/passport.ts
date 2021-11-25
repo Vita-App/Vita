@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { GOOGLE_KEY, SERVER_URL } from './keys';
+import { GOOGLE_KEY, SERVER_URL } from '../config/keys';
 import { UserModel } from '../Models/User';
 import { UserModelType } from '../types';
 
