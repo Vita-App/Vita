@@ -8,8 +8,6 @@ import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 import MentorsPage from './MentorsPage';
 import TopicsPage from './TopicsPage';
-import Select from 'react-select';
-import ScrollToTop from 'components/ScrollToTop';
 
 const SearchPage = () => {
   const [value, setValue] = React.useState('2');
