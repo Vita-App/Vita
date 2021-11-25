@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React, { useState } from 'react';
 import { Grid, List, Pagination, styled } from '@mui/material';
 import BookingCard from './BookingCard';

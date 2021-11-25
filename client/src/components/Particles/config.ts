@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // API of the package use the kebab_case so we cannot help but disable the CamelCase rule
 
 import { IOptions, RecursivePartial } from 'react-tsparticles';

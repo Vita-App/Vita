@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable operator-linebreak */
 // @ts-nocheck
 import * as React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';

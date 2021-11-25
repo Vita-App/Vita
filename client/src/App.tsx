@@ -3,13 +3,17 @@ import './App.css';
 import Routes from 'pages/routes';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
-
+import { RecoilRoot } from 'recoil';
+import { DebugObserver } from 'atoms';
 const App = () => {
   const theme = getTheme('dark');
   return (
-    <ThemeProvider theme={theme}>
+    <RecoilRoot>
+      <DebugObserver />
       <Routes />
-    </ThemeProvider>
+      {/* <ThemeProvider theme={theme}>
+      </ThemeProvider> */}
+    </RecoilRoot>
   );
 };
 

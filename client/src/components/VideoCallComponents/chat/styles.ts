@@ -4,8 +4,8 @@ import {
   makeStyles,
   mergeStyles,
   mergeStyleSets,
-  SharedColors,
 } from '@fluentui/react';
+import { SharedColors } from '@fluentui/theme';
 import { CSSProperties } from 'react';
 
 export const fluid = mergeStyles({

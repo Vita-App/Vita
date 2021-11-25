@@ -18,7 +18,7 @@ const pivotStyles: Partial<IPivotStyles> = {
   },
 };
 
-const Landing: React.FC = () => {
+const Landing = () => {
   let defaultKey = 'create';
   let defaultId: string | undefined;
   const path = window.location.pathname;
