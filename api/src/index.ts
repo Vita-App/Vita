@@ -1,15 +1,15 @@
 import express from 'express';
 import chalk from 'chalk';
-// import socketioService from './service/socket-io-service';
 import http from 'http';
 import { COOKIE_KEYS, CLIENT_URL, port, DATABASE_URL } from './config/keys';
 import useMiddleWare from './middleware/index';
 import mongoose from 'mongoose';
 import apiRoutes from './routes/apiRoutes';
 import authRoutes from './routes/authRoutes';
-import './service/socket-io-service.ts/passport';
+import './service/passport';
 import connectDB from './config/connectDatabase';
 import './Models/User';
+import socketioService from './service/socket-io-service';
 
 const app = express();
 const httpServer = new http.Server(app);
@@ -19,7 +19,7 @@ useMiddleWare(app);
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
-// socketioService(httpServer);
+socketioService(httpServer);
 
 app.use('/', (req, res) =>
   res.send(`

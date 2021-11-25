@@ -18,11 +18,6 @@ export interface UserInfo {
   roomID: string;
 }
 
-export interface MessageProps {
-  messages: string[];
-  userInfo: UserInfo;
-  socketID: strimg;
-}
 export interface PostJSDoodleResponse {
   output: string;
   statusCode: string;
@@ -39,25 +34,11 @@ export interface PostJDoodle {
   clientSecret: string;
 }
 
-export interface Question {
-  question_id: int;
-  title: string;
-  question_title: string;
-  problem_url: string;
-  difficulty_level: int;
-  difficulty: string;
-}
-
-export interface QuestionData {
-  question_id: int;
-  question: string;
-}
-
-export interface Companies {
-  question_id: int;
-  companies: string[];
-}
-export interface Tags {
-  question_id: int;
-  tags: string[];
+export interface Room {
+  id: string; // client version of Room may have id optional
+  created_by?: string;
+  name?: string;
+  opts?: {
+    maxPeople?: string; // will be int parsed when used
+  };
 }
