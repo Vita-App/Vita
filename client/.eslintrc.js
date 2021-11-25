@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ['plugin:react/recommended', 'xo', 'eslint:recommended'],
+  extends: ['plugin:react/recommended', 'xo', 'eslint:recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -15,14 +15,15 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prefer-arrow'],
   rules: {
-    indent: ['error', 2],
+    indent: ['off'],
     'object-curly-spacing': ['error', 'always'],
+    camelcase: 'off',
+    'capitalized-comments': 'off',
     'arrow-parens': 'off',
     'no-warning-comments': 'off',
-    'no-unused-vars': [
-      'warn',
-      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
-    ],
+    'no-unused-vars': 'off',
+    'no-negated-condition': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'prefer-arrow/prefer-arrow-functions': [
       'warn',
       {
