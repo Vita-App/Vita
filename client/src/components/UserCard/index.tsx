@@ -57,7 +57,7 @@ const UserCard = () => {
   const name = 'Rishabh Malhotra';
   const company = 'Adobe';
   const position = 'MTS -1';
-  const topics = ['Carrer Advice', 'Motivation', 'Leadership'];
+  const topics = ['Career Advice', 'Motivation', 'Leadership'];
   return (
     <Wrapper elevation={4}>
       <StyledImage src="https://social.hays.com/wp-content/uploads/2018/05/ThinkstockPhotos-600055362.jpg" />

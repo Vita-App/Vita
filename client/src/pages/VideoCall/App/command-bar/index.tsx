@@ -52,6 +52,7 @@ const MyCommandBar: FunctionComponent<MyCommandBarProps> = ({
   const videoDevices = useRecoilValue(videoDevicesState);
   const { displayMediaStatus, startDisplayMedia, stopDisplayMedia } =
     useDisplayMedia();
+  const [editorFocus, setEditorFocus] = useState(false);
   const { startUserMedia, stopUserMedia } = useUserMedia();
 
   const { isFullscreen } = useFullScreen();
@@ -175,6 +176,30 @@ const MyCommandBar: FunctionComponent<MyCommandBarProps> = ({
         delay: 0,
       },
       onClick: () => {
+        if (displayMediaStatus === 'on') stopDisplayMedia();
+        else startDisplayMedia();
+      },
+    },
+    {
+      key: 'Editor',
+      text: 'Editor',
+      // IconOnly: true,
+      disabled: displayMediaStatus === 'on' && isRemoteDisplay,
+      iconProps: {
+        iconName: 'Code',
+        style: editorFocus === true ? iconMuted : {},
+      },
+      tooltipHostProps: {
+        content:
+          displayMediaStatus === 'on'
+            ? 'Stop sharing'
+            : !isRemoteDisplay
+            ? 'Share your screen'
+            : "Someone's already sharing screen",
+        delay: 0,
+      },
+      onClick: () => {
+        setEditorFocus(!editorFocus);
         if (displayMediaStatus === 'on') stopDisplayMedia();
         else startDisplayMedia();
       },

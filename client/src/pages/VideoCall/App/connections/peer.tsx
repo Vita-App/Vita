@@ -340,7 +340,7 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
 
     const stream = new MediaStream(tracks);
     try {
-      if (tracks.length > 0) {
+      if (!tracks.length) {
         const msg: PeerData = { metadata: { state: 'NO_STREAM' } };
         peer.send(JSON.stringify(msg));
       } else {

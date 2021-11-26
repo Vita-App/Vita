@@ -21,7 +21,6 @@ const App = () => (
           <Route path="/search" element={<SearchPage />} />
         </Routes>
       </ThemeProvider>
-
       <Routes>
         <Route path="/room" element={<VideoCall />} />
         <Route path="/room/:id" element={<VideoCall />} />
