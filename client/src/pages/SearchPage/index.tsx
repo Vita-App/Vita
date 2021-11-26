@@ -10,7 +10,7 @@ import MentorsPage from './MentorsPage';
 import TopicsPage from './TopicsPage';
 
 const SearchPage = () => {
-  const [value, setValue] = React.useState('2');
+  const [value, setValue] = React.useState('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);

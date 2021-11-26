@@ -1,37 +1,57 @@
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
-export interface UserModelType {
+export interface UserSchemaType {
   user_id: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   image_link: string;
   create_time: Date;
   oauth_provider: string;
-  isMentor: boolean;
-  signupCompleted: boolean;
-  mentorInformation: ObjectId | undefined;
+  is_mentor: boolean;
+  signup_completed: boolean;
+  mentor_information: Types.ObjectId | undefined;
+  bookings: Types.ObjectId[] | undefined;
 }
 
-export interface UserInfo {
-  name: string;
+export interface TopicSchemaType {
+  emojiIcon: string;
+  emojiBadge: string;
+  motivation: string;
+  topicName: string;
+  topicDescription: string;
+}
+
+type DayEnumType =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
+
+interface DurationType {
+  start_hour: number;
+  end_hour: number;
+  available: boolean;
+  locale: string;
+}
+
+export interface MentorSchemaType {
+  user_id: string;
+  first_name: string;
+  last_name: string;
   image_link: string;
-  roomID: string;
-}
-
-export interface PostJSDoodleResponse {
-  output: string;
-  statusCode: string;
-  memeory: string;
-  cpuTime: string;
-  error?: string;
-}
-export interface PostJDoodle {
-  script: string;
-  language: string;
-  versionIndex: string;
-  clientId: string;
-  stdin: string;
-  clientSecret: string;
+  job_title: string;
+  company: string;
+  description: string[];
+  expertise: string[];
+  language: string[];
+  linkedIn: string;
+  is_mentoring: boolean;
+  topics: number[];
+  time_slot: Record<DayEnumType, DurationType>;
 }
 
 export interface Room {
@@ -42,3 +62,19 @@ export interface Room {
     maxPeople?: string; // will be int parsed when used
   };
 }
+
+export interface Topic {
+  value: number;
+  topicName: string;
+  motivation: MotivationEnumType;
+  description: string;
+  emojiIcon: string;
+  emojiBadge: string;
+}
+
+export type MotivationEnumType =
+  | 'Job Search'
+  | 'Career Advice'
+  | 'Mentorship'
+  | 'Leadership'
+  | 'Skills';
