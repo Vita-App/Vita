@@ -21,16 +21,17 @@ import { roomState, socketState, Room } from 'atoms';
 import ThemeProvider from 'utils/theme/theme-context';
 import 'react-toastify/dist/ReactToastify.css';
 import useAbort from 'utils/hooks/use-abort';
+import { socket } from 'service/socket';
 
 // enforce https in production
-if (
-  window.location.protocol === 'http:' &&
-  process.env.NODE_ENV === 'production'
-) {
-  window.location.href = `https://${window.location.href.slice(7)}`;
-}
+// if (
+//   window.location.protocol === 'http:' &&
+//   process.env.NODE_ENV === 'production'
+// ) {
+//   window.location.href = `https://${window.location.href.slice(7)}`;
+// }
 
-const AppImport = import('./App'); // preloading
+const AppImport = import('pages/VideoCall/App'); // preloading
 const App = lazy(() => AppImport);
 initializeIcons();
 
@@ -40,7 +41,10 @@ const spinner = mergeStyles({
 });
 
 const Eagle: FunctionComponent = () => {
-  const socket = useRecoilValue(socketState);
+  // const socket = useRecoilValue(socketState);
+  // const socket = io(SERVER_URL);
+  // console.log(socket);
+
   const [room, setRoom] = useRecoilState(roomState);
   const onAbort = useAbort();
   const connectToast = useRef<ReactText>();
@@ -49,10 +53,9 @@ const Eagle: FunctionComponent = () => {
     // const onCloseWindow = () => {
     //     socket.emit('leave_room')
     // }
-    console.log('HELLOW');
     const onRoomJoined = (r: Room) => {
       const name = r.name || `by ${r.created_by}` || `with id ${r.id}`;
-      window.history.pushState({}, 'Mooz', `/room/${r.id}`);
+      window.history.pushState({}, 'Vita', `/room/${r.id}`);
       setRoom(r);
       toast(`Joined room ${name}`);
     };
@@ -62,15 +65,13 @@ const Eagle: FunctionComponent = () => {
     };
 
     const onDisconnect = () => {
-      connectToast.current = toast('Reconnecting socket, chill!', {
+      connectToast.current = toast('Reconnecting socket!', {
         autoClose: Timeout.PERSIST,
       });
     };
 
     const onConnect = () => {
-      console.log('hello');
       const id = sessionStorage.getItem('ID') || nanoid();
-      console.log('HEY');
       socket.emit('register', { sessionId: id, roomId: room?.id });
       sessionStorage.setItem('ID', id);
 
@@ -120,6 +121,7 @@ const VideoCall = () => (
   <ThemeProvider>
     <Suspense
       fallback={<Spinner label="Loading..." className={spinner} size={3} />}>
+      {console.log(useRecoilValue(socketState))}
       <Eagle />
     </Suspense>
   </ThemeProvider>

@@ -1,14 +1,13 @@
 import { atom, DefaultValue, selector } from 'recoil';
 import { Socket, io } from 'socket.io-client';
+import { SERVER_URL } from 'config.keys';
 
 export const createSocket = (): Socket => {
-  const port = process.env.REACT_APP_SOCKET_PORT;
-  const { origin } = window.location;
-  const url =
-    process.env.REACT_APP_SOCKET_URL || `${origin}${port ? `:${port}` : ''}`;
-  const socket = io(url, {
-    withCredentials: Boolean(process.env.REACT_APP_SOCKET_URL),
-  });
+  // const port = process.env.REACT_APP_SOCKET_PORT;
+  // const { origin } = window.location;
+  // const url =
+  //   process.env.REACT_APP_SOCKET_URL || `${origin}${port ? `:${port}` : ''}`;
+  const socket = io(SERVER_URL);
 
   // socket.onAny((event, ...args) => {
   //     console.log(`got ${event} with args:`, ...args)
@@ -183,8 +182,8 @@ export const removeConnectionsSelector = selector<Connection[]>({
     );
 
     // remove those peers
-    if (window.moozPeers) {
-      window.moozPeers = window.moozPeers.filter(
+    if (window.vitaPeers) {
+      window.vitaPeers = window.vitaPeers.filter(
         (p) => !newVal.find((v) => v.partnerId === p.partnerId),
       );
     }

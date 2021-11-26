@@ -1,21 +1,20 @@
 import React, { useCallback, useEffect } from 'react';
 import type { FunctionComponent } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import toast from 'components/VideoCallComponents/toast';
 import Peer from './peer';
 import {
   Connection,
   addConnectionsSelector,
   removeConnectionsSelector,
-  socketState,
 } from 'atoms';
+import { socket } from 'service/socket';
 
 const Connections: FunctionComponent = () => {
   const addConnections = useSetRecoilState(addConnectionsSelector);
   const [connections, removeConnections] = useRecoilState(
     removeConnectionsSelector,
   );
-  const socket = useRecoilValue(socketState);
 
   // This I assume has the session ID
   const onPersonJoined = useCallback(

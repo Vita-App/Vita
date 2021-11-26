@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   Stack,
   TextField,
@@ -9,8 +9,8 @@ import {
 } from '@fluentui/react';
 import type { FormEvent, FunctionComponent } from 'react';
 import { mb2, submit } from './styles';
-import { preferencesState, socketState } from 'atoms';
-
+import { preferencesState } from 'atoms';
+import { socket } from 'service/socket';
 interface JoinProps {
   defaultId?: string;
 }
@@ -18,7 +18,6 @@ interface JoinProps {
 const JoinMeeting: FunctionComponent<JoinProps> = ({ defaultId }) => {
   const theme = useTheme();
   const [preferences, setPreferences] = useRecoilState(preferencesState);
-  const socket = useRecoilValue(socketState);
   const [link, setLink] = useState(defaultId);
   const [name, setName] = useState(preferences.name);
   const [disabled, setDisabled] = useState(false);

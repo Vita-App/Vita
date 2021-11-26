@@ -36,7 +36,7 @@ const Landing = () => {
     <Stack className={container} horizontalAlign="center">
       <Stack.Item className={containerInner}>
         <Text className={heading} variant="superLarge">
-          Welcome to mooz
+          Welcome to Vita-Meet
         </Text>
         <Stack horizontalAlign="center" horizontal wrap>
           <Stack.Item className={mr4} grow>

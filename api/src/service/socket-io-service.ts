@@ -157,7 +157,7 @@ const socketService = (httpServer: http.Server): void => {
       const { sessionId } = roomsCache.get<Person>(socket.id) || {};
       if (!sessionId) return;
       // emit
-      socket.to(to).emit({
+      socket.to(to).send({
         from: sessionId,
         ...msg,
       });
