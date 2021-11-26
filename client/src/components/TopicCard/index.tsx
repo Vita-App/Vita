@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Grid, styled, Paper } from '@mui/material';
 import { colorPalatte } from 'utils/helper';
-import { MotivationEnumType } from 'types';
+import { Topic } from 'data/topics';
 
 const EmojiIcon = styled('div')`
   position: relative;
@@ -84,13 +84,8 @@ const BottomGrid = styled(Grid)({
   },
 });
 
-const TopicCard = () => {
-  const emojiIcon = '🔥';
-  const emojiBadge = '🎂';
-  const heading = 'Fostering A good Team Culture';
-  const motivation: MotivationEnumType = 'Job Search';
-  const description =
-    'How to create a positive workplace culture that drives collaboration and productivity?';
+const TopicCard = ({ topic }: { topic: Topic }) => {
+  const { description, emojiBadge, emojiIcon, topicName, motivation } = topic;
 
   const { background, overlay } = colorPalatte[motivation];
 
@@ -105,7 +100,7 @@ const TopicCard = () => {
             </Grid>
             <Grid item>
               <Typography fontWeight={700} sx={{ paddingRight: '4px' }}>
-                {heading}
+                {topicName}
               </Typography>
             </Grid>
           </Grid>
@@ -116,7 +111,7 @@ const TopicCard = () => {
       </TopGrid>
       <BottomGrid item zeroMinWidth>
         <Typography variant="h6" className="topics__heading">
-          {heading}
+          {topicName}
         </Typography>
         <Typography variant="body2" className="topics__description">
           {description}

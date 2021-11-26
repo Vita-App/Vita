@@ -84,7 +84,6 @@ export const useUserMedia = (): UserMediaReturn => {
           });
         }
 
-        //! DUNNO
         // we are making sure we take the first video and stopping all other
         if (videoTracks.length > 0) {
           videoTracks.forEach((t, i) => {

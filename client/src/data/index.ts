@@ -51,12 +51,12 @@ export const motivationOptions = [
     label: 'All',
   },
   {
-    value: 'Job search',
+    value: 'Job Search',
     label: 'Job Search',
   },
   {
-    value: 'Carrer advice',
-    label: 'Carrer advice',
+    value: 'Career Advice',
+    label: 'Career Advice',
   },
   {
     value: 'Leadership',

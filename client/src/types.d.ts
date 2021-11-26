@@ -19,7 +19,7 @@ export interface Topic {
 
 export type MotivationEnumType =
   | 'Job Search'
-  | 'Carrrer Advice'
+  | 'Career Advice'
   | 'Mentorship'
   | 'Leadership'
-  | 'Skill';
+  | 'Skills';

@@ -6,6 +6,10 @@ import { ReactSelect as Select } from 'components/common/Select';
 import { motivationOptions } from 'data';
 import TopicCard from 'components/TopicCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import topics, { Topic } from 'data/topics';
+import { MotivationEnumType } from 'types';
+
+const LEN = 8;
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -47,18 +51,28 @@ const CardContainer = styled(Grid)({
 //   return (row + 1) * col;
 // };
 
+const filterTopics = (topics: Topic[], motivation: string) => {
+  if (motivation === 'All' || motivation === null) return topics;
+  return topics.filter((topic) => topic.motivation === motivation);
+};
+
 const MentorsPage = () => {
   const [motivation, setMotivation] = useState<unknown>();
-  const [items, setItems] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+  const [items, setItems] = useState(topics.slice(0, LEN));
 
   const fetchMoreData = () => {
     // A fake async api call like which sends
     // 20 more records in 1.5 secs
-    setTimeout(() => {
-      setItems(items.concat(Array.from({ length: 2 })));
-    }, 1500);
+    // setTimeout(() => {
+    //   setItems(items.concat(Array.from({ length: 2 })));
+    // }, 1500);
+    const n = items.length;
+    setItems(topics.slice(0, 2 * n));
   };
 
+  // @ts-ignore
+  const motivationValue = motivation ? motivation?.value : 'All';
+  console.log(motivationValue);
   return (
     <>
       <GridWrapper container spacing={2}>
@@ -89,13 +103,13 @@ const MentorsPage = () => {
         </Grid>
       </GridWrapper>
       <InfiniteScroll
-        dataLength={items.length}
+        dataLength={Math.min(topics.length, items.length)}
         next={fetchMoreData}
-        hasMore={true}
+        hasMore={items.length < topics.length}
         loader={<h4>Loading...</h4>}>
         <CardContainer container>
-          {items.map((i, index) => (
-            <TopicCard key={index} />
+          {filterTopics(topics, motivationValue).map((item, index) => (
+            <TopicCard topic={item} key={index} />
           ))}
         </CardContainer>
       </InfiniteScroll>

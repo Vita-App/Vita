@@ -54,10 +54,10 @@ const palette = {
 
 export const colorPalatte = {
   'Job Search': palette.yellow,
-  'Carrer Advice': palette.red,
+  'Career Advice': palette.red,
   Mentorship: palette.orange,
   Leadership: palette.purple,
-  Skill: palette.pink,
+  Skills: palette.pink,
 };
 
 /*

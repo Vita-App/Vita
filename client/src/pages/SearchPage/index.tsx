@@ -19,7 +19,7 @@ const SearchPage = () => {
   const Wrapper = styled('div')({
     backgroundColor: '#242424',
     color: '#f5f5f5',
-
+    minHeight: '100vh',
     '& .Mui-selected ': {
       color: '',
     },
