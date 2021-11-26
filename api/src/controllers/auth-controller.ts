@@ -13,17 +13,18 @@ export const googleController = (req: Request, res: Response) => {
   const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
 
   passport.authenticate('google', {
-    scope: ['profile'],
+    scope: ['profile', 'email'],
     state: isMentor,
   })(req, res);
 };
 
 export const googleRedirectController = passport.authenticate('google', {
-  successRedirect: `${CLIENT_URL}`,
+  successRedirect: `${CLIENT_URL}/`,
   failureRedirect: '/login/failed',
 });
 
 export const authController = (req: Request, res: Response) => {
+  console.dir(req);
   if (!req.user) {
     return res.status(200).json({
       isLoggedIn: false,
