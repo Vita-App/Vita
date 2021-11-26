@@ -67,16 +67,16 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
       {showFooter && (
         <div className={callout.footer}>
           <span>
-            Mooz by{' '}
+            Vita by{' '}
             <Link
-              href="https://github.com/muzam1l"
+              href="https://github.com/rishabh_malhotraa"
               target="_blank"
               rel="nofollow noreferrer noopener">
-              muzam1l
+              Rishabh
             </Link>
           </span>
           <Link
-            href="https://github.com/muzam1l/mooz"
+            href="https://github.com/Rishabh-malhotraa/"
             target="_blank"
             rel="nofollow noreferrer noopener">
             Fork me on GitHub

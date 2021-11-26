@@ -2,13 +2,13 @@
 
 import Peer from 'simple-peer';
 
-export interface MoozPeer {
+export interface VitaPeer {
   peer: Peer.Instance;
   partnerId: string;
 }
 
 declare global {
   interface Window {
-    moozPeers: MoozPeer[] | undefined;
+    vitaPeers: VitaPeer[] | undefined;
   }
 }

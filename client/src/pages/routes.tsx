@@ -5,17 +5,26 @@ import Prototype from './prototype';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
 import Loader from 'components/Loader';
-import VideoCall from 'pages/VideoCall';
-// const VideoCall = lazy(() => import('pages/VideoCall'));
+import { ThemeProvider } from '@mui/material/styles';
+import getTheme from 'utils/hooks/theme';
+
+const VideoCall = lazy(() => import('pages/VideoCall'));
+
 const App = () => (
   <Router>
     <Suspense fallback={<Loader />}>
+      <ThemeProvider theme={getTheme('dark')}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/prototype" element={<Prototype />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </ThemeProvider>
+
       <Routes>
-        <Route path="/" element={<VideoCall />} />
-        <Route path="/meet" element={<Landing />} />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/prototype" element={<Prototype />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/room" element={<VideoCall />} />
+        <Route path="/room/:id" element={<VideoCall />} />
       </Routes>
     </Suspense>
   </Router>

@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import toast, { ToastType } from 'components/VideoCallComponents/toast';
-import { removeConnectionsSelector, roomState, socketState } from 'atoms';
-
+import { removeConnectionsSelector, roomState } from 'atoms';
+import { socket } from 'service/socket';
 interface Args {
   noEmit?: boolean;
 }
@@ -13,7 +13,6 @@ const useAbort = (): ((arg0?: Args) => void) => {
     removeConnectionsSelector,
   );
   const setRoom = useSetRecoilState(roomState);
-  const socket = useRecoilValue(socketState);
 
   const onAbort = useCallback(
     ({ noEmit }: Args = {}) => {
@@ -21,7 +20,7 @@ const useAbort = (): ((arg0?: Args) => void) => {
       setRoom(null);
       // dont want to emit because of that
       if (!noEmit) socket.emit('leave_room');
-      toast('Room abandoned!, enjoy your lonely life', {
+      toast('Room abandoned!', {
         type: ToastType.warning,
       });
     },

@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useCallback, useState } from 'react';
 import React, { FormEvent } from 'react';
 import {
@@ -10,12 +10,12 @@ import {
   useTheme,
 } from '@fluentui/react';
 import { submit, mb2 } from './styles';
-import { socketState, Room, preferencesState } from 'atoms';
+import { Room, preferencesState } from 'atoms';
+import { socket } from 'service/socket';
 
 const CreateMeeting: React.FC = () => {
   const [preferences, setPreferences] = useRecoilState(preferencesState);
   const theme = useTheme();
-  const socket = useRecoilValue(socketState);
   const [max, setMax] = useState('5');
   const [meetingName, setMeetingName] = useState('');
   const [personName, setPersonName] = useState(preferences.name);

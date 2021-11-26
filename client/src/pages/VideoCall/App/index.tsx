@@ -24,9 +24,9 @@ const App: FunctionComponent = () => {
     document.title =
       room?.name ||
       (room?.created_by && `Meeting by ${room?.created_by}`) ||
-      'A Mooz meeting';
+      'Vita - Meet';
     return () => {
-      document.title = 'Mooz';
+      document.title = 'Vita Meet';
     };
   }, [room]);
 

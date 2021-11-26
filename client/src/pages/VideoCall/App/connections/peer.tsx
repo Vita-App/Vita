@@ -7,7 +7,6 @@ import {
   addMessageSelector,
   preferencesState,
   remoteStreamsState,
-  socketState,
   userStreamState,
   PeerData,
   Message,
@@ -15,11 +14,12 @@ import {
   addRemoteStreamsSelector,
   RemoteStream,
 } from 'atoms';
-import { MoozPeer } from 'react-app-env';
+import { VitaPeer } from 'react-app-env';
 import toast, {
   Timeout,
   ToastType,
 } from 'components/VideoCallComponents/toast';
+import { socket } from 'service/socket';
 
 interface SignalMessage {
   from: string;
@@ -70,11 +70,9 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
   const userStream = useRecoilValue(userStreamState);
   const displayStream = useRecoilValue(displayStreamState);
 
-  const socket = useRecoilValue(socketState);
-
   const peerRef = useRef<Peer.Instance>();
   if (!peerRef.current) {
-    const LEN = (window.moozPeers?.length || 0) + 1;
+    const LEN = (window.vitaPeers?.length || 0) + 1;
     let bandwidth = MAX_BANDWIDTH / Math.sqrt(LEN);
     if (bandwidth < MIN_BANDWIDTH) bandwidth = MIN_BANDWIDTH;
     peerRef.current = new Peer({
@@ -85,16 +83,16 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
 
   const saveInstance = () => {
     const peer = peerRef.current as Peer.Instance;
-    const moozPeer: MoozPeer = { peer, partnerId };
-    if (!window.moozPeers) window.moozPeers = [moozPeer];
+    const vitaPeer: VitaPeer = { peer, partnerId };
+    if (!window.vitaPeers) window.vitaPeers = [vitaPeer];
 
     // Remove old copy
-    window.moozPeers = window.moozPeers.filter(
+    window.vitaPeers = window.vitaPeers.filter(
       (p) => p.partnerId !== partnerId,
     );
 
     // Update
-    window.moozPeers.push(moozPeer);
+    window.vitaPeers.push(vitaPeer);
   };
 
   saveInstance();
@@ -193,7 +191,7 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
   // Just to make sure that every track is loaded
   const onTrack = useCallback(
     (track: MediaStreamTrack, stream: MediaStream) => {
-      const pr = window.moozPeers?.find((p) => p.partnerId === partnerId)
+      const pr = window.vitaPeers?.find((p) => p.partnerId === partnerId)
         ?.peer as PeerInternals | undefined;
 
       const currStream = pr?._remoteStreams?.find((r) => r.active);
@@ -256,7 +254,7 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
 
     const onError = (err: PeerError) => {
       if (err.code === 'ERR_WEBRTC_SUPPORT') {
-        toast(`No WebRTC support, are you on grandpa's computer?`, {
+        toast(`No WebRTC support, on your browser (IE+7)`, {
           type: ToastType.error,
         });
       } else if (err.code === 'ERR_CONNECTION_FAILURE') {
@@ -342,7 +340,6 @@ const PeerComponent: FunctionComponent<PeerProps> = (props) => {
 
     const stream = new MediaStream(tracks);
     try {
-      // !RISHABHCHECK
       if (tracks.length > 0) {
         const msg: PeerData = { metadata: { state: 'NO_STREAM' } };
         peer.send(JSON.stringify(msg));

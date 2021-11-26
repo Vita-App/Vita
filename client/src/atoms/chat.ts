@@ -34,7 +34,7 @@ export const addMessageSelector = selector<Message[]>({
 
     const messages = get(messagesState);
     set(messagesState, messages.concat(newVal));
-    const peers = window.moozPeers || [];
+    const peers = window.vitaPeers || [];
     newVal.forEach((message) => {
       if (message.mine) {
         peers
