@@ -19,13 +19,6 @@ export interface Topic {
   emojiBadge: string;
 }
 
-interface Topic_ {
-  motivation: string;
-  topicName: string;
-  topicDescription: string;
-  topicColor: string;
-}
-
 type DayEnumType =
   | 'monday'
   | 'tuesday'
@@ -42,6 +35,7 @@ interface DurationType {
   locale: string;
 }
 
+export type Timeslot = Record<DayEnumType, DurationType>;
 export interface MentorSchemaType {
   _id: string;
   user_id: string;
@@ -56,7 +50,7 @@ export interface MentorSchemaType {
   linkedIn: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slot: Record<DayEnumType, DurationType>;
+  time_slot: Timeslot;
 }
 
 export type MotivationEnumType =

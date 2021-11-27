@@ -1,7 +1,7 @@
 import { Topic } from 'types';
 import { shuffleArray } from 'utils/helper';
 
-export const topics: Topic[] = [
+const topicsData: Topic[] = [
   {
     value: 0,
     topicName: 'Practice Case Study',
@@ -225,4 +225,6 @@ export const topics: Topic[] = [
   },
 ];
 
-export const shuffleTopics = shuffleArray(topics);
+export const shuffleTopics = shuffleArray(topicsData);
+
+export const topics = topicsData.sort((a, b) => a.value - b.value);

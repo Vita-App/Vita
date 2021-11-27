@@ -99,7 +99,8 @@ const getMentor = async (id: string | undefined) => {
   return response;
 };
 
-const getTopics = (topicNums: number[]) => topicNums.map((el) => topicData[el]);
+const getTopics = (topicNums: number[]) =>
+  topicNums.map((el) => topicData[Number(el)]);
 
 const UserPage = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -124,12 +125,11 @@ const UserPage = () => {
     company,
     expertise,
     language,
-    time_slot,
+    time_slot: timeslot,
     topics: topicNums,
   } = data;
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
-  console.log(topics);
   // const job_title = 'Member of Technical Staff';
   // const company = 'Adobe';
   // const description = [
@@ -246,7 +246,11 @@ const UserPage = () => {
             </Grid>
 
             <Grid container>
-              <PaginatedBookingCard motivation={motivation} />
+              <PaginatedBookingCard
+                motivation={motivation}
+                topics={topics}
+                timeslot={timeslot}
+              />
             </Grid>
           </Container>
         </Grid>
