@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { atom, AtomEffect, DefaultValue } from 'recoil';
 
 interface Preferences {
