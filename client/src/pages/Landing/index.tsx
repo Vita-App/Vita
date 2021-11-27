@@ -2,7 +2,6 @@ import React from 'react';
 import Appbar from 'components/Appbar';
 import Grid from '@mui/material/Grid';
 import Particles from 'components/Particles';
-import Pagination from 'components/Pagination';
 import Hero from 'components/Hero';
 import { styled } from '@mui/material/styles';
 
@@ -26,7 +25,6 @@ const Landing = () => (
         <Particles />
       </Grid>
     </PageOneWrapper>
-    <Pagination />
   </>
 );
 

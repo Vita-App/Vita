@@ -14,7 +14,7 @@ import {
   names,
   topicNums,
   descriptions,
-} from './fake_data';
+} from './fakeData';
 import faker from 'faker';
 const ENTRIES = 100;
 
@@ -44,8 +44,15 @@ const shuffleArray = <T>(array: T[]) => {
   return array;
 };
 
-const getRandomArray = <T>(array: T[], limit: number = Infinity) => {
-  const k = Math.min(Math.floor(Math.random() * array.length), limit);
+const getRandomArray = <T>(
+  array: T[],
+  upperBound: number = Infinity,
+  lowerBound: number = 1,
+) => {
+  const k = Math.max(
+    Math.min(Math.floor(Math.random() * array.length), upperBound),
+    lowerBound,
+  );
 
   const shuffledArray = shuffleArray(array);
 

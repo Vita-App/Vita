@@ -15,6 +15,7 @@ export interface UserSchemaType {
 }
 
 export interface TopicSchemaType {
+  value: number;
   emojiIcon: string;
   emojiBadge: string;
   motivation: string;
