@@ -4,9 +4,9 @@ import { Chip, Typography, Paper, Dialog } from '@mui/material';
 import Button from 'components/common/Button';
 import { useTheme } from '@mui/material/styles';
 import DatePicker from 'components/DaterPicker';
-import { Topic } from 'types';
+import { Topic_ } from 'types';
 interface BookingCardProps {
-  topic: Topic;
+  topic: Topic_;
 }
 const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
   const { motivation, topicName, topicDescription, topicColor } = topic;

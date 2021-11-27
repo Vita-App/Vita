@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, List, Pagination, styled } from '@mui/material';
 import BookingCard from './BookingCard';
-import { Topic } from 'types';
+import { Topic_ } from 'types';
 import { topicOptions } from 'data';
 
 interface PaginatedBookingCardProps {
@@ -24,12 +24,14 @@ const CssPagination = styled(Pagination)({
   },
 });
 
-const filterTopics = (topicOptions: Topic[], motivation: string) => {
+const filterTopics = (topicOptions: Topic_[], motivation: string) => {
   if (motivation === 'All') {
     return topicOptions;
   }
 
-  return topicOptions.filter((topic: Topic) => topic.motivation === motivation);
+  return topicOptions.filter(
+    (topic: Topic_) => topic.motivation === motivation,
+  );
 };
 
 const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
@@ -60,7 +62,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
                 (page - 1) * rowsPerPage + rowsPerPage,
               )
             : topics
-          ).map((topic: Topic, index) => (
+          ).map((topic: Topic_, index) => (
             <BookingCard topic={topic} key={index} />
           ))}
         </List>

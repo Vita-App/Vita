@@ -1,33 +1,7 @@
-import { MotivationEnumType } from 'types';
+import { Topic } from 'types';
+import { shuffleArray } from 'utils/helper';
 
-const shuffleArray = <T>(array: T[]) => {
-  let currentIndex = array.length;
-  let randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // swapping 2 variables
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-};
-
-export interface Topic {
-  value: number;
-  topicName: string;
-  motivation: MotivationEnumType;
-  description: string;
-  emojiIcon: string;
-  emojiBadge: string;
-}
-
-const topics: Topic[] = [
+export const topics: Topic[] = [
   {
     value: 0,
     topicName: 'Practice Case Study',
@@ -251,4 +225,4 @@ const topics: Topic[] = [
   },
 ];
 
-export default shuffleArray(topics);
+export const shuffleTopics = shuffleArray(topics);

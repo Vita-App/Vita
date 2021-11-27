@@ -1,8 +1,11 @@
 import { Grid } from '@mui/material';
-import React, { useState } from 'react';
-import Select from 'components/common/Select';
+import React from 'react';
 import { styled, Button } from '@mui/material';
 import { expertiseOptions, motivationOptions } from 'data';
+import { ReactSelect as Select } from 'components/common/Select';
+import { motivationState, expertiseState } from 'store';
+import { useRecoilState } from 'recoil';
+import { Link } from 'components/common/styles';
 
 const StyledButton = styled(Button)`
   background-size: 200%;
@@ -31,25 +34,38 @@ const StyledGrid = styled(Grid)({
 });
 
 const Seachbox = () => {
-  const [motivation, setMotivation] = useState<string>();
-  const [expertise, setExpertise] = useState<string>();
+  const [motivation, setMotivation] = useRecoilState(motivationState);
+  const [expertise, setExpertise] = useRecoilState(expertiseState);
   return (
     <>
       <Grid container item>
         <StyledGrid item xs={12}>
           <Select
-            data={motivationOptions}
-            option={motivation}
-            setOption={setMotivation}
-            dropDownLabel="Motivation"
-            helperText="What do you need help with?"
+            name="Motivation"
+            sx={{ fontSize: '20px', padding: '8px 8px', color: 'white' }}
+            options={motivationOptions}
+            value={motivation}
+            onChange={setMotivation}
+            isSearchable={true}
+            classNamePrefix="select"
+            placeholder={<span>Filter by Motivation</span>}
           />
           <Select
-            data={expertiseOptions}
-            option={expertise}
-            setOption={setExpertise}
-            dropDownLabel="Expertise"
-            helperText="What domain are you looking for?"
+            name="Expertise"
+            sx={{
+              fontSize: '20px',
+              margin: '8px 8px',
+              color: 'white',
+              '.select__menu': {
+                width: '90%',
+              },
+            }}
+            options={expertiseOptions}
+            value={expertise}
+            onChange={setExpertise}
+            isSearchable={true}
+            classNamePrefix="select"
+            placeholder={<span>Filter by Expertise</span>}
           />
         </StyledGrid>
       </Grid>
@@ -60,7 +76,9 @@ const Seachbox = () => {
           placeContent: 'center',
           padding: '1rem',
         }}>
-        <StyledButton variant="contained">Find a Mentor ⚡</StyledButton>
+        <Link to="/search">
+          <StyledButton variant="contained">Find a Mentor ⚡</StyledButton>
+        </Link>
       </Grid>
     </>
   );

@@ -16,9 +16,8 @@ const App = () => (
       <ThemeProvider theme={getTheme('dark')}>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/user" element={<UserPage />} />
-          <Route path="/prototype" element={<Prototype />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/search/" element={<SearchPage />} />
+          <Route path="/user/:id" element={<UserPage />} />
         </Routes>
       </ThemeProvider>
       <Routes>

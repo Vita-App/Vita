@@ -1,18 +1,22 @@
-import { CLIENT_URL } from '../config/keys';
 import { Request, Response } from 'express';
-import passport from 'passport';
-import { UserModel, MentorModel } from '../Models/User';
+import { MentorModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { MentorSchemaType } from '../types';
+import { isValidObjectId } from 'mongoose';
 
 // http://localhost:5000/api/get-mentors?expertise=Leadership
-export const mentorController = async (req: Request, res: Response) => {
-  const expertise = req.query.expertise?.toString();
-  const searchString = req.query.textSearch?.toString() || 'Uber';
-  console.log(expertise);
-  let mentors_ = await MentorModel.find({ expertise: expertise });
-  if (searchString)
-    mentors_ = await MentorModel.find({ $text: { $search: searchString } });
+export const getMentorsController = async (req: Request, res: Response) => {
+  const expertise = req.query.expertise?.toString() || 'All';
+  const topic: number = Number(req.query.topic?.toString() || -1);
+  let mentors_;
+  if (topic == -1 && expertise == 'All') mentors_ = await MentorModel.find({});
+  else if (expertise == 'All')
+    mentors_ = await MentorModel.find({ topics: topic });
+  else if (topic == -1)
+    mentors_ = await MentorModel.find({ expertise: expertise });
+  else
+    mentors_ = await MentorModel.find({ topics: topic })
+      .where('expertise')
+      .equals(expertise);
 
   const mentors = mentors_.map(
     ({
@@ -38,11 +42,11 @@ export const mentorController = async (req: Request, res: Response) => {
     },
   );
 
-  res.json(mentors.length);
+  res.json(mentors);
 };
 
 // http://localhost:5000/api/get-topics?textSearch=a
-export const topicController = async (req: Request, res: Response) => {
+export const getTopicsController = async (req: Request, res: Response) => {
   const searchString = req.query.textSearch?.toString() || '';
   let topics;
   if (searchString)
@@ -52,8 +56,9 @@ export const topicController = async (req: Request, res: Response) => {
 };
 
 // http://localhost:5000/api/get-mentor?id=61a211ab8e41a1fc1c49c2a4
-export const singleMentorController = async (req: Request, res: Response) => {
-  const id = req.query.id?.toString();
-  const mentor = await MentorModel.findById(id);
+export const getMentorController = async (req: Request, res: Response) => {
+  const id = req.query.id?.toString() || '';
+  let mentor;
+  if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
   res.json(mentor);
 };

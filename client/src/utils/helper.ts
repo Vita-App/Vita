@@ -1,6 +1,7 @@
 /* eslint-disable no-bitwise */
-export const commaString = (words: string[]) => {
+export const commaString = (words: string[] | undefined) => {
   let result = '';
+  if (typeof words === 'undefined') return result;
 
   for (const word of words) {
     result = result + word + ', ';
@@ -135,4 +136,22 @@ export const silence = () => {
   const track = Object.assign(stream.getAudioTracks()[0], { enabled: false });
   track.stop();
   return track;
+};
+
+export const shuffleArray = <T>(array: T[]) => {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // swapping 2 variables
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
 };

@@ -9,6 +9,7 @@ const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
   height: '100vh',
   width: '100%',
+  overflow: 'hidden',
   position: 'relative',
 });
 

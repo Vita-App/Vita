@@ -8,12 +8,14 @@ import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 import MentorsPage from './MentorsPage';
 import TopicsPage from './TopicsPage';
+import { useRecoilState } from 'recoil';
+import { tabIndexState } from 'store';
 
 const SearchPage = () => {
-  const [value, setValue] = React.useState('1');
+  const [tabIndex, setTabIndex] = useRecoilState(tabIndexState);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    setTabIndex(newValue);
   };
 
   const Wrapper = styled('div')({
@@ -40,7 +42,7 @@ const SearchPage = () => {
       <Wrapper>
         <Appbar />
         <Box sx={{ width: '100%' }}>
-          <TabContext value={value}>
+          <TabContext value={tabIndex}>
             <Box className="Tab_Box">
               <TabList
                 onChange={handleChange}

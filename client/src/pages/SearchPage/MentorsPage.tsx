@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
-import { Grid, InputBase, Paper } from '@mui/material';
+import React from 'react';
+import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ReactSelect as Select } from 'components/common/Select';
 import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { expertiseState, topicState } from 'store';
+import { SERVER_URL } from 'config.keys';
+import axios from 'axios';
+import { MentorSchemaType } from 'types';
+import { useQuery } from 'react-query';
+import { shuffleArray } from 'utils/helper';
+import Loader from 'react-loader-spinner';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
     display: 'flex',
     alignItems: 'center',
+  },
+});
+
+const StyledBox = styled(Box)({
+  width: '100%',
+  height: '15vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  '& svg': {
+    fill: 'lightgray',
   },
 });
 
@@ -37,26 +56,67 @@ const CardContainer = styled(Grid)({
   paddingRight: '3rem',
 });
 
-// Const getLength = () => {
-//   const height = window.innerHeight;
-//   const width = window.innerWidth;
+const getMentors = async (expertise: string, topic: number) => {
+  const expertise_ = expertise === undefined ? 'All' : expertise;
+  const { data: response } = await axios.get<Partial<MentorSchemaType[]>>(
+    `${SERVER_URL}/api/get-mentors`,
+    {
+      params: {
+        expertise: expertise_,
+        topic,
+      },
+    },
+  );
+  // @ts-ignore
+  return shuffleArray(response);
+};
 
-//   const row = Math.round(Math.max(1, (window.innerHeight - 100) / 400));
-//   const col = Math.round(Math.max(1, (window.innerHeight - 100) / 300));
-//   console.log(row, col);
-//   return (row + 1) * col;
-// };
+// @ts-ignore
+const RenderCards = ({
+  isLoading,
+  data,
+}: {
+  isLoading: boolean;
+  data: any[];
+}) => {
+  if (isLoading || typeof data === 'undefined') return <div />;
+
+  const users = data.slice(0, 50);
+  console.log(data.slice(0, 3));
+  return (
+    <CardContainer container>
+      {users.map((user, index) => (
+        <UserCard
+          key={index}
+          // @ts-ignore
+          user={user}
+        />
+      ))}
+    </CardContainer>
+  );
+};
 
 const MentorsPage = () => {
-  const [expertise, setExpertise] = useState<unknown>();
-  const [items, setItems] = useState<number[]>([1, 2, 3, 4, 5, 6]);
-  const fetchMoreData = () => {
-    // A fake async api call like which sends
-    // 20 more records in 1.5 secs
-    setTimeout(() => {
-      setItems(items.concat(Array.from({ length: 3 })));
-    }, 1500);
-  };
+  const [expertise, setExpertise] = useRecoilState(expertiseState);
+  // @ts-ignore
+  const expertiseValue = expertise?.value;
+  const topic = useRecoilValue(topicState);
+
+  const { isLoading, data } = useQuery(['mentors', expertiseValue, topic], () =>
+    getMentors(expertiseValue, topic),
+  );
+  const content =
+    isLoading === false ? (
+      <RenderCards
+        isLoading={isLoading}
+        // @ts-ignore
+        data={data}
+      />
+    ) : (
+      <StyledBox>
+        <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+      </StyledBox>
+    );
 
   return (
     <>
@@ -86,17 +146,7 @@ const MentorsPage = () => {
           </Paper>
         </Grid>
       </GridWrapper>
-      <InfiniteScroll
-        dataLength={items.length}
-        next={fetchMoreData}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}>
-        <CardContainer container>
-          {items.map((i, index) => (
-            <UserCard key={index} />
-          ))}
-        </CardContainer>
-      </InfiniteScroll>
+      {content}
     </>
   );
 };

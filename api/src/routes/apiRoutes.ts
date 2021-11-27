@@ -4,9 +4,9 @@ import {
   logoutController,
 } from '../controllers/auth-controller';
 import {
-  mentorController,
-  topicController,
-  singleMentorController,
+  getTopicsController,
+  getMentorController,
+  getMentorsController,
 } from '../controllers/api-controller';
 
 import {
@@ -21,9 +21,9 @@ const router = Router();
 router.get('/auth', authController);
 router.get('/logout', logoutController); // auth logout
 
-router.get('/get-mentors', mentorController);
-router.get('/get-topics', topicController);
-router.get('/get-mentor', singleMentorController);
+router.get('/get-mentor', getMentorController);
+router.get('/get-mentors', getMentorsController);
+router.get('/get-topics', getTopicsController);
 // router.get('/data', fakeDataController);
 // router.get('/topicData', topicDataController);
 export default router;

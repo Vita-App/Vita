@@ -57,3 +57,23 @@ export const currentCameraIdState = atom<string | null>({
   key: 'currentVideoDevice',
   default: null,
 });
+
+export const motivationState = atom<unknown>({
+  key: 'motivationState',
+  default: null,
+});
+
+export const expertiseState = atom<unknown>({
+  key: 'expertiseState',
+  default: null,
+});
+
+export const tabIndexState = atom<string>({
+  key: 'tabIndex',
+  default: '1',
+});
+
+export const topicState = atom<number>({
+  key: 'topicState',
+  default: -1,
+});

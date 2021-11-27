@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Grid, styled, Paper } from '@mui/material';
 import { colorPalatte } from 'utils/helper';
-import { Topic } from 'data/topics';
+import { Topic } from 'types';
 
 const EmojiIcon = styled('div')`
   position: relative;

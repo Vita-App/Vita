@@ -1,6 +1,6 @@
-import { Topic } from 'types';
+import { Topic_ } from 'types';
 
-export const topicOptions: Topic[] = [
+export const topicOptions: Topic_[] = [
   {
     motivation: 'mentorship',
     topicName: 'General Mentorship',

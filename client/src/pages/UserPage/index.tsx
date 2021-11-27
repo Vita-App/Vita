@@ -8,6 +8,14 @@ import Divider from '@mui/material/Divider';
 import { commaString } from 'utils/helper';
 import { ReactSelect as Select } from 'components/common/Select';
 import { motivationOptions } from 'data';
+import Appbar from 'components/Appbar';
+import axios from 'axios';
+import { MentorSchemaType, Topic } from 'types';
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { SERVER_URL } from 'config.keys';
+import Loader from 'components/Loader';
+import { topics as topicData } from 'data/topics';
 
 const Wrapper = styled('div')`
   font-family: 'Circular Std';
@@ -78,110 +86,172 @@ const Photo = styled('div')`
   }
 `;
 
-const UserPage = () => {
-  const name = 'Rishabh Malhotra';
-  const position = 'Member of Technical Staff';
-  const companyName = 'Adobe';
-  const userDescription = [
-    'As an engineer with a design-focused MBA and experience in Entrepreneurship, I combine the perspectives from business, design, and technology to challenge conventional thinking about innovation and deliver critical & creative insights. I am a technology generalist with a deep interest and understanding of emerging technologies such as ML, chatbot, and Voice assistant technologies. I create experiential prototypes to tell stories about Future and digital experiences.',
-    'Currently, I work as a Manager, Customer Experience at Questrade, leading a team of CX and Service Designers, managing and improving the customer experience for our existing offering, and designing and developing the new experiences through product and service innovation.',
-    'I am passionate about innovation in financial services, transportation, and retail and actively write on LinkedIn and Medium on innovation, strategy, and Futures.',
-  ];
-  const mentorExpertise = ['Software Development', 'Product Management'];
-  const mentorLanguage = ['Hindi', 'English'];
+const getMentor = async (id: string | undefined) => {
+  const { data: response } = await axios.get<MentorSchemaType>(
+    `${SERVER_URL}/api/get-mentor`,
+    {
+      params: {
+        id,
+      },
+    },
+  );
+  console.log(response);
+  return response;
+};
 
+const getTopics = (topicNums: number[]) => topicNums.map((el) => topicData[el]);
+
+const UserPage = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [motivation, setMotivation] = useState('All');
   const [heart, setHeart] = useState<'error' | 'inherit'>('inherit');
 
+  const { id } = useParams();
+  if (typeof id === 'undefined') return <div />;
+  const { isLoading, data } = useQuery(['mentor', id], () => getMentor(id));
+
+  if (isLoading) return <Loader />;
+
+  if (typeof data === 'undefined') return <div />;
+
+  const {
+    first_name,
+    last_name,
+    image_link,
+    description,
+    linkedIn,
+    job_title,
+    company,
+    expertise,
+    language,
+    time_slot,
+    topics: topicNums,
+  } = data;
+  const name = `${first_name} ${last_name}`;
+  const topics: Topic[] = getTopics(topicNums);
+  console.log(topics);
+  // const job_title = 'Member of Technical Staff';
+  // const company = 'Adobe';
+  // const description = [
+  //   'As an engineer with a design-focused MBA and experience in Entrepreneurship, I combine the perspectives from business, design, and technology to challenge conventional thinking about innovation and deliver critical & creative insights. I am a technology generalist with a deep interest and understanding of emerging technologies such as ML, chatbot, and Voice assistant technologies. I create experiential prototypes to tell stories about Future and digital experiences.',
+  //   'Currently, I work as a Manager, Customer Experience at Questrade, leading a team of CX and Service Designers, managing and improving the customer experience for our existing offering, and designing and developing the new experiences through product and service innovation.',
+  //   'I am passionate about innovation in financial services, transportation, and retail and actively write on LinkedIn and Medium on innovation, strategy, and Futures.',
+  // ];
+  // const expertise = ['Software Development', 'Product Management'];
+  // const language = ['Hindi', 'English'];
+
   return (
-    <Wrapper>
-      <Banner />
-      <Grid
-        container
-        height="100%"
-        justifyContent="center"
-        sx={{ background: '#242424' }}>
-        <Container item>
-          <PhotoWrapper>
-            <Photo>
-              <Avatar sx={{ bgcolor: lightGreen[500] }}>N</Avatar>
-            </Photo>
-            <span style={{ flexGrow: 1 }}></span>
-            <IconButton aria-label="linkedIn" size="large" color="primary">
-              <LinkedIn fontSize="inherit" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setHeart(heart === 'inherit' ? 'error' : 'inherit');
-              }}
-              aria-label="add to wish list"
-              size="large"
-              color={heart}>
-              <Favorite fontSize="inherit" />
-            </IconButton>
-          </PhotoWrapper>
+    <>
+      <Appbar />
+      <Wrapper>
+        <Banner />
+        <Grid
+          container
+          height="100%"
+          justifyContent="center"
+          sx={{ background: '#242424' }}>
+          <Container item>
+            <PhotoWrapper>
+              <Photo>
+                <Avatar src={image_link} sx={{ bgcolor: lightGreen[500] }}>
+                  N
+                </Avatar>
+              </Photo>
+              <span style={{ flexGrow: 1 }}></span>
+              <IconButton
+                target="_blank"
+                href={linkedIn}
+                aria-label="linkedIn"
+                size="large"
+                color="primary">
+                <LinkedIn fontSize="inherit" />
+              </IconButton>
+              <IconButton
+                onClick={() => {
+                  setHeart(heart === 'inherit' ? 'error' : 'inherit');
+                }}
+                aria-label="add to wish list"
+                size="large"
+                color={heart}>
+                <Favorite fontSize="inherit" />
+              </IconButton>
+            </PhotoWrapper>
 
-          <TextWrapper>
-            <Typography variant="h5" fontWeight={700}>
-              Hi, I m {name}
-            </Typography>
-            <Typography fontWeight={600} sx={{ py: 1 }}>
-              {position} at {companyName}
-            </Typography>
-            <ShowMoreText
-              /* Default options */
-              lines={3}
-              className="show-more"
-              more="Show more"
-              less="Show less"
-              anchorClass="show-more-anchor"
-              onClick={() => setIsExpanded(!isExpanded)}
-              expanded={false}
-              truncatedEndingComponent={'... '}>
-              {userDescription}
-              {userDescription.map((description, index) => (
-                <div key={index}>{description}</div>
-              ))}
-            </ShowMoreText>
-          </TextWrapper>
-          <Grid container sx={{ py: 2 }}>
-            <Grid container direction="column" item xs={12} md={6} spacing={1}>
-              <Grid item fontWeight={700}>
-                Expertise
+            <TextWrapper>
+              <Typography variant="h5" fontWeight={700}>
+                Hi, I m {name}
+              </Typography>
+              <Typography fontWeight={600} sx={{ py: 1 }}>
+                {job_title} at {company}
+              </Typography>
+              <ShowMoreText
+                /* Default options */
+                lines={3}
+                className="show-more"
+                more="Show more"
+                less="Show less"
+                anchorClass="show-more-anchor"
+                onClick={() => setIsExpanded(!isExpanded)}
+                expanded={false}
+                truncatedEndingComponent={'... '}>
+                {description}
+                {description.map((description, index) => (
+                  <div key={index} style={{ padding: '8px, 0px' }}>
+                    {description}
+                  </div>
+                ))}
+              </ShowMoreText>
+            </TextWrapper>
+            <Grid container sx={{ py: 2 }}>
+              <Grid
+                container
+                direction="column"
+                item
+                xs={12}
+                md={6}
+                spacing={1}>
+                <Grid item fontWeight={700}>
+                  Expertise
+                </Grid>
+                <Grid item>{commaString(expertise)}</Grid>
               </Grid>
-              <Grid item>{commaString(mentorExpertise)}</Grid>
-            </Grid>
-            <Grid container direction="column" item xs={12} md={6} spacing={1}>
-              <Grid item fontWeight={700}>
-                Languages
+              <Grid
+                container
+                direction="column"
+                item
+                xs={12}
+                md={6}
+                spacing={1}>
+                <Grid item fontWeight={700}>
+                  Languages
+                </Grid>
+                <Grid item>{commaString(language)}</Grid>
               </Grid>
-              <Grid item>{commaString(mentorLanguage)}</Grid>
             </Grid>
-          </Grid>
-          <Divider />
+            <Divider />
 
-          {/* adding select here */}
-          <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
-            <div style={{ margin: '1rem 0rem' }}>
-              <Select
-                name="Topic"
-                options={motivationOptions}
-                // @ts-ignore
-                onChange={({ value }) => setMotivation(value)} // Value - label
-                isSearchable={true}
-                classNamePrefix="select"
-                placeholder={<span>Filter by Motivation</span>}
-              />
-            </div>
-          </Grid>
+            {/* adding select here */}
+            <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
+              <div style={{ margin: '1rem 0rem' }}>
+                <Select
+                  name="Topic"
+                  options={motivationOptions}
+                  // @ts-ignore
+                  onChange={({ value }) => setMotivation(value)} // Value - label
+                  isSearchable={true}
+                  classNamePrefix="select"
+                  placeholder={<span>Filter by Motivation</span>}
+                />
+              </div>
+            </Grid>
 
-          <Grid container>
-            <PaginatedBookingCard motivation={motivation} />
-          </Grid>
-        </Container>
-      </Grid>
-    </Wrapper>
+            <Grid container>
+              <PaginatedBookingCard motivation={motivation} />
+            </Grid>
+          </Container>
+        </Grid>
+      </Wrapper>
+    </>
   );
 };
 

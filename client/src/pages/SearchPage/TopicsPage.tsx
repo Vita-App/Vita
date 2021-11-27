@@ -6,8 +6,10 @@ import { ReactSelect as Select } from 'components/common/Select';
 import { motivationOptions } from 'data';
 import TopicCard from 'components/TopicCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import topics, { Topic } from 'data/topics';
-import { MotivationEnumType } from 'types';
+import { shuffleTopics as topics } from 'data/topics';
+import { motivationState, tabIndexState, topicState } from 'store';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { Topic } from 'types';
 
 const LEN = 8;
 
@@ -44,35 +46,28 @@ const CardContainer = styled(Grid)({
   paddingRight: '3rem',
 });
 
-// Const getLength = () => {
-//   const row = Math.round(Math.max(1, (window.innerHeight - 100) / 400));
-//   const col = Math.round(Math.max(1, (window.innerHeight - 100) / 300));
-//   console.log(row, col);
-//   return (row + 1) * col;
-// };
-
-const filterTopics = (topics: Topic[], motivation: string) => {
-  if (motivation === 'All' || motivation === null) return topics;
+const filterTopics = (topics_: Topic[], motivation: string) => {
+  if (motivation === 'All' || motivation === null) return topics_;
   return topics.filter((topic) => topic.motivation === motivation);
 };
 
 const MentorsPage = () => {
-  const [motivation, setMotivation] = useState<unknown>();
-  const [items, setItems] = useState(topics.slice(0, LEN));
+  const [motivation, setMotivation] = useRecoilState(motivationState);
+  const setTabIndex = useSetRecoilState(tabIndexState);
+  const setTopic = useSetRecoilState(topicState);
 
-  const fetchMoreData = () => {
-    // A fake async api call like which sends
-    // 20 more records in 1.5 secs
-    // setTimeout(() => {
-    //   setItems(items.concat(Array.from({ length: 2 })));
-    // }, 1500);
-    const n = items.length;
-    setItems(topics.slice(0, 2 * n));
-  };
+  const [items, setItems] = useState(topics.slice(0, LEN));
 
   // @ts-ignore
   const motivationValue = motivation ? motivation?.value : 'All';
-  console.log(motivationValue);
+
+  const fetchMoreData = () => {
+    const n = items.length;
+    setTimeout(() => {
+      setItems(topics.slice(0, n + LEN));
+    }, 300);
+  };
+
   return (
     <>
       <GridWrapper container spacing={2}>
@@ -105,11 +100,21 @@ const MentorsPage = () => {
       <InfiniteScroll
         dataLength={Math.min(topics.length, items.length)}
         next={fetchMoreData}
-        hasMore={items.length < topics.length}
+        hasMore={
+          filterTopics(items, motivationValue).length <
+          filterTopics(topics, motivationValue).length
+        }
         loader={<h4>Loading...</h4>}>
         <CardContainer container>
-          {filterTopics(topics, motivationValue).map((item, index) => (
-            <TopicCard topic={item} key={index} />
+          {filterTopics(items, motivationValue).map((item, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setTopic(index);
+                setTabIndex('1');
+              }}>
+              <TopicCard topic={item} />
+            </div>
           ))}
         </CardContainer>
       </InfiniteScroll>

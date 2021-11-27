@@ -162,35 +162,6 @@ const socketService = (httpServer: http.Server): void => {
         ...msg,
       });
     });
-
-    socket.on('programming-language', (props) => {
-      const roomID = props.roomID;
-      socket.broadcast.to(roomID).emit('emit-programming-language', props.data);
-    });
-
-    socket.on('codeforces', (props) => {
-      const roomID = props.roomID;
-      socket.broadcast.to(roomID).emit('emit-codeforces', props.data);
-    });
-
-    socket.on('code-executed', (props) => {
-      const roomID = props.roomID;
-      socket.broadcast.to(roomID).emit('emit-code-executed', props.data);
-    });
-
-    socket.on('disconnecting', () => {
-      const { sessionId } = roomsCache.get<Person>(socket.id) || {};
-      roomsCache.del(socket.id);
-      socket.rooms.forEach((room) => {
-        if (room !== socket.id || room !== sessionId) {
-          if (sessionId) {
-            io.to(room).emit('person_disconnected', {
-              sessionId,
-            });
-          }
-        }
-      });
-    });
   });
 };
 
