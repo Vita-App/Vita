@@ -15,7 +15,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import Loader from 'components/Loader';
-import { topics as topicData } from 'data/topics';
+import { topics as topicData } from 'data';
+import { useSetRecoilState } from 'recoil';
+import { mentorState } from 'store';
 
 const Wrapper = styled('div')`
   font-family: 'Circular Std';
@@ -115,6 +117,8 @@ const UserPage = () => {
 
   if (typeof data === 'undefined') return <div />;
 
+  const setMentorData = useSetRecoilState(mentorState);
+  setMentorData(data);
   const {
     first_name,
     last_name,
@@ -125,9 +129,9 @@ const UserPage = () => {
     company,
     expertise,
     language,
-    time_slot: timeslot,
     topics: topicNums,
   } = data;
+
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
   // const job_title = 'Member of Technical Staff';
@@ -246,11 +250,7 @@ const UserPage = () => {
             </Grid>
 
             <Grid container>
-              <PaginatedBookingCard
-                motivation={motivation}
-                topics={topics}
-                timeslot={timeslot}
-              />
+              <PaginatedBookingCard motivation={motivation} topics={topics} />
             </Grid>
           </Container>
         </Grid>

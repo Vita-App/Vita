@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Grid, List, Pagination, styled } from '@mui/material';
 import BookingCard from './BookingCard';
-import { Topic_ } from 'types';
-import { topicOptions } from 'data';
+import { Topic } from 'types';
 
 interface PaginatedBookingCardProps {
   motivation: string;
+  topics: Topic[];
 }
 
 const CssPagination = styled(Pagination)({
@@ -24,18 +24,17 @@ const CssPagination = styled(Pagination)({
   },
 });
 
-const filterTopics = (topicOptions: Topic_[], motivation: string) => {
+const filterTopics = (topicOptions: Topic[], motivation: string) => {
   if (motivation === 'All') {
     return topicOptions;
   }
 
-  return topicOptions.filter(
-    (topic: Topic_) => topic.motivation === motivation,
-  );
+  return topicOptions.filter((topic: Topic) => topic.motivation === motivation);
 };
 
 const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
   motivation,
+  topics: topics_,
 }) => {
   /*
   Along with query paranmeter of the mentor
@@ -45,7 +44,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
-  const topics = filterTopics(topicOptions, motivation);
+  const topics = filterTopics(topics_, motivation);
   const count = Math.floor(
     topics.length % rowsPerPage === 0
       ? topics.length / rowsPerPage
@@ -62,7 +61,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
                 (page - 1) * rowsPerPage + rowsPerPage,
               )
             : topics
-          ).map((topic: Topic_, index) => (
+          ).map((topic: Topic, index) => (
             <BookingCard topic={topic} key={index} />
           ))}
         </List>

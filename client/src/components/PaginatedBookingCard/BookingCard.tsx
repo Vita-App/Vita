@@ -2,16 +2,17 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import { Chip, Typography, Paper, Dialog } from '@mui/material';
 import Button from 'components/common/Button';
-import { useTheme } from '@mui/material/styles';
 import DatePicker from 'components/DaterPicker';
-import { Topic_ } from 'types';
+import { Topic } from 'types';
+import { colorPalatte } from 'data';
 interface BookingCardProps {
-  topic: Topic_;
+  topic: Topic;
 }
 const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
-  const { motivation, topicName, topicDescription, topicColor } = topic;
+  const { motivation, topicName, description: topicDescription } = topic;
+  const topicColor = colorPalatte[motivation].overlay;
   const [open, setOpen] = React.useState(false);
-  const topicText = useTheme().palette.getContrastText(topicColor);
+  const topicText = '#f5f5f5';
   return (
     <>
       <Paper elevation={4}>

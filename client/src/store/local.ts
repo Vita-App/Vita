@@ -1,5 +1,5 @@
 import { atom, AtomEffect, DefaultValue } from 'recoil';
-
+import { MentorSchemaType } from 'types';
 interface Preferences {
   name?: string;
 }
@@ -76,4 +76,9 @@ export const tabIndexState = atom<string>({
 export const topicState = atom<number>({
   key: 'topicState',
   default: -1,
+});
+
+export const mentorState = atom<MentorSchemaType>({
+  key: 'mentorState',
+  default: {} as MentorSchemaType,
 });
