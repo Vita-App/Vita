@@ -13,7 +13,7 @@ import {
   displayStreamState,
   addRemoteStreamsSelector,
   RemoteStream,
-} from 'atoms';
+} from 'store';
 import { VitaPeer } from 'react-app-env';
 import toast, {
   Timeout,

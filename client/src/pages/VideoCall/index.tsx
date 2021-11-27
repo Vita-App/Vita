@@ -17,7 +17,7 @@ import toast, {
   Timeout,
 } from 'components/VideoCallComponents/toast';
 import JoinRoom from './JoinRoom';
-import { roomState, socketState, Room } from 'atoms';
+import { roomState, socketState, Room } from 'store';
 import ThemeProvider from 'utils/theme/theme-context';
 import 'react-toastify/dist/ReactToastify.css';
 import useAbort from 'utils/hooks/use-abort';

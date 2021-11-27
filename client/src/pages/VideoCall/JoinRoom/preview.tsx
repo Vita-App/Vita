@@ -5,7 +5,7 @@ import {
   currentCameraIdState,
   currentMicIdState,
   userStreamState,
-} from 'atoms';
+} from 'store';
 
 import Video from 'components/VideoCallComponents/video';
 import { mr4, placeholder, preview } from './styles';

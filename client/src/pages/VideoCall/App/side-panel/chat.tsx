@@ -16,7 +16,7 @@ import {
   vFluid,
   vScroll,
 } from './styles';
-import { messagesState } from 'atoms';
+import { messagesState } from 'store';
 import { Message, Messages } from 'components/VideoCallComponents/chat';
 
 interface ChatPanelProps {

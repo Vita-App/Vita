@@ -3,7 +3,7 @@ import './App.css';
 import Routes from 'pages/routes';
 
 import { RecoilRoot } from 'recoil';
-import { DebugObserver } from 'atoms';
+import { DebugObserver } from 'store';
 const App = () => (
   <RecoilRoot>
     <DebugObserver />

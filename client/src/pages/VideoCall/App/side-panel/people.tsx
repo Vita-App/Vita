@@ -20,7 +20,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import type { FunctionComponent } from 'react';
 import { vFluid, vScroll, message } from './styles';
-import { Connection, connectionsState } from 'atoms';
+import { Connection, connectionsState } from 'store';
 import InfoCallout from 'components/VideoCallComponents/info-callout';
 import toast, {
   dismissToast,

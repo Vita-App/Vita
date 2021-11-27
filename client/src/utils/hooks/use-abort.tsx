@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import toast, { ToastType } from 'components/VideoCallComponents/toast';
-import { removeConnectionsSelector, roomState } from 'atoms';
+import { removeConnectionsSelector, roomState } from 'store';
 import { socket } from 'service/socket';
 interface Args {
   noEmit?: boolean;

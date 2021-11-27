@@ -9,7 +9,7 @@ import {
   currentCameraIdState,
   currentMicIdState,
   remoteStreamsState,
-} from 'atoms';
+} from 'store';
 import toast, { ToastType } from 'components/VideoCallComponents/toast';
 import { VIDEO_HEIGHT, ASPECT_RATIO } from 'utils/settings';
 

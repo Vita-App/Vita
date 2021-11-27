@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { messages, fluid } from './styles';
-import { addMessageSelector, Message, preferencesState } from 'atoms';
+import { addMessageSelector, Message, preferencesState } from 'store';
 
 const Messages: FunctionComponent = ({ children }) => {
   const addMessage = useSetRecoilState(addMessageSelector);
