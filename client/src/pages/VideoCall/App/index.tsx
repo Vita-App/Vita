@@ -6,7 +6,7 @@ import SidePanel from './side-panel';
 import VideoBoxes from './video-boxes';
 import Connections from './connections';
 import Fullscreen from 'components/VideoCallComponents/full-screen';
-import { roomState } from 'atoms';
+import { roomState } from 'store';
 
 const App: FunctionComponent = () => {
   const room = useRecoilValue(roomState);

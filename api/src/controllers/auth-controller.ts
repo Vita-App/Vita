@@ -24,7 +24,6 @@ export const googleRedirectController = passport.authenticate('google', {
 });
 
 export const authController = (req: Request, res: Response) => {
-  console.dir(req);
   if (!req.user) {
     return res.status(200).json({
       isLoggedIn: false,

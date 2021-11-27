@@ -9,7 +9,7 @@ import {
 } from '@fluentui/react';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { roomState } from 'atoms';
+import { roomState } from 'store';
 
 const callout = mergeStyleSets({
   container: {

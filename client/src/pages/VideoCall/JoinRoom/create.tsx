@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@fluentui/react';
 import { submit, mb2 } from './styles';
-import { Room, preferencesState } from 'atoms';
+import { Room, preferencesState } from 'store';
 import { socket } from 'service/socket';
 
 const CreateMeeting: React.FC = () => {

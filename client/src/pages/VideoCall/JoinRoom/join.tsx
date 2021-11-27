@@ -9,7 +9,7 @@ import {
 } from '@fluentui/react';
 import type { FormEvent, FunctionComponent } from 'react';
 import { mb2, submit } from './styles';
-import { preferencesState } from 'atoms';
+import { preferencesState } from 'store';
 import { socket } from 'service/socket';
 interface JoinProps {
   defaultId?: string;

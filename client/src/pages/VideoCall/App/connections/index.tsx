@@ -7,7 +7,7 @@ import {
   Connection,
   addConnectionsSelector,
   removeConnectionsSelector,
-} from 'atoms';
+} from 'store';
 import { socket } from 'service/socket';
 
 const Connections: FunctionComponent = () => {

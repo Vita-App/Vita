@@ -14,7 +14,8 @@ import {
   currentCameraIdState,
   currentMicIdState,
   remoteStreamsState,
-} from 'atoms';
+  roomState,
+} from 'store';
 import { useDisplayMedia, useUserMedia } from 'utils/hooks/use-streams';
 import {
   LeaveButtonStyles,
@@ -46,13 +47,13 @@ const MyCommandBar: FunctionComponent<MyCommandBarProps> = ({
   const themeType = useThemeType();
   const setTheme = useSetTheme();
 
+  const room = useRecoilValue(roomState);
   const currentMicId = useRecoilValue(currentMicIdState);
   const currentCameraId = useRecoilValue(currentCameraIdState);
   const audioDevices = useRecoilValue(audioDevicesState);
   const videoDevices = useRecoilValue(videoDevicesState);
   const { displayMediaStatus, startDisplayMedia, stopDisplayMedia } =
     useDisplayMedia();
-  const [editorFocus, setEditorFocus] = useState(false);
   const { startUserMedia, stopUserMedia } = useUserMedia();
 
   const { isFullscreen } = useFullScreen();
@@ -183,25 +184,14 @@ const MyCommandBar: FunctionComponent<MyCommandBarProps> = ({
     {
       key: 'Editor',
       text: 'Editor',
-      // IconOnly: true,
-      disabled: displayMediaStatus === 'on' && isRemoteDisplay,
+      href: `https://caucus-app.herokuapp.com/room/${room!.id}`,
+      target: '_blank',
       iconProps: {
         iconName: 'Code',
-        style: editorFocus === true ? iconMuted : {},
       },
       tooltipHostProps: {
-        content:
-          displayMediaStatus === 'on'
-            ? 'Stop sharing'
-            : !isRemoteDisplay
-            ? 'Share your screen'
-            : "Someone's already sharing screen",
+        content: 'Open Collaborative Editor',
         delay: 0,
-      },
-      onClick: () => {
-        setEditorFocus(!editorFocus);
-        if (displayMediaStatus === 'on') stopDisplayMedia();
-        else startDisplayMedia();
       },
     },
     {

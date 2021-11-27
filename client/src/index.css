@@ -31,3 +31,7 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #464c4f;
 }
+
+.ms-Modal-scrollableContent {
+  overflow: hidden !important;
+}

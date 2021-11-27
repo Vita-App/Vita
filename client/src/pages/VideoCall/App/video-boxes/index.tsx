@@ -16,7 +16,7 @@ import {
   displayStreamState,
   remoteStreamsState,
   RemoteStream,
-} from 'atoms';
+} from 'store';
 import VideoBox from 'components/VideoCallComponents/video';
 
 const AR = 4 / 3;
