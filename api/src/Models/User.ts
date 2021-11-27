@@ -6,30 +6,30 @@ import {
   DurationType,
 } from '../types';
 
-const TopicsSchema = new Schema({
-  emojiIcon: String,
-  emojiBadge: String,
-  motivation: String,
-  topicName: String,
-  topicDescription: String,
-});
 const Duration = new Schema<DurationType>({
   start_hour: Number,
   end_hour: Number,
   available: Boolean,
   locale: String,
 });
+const TopicSchema = new Schema({
+  emojiIcon: { type: String, index: 'text' },
+  emojiBadge: { type: String, index: 'text' },
+  motivation: { type: String, index: 'text' },
+  topicName: { type: String, index: 'text' },
+  topicDescription: { type: String, index: 'text' },
+});
 
 const MentorSchema = new Schema<MentorSchemaType>({
-  user_id: String,
-  first_name: String,
-  image_link: String,
-  last_name: String,
-  job_title: String,
-  company: String,
-  description: [String],
-  expertise: [String],
-  language: [String],
+  user_id: { type: String },
+  first_name: { type: String },
+  last_name: { type: String },
+  image_link: { type: String },
+  job_title: { type: String },
+  company: { type: String },
+  description: { type: [String] },
+  expertise: { type: [String] },
+  language: { type: [String] },
   linkedIn: String,
   is_mentoring: Boolean,
   topics: [Number],
@@ -46,8 +46,8 @@ const MentorSchema = new Schema<MentorSchemaType>({
 
 const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
-  first_name: String,
-  last_name: String,
+  first_name: { type: String },
+  last_name: { type: String },
   email: String,
   image_link: String,
   create_time: {

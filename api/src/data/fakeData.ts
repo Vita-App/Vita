@@ -235,7 +235,7 @@ export const expertise = [
   'Marketing',
   'Product Management',
   'Software Development',
-  'Carrer Advice',
+  'Career Advice',
   'Motivation',
   'Leadership',
 ];

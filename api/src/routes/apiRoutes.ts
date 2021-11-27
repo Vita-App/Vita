@@ -1,12 +1,18 @@
 import { Router } from 'express';
-import chalk from 'chalk';
-import { nanoid } from 'nanoid';
 import {
   authController,
   logoutController,
 } from '../controllers/auth-controller';
-import { getMentor, getUser } from '../data/index';
-import { MentorModel, UserModel } from '../Models/User';
+import {
+  mentorController,
+  topicController,
+  singleMentorController,
+} from '../controllers/api-controller';
+
+import {
+  fakeDataController,
+  topicDataController,
+} from '../data/fakeData-controller';
 
 const router = Router();
 
@@ -15,24 +21,9 @@ const router = Router();
 router.get('/auth', authController);
 router.get('/logout', logoutController); // auth logout
 
-router.get('/data', async (req, res) => {
-  for (let i = 0; i < 100; i++) {
-    const id = nanoid();
-    const userData = getUser(id);
-    const mentorData = getMentor(
-      id,
-      userData.first_name,
-      userData.last_name,
-      userData.image_link,
-    );
-    const user = new UserModel(userData);
-    const mentor = new MentorModel(mentorData);
-    user.mentor_information = mentor._id;
-
-    await user.save();
-    console.log(chalk.cyan('user is Saved in the database'));
-    await mentor.save();
-    console.log(chalk.cyan('Mentor is Saved in the database'));
-  }
-});
+router.get('/get-mentors', mentorController);
+router.get('/get-topics', topicController);
+router.get('/get-mentor', singleMentorController);
+// router.get('/data', fakeDataController);
+// router.get('/topicData', topicDataController);
 export default router;
