@@ -4,7 +4,7 @@ import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 import React from 'react';
 import { commaString } from 'utils/helper';
 import { MentorSchemaType } from 'types';
-import { Link } from 'components/common/styles';
+import { Link } from 'components/common';
 
 const Wrapper = styled(Paper)`
   height: 400px;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
-import { ReactSelect as Select } from 'components/common/Select';
+import { ReactSelect as Select } from 'components/common';
 import { motivationOptions, shuffleTopics as topics } from 'data';
 import TopicCard from 'components/TopicCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -74,6 +74,7 @@ const MentorsPage = () => {
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
             <InputBase
+              disabled
               className="Search_Input"
               placeholder="Search by Topics"
               inputProps={{ 'aria-label': 'Search by Topics' }}

@@ -6,7 +6,7 @@ import PaginatedBookingCard from 'components/PaginatedBookingCard';
 import ShowMoreText from 'react-show-more-text';
 import Divider from '@mui/material/Divider';
 import { commaString } from 'utils/helper';
-import { ReactSelect as Select } from 'components/common/Select';
+import { ReactSelect as Select } from 'components/common';
 import { motivationOptions } from 'data';
 import Appbar from 'components/Appbar';
 import axios from 'axios';

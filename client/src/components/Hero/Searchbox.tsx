@@ -2,10 +2,9 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { styled, Button } from '@mui/material';
 import { expertiseOptions, motivationOptions } from 'data';
-import { ReactSelect as Select } from 'components/common/Select';
 import { motivationState, expertiseState } from 'store';
 import { useRecoilState } from 'recoil';
-import { Link } from 'components/common/styles';
+import { Link, ReactSelect as Select } from 'components/common';
 
 const StyledButton = styled(Button)`
   background-size: 200%;

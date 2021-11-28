@@ -2,8 +2,7 @@ import React from 'react';
 import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Button from 'components/common/Button';
-import { Link } from 'components/common/styles';
+import { Link, StyledButton as Button } from 'components/common';
 
 const Toolbar = () => (
   <div>

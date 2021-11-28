@@ -7,6 +7,7 @@ import {
   Button,
   InputBase,
 } from '@mui/material';
+import { ReactSelect } from 'components/common';
 import { Link } from 'react-router-dom';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
@@ -126,6 +127,17 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         <span style={{ padding: '0px 1rem' }}>{timeString}</span>
       </div>
       <Divider style={{ margin: '1rem 0rem' }} />
+      <label style={{ fontWeight: 500 }}>Select Main Topic</label>
+      <ReactSelect
+        sx={{ margin: '6px 0px' }}
+        name="Topic"
+        // defaultValue={selectedOption}
+        // onChange={setSelectedOption}
+        options={colourOptions}
+        isSearchable={true}
+        classNamePrefix="select"
+      />
+
       <label style={{ fontWeight: 500 }}>Add your email id</label>
       <TextAreaWrapper>
         <Email sx={{ color: 'darkgrey' }} />
@@ -147,7 +159,9 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           · Share your goal for session "
         />
       </div>
-      <StyledButton>Confirm your Booking</StyledButton>
+      <StyledButton disabled sx={{ cursor: 'not-allowed' }}>
+        Confirm your Booking
+      </StyledButton>
       <div style={{ marginTop: '1rem' }}>
         <Button
           onClick={() => setHour(-1)}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import { Chip, Typography, Paper, Dialog } from '@mui/material';
-import Button from 'components/common/Button';
+import { StyledButton as Button } from 'components/common';
 import DatePicker from 'components/DaterPicker';
 import { Topic } from 'types';
 import { colorPalatte } from 'data';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
-import { ReactSelect as Select } from 'components/common/Select';
+import { ReactSelect as Select } from 'components/common';
 import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -124,9 +124,12 @@ const MentorsPage = () => {
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
             <InputBase
+              disabled
               className="Search_Input"
               placeholder="Search by Company, Position"
-              inputProps={{ 'aria-label': 'Search by Company Position' }}
+              inputProps={{
+                'aria-label': 'Search by Company Position',
+              }}
             />
           </TextAreaWrapper>
         </Grid>
