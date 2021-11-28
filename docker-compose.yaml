@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  client:
+    image: Rishabh-malhotraa/vita
+    ports:
+      - 80:80
+
+  server:
+    image: Rishabh-malhotraa/vita-server
+    ports:
+      - '5000:5000'
+    environment:
+      - PORT=5000
