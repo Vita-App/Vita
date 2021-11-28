@@ -17,7 +17,7 @@ import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
 // import Select from 'react-select';
 
-export const colourOptions = [
+export const optionsData = [
   {
     value: 'General Mentorship',
     label: 'General Mentorship',
@@ -129,9 +129,18 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <Divider style={{ margin: '1rem 0rem' }} />
       <label style={{ fontWeight: 500 }}>Select Main Topic</label>
       <ReactSelect
-        sx={{ margin: '6px 0px' }}
+        sx={{
+          margin: '6px 0px',
+          '.select__control': {
+            border: '1px solid white',
+            background: 'transparent !important',
+          },
+          '.select__control:hover': {
+            border: '1px solid white !important',
+          },
+        }}
         name="Topic"
-        options={colourOptions}
+        options={optionsData}
         isSearchable={true}
         classNamePrefix="select"
       />

@@ -120,7 +120,7 @@ const MentorsPage = () => {
   return (
     <>
       <GridWrapper container spacing={2}>
-        <Grid item xs={6} sm={4} className="search_wrapper">
+        <Grid item xs={10} sm={4} className="search_wrapper">
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
             <InputBase
@@ -133,8 +133,9 @@ const MentorsPage = () => {
             />
           </TextAreaWrapper>
         </Grid>
-        <Grid item xs={6} sm={4} lg={3} className="search_wrapper">
-          <Paper sx={{ display: 'flex', minWidth: '240px' }}>
+        <Grid item xs={12} sm={4} lg={3} className="search_wrapper">
+          <Paper
+            sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
             <Select
               name="Expertise"
               sx={{ fontSize: '20px' }}
