@@ -97,7 +97,6 @@ const getMentor = async (id: string | undefined) => {
       },
     },
   );
-  console.log(response);
   return response;
 };
 
@@ -133,8 +132,6 @@ const UserPage = () => {
     language,
     topics: topicNums,
   } = data;
-
-  console.log(data.time_slot);
 
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);

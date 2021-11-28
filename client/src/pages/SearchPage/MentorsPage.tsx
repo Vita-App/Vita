@@ -82,7 +82,6 @@ const RenderCards = ({
   if (isLoading || typeof data === 'undefined') return <div />;
 
   const users = data.slice(0, 50);
-  console.log(data.slice(0, 3));
   return (
     <CardContainer container>
       {users.map((user, index) => (

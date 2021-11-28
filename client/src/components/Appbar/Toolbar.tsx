@@ -14,11 +14,13 @@ const Toolbar = () => (
         </Link>
       </Box>
       <Stack direction="row" spacing={3}>
-        <Button>Get a match</Button>
+        <Link to="/search">
+          <Button>Get a match</Button>
+        </Link>
         <Link to="/room">
           <Button>Vita Meet</Button>
         </Link>
-        <Button sx={{ color: 'palevioletred' }}>Login</Button>
+        {/* <Button sx={{ color: '' }}>Login</Button> */}
       </Stack>
     </MaterialToolbar>
   </div>

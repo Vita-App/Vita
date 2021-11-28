@@ -8,7 +8,6 @@ const Scheduler = () => {
   const [timeslot, setTimeslot] = useState<number[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [hour, setHour] = useState<number>(-1);
-  console.log(timeslot);
   return (
     <>
       {hour === -1 && (
