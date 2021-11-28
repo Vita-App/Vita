@@ -18,6 +18,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
       <Paper elevation={4}>
         <Grid
           sx={{
+            width: '100%',
             backgroundColor: '#121212 !important',
             py: 1,
             my: 1,

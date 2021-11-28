@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run install-dedependencies",
     "client": "cd client && npm run start",
     "server": "cd api && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",

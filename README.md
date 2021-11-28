@@ -6,12 +6,12 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-[![All Contributors][all-contributors-shield]](#contributors-)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f51a18d0-767d-4735-892b-171b17d70480/deploy-status)](https://app.netlify.com/sites/vitaa-app/deploys)
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://caucus-app.herokuapp.com/">
+  <a href="https://vitaa-app.netlify.app/">
     <img src="client/public/logo192.png" alt="Logo" width="256" height="256">
   </a>
 
@@ -19,16 +19,18 @@
     <h3 align="center" >Vita</h3>
   </strong>
   <p align="center">
-    SEACH SCHEDULE & MEET
+    <strong>
+      SEACH SCHEDULE & MEET
+    </strong>
     <br />
-    <a href="https://github.com/Rishabh-malhotraa/caucus/tree/main/src"><strong>Explore the project »</strong></a>
+    <a href="https://github.com/Rishabh-malhotraa/Vita"><strong>Explore the project »</strong></a>
     <br />
     <br />
-    <a href="https://caucus-app.herokuapp.com/">View Demo</a>
+    <a href="https://vitaa-app.netlify.app/">View Demo</a>
     ·
-    <a href="https://github.com/Rishabh-malhotraa/caucus/issues">Report Bug</a>
+    <a href="https://github.com/Rishabh-malhotraa/Vita/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Rishabh-malhotraa/caucus/issues">Request Feature</a>
+    <a href="https://github.com/Rishabh-malhotraa/Vita/issues">Request Feature</a>
   </p>
 </p>
 
@@ -39,6 +41,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#demonstration">Demonstration</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -57,35 +60,37 @@
   </ol>
 </details>
 
-## 📣 Latest Announcements
-
-🆕 5-10-2021: We now have a discussions form, if you want any new feature to be implemented you can [discuss here](https://github.com/Rishabh-malhotraa/caucus/discussions/50)
-
-🆕 28-09-2021: Caucus is participating in Hacktoberfest 2021 🥳
-
 ## About The Project
+
+- During the pandemic, we all were homebound; the campus culture of each college withered away. Watercooler conversation after class mentoring or Gyan sessions from seniors has become a tail of the past. So to bridge the gap of loss of engagement, I present to you, Vita.
+- A SAAS product to _connect college graduates, alumni, and faculty_ to revive the culture of mentorship and foster a more connected and **ENGAGED**(pardon the pun) community.
 
 ### Demonstration
 
-[![Product Demonstation][product-demo]](https://caucus-app.herokuapp.com/)
+Vita Case Study : [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
+
+Video Demonstation : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
+
+[![High Level Design][product-screenshotiv]](https://vitaa-app.netlify.app/)
 
 <br/>
 
-### Collaborative Code Editor
+### VITA APP
 
-[![Product Name Screen Shot][product-screenshoti]](https://caucus-app.herokuapp.com/)
+[![Product Name Screen Shot][product-screenshoti]](https://vitaa-app.netlify.app/)
 
-|                                       Login Page                                       |                                   Navigate Rooms Page                                   |
-| :------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
-| [![Product Name Screen Shot][product-screenshotii]](https://caucus-app.herokuapp.com/) | [![Product Name Screen Shot][product-screenshotiii]](https://caucus-app.herokuapp.com/) |
+|                                    Mentors Page                                     |                                     Topics Page                                      |
+| :---------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
+| [![Product Name Screen Shot][product-screenshotii]](https://vitaa-app.netlify.app/) | [![Product Name Screen Shot][product-screenshotiii]](https://vitaa-app.netlify.app/) |
 
 <br />
+
+---
 
 ### Built With
 
 - [React](https://reactjs.org/docs/getting-started.html)
-- [Material UI](https://material-ui.com/getting-started/installation/)
-- [yjs](https://yjs.dev/)
+- [NodeJS](https://material-ui.com/getting-started/installation/)
 
 Written in TypeScript ♥
 
@@ -108,7 +113,7 @@ This is an example of how to list things you need to use the software and how to
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/Rishabh-malhotraa/caucus.git
+   git clone https://github.com/Rishabh-malhotraa/Vita.git
    ```
 
 2. Install NPM packages
@@ -117,41 +122,28 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
-3. Start the react server
+3. Start the react and nodejs server concucrrently
 
    ```sh
-   npm run start
+   npm run dev
    ```
 
 ## Roadmap
 
-See the [open issues](https://github.com/Rishabh-malhotraa/caucus/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a list of proposed features (and known issues).
 
 ### Things To do
 
-- [x] Inital Login Page
-- [x] Database hookup with login from oAuth
-- [x] Chat Application
-- [x] Video Chat Application (the main chunk of work)
-- [x] Collaborative Editing (the main chunk of work)
-- [x] Resizable Panes
-- [x] Code Running (Easy need to just hookup with an api)
-- [x] Database with all the leetcode question and sorted based on tags.
-- [x] IMP: Sync code using localstorage or sockets when a new person joins in the room, with defaultvalue prop on the monaco editor instance.
-- [x] Add SSL certificate to the docker container, andd get rid of the current bootleg shenanigans D: (LetsEncrypt or Cloudflare)
-- [x] Add codeforce problem using webscraping thingy
-- [x] Add Vim Keybinds
-- [x] Add intellisense using Language Server Protocal for atleast C++ and JAVA
-- [x] Make a public api to fetch questions, based on scraped data
-- [ ] Add a full-screen Zen Mode
-- [ ] Change Hosting from Heroku to GCP or Digital Ocean
-- [ ] Change Heroku PSQL DB to either ~~MongoDB or Firebase~~ SQLITE.
-- [ ] Add Autoformating keybind.
-- [ ] ~~Fix the number of users in the room.~~
-- [ ] ~~REACH: Add video call functionality (using WEBRTC or something propieteary like Twilo proprietary)~~
-- [ ] ~~Add ability to add different tabs on the editor instance just like that on VSCODE~~
-- [ ] ~~Integrate the random quote thingy on loading screen from forticodes API~~
-- [ ] ~~Fix why the loader gets frozen on intial render -\_-~~
+- [x] Inital Landing Page
+- [x] Linking MongoDB Database with the backend
+- [x] Sprinkling global state with Recoil-JS 💗 (highly recommend it as compared to redux if there are no complex state transactions happening)
+- [x] Vita Meet
+- [x] Linking Vita Meet with caucus
+- [x] Infinite Scrolling on Search for Topics
+- [x] Deploy on Netlify and Heroku
+- [x] Design Doc
+- [ ] Add github workflows
+- [ ] Write Unit Test
 
 ## Contributing
 
@@ -177,46 +169,43 @@ Rishabh malhotraa - [@rish_bishhh](https://twitter.com/rish_bishhh) - rishabhmal
 
 Discord : rishabh.malhotra#4193
 
-Project Link: [https://caucus-app.herokuapp.com/](https://caucus-app.herokuapp.com/)
-
----
-
-## Stargazers over time
-
-[![Stargazers over time](https://starchart.cc/rishabh-malhotraa/caucus.svg)](https://starchart.cc/rishabh-malhotraa/caucus)
+Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 
 ---
 
 ## Acknowledgements
 
+- [react-query](https://react-query.tanstack.com/)
+- [mui](https://mui.com/)
+- [emotion](https://emotion.sh/)
+- [sokcet-io](https://www.heroku.com/)
+- [simple-peer](https://www.npmjs.com/package/simple-peer)
 - [Heroku](https://www.heroku.com/)
-- [Azure](https://azure.microsoft.com/en-us/)
-- [notistack](https://www.npmjs.com/package/notistack/)
+- [Netlify](https://www.netlify.com/)
 - [axios](https://www.npmjs.com/package/axios)
-- [dog-names](https://www.npmjs.com/package/dog-names)
 - [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 - [MIT License](https://opensource.org/licenses/MIT)
-- [SVG Backgrounds](https://www.svgbackgrounds.com/)
 
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [all-contributors-shield]: https://img.shields.io/badge/all_contributors-8-orange.svg?style=for-the-badge
-[contributors-shield]: https://img.shields.io/github/contributors/Rishabh-malhotraa/caucus.svg?style=for-the-badge
-[contributors-url]: https://github.com/Rishabh-malhotraa/caucus/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Rishabh-malhotraa/caucus.svg?style=for-the-badge
-[forks-url]: https://github.com/Rishabh-malhotraa/caucus/network/members
-[stars-shield]: https://img.shields.io/github/stars/Rishabh-malhotraa/caucus.svg?style=for-the-badge
-[stars-url]: https://github.com/Rishabh-malhotraa/caucus/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Rishabh-malhotraa/caucus.svg?style=for-the-badge
-[issues-url]: https://github.com/Rishabh-malhotraa/caucus/issues
-[license-shield]: https://img.shields.io/github/license/Rishabh-malhotraa/caucus.svg?style=for-the-badge
-[license-url]: https://github.com/Rishabh-malhotraa/caucus/blob/main/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/Rishabh-malhotraa/Vita.svg?style=for-the-badge
+[contributors-url]: https://github.com/Rishabh-malhotraa/Vita/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Rishabh-malhotraa/Vita.svg?style=for-the-badge
+[forks-url]: https://github.com/Rishabh-malhotraa/Vita/network/members
+[stars-shield]: https://img.shields.io/github/stars/Rishabh-malhotraa/Vita.svg?style=for-the-badge
+[stars-url]: https://github.com/Rishabh-malhotraa/Vita/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Rishabh-malhotraa/Vita.svg?style=for-the-badge
+[issues-url]: https://github.com/Rishabh-malhotraa/Vita/issues
+[license-shield]: https://img.shields.io/github/license/Rishabh-malhotraa/Vita.svg?style=for-the-badge
+[license-url]: https://github.com/Rishabh-malhotraa/Vita/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/rishabh-malhotra-4536a418b
-[product-demo]: images/caucus-demonstation.gif
-[product-screenshoti]: images/code-editor.png
-[product-screenshotii]: images/login-page.png
-[product-screenshotiii]: images/navigation-page.png
+[product-demo]: images/Vita-demonstation.gif
+[product-screenshoti]: assets/user-page.png
+[product-screenshotii]: assets/mentors.png
+[product-screenshotiii]: assets/topics.png
+[product-screenshotiv]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
