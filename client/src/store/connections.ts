@@ -3,15 +3,11 @@ import { Socket, io } from 'socket.io-client';
 import { SERVER_URL } from 'config.keys';
 
 export const createSocket = (): Socket => {
-  // const port = process.env.REACT_APP_SOCKET_PORT;
-  // const { origin } = window.location;
-  // const url =
-  //   process.env.REACT_APP_SOCKET_URL || `${origin}${port ? `:${port}` : ''}`;
   const socket = io(SERVER_URL);
 
   // socket.onAny((event, ...args) => {
-  //     console.log(`got ${event} with args:`, ...args)
-  // })
+  //   console.log(`got ${event} with args:`, ...args);
+  // });
 
   return socket;
 };

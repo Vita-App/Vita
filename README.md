@@ -71,17 +71,17 @@ Vita Case Study : [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-St
 
 Video Demonstation : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
 
-[![High Level Design][product-screenshotiv]](https://vitaa-app.netlify.app/)
+![vita-hld]
 
 <br/>
 
 ### VITA APP
 
-[![Product Name Screen Shot][product-screenshoti]](https://vitaa-app.netlify.app/)
+![product-screenshoti]
 
-|                                    Mentors Page                                     |                                     Topics Page                                      |
-| :---------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
-| [![Product Name Screen Shot][product-screenshotii]](https://vitaa-app.netlify.app/) | [![Product Name Screen Shot][product-screenshotiii]](https://vitaa-app.netlify.app/) |
+|      Mentors Page       |       Topics Page        |        Scheduler        |
+| :---------------------: | :----------------------: | :---------------------: |
+| ![product-screenshotii] | ![product-screenshotiii] | ![product-screenshotiv] |
 
 <br />
 
@@ -205,7 +205,9 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [product-screenshoti]: assets/user-page.png
 [product-screenshotii]: assets/mentors.png
 [product-screenshotiii]: assets/topics.png
-[product-screenshotiv]: assets/vita-hld.png
+[product-screenshotiv]: assets/scheduler.png
+[product-screenshotv]: assets/confirm-booking.png
+[vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
