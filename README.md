@@ -65,11 +65,17 @@
 - During the pandemic, we all were homebound; the campus culture of each college withered away. Watercooler conversation after class mentoring or Gyan sessions from seniors has become a tail of the past. So to bridge the gap of loss of engagement, I present to you, Vita.
 - A SAAS product to _connect college graduates, alumni, and faculty_ to revive the culture of mentorship and foster a more connected and **ENGAGED**(pardon the pun) community.
 
-### Demonstration
+---
+
+## Design Doc and Video Demonstration
 
 Vita Case Study : [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
 
-Video Demonstation : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
+Video Demonstration : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
+
+---
+
+### Demonstration
 
 ![vita-hld]
 
@@ -122,10 +128,18 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
-3. Start the react and nodejs server concucrrently
+   ```sh
+   cd ./client && npm install
+   ```
 
    ```sh
-   npm run dev
+   cd ../api & npi install
+   ```
+
+3. Start the react and nodejs server concucrrently, _run this command at root directory of the project_
+
+   ```sh
+      cd .. && npm run dev
    ```
 
 ## Roadmap

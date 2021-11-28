@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run install-dedependencies",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
     "client": "cd client && npm run start",
     "server": "cd api && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "pre-commit": "cd api && npm run pre-commit && cd ../client && npm run pre-commit",
-    "install-dependencies": "npm install && cd api && npm install && cd ../client && npm install",
     "build": "cd api && npm run dev && cd ../client && npm run build",
     "start:production": "cd api && npm run start:production && cd ../client && npm run start:production"
   },
