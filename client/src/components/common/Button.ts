@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)({
   background: 'rgb(59,57,57,0.4)',
   textTransform: 'none',
   color: '#f5f5f5',
@@ -12,6 +12,6 @@ const StyledButton = styled(Button)(({ theme }) => ({
     opacity: 1,
     backgroundColor: '#424040',
   },
-}));
+});
 
 export default StyledButton;

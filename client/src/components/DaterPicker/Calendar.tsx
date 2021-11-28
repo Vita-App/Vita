@@ -8,7 +8,7 @@ import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { mentorState } from 'store';
 import { useRecoilValue } from 'recoil';
-import { DayEnumType, DurationType } from 'types';
+import { DayEnumType } from 'types';
 import { range } from 'utils/helper';
 
 const Wrapper = styled('div')`

@@ -32,7 +32,6 @@ const addZero = (time: number) => {
 
 const TimeSelector: React.FC<TimeSelectorProps> = ({
   date,
-  hour,
   setHour,
   timeslot,
 }) => {
@@ -65,62 +64,3 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
 };
 
 export default TimeSelector;
-
-const data = [
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-  {
-    key: new Date().getTime().toLocaleString(),
-    value: new Date().toTimeString().split(' ')[0],
-  },
-];

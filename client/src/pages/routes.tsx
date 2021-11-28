@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from 'pages/Landing';
-import Prototype from './prototype';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
 import Loader from 'components/Loader';

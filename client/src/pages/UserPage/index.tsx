@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled, Grid, Avatar, IconButton, Typography } from '@mui/material';
 import { Favorite, LinkedIn } from '@mui/icons-material';
 import { lightGreen } from '@mui/material/colors';

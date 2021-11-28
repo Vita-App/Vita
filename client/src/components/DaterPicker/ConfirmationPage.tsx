@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Typography,
   Divider,
   styled,
   TextareaAutosize,
   Button,
+  InputBase,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import Email from '@mui/icons-material/Email';
-import Select from 'react-select';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
-import { InputBase, Paper } from '@mui/material';
+// import Select from 'react-select';
 
 export const colourOptions = [
   {
@@ -41,11 +41,6 @@ export const colourOptions = [
     value: 'Managing Burnout',
     label: 'Managing Burnout',
   },
-  // { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-  // { value: 'green', label: 'Green', color: '#36B37E' },
-  // { value: 'forest', label: 'Forest', color: '#00875A' },
-  // { value: 'slate', label: 'Slate', color: '#253858' },
-  // { value: 'silver', label: 'Silver', color: '#666666' },
 ];
 
 const TextAreaWrapper = styled('div')({
