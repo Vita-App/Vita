@@ -19,7 +19,7 @@ export interface Topic {
   emojiBadge: string;
 }
 
-type DayEnumType =
+export type DayEnumType =
   | 'monday'
   | 'tuesday'
   | 'wednesday'
@@ -28,7 +28,7 @@ type DayEnumType =
   | 'saturday'
   | 'sunday';
 
-interface DurationType {
+export interface DurationType {
   start_hour: number;
   end_hour: number;
   available: boolean;

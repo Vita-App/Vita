@@ -6,6 +6,10 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
+import { mentorState } from 'store';
+import { useRecoilValue } from 'recoil';
+import { DayEnumType, DurationType } from 'types';
+import { range } from 'utils/helper';
 
 const Wrapper = styled('div')`
   color: white;
@@ -22,25 +26,48 @@ const Wrapper = styled('div')`
   }
 `;
 
+const dayOfWeek: DayEnumType[] = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+];
+
 interface CalendarProps {
   date: Date | null;
   setDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  setTimeslot: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ date, setDate }) => {
-  const currDate = new Date();
-  const minDate = new Date(currDate.getFullYear(), currDate.getMonth(), 1);
-  const maxDate = new Date(currDate.getFullYear(), currDate.getMonth() + 2, 0);
-  const [highlightedDays] = React.useState([1, 2, 3, 4, 5]);
+const checkValidDate = (todaysDate: Date, date: Date) => {
+  if (todaysDate.getMonth() < date.getMonth()) return true;
+
+  if (todaysDate.getDate() > date.getDate()) return false;
+  return true;
+};
+
+const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
+  const todaysDate = new Date();
+  const minDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1);
+  const maxDate = new Date(
+    todaysDate.getFullYear(),
+    todaysDate.getMonth() + 2,
+    0,
+  );
+  const { time_slot } = useRecoilValue(mentorState);
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
     font-weight: 800;
     font-size: 16px;
-    color: ${(props) => (props.validDay ? '#cdc8ff' : 'white')};
-    opacity: ${(props) => (props.validDay ? 1 : 0.3)};
-    background: ${(props) => (props.validDay ? '' : 'transparent')};
-    border: ${(props) => (props.validDay ? '2px solid #7e74e7b0' : '')};
+    color: ${(props) => (props.validday === 'true' ? '#cdc8ff' : 'white')};
+    opacity: ${(props) => (props.validday === 'true' ? 1 : 0.3)};
+    background: ${(props) => (props.validday === 'true' ? '' : 'transparent')};
+    border: ${(props) =>
+      props.validday === 'true' ? '2px solid #7e74e7b0' : ''};
   `;
 
   return (
@@ -52,15 +79,22 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate }) => {
             minDate={minDate}
             maxDate={maxDate}
             onChange={(e) => {
-              console.log(e);
-              console.log(typeof e);
+              // if (typeof e === 'undefined') return;
+              const dayName: DayEnumType = dayOfWeek[e.getDay()];
+              const { start_hour, end_hour } = time_slot[dayName];
               setDate(e);
+              setTimeslot(range(start_hour, end_hour, 1));
             }}
             renderLoading={() => <CalendarPickerSkeleton />}
             renderDay={(day, _value, DayComponentProps) => {
+              const dayName: DayEnumType = dayOfWeek[day.getDay()];
+
+              const { available } = time_slot[dayName];
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
-                highlightedDays.indexOf(day.getDate()) >= 0;
+                available &&
+                checkValidDate(todaysDate, day);
+
               DayComponentProps = {
                 ...DayComponentProps,
                 disabled: !isSelected,
@@ -69,7 +103,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate }) => {
               return (
                 <StyledPickersDay
                   {...DayComponentProps}
-                  validDay={isSelected}
+                  validday={isSelected.toString()}
                 />
               );
             }}

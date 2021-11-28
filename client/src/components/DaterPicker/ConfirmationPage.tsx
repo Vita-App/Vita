@@ -9,8 +9,12 @@ import {
 import { Link } from 'react-router-dom';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
+import Email from '@mui/icons-material/Email';
 import Select from 'react-select';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useRecoilValue } from 'recoil';
+import { mentorState } from 'store';
+import { InputBase, Paper } from '@mui/material';
 
 export const colourOptions = [
   {
@@ -44,28 +48,23 @@ export const colourOptions = [
   // { value: 'silver', label: 'Silver', color: '#666666' },
 ];
 
-const StyledSelect = styled(Select)`
-  margin: 1rem 0rem;
-  .select__single-value {
-    color: #f5f5f5;
-  }
-  .select__control {
-    cursor: pointer;
-    background-color: #303030;
-  }
-  .select__menu {
-    /* cursor: pointer; */
-    background-color: #272626;
-  }
-  .select__option--is-focused {
-    /* cursor: pointer; */
-    background-color: #424040;
-  }
-  .select__option--is-focused:hover {
-    /* cursor: pointer; */
-    background-color: #424040;
-  }
-`;
+const TextAreaWrapper = styled('div')({
+  padding: '2px 4px',
+  display: 'flex',
+  alignItems: 'center',
+  border: '1px solid white',
+  borderRadius: '4px',
+  marginTop: '6px',
+
+  '&:focus-within': {
+    border: '1px solid #2684ff',
+  },
+
+  '.Search_Input': {
+    padding: '0px 6px',
+    width: '100%',
+  },
+});
 
 const TextArea = styled(TextareaAutosize)`
   width: 320px;
@@ -77,7 +76,7 @@ const TextArea = styled(TextareaAutosize)`
   resize: none;
   border-radius: 4px;
   :focus {
-    border: 1px dotted #2684ff;
+    border: 1px solid #2684ff;
   }
 `;
 
@@ -93,15 +92,27 @@ const StyledButton = styled(Button)`
   transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68);
 `;
 interface ConfirmationProps {
-  time: Date | null;
-  setTime: React.Dispatch<React.SetStateAction<Date | null>>;
+  date: Date | null;
+  hour: number;
+  setHour: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Confirmation: React.FC<ConfirmationProps> = ({ setTime }) => {
-  const [selectedOption, setSelectedOption] = useState<unknown>(null);
-  const mentorName = 'Rishabh Malhotra';
-  const dayString = 'Sat, Dec 04';
-  const timeString = '12:00am - 1:30pm';
+const Confirmation: React.FC<ConfirmationProps> = ({
+  date: date_,
+  setHour,
+  hour,
+}) => {
+  const { first_name, last_name } = useRecoilValue(mentorState);
+  const date = date_ ? date_ : new Date();
+
+  // const [selectedOption, setSelectedOption] = useState<unknown>(null);
+  const mentorName = `${first_name} ${last_name}`;
+  const dayString = date.toLocaleString('default', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+  const timeString = `${hour}:00 - ${hour + 1}:00`;
   return (
     <div>
       <Typography variant="h5" sx={{ fontWeight: 800, p: '8px 0px' }}>
@@ -120,18 +131,17 @@ const Confirmation: React.FC<ConfirmationProps> = ({ setTime }) => {
         <span style={{ padding: '0px 1rem' }}>{timeString}</span>
       </div>
       <Divider style={{ margin: '1rem 0rem' }} />
-      <label style={{ fontWeight: 500 }}>Select Main Topic</label>
-      <StyledSelect
-        name="Topic"
-        defaultValue={selectedOption}
-        onChange={setSelectedOption}
-        options={colourOptions}
-        isSearchable={true}
-        classNamePrefix="select"
-      />
-      <label style={{ fontWeight: 500, margin: '1rem 0rem' }}>
-        Add your question to this booking
-      </label>
+      <label style={{ fontWeight: 500 }}>Add your email id</label>
+      <TextAreaWrapper>
+        <Email sx={{ color: 'darkgrey' }} />
+        <InputBase
+          className="Search_Input"
+          placeholder="Get invite link in you mail"
+          inputProps={{
+            'aria-label': 'Enter Email address to recieve invite link',
+          }}
+        />
+      </TextAreaWrapper>
       <div style={{ padding: '1rem 0rem' }}>
         <TextArea
           aria-label="minimum height"
@@ -145,7 +155,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ setTime }) => {
       <StyledButton>Confirm your Booking</StyledButton>
       <div style={{ marginTop: '1rem' }}>
         <Button
-          onClick={() => setTime(null)}
+          onClick={() => setHour(-1)}
           startIcon={<KeyboardBackspaceIcon />}
           sx={{
             margin: 'auto',

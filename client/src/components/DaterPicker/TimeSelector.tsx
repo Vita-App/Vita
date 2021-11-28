@@ -3,8 +3,9 @@ import { styled, Grid, Button } from '@mui/material';
 // Import Button from 'components/common/Button';
 interface TimeSelectorProps {
   date: Date | null;
-  time: Date | null;
-  setTime: React.Dispatch<React.SetStateAction<Date | null>>;
+  hour: number;
+  timeslot: number[];
+  setHour: React.Dispatch<React.SetStateAction<number>>;
 }
 const getDate = (_date: Date | null) => {
   const date = _date ? _date : new Date();
@@ -24,8 +25,18 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const TimeSelector: React.FC<TimeSelectorProps> = ({ date, time, setTime }) => {
-  const x = 1;
+const addZero = (time: number) => {
+  if (time > 9) return '';
+  return '0';
+};
+
+const TimeSelector: React.FC<TimeSelectorProps> = ({
+  date,
+  hour,
+  setHour,
+  timeslot,
+}) => {
+  if (timeslot.length === 0) return <div />;
 
   return (
     <Grid
@@ -41,12 +52,12 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ date, time, setTime }) => {
       <div style={{ fontWeight: 600, marginBottom: '8px' }}>
         {getDate(date)}
       </div>
-      {data.map((el, index) => (
+      {timeslot.map((time, index) => (
         <StyledButton
           variant="outlined"
           key={index}
-          onClick={() => setTime(new Date())}>
-          {`${index + 1}:00 PM`}
+          onClick={() => setHour(time)}>
+          {`${addZero(time)}${time}:00 `}
         </StyledButton>
       ))}
     </Grid>

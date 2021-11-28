@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, List, Pagination, styled } from '@mui/material';
 import BookingCard from './BookingCard';
 import { Topic } from 'types';
@@ -6,6 +6,8 @@ import { Topic } from 'types';
 interface PaginatedBookingCardProps {
   motivation: string;
   topics: Topic[];
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CssPagination = styled(Pagination)({
@@ -35,13 +37,13 @@ const filterTopics = (topicOptions: Topic[], motivation: string) => {
 const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
   motivation,
   topics: topics_,
+  page,
+  setPage,
 }) => {
   /*
   Along with query paranmeter of the mentor
   axios.get('/api/motivation', )
   */
-  console.log(motivation);
-  const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
   const topics = filterTopics(topics_, motivation);

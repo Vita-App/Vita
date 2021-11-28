@@ -3,7 +3,7 @@ import './App.css';
 import Routes from 'pages/routes';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-
+import { PRODUCTION } from 'config.keys';
 import { RecoilRoot } from 'recoil';
 import { DebugObserver } from 'store';
 const App = () => {
@@ -17,10 +17,14 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <DebugObserver />
+        {!PRODUCTION && (
+          <>
+            <DebugObserver />
+            <ReactQueryDevtools initialIsOpen />
+          </>
+        )}
         <Routes />
       </RecoilRoot>
-      <ReactQueryDevtools initialIsOpen />
     </QueryClientProvider>
   );
 };

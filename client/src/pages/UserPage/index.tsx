@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, Grid, Avatar, IconButton, Typography } from '@mui/material';
 import { Favorite, LinkedIn } from '@mui/icons-material';
 import { lightGreen } from '@mui/material/colors';
@@ -16,7 +16,7 @@ import { useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import Loader from 'components/Loader';
 import { topics as topicData } from 'data';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { mentorState } from 'store';
 
 const Wrapper = styled('div')`
@@ -112,13 +112,15 @@ const UserPage = () => {
   const { id } = useParams();
   if (typeof id === 'undefined') return <div />;
   const { isLoading, data } = useQuery(['mentor', id], () => getMentor(id));
+  const [mentorData, setMentorData] = useRecoilState(mentorState);
+  const [page, setPage] = useState(1);
 
   if (isLoading) return <Loader />;
 
   if (typeof data === 'undefined') return <div />;
 
-  const setMentorData = useSetRecoilState(mentorState);
-  setMentorData(data);
+  if (!isLoading && mentorData !== data) setMentorData(data);
+
   const {
     first_name,
     last_name,
@@ -131,6 +133,8 @@ const UserPage = () => {
     language,
     topics: topicNums,
   } = data;
+
+  console.log(data.time_slot);
 
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
@@ -157,7 +161,13 @@ const UserPage = () => {
           <Container item>
             <PhotoWrapper>
               <Photo>
-                <Avatar src={image_link} sx={{ bgcolor: lightGreen[500] }}>
+                <Avatar
+                  src={image_link}
+                  sx={{
+                    bgcolor: lightGreen[500],
+                    padding: '0px !important',
+                    border: '5px solid #3E3E42',
+                  }}>
                   N
                 </Avatar>
               </Photo>
@@ -241,7 +251,10 @@ const UserPage = () => {
                   name="Topic"
                   options={motivationOptions}
                   // @ts-ignore
-                  onChange={({ value }) => setMotivation(value)} // Value - label
+                  onChange={({ value }) => {
+                    setMotivation(value);
+                    setPage(1);
+                  }} // Value - label
                   isSearchable={true}
                   classNamePrefix="select"
                   placeholder={<span>Filter by Motivation</span>}
@@ -250,7 +263,12 @@ const UserPage = () => {
             </Grid>
 
             <Grid container>
-              <PaginatedBookingCard motivation={motivation} topics={topics} />
+              <PaginatedBookingCard
+                motivation={motivation}
+                topics={topics}
+                page={page}
+                setPage={setPage}
+              />
             </Grid>
           </Container>
         </Grid>

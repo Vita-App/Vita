@@ -30,13 +30,14 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
           <Grid item xs={12} sm={2} sx={{ px: 2 }}>
             <Chip
               style={{
+                width: '100%',
                 fontWeight: 700,
                 color: topicText,
                 backgroundColor: topicColor,
               }}
               // Size="medium"
               label={motivation}
-              variant="outlined"
+              // variant="outlined"
             />
           </Grid>
           <Grid
