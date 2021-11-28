@@ -4,7 +4,6 @@ import http from 'http';
 import { port } from './config/keys';
 import useMiddleWare from './middleware/index';
 import apiRoutes from './routes/apiRoutes';
-import authRoutes from './routes/authRoutes';
 import connectDB from './config/connectDatabase';
 import './Models/User';
 import socketioService from './service/socket-io-service';
@@ -21,7 +20,6 @@ useMiddleWare(app);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 socketioService(httpServer);
 
