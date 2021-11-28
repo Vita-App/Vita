@@ -131,8 +131,6 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <ReactSelect
         sx={{ margin: '6px 0px' }}
         name="Topic"
-        // defaultValue={selectedOption}
-        // onChange={setSelectedOption}
         options={colourOptions}
         isSearchable={true}
         classNamePrefix="select"
