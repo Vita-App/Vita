@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install-client": "cd client && npm install",
-    "install-server": "cd server && npm install",
+    "install-server": "cd api && npm install",
     "client": "cd client && npm run start",
     "server": "cd api && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
@@ -25,8 +25,7 @@
   },
   "homepage": "https://github.com/Rishabh-malhotraa/Vita#readme",
   "devDependencies": {
-    "concurrently": "^6.4.0",
-    "husky": "^7.0.4"
+    "concurrently": "^6.4.0"
   },
   "husky": {
     "hooks": {

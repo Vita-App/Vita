@@ -129,17 +129,17 @@ This is an example of how to list things you need to use the software and how to
    ```
 
    ```sh
-   cd ./client && npm install
+   npm run install-server
    ```
 
    ```sh
-   cd ../api & npi install
+    npm run install-client
    ```
 
-3. Start the react and nodejs server concucrrently, _run this command at root directory of the project_
+3. Start the react and nodejs server concucrrently
 
    ```sh
-      cd .. && npm run dev
+      npm run dev
    ```
 
 ## Roadmap
@@ -156,7 +156,7 @@ See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a li
 - [x] Infinite Scrolling on Search for Topics
 - [x] Deploy on Netlify and Heroku
 - [x] Design Doc
-- [ ] Add github workflows
+- [x] Add github workflows
 - [ ] Write Unit Test
 
 ## Contributing
