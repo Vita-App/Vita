@@ -15,7 +15,6 @@ import Email from '@mui/icons-material/Email';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
-// import Select from 'react-select';
 
 export const optionsData = [
   {
