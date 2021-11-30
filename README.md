@@ -6,7 +6,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f51a18d0-767d-4735-892b-171b17d70480/deploy-status)](https://app.netlify.com/sites/vitaa-app/deploys)
+[![Build Test][actions-badge]][actions-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -85,9 +85,13 @@ Video Demonstration : [Video Link](https://drive.google.com/drive/u/0/folders/1u
 
 ![product-screenshoti]
 
-|      Mentors Page       |       Topics Page        |        Scheduler        |
-| :---------------------: | :----------------------: | :---------------------: |
-| ![product-screenshotii] | ![product-screenshotiii] | ![product-screenshotiv] |
+|      Mentors Page       |       Topics Page        |
+| :---------------------: | :----------------------: |
+| ![product-screenshotii] | ![product-screenshotiii] |
+
+|      Submit Form       |   Scheduler Component   |
+| :--------------------: | :---------------------: |
+| ![product-screenshotv] | ![product-screenshotiv] |
 
 <br />
 
@@ -150,7 +154,7 @@ See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a li
 
 - [x] Inital Landing Page
 - [x] Linking MongoDB Database with the backend
-- [x] Sprinkling global state with Recoil-JS 💗 (highly recommend it as compared to redux if there are no complex state transactions happening)
+- [x] Sprinkling global state with Recoil (highly recommend it as compared to redux if there are no complex state transactions happening)
 - [x] Vita Meet
 - [x] Linking Vita Meet with caucus
 - [x] Infinite Scrolling on Search for Topics
@@ -213,6 +217,8 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [issues-url]: https://github.com/Rishabh-malhotraa/Vita/issues
 [license-shield]: https://img.shields.io/github/license/Rishabh-malhotraa/Vita.svg?style=for-the-badge
 [license-url]: https://github.com/Rishabh-malhotraa/Vita/blob/main/LICENSE.txt
+[actions-url]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml
+[actions-badge]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml/badge.svg?branch=main
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/rishabh-malhotra-4536a418b
 [product-demo]: images/Vita-demonstation.gif

@@ -1,4 +1,4 @@
-name: Node Continuous Integration
+name: Build Test
 
 on:
   push:
