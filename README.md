@@ -133,13 +133,13 @@ This is an example of how to list things you need to use the software and how to
    ```
 
    ```sh
-    npm run install-client
+   npm run install-client
    ```
 
 3. Start the react and nodejs server concucrrently
 
    ```sh
-      npm run dev
+   npm run dev
    ```
 
 ## Roadmap
@@ -228,6 +228,10 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/Rishabh-malhotraa/Vita.svg)](https://starchart.cc/Rishabh-malhotraa/Vita)
 
 ## Contributors ✨
 
