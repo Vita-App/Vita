@@ -1,16 +1,18 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Landing from 'pages/Landing';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
 import Loader from 'components/Loader';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
+import usePageTracking from 'utils/hooks/use-page-tracking';
 
 const VideoCall = lazy(() => import('pages/VideoCall'));
 
-const App = () => (
-  <Router>
+const App = () => {
+  usePageTracking();
+  return (
     <Suspense fallback={<Loader />}>
       <ThemeProvider theme={getTheme('dark')}>
         <Routes>
@@ -24,7 +26,7 @@ const App = () => (
         <Route path="/room/:id" element={<VideoCall />} />
       </Routes>
     </Suspense>
-  </Router>
-);
+  );
+};
 
 export default App;

@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { PRODUCTION } from 'config.keys';
 import { RecoilRoot } from 'recoil';
 import { DebugObserver } from 'store';
+import { BrowserRouter as Router } from 'react-router-dom';
+
 const App = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,16 +16,19 @@ const App = () => {
       },
     },
   });
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        {!PRODUCTION && (
-          <>
-            <DebugObserver />
-            <ReactQueryDevtools initialIsOpen />
-          </>
-        )}
-        <Routes />
+        <Router>
+          {!PRODUCTION && (
+            <>
+              <DebugObserver />
+              <ReactQueryDevtools initialIsOpen />
+            </>
+          )}
+          <Routes />
+        </Router>
       </RecoilRoot>
     </QueryClientProvider>
   );
