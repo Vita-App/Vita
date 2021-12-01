@@ -13,6 +13,8 @@ import { MentorSchemaType } from 'types';
 import { useQuery } from 'react-query';
 import { shuffleArray } from 'utils/helper';
 import Loader from 'react-loader-spinner';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -53,7 +55,6 @@ const CardContainer = styled(Grid)({
   gridTemplateColumns: 'repeat(auto-fill, 300px)',
   justifyContent: 'space-between',
   marginTop: '3rem',
-  paddingRight: '3rem',
 });
 
 const getMentors = async (expertise: string, topic: number) => {
@@ -100,6 +101,8 @@ const MentorsPage = () => {
   // @ts-ignore
   const expertiseValue = expertise?.value;
   const topic = useRecoilValue(topicState);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
 
   const { isLoading, data } = useQuery(['mentors', expertiseValue, topic], () =>
     getMentors(expertiseValue, topic),
@@ -137,12 +140,13 @@ const MentorsPage = () => {
           <Paper
             sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
             <Select
+              menuPlacement="auto"
               name="Expertise"
               sx={{ fontSize: '20px' }}
               options={expertiseOptions}
               value={expertise}
               onChange={setExpertise}
-              isSearchable={true}
+              isSearchable={matches}
               classNamePrefix="select"
               placeholder={<span>Filter by Expertise</span>}
             />

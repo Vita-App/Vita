@@ -9,6 +9,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { motivationState, tabIndexState, topicState } from 'store';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Topic } from 'types';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const LEN = 8;
 
@@ -42,7 +44,6 @@ const CardContainer = styled(Grid)({
   gridTemplateColumns: 'repeat(auto-fill, 320px)',
   justifyContent: 'space-between',
   marginTop: '3rem',
-  paddingRight: '3rem',
 });
 
 const filterTopics = (topics_: Topic[], motivation: string) => {
@@ -54,8 +55,10 @@ const MentorsPage = () => {
   const [motivation, setMotivation] = useRecoilState(motivationState);
   const setTabIndex = useSetRecoilState(tabIndexState);
   const setTopic = useSetRecoilState(topicState);
-
   const [items, setItems] = useState(topics.slice(0, LEN));
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
 
   // @ts-ignore
   const motivationValue = motivation ? motivation?.value : 'All';
@@ -85,13 +88,13 @@ const MentorsPage = () => {
           <Paper
             sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
             <Select
-              // MenuPlacement="top"
+              menuPlacement="auto"
               name="Motivation"
               sx={{ fontSize: '20px' }}
               options={motivationOptions}
               value={motivation}
               onChange={setMotivation}
-              isSearchable={true}
+              isSearchable={matches}
               classNamePrefix="select"
               placeholder={<span>Filter by Motivation</span>}
             />

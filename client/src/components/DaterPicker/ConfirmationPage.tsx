@@ -15,6 +15,8 @@ import Email from '@mui/icons-material/Email';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export const optionsData = [
   {
@@ -99,6 +101,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
 }) => {
   const { first_name, last_name } = useRecoilValue(mentorState);
   const date = date_ ? date_ : new Date();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
 
   // const [selectedOption, setSelectedOption] = useState<unknown>(null);
   const mentorName = `${first_name} ${last_name}`;
@@ -128,6 +132,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <Divider style={{ margin: '1rem 0rem' }} />
       <label style={{ fontWeight: 500 }}>Select Main Topic</label>
       <ReactSelect
+        menuPlacement="auto"
         sx={{
           margin: '6px 0px',
           '.select__control': {
@@ -140,7 +145,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         }}
         name="Topic"
         options={optionsData}
-        isSearchable={true}
+        isSearchable={matches}
         classNamePrefix="select"
       />
 

@@ -110,7 +110,7 @@ Follow the instructions to set up the project on your local machine.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Install [NodeJS LTS](https://nodejs.org/en/)
 
 - npm
 
@@ -133,11 +133,7 @@ This is an example of how to list things you need to use the software and how to
    ```
 
    ```sh
-   npm run install-server
-   ```
-
-   ```sh
-   npm run install-client
+   npm run install-modules
    ```
 
 3. Start the react and nodejs server concucrrently
@@ -161,6 +157,17 @@ See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a li
 - [x] Deploy on Netlify and Heroku
 - [x] Design Doc
 - [x] Add github workflows
+
+### Future Goals
+
+- [ ] Add Google Oauth
+- [ ] Add a login page and a way to add mentors from the Frontend (send form data to the backend, which after validation add user in mentors collection)
+- [ ] Add an admin panel to monitor all meetings.
+- [ ] If a mentor/mentee does not show up, report as a no-show, and restrict their account.
+- [ ] Improve Filters & add more topics
+- [ ] Add Full-text Search Functionality for finding mentors!
+- [ ] Add bookings page for each signed-in user, which allows the mentor to accept, deject and reschedule his appointments
+- [ ] Use Redis Adapter instead of Node Cache :3
 - [ ] Write Unit Test
 
 ## Contributing

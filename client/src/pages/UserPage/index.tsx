@@ -154,7 +154,7 @@ const UserPage = () => {
           container
           height="100%"
           justifyContent="center"
-          sx={{ background: '#242424' }}>
+          sx={{ background: '#242424', padding: '0rem 1rem' }}>
           <Container item>
             <PhotoWrapper>
               <Photo>
@@ -245,6 +245,7 @@ const UserPage = () => {
             <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
               <div style={{ margin: '1rem 0rem' }}>
                 <Select
+                  menuPlacement="auto"
                   name="Topic"
                   options={motivationOptions}
                   // @ts-ignore

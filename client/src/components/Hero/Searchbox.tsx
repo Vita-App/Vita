@@ -5,6 +5,8 @@ import { expertiseOptions, motivationOptions } from 'data';
 import { motivationState, expertiseState } from 'store';
 import { useRecoilState } from 'recoil';
 import { Link, ReactSelect as Select } from 'components/common';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const StyledButton = styled(Button)`
   background-size: 200%;
@@ -33,6 +35,8 @@ const StyledGrid = styled(Grid)({
 });
 
 const Seachbox = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
   const [motivation, setMotivation] = useRecoilState(motivationState);
   const [expertise, setExpertise] = useRecoilState(expertiseState);
   return (
@@ -40,17 +44,19 @@ const Seachbox = () => {
       <Grid container item>
         <StyledGrid item xs={12}>
           <Select
+            menuPlacement="auto"
             name="Motivation"
             sx={{ fontSize: '20px', padding: '8px 8px', color: 'white' }}
             options={motivationOptions}
             value={motivation}
             onChange={setMotivation}
-            isSearchable={true}
+            isSearchable={matches}
             classNamePrefix="select"
             placeholder={<span>Filter by Motivation</span>}
           />
           <Select
             name="Expertise"
+            menuPlacement="auto"
             sx={{
               fontSize: '20px',
               margin: '8px 8px',
@@ -62,7 +68,7 @@ const Seachbox = () => {
             options={expertiseOptions}
             value={expertise}
             onChange={setExpertise}
-            isSearchable={true}
+            isSearchable={matches}
             classNamePrefix="select"
             placeholder={<span>Filter by Expertise</span>}
           />

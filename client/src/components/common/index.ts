@@ -15,6 +15,9 @@ export const ReactSelect = styled(Reactselect)({
     cursor: 'pointer',
     backgroundColor: '#0D0D0D',
   },
+  '.select__input-container': {
+    color: 'white',
+  },
   '.select__control:hover': {
     borderColor: 'transparent',
   },
@@ -29,18 +32,25 @@ export const ReactSelect = styled(Reactselect)({
   },
 });
 
-export const StyledButton = styled(Button)({
+export const StyledButton = styled(Button)(({ theme }) => ({
   background: 'rgb(59,57,57,0.4)',
   textTransform: 'none',
   color: '#f5f5f5',
   fontWeight: 700,
   // Margin: '1rem',
-  padding: '12px 16px',
+
+  [theme.breakpoints.up('xs')]: {
+    padding: '12px 6px',
+  },
+  [theme.breakpoints.up('sm')]: {
+    padding: '12px 16px',
+  },
+
   '&:hover': {
     opacity: 1,
     backgroundColor: '#424040',
   },
-});
+}));
 
 export const CenteredDiv = styled('div')`
   height: 100%;

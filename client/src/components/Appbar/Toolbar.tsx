@@ -7,12 +7,12 @@ import { Link, StyledButton as Button } from 'components/common';
 const Toolbar = () => (
   <div>
     <MaterialToolbar>
-      <Box sx={{ flexGrow: 1 }}>
-        <Link to="/">
-          <Button>VITA APP</Button>
-        </Link>
-      </Box>
-      <Stack direction="row" spacing={3}>
+      <Stack direction="row" spacing={3} style={{ width: '100%' }}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Link to="/">
+            <Button>VITA APP</Button>
+          </Link>
+        </Box>
         <Link to="/search">
           <Button>Get a match</Button>
         </Link>
