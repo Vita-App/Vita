@@ -1,15 +1,38 @@
 import React from 'react';
 import Appbar from 'components/Appbar';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import { styled } from '@mui/material/styles';
 import MentorsPage from './MentorsPage';
 import TopicsPage from './TopicsPage';
 import { useRecoilState } from 'recoil';
 import { tabIndexState } from 'store';
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: string;
+  value: string;
+}
+
+const a11yProps = (index: string) => ({
+  id: `simple-tab-${index}`,
+  'aria-controls': `simple-tabpanel-${index}`,
+});
+
+const TabPanel = (props: TabPanelProps) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}>
+      {value === index && <div>{children}</div>}
+    </div>
+  );
+};
 
 const SearchPage = () => {
   const [tabIndex, setTabIndex] = useRecoilState(tabIndexState);
@@ -42,24 +65,35 @@ const SearchPage = () => {
       <Wrapper>
         <Appbar />
         <Box sx={{ width: '100%' }}>
-          <TabContext value={tabIndex}>
-            <Box className="Tab_Box">
-              <TabList
-                onChange={handleChange}
-                aria-label="mentor-topics switch"
-                textColor="secondary"
-                indicatorColor="secondary">
-                <Tab label="Mentors" value="1" sx={{ typography: 'h4' }} />
-                <Tab label="Topics" value="2" sx={{ typography: 'h4' }} />
-              </TabList>
-            </Box>
-            <TabPanel value="1" sx={{ padding: '0px 32px 32px 32px' }}>
+          <Box className="Tab_Box">
+            <Tabs
+              value={tabIndex}
+              onChange={handleChange}
+              textColor="secondary"
+              indicatorColor="secondary"
+              aria-label="Mentor-Topic Tabs">
+              <Tab
+                label="Mentors"
+                value="1"
+                sx={{ typography: 'h4' }}
+                {...a11yProps('1')}
+              />
+              <Tab
+                label="Topics"
+                value="2"
+                sx={{ typography: 'h4' }}
+                {...a11yProps('2')}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel index="1" value={tabIndex}>
+            <Box sx={{ padding: '0px 32px 32px 32px' }}>
               <MentorsPage />
-            </TabPanel>
-            <TabPanel value="2">
-              <TopicsPage />
-            </TabPanel>
-          </TabContext>
+            </Box>
+          </TabPanel>
+          <TabPanel index="2" value={tabIndex}>
+            <TopicsPage />
+          </TabPanel>
         </Box>
       </Wrapper>
     </>

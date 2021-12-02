@@ -69,14 +69,14 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
           <span>
             Vita by{' '}
             <Link
-              href="https://github.com/rishabh_malhotraa"
+              href="https://github.com/Rishabh-malhotraa"
               target="_blank"
               rel="nofollow noreferrer noopener">
               Rishabh
             </Link>
           </span>
           <Link
-            href="https://github.com/Rishabh-malhotraa/"
+            href="https://github.com/Rishabh-malhotraa/Vita"
             target="_blank"
             rel="nofollow noreferrer noopener">
             Fork me on GitHub
