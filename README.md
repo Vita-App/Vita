@@ -129,10 +129,6 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 2. Install NPM packages
 
    ```sh
-   npm install
-   ```
-
-   ```sh
    npm run install-modules
    ```
 
