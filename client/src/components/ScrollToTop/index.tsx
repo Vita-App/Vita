@@ -26,7 +26,7 @@ const ScrollTop = () => {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+        sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1 }}>
         <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
