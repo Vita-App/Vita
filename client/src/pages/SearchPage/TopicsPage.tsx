@@ -14,7 +14,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const LEN = 8;
 
-const GridWrapper = styled(Grid)({
+const SearchWrapper = styled(Grid)({
   '.search_wrapper': {
     display: 'flex',
     alignItems: 'center',
@@ -71,8 +71,8 @@ const MentorsPage = () => {
   };
 
   return (
-    <>
-      <GridWrapper container spacing={2}>
+    <div style={{ padding: '0rem 2rem' }}>
+      <SearchWrapper container spacing={2}>
         <Grid item xs={10} sm={4} className="search_wrapper">
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
@@ -100,7 +100,7 @@ const MentorsPage = () => {
             />
           </Paper>
         </Grid>
-      </GridWrapper>
+      </SearchWrapper>
       <InfiniteScroll
         dataLength={Math.min(topics.length, items.length)}
         next={fetchMoreData}
@@ -122,7 +122,7 @@ const MentorsPage = () => {
           ))}
         </CardContainer>
       </InfiniteScroll>
-    </>
+    </div>
   );
 };
 

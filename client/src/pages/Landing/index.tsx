@@ -17,10 +17,10 @@ const Landing = () => (
   <>
     <PageOneWrapper>
       <Grid container direction="column" wrap="nowrap" sx={{ height: '100%' }}>
-        <Grid item>
+        <Grid item sx={{ zIndex: 1 }}>
           <Appbar />
         </Grid>
-        <Grid item sx={{ display: 'flex', flexGrow: 1 }}>
+        <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
           <Hero />
         </Grid>
         <Particles />
