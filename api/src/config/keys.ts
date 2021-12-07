@@ -3,16 +3,15 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const mongoURI =
-  'mongodb+srv://rishabh-malhotraa:ONEPLUS12345@cluster0.cjl2p.mongodb.net/Vita?retryWrites=true&w=majority';
-export const DATABASE_URL = mongoURI || process.env.DATABASE_URL!;
+export const DATABASE_URL =
+  process.env.DATABASE_URL || 'mongodb://localhost:27017/Vita';
 
 export const GOOGLE_KEY = {
   clientID: process.env.GOOGLE_KEY_CLIENTID!,
   clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET!,
 };
 
-export const PROD: boolean = JSON.parse(process.env.PROD! || 'false');
+export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
 
 export const port = parseInt(<string>process.env.PORT) || 5000;
 
