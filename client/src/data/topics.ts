@@ -24,7 +24,7 @@ const topicsData: Topic[] = [
     value: 2,
     topicName: 'Resume and Portfolio Review',
     motivation: 'Job Search',
-    description: 'Get actionable feedback on your resume or portfolio',
+    description: 'Get actionable feedback on your resume or portfolio.',
     emojiIcon: '🔍',
     emojiBadge: '💬',
   },
@@ -93,7 +93,7 @@ const topicsData: Topic[] = [
   },
   {
     value: 10,
-    topicName: 'Product Managment Career Path',
+    topicName: 'Product Management Career Path',
     motivation: 'Career Advice',
     description: 'Learn the career path and progression for product managers.',
     emojiIcon: '⚡',
@@ -146,7 +146,7 @@ const topicsData: Topic[] = [
   },
   {
     value: 16,
-    topicName: 'Keeping Team Member Movitvate',
+    topicName: 'Keeping Team Member Movitvated',
     motivation: 'Leadership',
     description:
       'Understanding factors that lead to a motivated team - recognition, communication and more.',
@@ -225,6 +225,6 @@ const topicsData: Topic[] = [
   },
 ];
 
-export const shuffleTopics = shuffleArray(topicsData);
-
 export const topics = topicsData.sort((a, b) => a.value - b.value);
+
+export const shuffleTopics = shuffleArray(topicsData);

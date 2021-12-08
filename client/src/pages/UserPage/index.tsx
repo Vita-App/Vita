@@ -260,7 +260,7 @@ const UserPage = () => {
               </div>
             </Grid>
 
-            <Grid container>
+            <Grid container width="100%">
               <PaginatedBookingCard
                 motivation={motivation}
                 topics={topics}

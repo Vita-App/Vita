@@ -55,7 +55,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
 
   return (
     <>
-      <Grid item>
+      <Grid item width="100%">
         <List component="nav" aria-label="booking appointments">
           {(rowsPerPage > 0
             ? topics.slice(

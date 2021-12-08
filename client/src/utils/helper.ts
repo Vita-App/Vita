@@ -90,7 +90,8 @@ export const silence = () => {
   return track;
 };
 
-export const shuffleArray = <T>(array: T[]) => {
+export const shuffleArray = <T>(array_: T[]) => {
+  const array = [...array_];
   let currentIndex = array.length;
   let randomIndex;
 
