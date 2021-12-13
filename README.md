@@ -50,6 +50,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#installation">Setting up Database</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -138,6 +139,10 @@ Install [NodeJS LTS](https://nodejs.org/en/)
    npm run dev
    ```
 
+### Setting up DATABASE
+
+To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
+
 ## Roadmap
 
 See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a list of proposed features (and known issues).
@@ -197,7 +202,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 ## Acknowledgements
 
 - [react-query](https://react-query.tanstack.com/)
-- [mui](https://mui.com/)
+- [fluent-ui](https://developer.microsoft.com/en-us/fluentui#)
 - [emotion](https://emotion.sh/)
 - [sokcet-io](https://www.heroku.com/)
 - [simple-peer](https://www.npmjs.com/package/simple-peer)
