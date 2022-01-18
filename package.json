@@ -32,5 +32,8 @@
     "hooks": {
       "pre-commit": "npm run pre-commit"
     }
+  },
+  "dependencies": {
+    "@mui/styles": "^5.2.3"
   }
 }
