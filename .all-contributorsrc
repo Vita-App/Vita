@@ -17,6 +17,15 @@
         "code",
         "video"
       ]
+    },
+    {
+      "login": "muzam1l",
+      "name": "muzamil",
+      "avatar_url": "https://avatars.githubusercontent.com/u/52374648?v=4",
+      "profile": "http://muzam1l.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
