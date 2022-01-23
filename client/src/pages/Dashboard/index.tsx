@@ -1,55 +1,32 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import Toolbar from 'components/UserDashboard/Toolbar';
+import Drawer from 'components/UserDashboard/Drawer';
+import { Typography } from '@mui/material';
+import MuiToolbar from '@mui/material/Toolbar';
+import { drawerWidth } from 'utils/settings';
 import { styled } from '@mui/material/styles';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
-const drawerWidth = 300;
-
-const DrawerWrapper = styled('div')({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-
-  '.MuiListItemText-primary': {
-    fontSize: '22px',
-    fontWeight: 600,
-    fontFamily: 'inter',
+const Container = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  padding: '24px',
+  [theme.breakpoints.down('sm')]: {
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
   },
-  '.MuiSvgIcon-root': {
-    fontSize: '2.1875rem',
-  },
-  '.MuiListItem-root': {
-    padding: '1rem 1rem',
-  },
-});
+}));
 
-const getIcon = (icon: string) => {
-  switch (icon) {
-    case 'Home':
-      return <HomeRoundedIcon />;
-    case 'Bookings':
-      return <AccessTimeOutlinedIcon />;
-    case 'Settings':
-      return <SettingsIcon />;
-    case 'Support':
-      return <HelpOutlineRoundedIcon />;
+const renderPage = (page: number) => {
+  switch (page) {
+    case 0:
+      return <h1>{page}</h1>;
+    case 1:
+      return <h1>{page}</h1>;
+    case 2:
+      return <h1>{page}</h1>;
+    case 3:
+      return <h1>{page}</h1>;
     default:
-      return <div />;
+      return <div> HELLO</div>;
   }
 };
 
@@ -58,104 +35,20 @@ const ResponsiveDrawer = () => {
 
   const [tabIndex, setTabIndex] = React.useState(0);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const IconData = ['Home', 'Bookings', 'Settings'];
-
-  const drawer = (
-    <DrawerWrapper>
-      <Toolbar />
-      <Divider />
-      <List>
-        {IconData.map((text, index) => (
-          <>
-            <ListItem button key={index} onClick={() => setTabIndex(index)}>
-              <ListItemIcon>{getIcon(text)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          </>
-        ))}
-      </List>
-      <Divider />
-      <div style={{ display: 'flex', flexGrow: 1 }} />
-      <List>
-        <ListItem button onClick={() => setTabIndex(3)}>
-          <ListItemIcon>{getIcon('Support')}</ListItemIcon>
-          <ListItemText primary="Support" />
-        </ListItem>
-      </List>
-    </DrawerWrapper>
-  );
-
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+  const handleTabIndexChange = (index: number) => setTabIndex(index);
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-        }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}>
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
-          open>
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}>
-        <Toolbar />
-        <h1>{tabIndex}</h1>
+      <Toolbar handleDrawerToggle={handleDrawerToggle} />
+      <Drawer
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}
+        handleTabIndexChange={handleTabIndexChange}
+      />
 
+      <Container component="main">
+        <MuiToolbar />
+        {renderPage(tabIndex)}
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
@@ -185,7 +78,10 @@ const ResponsiveDrawer = () => {
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
-      </Box>
+      </Container>
+
+      {/* {<h1>{tabIndex}</h1>}
+      {renderPage(tabIndex)} */}
     </Box>
   );
 };
