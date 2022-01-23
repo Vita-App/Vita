@@ -7,6 +7,7 @@ import Loader from 'components/Loader';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
 import usePageTracking from 'utils/hooks/use-page-tracking';
+import LoginPage from 'pages/LoginPage';
 
 const VideoCall = lazy(() => import('pages/VideoCall'));
 
@@ -17,6 +18,7 @@ const App = () => {
       <ThemeProvider theme={getTheme('dark')}>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/search/" element={<SearchPage />} />
           <Route path="/user/:id" element={<UserPage />} />
         </Routes>
