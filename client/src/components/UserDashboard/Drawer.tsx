@@ -57,15 +57,13 @@ const DrawerItems: React.FC<{
       <Divider />
       <List>
         {IconData.map((text, index) => (
-          <>
-            <ListItem
-              button
-              key={index}
-              onClick={() => handleTabIndexChange(index)}>
-              <ListItemIcon>{getIcon(text)}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          </>
+          <ListItem
+            button
+            key={index}
+            onClick={() => handleTabIndexChange(index)}>
+            <ListItemIcon>{getIcon(text)}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
         ))}
       </List>
       <Divider />
