@@ -1,55 +1,24 @@
 import React, { useRef } from 'react';
-import SwiperCore, { Navigation } from 'swiper';
-import { Swiper } from 'swiper/react';
+import SwiperCore, { Navigation, Mousewheel, Pagination } from 'swiper';
+import BookmarksRoundedIcon from '@mui/icons-material/BookmarksRounded';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { commaString } from 'utils/helper';
 import { MentorSchemaType } from 'types';
-import left from './left.svg';
-import right from './right.svg';
-import CarouselCard from './CarouselCard';
+import { Link } from 'components/common';
 import 'swiper/swiper-bundle.min.css';
+import { Grid } from '@mui/material';
+import right from './right.svg';
+import left from './left.svg';
+import {
+  ArrowSpace,
+  ArrowButton,
+  Wrapper,
+  StyledImage,
+  AbsoluteGrid,
+} from './Carousel.styles';
 
-export type DataObj = {
-  id: number;
-  name: string;
-  company: string;
-  post: string;
-  nationality: string;
-  expertise: string;
-};
-
-const Typography: React.CSSProperties = {
-  color: 'black',
-  fontFamily: "'Circular Std', sans-serif",
-  letterSpacing: '0.05rem',
-  margin: '0',
-};
-
-const heading: React.CSSProperties = {
-  ...Typography,
-  margin: '1rem 0',
-  fontSize: '1.5rem',
-};
-
-const arrowButtons: React.CSSProperties = {
-  background: 'transparent',
-  border: '1px solid #636363',
-  borderRadius: '50%',
-  height: '30px',
-  width: '30px',
-  fontWeight: 'bold',
-  lineHeight: '1rem',
-};
-
-const buttonStyle: React.CSSProperties = {
-  background: 'transparent',
-  border: '1px solid #636363',
-  borderRadius: '0.5rem',
-  height: '33px',
-  width: '100px',
-  transform: 'translateY(-3px)',
-  // letterSpacing: '0.025rem',
-};
-
-SwiperCore.use([Navigation]);
+SwiperCore.use([Navigation, Mousewheel, Pagination]);
 
 const CarouselWrapper = ({
   userList,
@@ -59,73 +28,104 @@ const CarouselWrapper = ({
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
-    <div style={{ margin: '2rem', backgroundColor: '#A7A7A7' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div>
-          <h4 style={{ ...heading }}>
-            Discover the world`&apos;`s top mentors
-          </h4>
-        </div>
-        <div style={{ padding: '0 2rem' }}>
-          <button style={{ ...buttonStyle, ...Typography, margin: '1rem' }}>
-            Explore all
-          </button>
-          <button
-            ref={prevRef}
-            style={{ ...arrowButtons, margin: '1rem 0.5rem' }}>
-            {' '}
-            <img src={left} alt="" height={15} width={15} />{' '}
-          </button>
-          <button
-            ref={nextRef}
-            style={{ ...arrowButtons, margin: '1rem 0.5rem' }}>
-            {' '}
-            <img src={right} alt="" height={15} width={15} />{' '}
-          </button>
-        </div>
-      </div>
+    <div style={{ margin: '2rem', backgroundColor: 'inherit' }}>
       <Swiper
-        navigation={{
-          prevEl: prevRef.current ? prevRef.current : undefined,
-          nextEl: nextRef.current ? nextRef.current : undefined,
-        }}
         onInit={(swiper) => {
           // @ts-ignore
           swiper.params.navigation.nextEl = nextRef.current;
           // @ts-ignore
           swiper.params.navigation.prevEl = prevRef.current;
-          // swiper.navigation.init();
+          swiper.navigation.init();
           swiper.navigation.update();
+          console.log(swiper);
         }}
-        spaceBetween={150}
-        slidesPerView={3}
-        // define breakpoints  according to the screen size
+        slidesPerView={5}
+        // Maybe just maybe
+        // navigation={{
+        //   prevEl: prevRef.current ? prevRef.current : undefined,
+        //   nextEl: nextRef.current ? nextRef.current : undefined,
+        // }}
         breakpoints={{
           320: {
             slidesPerView: 1,
             spaceBetween: 20,
           },
-          640: {
+          760: {
             slidesPerView: 2,
-            spaceBetween: 40,
+            spaceBetween: 20,
           },
-          800: {
+          980: {
             slidesPerView: 3,
-            spaceBetween: 40,
+            spaceBetween: 10,
+          },
+          1300: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+          },
+          1700: {
+            slidesPerView: 5,
+            spaceBetween: 10,
           },
         }}
-        scrollbar={{ draggable: true }}
-        // Doesnt work idfk
-        speed={500}
-        slidesPerGroup={2}
+        slidesPerGroup={1}
+        // Maybe implemented later
+        // pagination={{ dynamicBullets: true, clickable: true }}
+        freeMode
+        grabCursor
+        // centeredSlides
+        mousewheel={{ forceToAxis: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log('slide change')}
         loop>
-        {userList.map((user: any, index) => (
-          <CarouselCard
-            key={index}
-            // @ts-ignore
-            user={user}
-          />
-        ))}
+        {userList.map((user: Partial<MentorSchemaType>, index) => {
+          const {
+            first_name,
+            last_name,
+            company,
+            job_title,
+            expertise,
+            image_link,
+            _id,
+          } = user;
+          const name = `${first_name} ${last_name}`;
+          return (
+            <SwiperSlide key={index}>
+              <Link to={`/user/${_id}`}>
+                <Wrapper elevation={4}>
+                  <StyledImage src={image_link} />
+                  <AbsoluteGrid container>
+                    <Grid item>
+                      <BookmarksRoundedIcon />
+                      <span className="CarouselCard_topics">
+                        {commaString(expertise)}
+                      </span>
+                    </Grid>
+                    <Grid item>
+                      <WorkRoundedIcon />
+                      <span>{job_title}</span>
+                    </Grid>
+                    <Grid item>{company}</Grid>
+                    <Grid item className="CarouselCard_text">
+                      {name}
+                    </Grid>
+                  </AbsoluteGrid>
+                </Wrapper>
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+        <ArrowSpace>
+          <div>
+            <ArrowButton ref={prevRef}>
+              {' '}
+              <img src={left} alt="" height={15} width={15} />{' '}
+            </ArrowButton>
+            <ArrowButton ref={nextRef}>
+              {' '}
+              <img src={right} alt="" height={15} width={15} />{' '}
+            </ArrowButton>
+          </div>
+        </ArrowSpace>
       </Swiper>
     </div>
   );
