@@ -7,7 +7,7 @@ import connectDB from './config/connectDatabase';
 import './Models/User';
 import socketioService from './service/socket-io-service';
 import cors from 'cors';
-import { CLIENT_URL } from './config/keys';
+import { CORS_REGEX } from './config/keys';
 // import passport from 'passport';
 // import useMiddleWare from './middleware/index';
 
@@ -22,7 +22,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin: new RegExp(CORS_REGEX),
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type',
     credentials: true, // allow session cookies from browser to pass throught
