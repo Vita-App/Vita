@@ -6,9 +6,9 @@ import apiRoutes from './routes/apiRoutes';
 import connectDB from './config/connectDatabase';
 import './Models/User';
 import socketioService from './service/socket-io-service';
-import passport from 'passport';
 import cors from 'cors';
 import { CLIENT_URL } from './config/keys';
+// import passport from 'passport';
 // import useMiddleWare from './middleware/index';
 
 // import passportService from './service/passport';
@@ -31,8 +31,8 @@ app.use(
 
 app.set('trust proxy', 1);
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/api', apiRoutes);
 socketioService(httpServer);

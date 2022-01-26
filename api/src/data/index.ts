@@ -15,7 +15,7 @@ import {
   topicNums,
   descriptions,
 } from './fakeData';
-import faker from 'faker';
+import faker from '@faker-js/faker';
 const ENTRIES = 100;
 
 const getRandom = <T>(array: T[]): T => {
