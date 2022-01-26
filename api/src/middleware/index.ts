@@ -23,7 +23,7 @@ const addMiddleWare = (app: Express) => {
   app.use(
     session({
       secret: COOKIE_KEYS,
-      name: 'caucus-session',
+      name: 'vitaa-session',
       resave: false,
       saveUninitialized: false,
       cookie: {
