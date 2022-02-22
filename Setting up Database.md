@@ -1,4 +1,4 @@
-# Guide to Setup up mock data in MongoDB
+## Guide to Setup up mock data in MongoDB
 
 For windows you can also follow [this video guide](https://www.youtube.com/watch?v=FwMwO8pXfq0) to set up MongoDB
 
