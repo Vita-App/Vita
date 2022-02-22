@@ -1,3 +1,15 @@
+<!-- LATEST ANNOUNCEMENTS -->
+
+# 📣 Latest Announcements
+
+ 22-02-2022: We now have a discord server, I strongly encourage all of you to join the server. [Join Server](https://discord.gg/gf9EzqZBe7)
+
+🆕 21-02-2022: Vita is participating in GirlScript Summer of Code 2022 🥳
+
+---
+
+<br/>
+
 <!-- PROJECT SHIELDS -->
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -7,6 +19,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Build Test][actions-badge]][actions-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -192,6 +205,8 @@ Distributed under the MIT License. See [`LICENSE`][license-url] for more informa
 ## Contact
 
 Rishabh malhotraa - [@rish_bishhh](https://twitter.com/rish_bishhh) - rishabhmalhotraa01@gmail.com
+
+Join Discord Server : https://discord.gg/gf9EzqZBe7
 
 Discord : rishabh.malhotra#4193
 
