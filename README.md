@@ -1,3 +1,15 @@
+<!-- LATEST ANNOUNCEMENTS -->
+
+# 📣 Latest Announcements
+
+🆕 22-02-2022: We now have a discord server, I strongly encourage all of you to join the server. [Join Server](https://discord.gg/gf9EzqZBe7)
+
+🆕 21-02-2022: Vita is participating in GirlScript Summer of Code 2022 🥳
+
+---
+
+<br/>
+
 <!-- PROJECT SHIELDS -->
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -7,6 +19,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Build Test][actions-badge]][actions-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -193,6 +206,8 @@ Distributed under the MIT License. See [`LICENSE`][license-url] for more informa
 
 Rishabh malhotraa - [@rish_bishhh](https://twitter.com/rish_bishhh) - rishabhmalhotraa01@gmail.com
 
+Join Discord Server : https://discord.gg/gf9EzqZBe7
+
 Discord : rishabh.malhotra#4193
 
 Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
@@ -238,7 +253,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time
@@ -256,7 +271,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://rishabh-malhotraa.github.io/Rishabh-Portfolio-main/"><img src="https://avatars.githubusercontent.com/u/54576074?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishabh Malhotra</b></sub></a><br /><a href="#infra-Rishabh-malhotraa" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#data-Rishabh-malhotraa" title="Data">🔣</a> <a href="#design-Rishabh-malhotraa" title="Design">🎨</a> <a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Rishabh-malhotraa" title="Code">💻</a> <a href="#video-Rishabh-malhotraa" title="Videos">📹</a></td>
     <td align="center"><a href="http://muzam1l.com"><img src="https://avatars.githubusercontent.com/u/52374648?v=4?s=100" width="100px;" alt=""/><br /><sub><b>muzamil</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=muzam1l" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Sahaj-Srivastava24"><img src="https://avatars.githubusercontent.com/u/72143774?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mad1ad</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Sahaj-Srivastava24" title="Code">💻</a></td>
   </tr>
 </table>
 
