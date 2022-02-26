@@ -85,6 +85,8 @@
 
 Vita Case Study : [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
 
+Vite Application Flow : [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5)
+
 Video Demonstration : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
 
 ---
@@ -120,7 +122,11 @@ Written in TypeScript ♥
 
 ## Getting Started
 
+
 Follow the instructions to set up the project on your local machine.
+
+Read the Vita [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
+ and [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5) doc.
 
 ### Prerequisites
 
@@ -134,19 +140,23 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 
 ### Installation
 
-1. Clone the repo
+1. Fork the repo(required), a star is also appretiated but optional :P
+
+2. Clone the forked repo
 
    ```sh
-   git clone https://github.com/Rishabh-malhotraa/Vita.git
+   git clone https://github.com/{your-github-username}/Vita.git
    ```
 
-2. Install NPM packages
+   example : `git clone https://github.com/Rishabh-malhotraa/Vita.git`
+
+3. Install NPM packages
 
    ```sh
    npm run install-modules
    ```
 
-3. Start the react and nodejs server concucrrently
+4. Start the react and nodejs server concucrrently
 
    ```sh
    npm run dev
@@ -217,7 +227,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 ## Acknowledgements
 
 - [react-query](https://react-query.tanstack.com/)
-- [fluent-ui](https://developer.microsoft.com/en-us/fluentui#)
+- [mui](https://mui.com/)
 - [emotion](https://emotion.sh/)
 - [sokcet-io](https://www.heroku.com/)
 - [simple-peer](https://www.npmjs.com/package/simple-peer)
