@@ -13,7 +13,7 @@ import {
   fakeDataController,
   topicDataController,
 } from '../data/fakeData-controller';
-
+import { getMentorFTSController } from '../controllers/search-controller';
 const router = Router();
 
 // we will do our re-routing from the client side just send information from here
@@ -26,4 +26,5 @@ router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
 // router.get('/data', fakeDataController);
 // router.get('/topicData', topicDataController);
+router.get('/fts', getMentorFTSController);
 export default router;
