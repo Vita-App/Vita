@@ -44,6 +44,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "hazemessam",
+      "name": "Hazem Essam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49886457?v=4",
+      "profile": "http://linkedin.com/in/hzmessam",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
