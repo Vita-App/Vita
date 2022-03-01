@@ -154,7 +154,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         <Email sx={{ color: 'darkgrey' }} />
         <InputBase
           className="Search_Input"
-          placeholder="Get invite link in you mail"
+          placeholder="Get invite link in your mail"
           inputProps={{
             'aria-label': 'Enter Email address to recieve invite link',
           }}
