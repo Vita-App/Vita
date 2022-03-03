@@ -11,7 +11,6 @@ import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
 import { MentorSchemaType } from 'types';
 import { useQuery } from 'react-query';
-import { shuffleArray } from 'utils/helper';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -68,8 +67,7 @@ const getMentors = async (expertise: string, topic: number) => {
       },
     },
   );
-  // @ts-ignore
-  return shuffleArray(response);
+  return response;
 };
 
 // @ts-ignore
