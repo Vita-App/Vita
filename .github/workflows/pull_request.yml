@@ -1,0 +1,13 @@
+on: pull_request
+
+jobs:
+  pr-thankyou-action:
+    runs-on: ubuntu-latest
+    name: 'Pull Request Thank You'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: 'Pull Request Thank You'
+      uses: GuySWatson/pr-thankyou-action@v1.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
