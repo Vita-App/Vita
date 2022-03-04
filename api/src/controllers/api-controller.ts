@@ -7,16 +7,19 @@ import { isValidObjectId } from 'mongoose';
 export const getMentorsController = async (req: Request, res: Response) => {
   const expertise = req.query.expertise?.toString() || 'All';
   const topic: number = Number(req.query.topic?.toString() || -1);
+  const limit = Number(req.query.limit?.toString() || 10);
   let mentors_;
-  if (topic == -1 && expertise == 'All') mentors_ = await MentorModel.find({});
+  if (topic == -1 && expertise == 'All')
+    mentors_ = await MentorModel.find({}).limit(limit);
   else if (expertise == 'All')
-    mentors_ = await MentorModel.find({ topics: topic });
+    mentors_ = await MentorModel.find({ topics: topic }).limit(limit);
   else if (topic == -1)
-    mentors_ = await MentorModel.find({ expertise: expertise });
+    mentors_ = await MentorModel.find({ expertise: expertise }).limit(limit);
   else
     mentors_ = await MentorModel.find({ topics: topic })
       .where('expertise')
-      .equals(expertise);
+      .equals(expertise)
+      .limit(limit);
 
   const mentors = mentors_.map(
     ({
