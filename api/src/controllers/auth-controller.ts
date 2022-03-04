@@ -46,5 +46,12 @@ export const authController = (req: Request, res: Response) => {
 
 export const logoutController = (req: Request, res: Response) => {
   req.logout();
-  res.send({ message: 'Successfully logged out' });
+  req.session.destroy((err) => {
+    if (!err) {
+        res.status(200).clearCookie('connect.sid', {path: '/'}).redirect(CLIENT_URL);
+        console.log('Successfully logged out');
+    } else {
+        console.log(err);
+    }
+});
 };

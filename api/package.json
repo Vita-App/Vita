@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Vita app backend",
   "main": "dist/src/index.js",
+  "proxy": "http://localhost:5000",
   "engines": {
     "npm": "8.1.0",
     "node": "16.13.0"
@@ -22,6 +23,7 @@
     "axios": "^0.24.0",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.10",
+    "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

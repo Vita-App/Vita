@@ -9,6 +9,7 @@ export const DATABASE_URL =
 export const GOOGLE_KEY = {
   clientID: process.env.GOOGLE_KEY_CLIENTID!,
   clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET!,
+  callbackURL: process.env.GOOGLE_KEY_CALLBACKURI!
 };
 
 export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
@@ -18,6 +19,8 @@ export const port = parseInt(<string>process.env.PORT) || 5000;
 export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
 
 export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
+
+export const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'localhost';
 
 export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
 

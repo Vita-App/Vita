@@ -4,8 +4,9 @@ import chalk from 'chalk';
 
 const connectDB = async () => {
   try {
-    await connect(mongoURI);
+    const connection = await connect(mongoURI);
     console.log(chalk.grey('MongoDB Connected :D'));
+    return connection;
   } catch (err) {
     if (err instanceof Error) console.error(chalk.redBright(err.message));
     process.exit(1);
