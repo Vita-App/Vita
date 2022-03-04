@@ -146,7 +146,7 @@ const MentorsPage = () => {
               onChange={setExpertise}
               isSearchable={matches}
               classNamePrefix="select"
-              placeholder={<span>Filter by Expertise</span>}
+              placeholder={<span > Filter by Expertise</span>}
             />
           </Paper>
         </Grid>

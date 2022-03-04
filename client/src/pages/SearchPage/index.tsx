@@ -42,8 +42,8 @@ const SearchPage = () => {
   };
 
   const Wrapper = styled('div')({
-    backgroundColor: '#242424',
-    color: '#f5f5f5',
+  
+   
     minHeight: '100vh',
     '& .Mui-selected ': {
       color: '',
@@ -79,7 +79,9 @@ const SearchPage = () => {
                 {...a11yProps('1')}
               />
               <Tab
+             
                 label="Topics"
+               
                 value="2"
                 sx={{ typography: 'h4' }}
                 {...a11yProps('2')}

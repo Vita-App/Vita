@@ -19,7 +19,7 @@ const EmojiIcon = styled('div')`
   border-radius: 50%;
   overflow: visible;
   user-select: none;
-  color: rgb(255, 255, 255);
+  // color: rgb(255, 255, 255);
   background-color: #c3c3c385;
 `;
 

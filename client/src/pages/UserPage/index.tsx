@@ -26,15 +26,14 @@ const Wrapper = styled('div')`
   flex-direction: column;
   /* height: 100vh; */
   width: '100vw';
-  background-color: #242424;
-  color: #f5f5f5;
+ 
 `;
 
 const TextWrapper = styled('div')`
   width: 100%;
   .show-more {
     font-weight: 400;
-    color: #d4d4d4;
+   
     font-size: 16px;
   }
 
@@ -154,7 +153,7 @@ const UserPage = () => {
           container
           height="100%"
           justifyContent="center"
-          sx={{ background: '#242424', padding: '0rem 1rem' }}>
+          sx={{  padding: '0rem 1rem' }}>
           <Container item>
             <PhotoWrapper>
               <Photo>
