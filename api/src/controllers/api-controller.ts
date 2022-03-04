@@ -1,38 +1,28 @@
 import { Request, Response } from 'express';
 import { MentorModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { isValidObjectId } from 'mongoose';
+import { FilterQuery, isValidObjectId } from 'mongoose';
+import { MentorSchemaType } from '../types';
 
-// http://localhost:5000/api/get-mentors?expertise=Leadership
+// http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10
 export const getMentorsController = async (req: Request, res: Response) => {
   const expertise = req.query.expertise?.toString() || 'All';
   const topic: number = Number(req.query.topic?.toString() || -1);
-  const limit = Number(req.query.limit?.toString() || 10);
-  let mentors_;
-  if (topic == -1 && expertise == 'All')
-    mentors_ = await MentorModel.find({}).limit(limit);
-  else if (expertise == 'All')
-    mentors_ = await MentorModel.find({ topics: topic }).limit(limit);
-  else if (topic == -1)
-    mentors_ = await MentorModel.find({ expertise: expertise }).limit(limit);
-  else
-    mentors_ = await MentorModel.find({ topics: topic })
-      .where('expertise')
-      .equals(expertise)
-      .limit(limit);
 
-  const mentors = mentors_.map(
-    ({
-      _id,
-      first_name,
-      last_name,
-      company,
-      job_title,
-      expertise,
-      image_link,
-      topics,
-    }) => {
-      return {
+  //  A limit() value of 0 is equivalent to setting no limit.
+  const limit = Number(req.query.limit?.toString() || '0');
+
+  let searchOptions = {} as FilterQuery<MentorSchemaType>;
+  if (topic != -1) searchOptions.topics = topic;
+  if (expertise != 'All') searchOptions.expertise = expertise;
+
+  let mentors = [] as Partial<MentorSchemaType>[];
+
+  // since we are using user input we need need to handle when user sends wrong data
+  try {
+    const mentors_ = await MentorModel.find(searchOptions).limit(limit);
+    mentors = mentors_.map(
+      ({
         _id,
         first_name,
         last_name,
@@ -41,9 +31,22 @@ export const getMentorsController = async (req: Request, res: Response) => {
         expertise,
         image_link,
         topics,
-      };
-    },
-  );
+      }) => {
+        return {
+          _id,
+          first_name,
+          last_name,
+          company,
+          job_title,
+          expertise,
+          image_link,
+          topics,
+        };
+      },
+    );
+  } catch (error) {
+    mentors = [];
+  }
 
   res.json(mentors);
 };
