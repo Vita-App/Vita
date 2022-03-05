@@ -263,7 +263,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time
@@ -284,6 +284,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Sahaj-Srivastava24"><img src="https://avatars.githubusercontent.com/u/72143774?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mad1ad</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Sahaj-Srivastava24" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Gurdeep475"><img src="https://avatars.githubusercontent.com/u/32095032?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gurdeep Singh</b></sub></a><br /><a href="#maintenance-Gurdeep475" title="Maintenance">🚧</a></td>
     <td align="center"><a href="http://linkedin.com/in/hzmessam"><img src="https://avatars.githubusercontent.com/u/49886457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hazem Essam</b></sub></a><br /><a href="#maintenance-hazemessam" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/Lalit3716"><img src="https://avatars.githubusercontent.com/u/84276404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lalit</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Lalit3716" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/indraantoor"><img src="https://avatars.githubusercontent.com/u/64259328?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Indraan S. Toor</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=indraantoor" title="Code">💻</a></td>
   </tr>
 </table>
 
