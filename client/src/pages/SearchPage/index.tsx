@@ -1,5 +1,6 @@
 import React from 'react';
 import Appbar from 'components/Appbar';
+import Footering from 'components/Footer/Footer';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
