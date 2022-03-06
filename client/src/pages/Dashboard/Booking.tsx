@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
 import TabContext from '@mui/lab/TabContext';
@@ -43,7 +42,7 @@ const GridWrapper = styled(Grid)({
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
-  // border: `1px solid ${theme.palette.divider}`,
+  border: `1px solid ${theme.palette.divider}`,
   '&:not(:last-child)': {
     borderBottom: 0,
   },
@@ -174,9 +173,9 @@ export default Bookings;
 const ExpandMore = () => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
-  const handleChange = (event: React.SyntheticEvent, newExpanded: boolean) => {
-    setExpanded(newExpanded);
-  };
+  // const handleChange = (event: React.SyntheticEvent, newExpanded: boolean) => {
+  //   setExpanded(newExpanded);
+  // };
 
   return (
     <div>

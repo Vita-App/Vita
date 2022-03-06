@@ -2,7 +2,7 @@
 
 # 📣 Latest Announcements
 
- 22-02-2022: We now have a discord server, I strongly encourage all of you to join the server. [Join Server](https://discord.gg/gf9EzqZBe7)
+🆕 22-02-2022: We now have a discord server, I strongly encourage all of you to join the server. [Join Server](https://discord.gg/gf9EzqZBe7)
 
 🆕 21-02-2022: Vita is participating in GirlScript Summer of Code 2022 🥳
 
@@ -19,7 +19,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Build Test][actions-badge]][actions-url]
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -85,6 +84,8 @@
 
 Vita Case Study : [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
 
+Vite Application Flow : [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5)
+
 Video Demonstration : [Video Link](https://drive.google.com/drive/u/0/folders/1uXQ53ieJK1gcbtpfYYxVthMXN5X9SpbM)
 
 ---
@@ -122,6 +123,9 @@ Written in TypeScript ♥
 
 Follow the instructions to set up the project on your local machine.
 
+Read the Vita [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
+and [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5) doc.
+
 ### Prerequisites
 
 Install [NodeJS LTS](https://nodejs.org/en/)
@@ -134,19 +138,23 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 
 ### Installation
 
-1. Clone the repo
+1. Fork the repo(required), a star is also appretiated but optional :P
+
+2. Clone the forked repo
 
    ```sh
-   git clone https://github.com/Rishabh-malhotraa/Vita.git
+   git clone https://github.com/{your-github-username}/Vita.git
    ```
 
-2. Install NPM packages
+   example : `git clone https://github.com/Rishabh-malhotraa/Vita.git`
+
+3. Install NPM packages
 
    ```sh
    npm run install-modules
    ```
 
-3. Start the react and nodejs server concucrrently
+4. Start the react and nodejs server concucrrently
 
    ```sh
    npm run dev
@@ -217,7 +225,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 ## Acknowledgements
 
 - [react-query](https://react-query.tanstack.com/)
-- [fluent-ui](https://developer.microsoft.com/en-us/fluentui#)
+- [mui](https://mui.com/)
 - [emotion](https://emotion.sh/)
 - [sokcet-io](https://www.heroku.com/)
 - [simple-peer](https://www.npmjs.com/package/simple-peer)
@@ -253,7 +261,9 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time
@@ -271,6 +281,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://rishabh-malhotraa.github.io/Rishabh-Portfolio-main/"><img src="https://avatars.githubusercontent.com/u/54576074?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishabh Malhotra</b></sub></a><br /><a href="#infra-Rishabh-malhotraa" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#data-Rishabh-malhotraa" title="Data">🔣</a> <a href="#design-Rishabh-malhotraa" title="Design">🎨</a> <a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Rishabh-malhotraa" title="Code">💻</a> <a href="#video-Rishabh-malhotraa" title="Videos">📹</a></td>
     <td align="center"><a href="http://muzam1l.com"><img src="https://avatars.githubusercontent.com/u/52374648?v=4?s=100" width="100px;" alt=""/><br /><sub><b>muzamil</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=muzam1l" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Sahaj-Srivastava24"><img src="https://avatars.githubusercontent.com/u/72143774?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mad1ad</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Sahaj-Srivastava24" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Gurdeep475"><img src="https://avatars.githubusercontent.com/u/32095032?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gurdeep Singh</b></sub></a><br /><a href="#maintenance-Gurdeep475" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://linkedin.com/in/hzmessam"><img src="https://avatars.githubusercontent.com/u/49886457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hazem Essam</b></sub></a><br /><a href="#maintenance-hazemessam" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/Lalit3716"><img src="https://avatars.githubusercontent.com/u/84276404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lalit</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Lalit3716" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/indraantoor"><img src="https://avatars.githubusercontent.com/u/64259328?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Indraan S. Toor</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=indraantoor" title="Code">💻</a></td>
   </tr>
 </table>
 
