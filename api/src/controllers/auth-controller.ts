@@ -18,7 +18,20 @@ export const googleController = (req: Request, res: Response) => {
   })(req, res);
 };
 
+export const linkedinController = (req: Request, res: Response) => {
+  const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
+
+  passport.authenticate('linkedin', {
+    state: isMentor,
+  })(req, res);
+};
+
 export const googleRedirectController = passport.authenticate('google', {
+  successRedirect: `${CLIENT_URL}/`,
+  failureRedirect: '/login/failed',
+});
+
+export const linkedinRedirectController = passport.authenticate('linkedin', {
   successRedirect: `${CLIENT_URL}/`,
   failureRedirect: '/login/failed',
 });

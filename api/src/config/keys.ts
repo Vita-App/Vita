@@ -12,6 +12,12 @@ export const GOOGLE_KEY = {
   callbackURL: process.env.GOOGLE_KEY_CALLBACKURI!
 };
 
+export const LINKEDIN_KEY = {
+  clientID: process.env.LINKEDIN_KEY_CLIENTID!,
+  clientSecret: process.env.LINKEDIN_KEY_CLIENTSECRET!,
+  callbackURL: process.env.LINKEDIN_KEY_CALLBACKURI!
+};
+
 export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
 
 export const port = parseInt(<string>process.env.PORT) || 5000;
