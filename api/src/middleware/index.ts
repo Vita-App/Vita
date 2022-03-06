@@ -6,16 +6,6 @@ import session from 'express-session';
 import { COOKIE_KEYS, CLIENT_URL } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
-  app.use(
-    cors({
-      origin: CLIENT_URL,
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      allowedHeaders: 'Content-Type',
-      credentials: true, // allow session cookies from browser to pass throught
-    }),
-  );
-
-  app.set('trust proxy', 1);
   app.use(express.json());
   app.use(cookieParser()); // parse cookies
 
@@ -23,7 +13,7 @@ const addMiddleWare = (app: Express) => {
   app.use(
     session({
       secret: COOKIE_KEYS,
-      name: 'caucus-session',
+      name: 'vitaa-session',
       resave: false,
       saveUninitialized: false,
       cookie: {
