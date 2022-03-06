@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import { Link } from 'components/common';
 
-const Footering = () => (
+const Footer = () => (
   <Box component="footer" bgcolor="white">
     <Container maxWidth="lg" sx={{ p: 2 }}>
       <Stack spacing={2}>
@@ -52,7 +52,7 @@ const Footering = () => (
           justifyContent="space-between"
           spacing={2}
           alignItems="center">
-          <Stack direction="column" alignItems="center">
+          <Stack direction="column" alignItems={{ xs: 'center', sm: 'start' }}>
             <Stack direction="row" spacing={2}>
               <Link to="#">
                 <Typography variant="body2">Find mentors</Typography>
@@ -115,4 +115,4 @@ const Footering = () => (
   </Box>
 );
 
-export default Footering;
+export default Footer;

@@ -3,7 +3,7 @@ import Appbar from 'components/Appbar';
 import Grid from '@mui/material/Grid';
 import Particles from 'components/Particles';
 import Hero from 'components/Hero';
-import Footering from 'components/Footer/Footer';
+import Footer from 'components/Footer/Footer';
 import { styled } from '@mui/material/styles';
 
 const PageOneWrapper = styled('div')({
@@ -27,7 +27,7 @@ const Landing = () => (
         <Particles />
       </Grid>
     </PageOneWrapper>
-    <Footering />
+    <Footer />
   </>
 );
 
