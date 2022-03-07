@@ -14,7 +14,7 @@ import {
 import { Link } from 'components/common';
 
 const Footer = () => (
-  <Box component="footer" bgcolor="white">
+  <Box component="footer" bgcolor="#131516" color="#d8d4cf">
     <Container maxWidth="lg" sx={{ p: 2 }}>
       <Stack spacing={2}>
         <Stack
