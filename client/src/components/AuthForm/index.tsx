@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import { Avatar, Typography, Checkbox, Button } from '@mui/material';
-import { Google } from '@mui/icons-material';
-import Input from './Input';
+import {
+  Avatar,
+  Typography,
+  Checkbox,
+  Button,
+  TextField,
+  IconButton,
+} from '@mui/material';
+import { Google, Visibility, VisibilityOff } from '@mui/icons-material';
 
 enum AuthMode {
   login,
@@ -16,8 +23,22 @@ const StyledButton = styled(Button)({
   textTransform: 'capitalize',
 });
 
+const StyledTextField = styled(TextField)({
+  marginTop: '0.5rem',
+  '& .MuiInputBase-root': {
+    borderRadius: '16px',
+    fontSize: '0.85rem',
+  },
+});
+
 const AuthForm: React.FC = () => {
   const [authMode, setAuthMode] = useState(AuthMode.login);
+  const [showPassword, setShowPassword] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
@@ -25,8 +46,22 @@ const AuthForm: React.FC = () => {
 
   const loginMode = authMode === AuthMode.login;
 
+  const onSubmit = (formData: FieldValues) => {
+    console.log(formData);
+    if (authMode === AuthMode.login) {
+      // Send Request to /login
+    } else {
+      // Send Request to /signup
+    }
+  };
+
   return (
-    <Stack spacing={3} py={5} px={7}>
+    <Stack
+      spacing={3}
+      py={5}
+      px={7}
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}>
       <Avatar src="/logo192.png" />
       <Stack>
         <Typography variant="h4">Welcome Back</Typography>
@@ -36,23 +71,76 @@ const AuthForm: React.FC = () => {
       </Stack>
       {!loginMode && (
         <Stack>
-          <Input label="Username" required placeholder="Enter your username" />
+          <Typography variant="body2">Username</Typography>
+          <Controller
+            control={control}
+            name="username"
+            defaultValue=""
+            rules={{ required: 'Username is required' }}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                placeholder="Enter your username"
+                error={Boolean(errors.username)}
+                helperText={errors.username && errors.username.message}
+              />
+            )}
+          />
         </Stack>
       )}
       <Stack>
-        <Input
-          type="email"
-          label="Email"
-          required
-          placeholder="Enter your email"
+        <Typography variant="body2">Email</Typography>
+        <Controller
+          control={control}
+          name="email"
+          defaultValue=""
+          rules={{
+            required: 'Email is required',
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              message: 'Invalid email address',
+            },
+          }}
+          render={({ field }) => (
+            <StyledTextField
+              {...field}
+              type="email"
+              placeholder="Enter your email"
+              error={Boolean(errors.email)}
+              helperText={errors.email && errors.email.message}
+            />
+          )}
         />
       </Stack>
       <Stack>
-        <Input
-          type="password"
-          label="Password"
-          required
-          placeholder="Enter your password"
+        <Typography variant="body2">Password</Typography>
+        <Controller
+          control={control}
+          name="password"
+          defaultValue=""
+          rules={{
+            required: 'Password is required',
+            minLength: {
+              value: 6,
+              message: 'Password must be at least 6 characters',
+            },
+          }}
+          render={({ field }) => (
+            <StyledTextField
+              {...field}
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Enter your password"
+              error={Boolean(errors.password)}
+              helperText={errors.password && errors.password.message}
+              InputProps={{
+                endAdornment: (
+                  <IconButton onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                ),
+              }}
+            />
+          )}
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -64,7 +152,7 @@ const AuthForm: React.FC = () => {
           <Typography variant="body2">Forgot Password?</Typography>
         </Link>
       </Stack>
-      <StyledButton fullWidth color="primary" variant="contained">
+      <StyledButton fullWidth color="primary" variant="contained" type="submit">
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton fullWidth color="inherit" variant="outlined">
