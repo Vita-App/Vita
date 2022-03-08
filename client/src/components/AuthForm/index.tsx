@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useForm, Controller, FieldValues } from 'react-hook-form';
-import { Link } from 'components/common';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
+import React, { useState } from "react";
+import { useForm, Controller, FieldValues } from "react-hook-form";
+import { Link } from "components/common";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
 import {
   Avatar,
   Typography,
@@ -10,8 +10,8 @@ import {
   Button,
   TextField,
   IconButton,
-} from '@mui/material';
-import { Google, Visibility, VisibilityOff } from '@mui/icons-material';
+} from "@mui/material";
+import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
 
 enum AuthMode {
   login,
@@ -19,15 +19,15 @@ enum AuthMode {
 }
 
 const StyledButton = styled(Button)({
-  borderRadius: '10px',
-  textTransform: 'capitalize',
+  borderRadius: "10px",
+  textTransform: "capitalize",
 });
 
 const StyledTextField = styled(TextField)({
-  marginTop: '0.5rem',
-  '& .MuiInputBase-root': {
-    borderRadius: '16px',
-    fontSize: '0.85rem',
+  marginTop: "0.5rem",
+  "& .MuiInputBase-root": {
+    borderRadius: "16px",
+    fontSize: "0.85rem",
   },
 });
 
@@ -61,7 +61,8 @@ const AuthForm: React.FC = () => {
       py={5}
       px={7}
       component="form"
-      onSubmit={handleSubmit(onSubmit)}>
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Avatar src="/logo192.png" />
       <Stack>
         <Typography variant="h4">Welcome Back</Typography>
@@ -76,7 +77,7 @@ const AuthForm: React.FC = () => {
             control={control}
             name="username"
             defaultValue=""
-            rules={{ required: 'Username is required' }}
+            rules={{ required: "Username is required" }}
             render={({ field }) => (
               <StyledTextField
                 {...field}
@@ -95,10 +96,10 @@ const AuthForm: React.FC = () => {
           name="email"
           defaultValue=""
           rules={{
-            required: 'Email is required',
+            required: "Email is required",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: 'Invalid email address',
+              message: "Invalid email address",
             },
           }}
           render={({ field }) => (
@@ -119,16 +120,16 @@ const AuthForm: React.FC = () => {
           name="password"
           defaultValue=""
           rules={{
-            required: 'Password is required',
+            required: "Password is required",
             minLength: {
               value: 6,
-              message: 'Password must be at least 6 characters',
+              message: "Password must be at least 6 characters",
             },
           }}
           render={({ field }) => (
             <StyledTextField
               {...field}
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
               error={Boolean(errors.password)}
               helperText={errors.password && errors.password.message}
@@ -148,27 +149,30 @@ const AuthForm: React.FC = () => {
           <Checkbox color="primary" />
           <Typography variant="body2">Remember me</Typography>
         </Stack>
-        <Link to="#">
-          <Typography variant="body2">Forgot Password?</Typography>
-        </Link>
+        {loginMode && (
+          <Link to="#">
+            <Typography variant="body2">Forgot Password?</Typography>
+          </Link>
+        )}
       </Stack>
       <StyledButton fullWidth color="primary" variant="contained" type="submit">
-        {loginMode ? 'Login' : 'Signup'}
+        {loginMode ? "Login" : "Signup"}
       </StyledButton>
       <StyledButton fullWidth color="inherit" variant="outlined">
         <Google sx={{ mr: 1 }} />
-        {loginMode ? 'Login' : 'Signup'} with Google
+        {loginMode ? "Login" : "Signup"} with Google
       </StyledButton>
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">
-          {loginMode ? "Don't have an account?" : 'Already have an account?'}{' '}
+          {loginMode ? "Don't have an account?" : "Already have an account?"}{" "}
         </Typography>
         <Typography
           variant="body2"
           color="primary"
-          sx={{ cursor: 'pointer' }}
-          onClick={authSwitchHandler}>
-          {loginMode ? 'Signup' : 'Login'}
+          sx={{ cursor: "pointer" }}
+          onClick={authSwitchHandler}
+        >
+          {loginMode ? "Signup" : "Login"}
         </Typography>
       </Stack>
     </Stack>
