@@ -11,7 +11,7 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { Google, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Google, LinkedIn Visibility, VisibilityOff } from "@mui/icons-material";
 
 enum AuthMode {
   login,
@@ -161,6 +161,10 @@ const AuthForm: React.FC = () => {
       <StyledButton fullWidth color="inherit" variant="outlined">
         <Google sx={{ mr: 1 }} />
         {loginMode ? "Login" : "Signup"} with Google
+      </StyledButton>
+      <StyledButton fullWidth color="inherit" variant="outlined">
+        <LinkedIn sx={{ mr: 1 }} />
+        {loginMode ? "Login" : "Signup"} with LinkedIn
       </StyledButton>
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">
