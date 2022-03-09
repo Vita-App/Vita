@@ -11,7 +11,7 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { Google, LinkedIn Visibility, VisibilityOff } from "@mui/icons-material";
+import { Google, LinkedIn, Visibility, VisibilityOff } from "@mui/icons-material";
 
 enum AuthMode {
   login,
