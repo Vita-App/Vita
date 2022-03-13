@@ -11,7 +11,7 @@ const StyledCard = styled(Card)({
   },
 });
 
-const Step0: React.FC<{
+const Cards: React.FC<{
   onClick: (type: 'mentor' | 'mentee') => void;
 }> = ({ onClick }) => (
   <Grid container spacing={5}>
@@ -51,4 +51,4 @@ const Step0: React.FC<{
   </Grid>
 );
 
-export default Step0;
+export default Cards;
