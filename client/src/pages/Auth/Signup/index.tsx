@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
       // Redirect to Search Page
       console.log('Mentee');
     } else {
-      // Display ProfileSteps Component
+      // Display Additional Forms
       setMentor(true);
     }
   };

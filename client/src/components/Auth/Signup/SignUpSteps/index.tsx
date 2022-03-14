@@ -1,27 +1,38 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  IconButton,
-  Typography,
-  Stepper,
-  Step,
-  StepLabel,
-  Stack,
-  Button,
-} from '@mui/material';
+import { Card, IconButton, Stepper, Step, StepLabel } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
+
+import ExperienceStep from './ExperienceStep';
+import ProfileStep from './ProfileStep';
+import IntegrationsStep from './IntegrationsStep';
 
 const steps = ['Profile', 'Experience', 'Integrations'];
 
 const SignUpSteps: React.FC<{
   onCancel: () => void;
 }> = ({ onCancel }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
+
+  const onContinue = () => setActiveStep((prev) => prev + 1);
+  const onBack = () => setActiveStep((prev) => prev - 1);
+
+  const renderStep = (step: number) => {
+    switch (step) {
+      case 0:
+        return <ProfileStep onContinue={onContinue} />;
+      case 1:
+        return <ExperienceStep onBack={onBack} onContinue={onContinue} />;
+      case 2:
+        return <IntegrationsStep />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <Card
       elevation={10}
-      sx={{ p: 5, borderRadius: '8px', position: 'relative', width: '100%' }}>
+      sx={{ p: 5, borderRadius: '8px', position: 'relative' }}>
       <IconButton
         onClick={onCancel}
         sx={{ position: 'absolute', top: 2, left: 2 }}>
@@ -34,19 +45,7 @@ const SignUpSteps: React.FC<{
           </Step>
         ))}
       </Stepper>
-      <Typography variant="h6">{`Active Step ${activeStep}`}</Typography>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Button
-          onClick={() => setActiveStep(activeStep - 1)}
-          disabled={activeStep === 0}>
-          Back
-        </Button>
-        <Button
-          onClick={() => setActiveStep(activeStep + 1)}
-          disabled={activeStep === steps.length}>
-          {activeStep === steps.length - 1 ? 'Finish' : 'Continue'}
-        </Button>
-      </Stack>
+      {renderStep(activeStep)}
     </Card>
   );
 };
