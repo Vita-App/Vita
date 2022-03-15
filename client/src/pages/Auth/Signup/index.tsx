@@ -15,17 +15,10 @@ const PageWrapper = styled('div')({
 });
 
 const Signup: React.FC = () => {
-  const [mentor, setMentor] = useState(false);
+  const [mentor, setMentor] = useState<boolean | null>(null);
 
   const handleCardClick = (type: 'mentor' | 'mentee') => {
-    if (type === 'mentee') {
-      // Send Req to complete-signup to complete signup for mentee
-      // Redirect to Search Page
-      console.log('Mentee');
-    } else {
-      // Display Additional Forms
-      setMentor(true);
-    }
+    setMentor(type === 'mentor');
   };
 
   return (
@@ -39,8 +32,11 @@ const Signup: React.FC = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {!mentor && <Cards onClick={handleCardClick} />}
-        {mentor && <SignUpSteps onCancel={() => setMentor(false)} />}
+        {mentor === null ? (
+          <Cards onClick={handleCardClick} />
+        ) : (
+          <SignUpSteps onCancel={() => setMentor(null)} mentor={mentor} />
+        )}
       </Container>
     </PageWrapper>
   );

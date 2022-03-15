@@ -4,27 +4,31 @@ import { Stack, Typography } from '@mui/material';
 import { StyledTextField, StyledButton } from './utils';
 
 const ExperienceStep: React.FC<{
-  onBack: () => void;
-  onContinue: (formData: FieldValues) => void;
+  onBack: (step: number, formData: FieldValues) => void;
+  onContinue: (step: number, formData: FieldValues) => void;
+  hydrate?: FieldValues;
 }> = (props) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm();
+    getValues,
+  } = useForm(props.hydrate);
 
   const onSubmit = (formData: FieldValues) => {
-    console.log(formData);
     // Continuing to the next step through props instead of continuing in the index.tsx component, because I wanted to do validation here before continuing.
     // Cool thing is that I can pass this data to the index.tsx component and gather all data from all the steps.
-    props.onContinue(formData);
+    props.onContinue(1, formData);
+  };
+
+  const onBack = () => {
+    props.onBack(1, getValues());
   };
 
   return (
     <Stack
       spacing={3}
-      py={5}
-      px={7}
+      mt={2}
       component="form"
       onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h4">Tell us about your experience</Typography>
@@ -33,7 +37,7 @@ const ExperienceStep: React.FC<{
         <Controller
           name="companyName"
           control={control}
-          defaultValue=""
+          defaultValue={props.hydrate?.companyName || ''}
           rules={{ required: 'Company name is required' }}
           render={({ field }) => (
             <StyledTextField
@@ -49,7 +53,7 @@ const ExperienceStep: React.FC<{
         <Controller
           name="professionalRole"
           control={control}
-          defaultValue=""
+          defaultValue={props.hydrate?.professionalRole || ''}
           rules={{ required: 'Professional Role is Required' }}
           render={({ field }) => (
             <StyledTextField
@@ -66,7 +70,7 @@ const ExperienceStep: React.FC<{
         <Controller
           name="linkedinProfile"
           control={control}
-          defaultValue=""
+          defaultValue={props.hydrate?.linkedinProfile || ''}
           rules={{ required: 'Linkedin Profile is Required' }}
           render={({ field }) => (
             <StyledTextField
@@ -83,7 +87,7 @@ const ExperienceStep: React.FC<{
         <Controller
           name="twitterProfile"
           control={control}
-          defaultValue=""
+          defaultValue={props.hydrate?.twitterProfile || ''}
           rules={{ required: 'Twitter Profile is Required' }}
           render={({ field }) => (
             <StyledTextField
@@ -96,7 +100,7 @@ const ExperienceStep: React.FC<{
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between">
-        <StyledButton onClick={props.onBack}>Back</StyledButton>
+        <StyledButton onClick={onBack}>Back</StyledButton>
         <StyledButton type="submit" variant="contained" sx={{ flex: 0.5 }}>
           Continue
         </StyledButton>
