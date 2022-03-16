@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, Avatar } from '@mui/material';
-import { StyledTextField, StyledButton } from './utils';
+import { passionOptions } from 'data';
+import {
+  StyledTextField,
+  StyledButton,
+  StyledReactSelect as Select,
+} from './utils';
 
 const ProfileStep: React.FC<{
   onContinue: (step: number, formData: FieldValues) => void;
@@ -75,8 +80,8 @@ const ProfileStep: React.FC<{
           spacing={3}
           border={1}
           p={2}
-          borderRadius="16px"
-          borderColor="rgb(118, 118, 118)"
+          borderRadius="4px"
+          borderColor="#767676"
           alignItems="center">
           <Avatar sx={{ width: '50px', height: '50px' }} src={avatarSrc} />
           <Stack spacing={1}>
@@ -234,6 +239,36 @@ const ProfileStep: React.FC<{
             )}
           />
         </Stack>
+      </Stack>
+      <Stack>
+        <Typography variant="h6" mb={1}>
+          Tell us about your passion
+        </Typography>
+        <Controller
+          name="passion"
+          control={control}
+          defaultValue={props.hydrate?.passion}
+          render={({ field }) => (
+            <Select
+              {...field}
+              placeholder="Choose one or more"
+              isMulti
+              classNamePrefix="select"
+              options={passionOptions}
+            />
+          )}
+        />
+      </Stack>
+      <Stack>
+        <Typography variant="body2">Referal code (if any)</Typography>
+        <Controller
+          name="referalCode"
+          control={control}
+          defaultValue={props.hydrate?.referalCode || ''}
+          render={({ field }) => (
+            <StyledTextField {...field} placeholder="Enter your referal code" />
+          )}
+        />
       </Stack>
       <Stack direction="row" justifyContent="center">
         <StyledButton type="submit" variant="contained" sx={{ flex: 0.5 }}>

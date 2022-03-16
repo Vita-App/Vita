@@ -3,7 +3,7 @@ import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography } from '@mui/material';
 import { StyledTextField, StyledButton } from './utils';
 
-const ExperienceStep: React.FC<{
+const IntegrationStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate?: FieldValues;
@@ -109,4 +109,4 @@ const ExperienceStep: React.FC<{
   );
 };
 
-export default ExperienceStep;
+export default IntegrationStep;

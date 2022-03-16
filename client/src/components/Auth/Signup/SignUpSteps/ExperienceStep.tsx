@@ -1,7 +1,12 @@
 import React from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography } from '@mui/material';
-import { StyledTextField, StyledButton } from './utils';
+import {
+  StyledTextField,
+  StyledButton,
+  StyledReactSelect as Select,
+} from './utils';
+import { companyOptions, leadershipOptions, careerOptions, jobSearchOptions, skillOptions } from 'data';
 
 const ExperienceStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
@@ -33,17 +38,19 @@ const ExperienceStep: React.FC<{
       onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h4">Tell us about your experience</Typography>
       <Stack>
-        <Typography variant="body2">Company name</Typography>
+        <Typography variant="body2" mb={1}>
+          Company name
+        </Typography>
         <Controller
           name="companyName"
           control={control}
           defaultValue={props.hydrate?.companyName || ''}
           rules={{ required: 'Company name is required' }}
           render={({ field }) => (
-            <StyledTextField
+            <Select
               {...field}
-              error={Boolean(errors.companyName)}
-              helperText={errors.companyName?.message}
+              options={companyOptions}
+              classNamePrefix="select"
             />
           )}
         />
@@ -98,6 +105,73 @@ const ExperienceStep: React.FC<{
             />
           )}
         />
+      </Stack>
+      <Stack>
+        <Typography variant="h6">
+          Select Topics {"you'd"} like to mentor on.
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          We recommend selecting at least 5 topic areas to explore what
+          interests you.
+        </Typography>
+        <Stack mt={1} spacing={2}>
+          <Controller
+            name="topics[leaderShip]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.leaderShip || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Leadership"
+                isMulti
+                classNamePrefix="select"
+                options={leadershipOptions}
+              />
+            )}
+          />
+          <Controller
+            name="topics[career]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.career || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Career"
+                isMulti
+                classNamePrefix="select"
+                options={careerOptions}
+              />
+            )}
+          />
+          <Controller
+            name="topics[jobSearch]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.jobSearch || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Job Search"
+                isMulti
+                classNamePrefix="select"
+                options={jobSearchOptions}
+              />
+            )}
+          />
+          <Controller
+            name="topics[skills]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.skills || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                placeholder="Skills"
+                isMulti
+                classNamePrefix="select"
+                options={skillOptions}
+              />
+            )}
+          />
+        </Stack>
       </Stack>
       <Stack direction="row" justifyContent="space-between">
         <StyledButton onClick={onBack}>Back</StyledButton>

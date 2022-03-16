@@ -16,7 +16,7 @@ const SignUpSteps: React.FC<{
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
   }>({});
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
@@ -82,7 +82,7 @@ const SignUpSteps: React.FC<{
         position: 'relative',
         width: {
           sm: '100%',
-          md: '50%',
+          md: '60%',
         },
       }}>
       <IconButton
