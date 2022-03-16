@@ -26,10 +26,10 @@ const SignUpSteps: React.FC<{
     } else if (step === steps.length - 1) {
       // If it's the last step and the user is a mentor, we need to send all data to server.
       // So send req to server with data and complete mentor registration here
-      const finalData = formData;
-      console.log(finalData);
+      formData[step] = data;
+      console.log(formData);
     } else {
-      // Else we move to next steps.
+      // Else we move to next steps and save the data in the formData object.
       setFormData({
         ...formData,
         [step]: { ...data },
@@ -39,6 +39,7 @@ const SignUpSteps: React.FC<{
   };
 
   const onBack = (step: number, data: FieldValues) => {
+    // For preserving the data.
     setFormData({
       ...formData,
       [step]: { ...data },
@@ -74,10 +75,19 @@ const SignUpSteps: React.FC<{
   return (
     <Card
       elevation={10}
-      sx={{ px: 3, py: 5, borderRadius: '8px', position: 'relative' }}>
+      sx={{
+        px: 5,
+        py: 5,
+        borderRadius: '8px',
+        position: 'relative',
+        width: {
+          sm: '100%',
+          md: '50%',
+        },
+      }}>
       <IconButton
         onClick={onCancel}
-        sx={{ position: 'absolute', top: 2, left: 2 }}>
+        sx={{ position: 'absolute', top: 2.5, left: 2.5 }}>
         <ArrowBack />
       </IconButton>
       {mentor && (
