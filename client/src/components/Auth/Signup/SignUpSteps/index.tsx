@@ -16,7 +16,7 @@ const SignUpSteps: React.FC<{
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
   }>({});
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
@@ -60,13 +60,7 @@ const SignUpSteps: React.FC<{
           />
         );
       case 2:
-        return (
-          <IntegrationsStep
-            onBack={onBack}
-            onContinue={onContinue}
-            hydrate={formData[step]}
-          />
-        );
+        return <IntegrationsStep onBack={onBack} onContinue={onContinue} />;
       default:
         return null;
     }
