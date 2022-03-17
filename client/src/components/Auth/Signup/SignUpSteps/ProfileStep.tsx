@@ -30,7 +30,7 @@ const ProfileStep: React.FC<{
       profilePicRef.current!.files.length > 0
     ) {
       file = profilePicRef.current!.files[0];
-    } else {
+    } else if (avatarSrc) {
       file = props.hydrate?.profilePicture;
     }
 
