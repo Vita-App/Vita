@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Landing from 'pages/Landing';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
+import Dashboard from 'pages/Dashboard';
 import Loader from 'components/Loader';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/search/" element={<SearchPage />} />
           <Route path="/user/:id" element={<UserPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </ThemeProvider>
       <Routes>

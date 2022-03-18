@@ -28,13 +28,14 @@ body:
         - Database (Mongodb)
         - Documentation
         - UI/UX
+        - Full Stack
     validations:
       required: true
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct]()
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Rishabh-malhotraa/Vita/blob/main/CODE_OF_CONDUCT.md)
       options:
-        - label: I follow [Contributing Guidelines](https://github.com/Rishabh-malhotraa/Vita/blob/main/CODE%20OF%20CONDUCT.md) of this project.
+        - label: I follow [Contributing Guidelines](https://github.com/Rishabh-malhotraa/Vita/blob/main/CODE_OF_CONDUCT.md) of this project.
           required: true
