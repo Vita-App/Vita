@@ -4,13 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import MUILink from '@mui/material/Link';
-import {
-  Facebook,
-  Twitter,
-  YouTube,
-  LinkedIn,
-  Instagram,
-} from '@mui/icons-material';
+import { GitHub, LinkedIn, Email } from '@mui/icons-material';
 import { Link } from 'components/common';
 
 const Footer = () => (
@@ -31,24 +25,18 @@ const Footer = () => (
           </Stack>
           <Stack direction="row" spacing={1}>
             <Link to="#">
-              <YouTube />
+              <GitHub />
             </Link>
             <Link to="#">
               <LinkedIn />
             </Link>
             <Link to="#">
-              <Twitter />
-            </Link>
-            <Link to="#">
-              <Instagram />
-            </Link>
-            <Link to="#">
-              <Facebook />
+              <Email />
             </Link>
           </Stack>
         </Stack>
         <Stack
-          direction={{ sm: 'row', xs: 'column' }}
+          direction={{ sm: 'row', xs: 'column-reverse' }}
           justifyContent="space-between"
           spacing={2}
           alignItems="center">
@@ -72,7 +60,7 @@ const Footer = () => (
             </Typography>
           </Stack>
           <Stack direction="column">
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2} justifyContent="end">
               <Link to="#">
                 <Typography variant="body2">Join VITA</Typography>
               </Link>
