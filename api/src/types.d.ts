@@ -4,6 +4,7 @@ export interface UserSchemaType {
   user_id: string;
   first_name: string;
   last_name: string;
+  password: string;
   email: string;
   image_link: string;
   create_time: Date;

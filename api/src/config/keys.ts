@@ -22,3 +22,8 @@ export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
 
 export const COOKIE_KEYS = [process.env.COOKIE_KEYS!];
+
+export const JWT = {
+  secret: process.env.JWT_SECRET || 'secret',
+  expiresIn: '1d',
+};
