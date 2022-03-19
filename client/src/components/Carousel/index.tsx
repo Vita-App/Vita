@@ -32,15 +32,14 @@ const CarouselWrapper = ({
     <div style={{ margin: '2rem', backgroundColor: 'inherit' }}>
       <Toolbar />
       <Swiper
-        // onInit={(swiper) => {
-        //   // @ts-ignore
-        //   swiper.params.navigation.nextEl = nextRef.current;
-        //   // @ts-ignore
-        //   swiper.params.navigation.prevEl = prevRef.current;
-        //   swiper.navigation.init();
-        //   swiper.navigation.update();
-        //   console.log(swiper);
-        // }}
+        onInit={(swiper) => {
+          // @ts-ignore
+          swiper.params.navigation.nextEl = nextRef.current;
+          // @ts-ignore
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.navigation.init();
+          swiper.navigation.update();
+        }}
         slidesPerView={5}
         // Maybe just maybe
         navigation={{
@@ -76,8 +75,8 @@ const CarouselWrapper = ({
         grabCursor
         // centeredSlides
         mousewheel={{ forceToAxis: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
+        // onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log('slide change')}
         loop>
         {userList.map((user: Partial<MentorSchemaType>, index) => {
           const {
@@ -116,19 +115,19 @@ const CarouselWrapper = ({
             </SwiperSlide>
           );
         })}
-        <ArrowSpace>
-          <div>
-            <ArrowButton ref={prevRef}>
-              {' '}
-              <img src={left} alt="" height={15} width={15} />{' '}
-            </ArrowButton>
-            <ArrowButton ref={nextRef}>
-              {' '}
-              <img src={right} alt="" height={15} width={15} />{' '}
-            </ArrowButton>
-          </div>
-        </ArrowSpace>
       </Swiper>
+      <ArrowSpace>
+        <div>
+          <ArrowButton ref={prevRef}>
+            {' '}
+            <img src={left} alt="" height={15} width={15} />{' '}
+          </ArrowButton>
+          <ArrowButton ref={nextRef}>
+            {' '}
+            <img src={right} alt="" height={15} width={15} />{' '}
+          </ArrowButton>
+        </div>
+      </ArrowSpace>
     </div>
   );
 };
