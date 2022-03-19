@@ -28,6 +28,10 @@ const callout = mergeStyleSets({
   body: {
     margin: '.5em 0',
   },
+  roomLink: {
+    fontSize: FontSizes.smallPlus,
+    cursor: 'pointer',
+  },
   footer: {
     fontSize: FontSizes.smallPlus,
     marginTop: '2em',
@@ -47,6 +51,10 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
 }) => {
   const room = useRecoilValue(roomState);
   const link = `${window.location.origin}/room/${room?.id}`;
+  const copyLink = () => {
+    navigator.clipboard.writeText(link);
+  };
+
   return (
     <Callout
       className={callout.container}
@@ -61,8 +69,11 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
         ID: <Label>{room?.id}</Label>
       </h2>
       <div className={callout.body}>
-        You can invite people directly to this chat by sharing this link{' '}
-        <Label>{link}</Label>
+        You can invite people directly to this chat by sharing this link. Click
+        on link to copy
+        <h4 className={callout.roomLink} onClick={copyLink}>
+          {link}
+        </h4>
       </div>
       {showFooter && (
         <div className={callout.footer}>
