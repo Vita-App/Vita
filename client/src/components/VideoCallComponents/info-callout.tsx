@@ -66,14 +66,14 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
         Room created by {room?.created_by || '<Enter your name next time>'}
       </h2>
       <h2 className={callout.secondaryTitle}>
-        ID: <Label>{room?.id}</Label>
+        ID: <Label >{room?.id}</Label>
       </h2>
       <div className={callout.body}>
         You can invite people directly to this chat by sharing this link. Click
         on link to copy
-        <h4 className={callout.roomLink} onClick={copyLink}>
+        <Label className={callout.roomLink} onClick={copyLink}>
           {link}
-        </h4>
+        </Label>
       </div>
       {showFooter && (
         <div className={callout.footer}>
