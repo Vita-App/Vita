@@ -19,7 +19,6 @@ export const getMentorsController = async (req: Request, res: Response) => {
     searchOptions.$text = { $search: mentorSearchText };
 
   let mentors = [] as Partial<MentorSchemaType>[];
-  console.log(searchOptions);
   // since we are using user input we need need to handle when user sends wrong data
   try {
     const mentors_ = await MentorModel.find(searchOptions).limit(limit);
