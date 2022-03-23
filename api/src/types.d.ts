@@ -13,6 +13,8 @@ export interface UserSchemaType {
   signup_completed: boolean;
   mentor_information: Types.ObjectId | undefined;
   bookings: Types.ObjectId[] | undefined;
+  issueToken: () => Promise<string>;
+  comparePassword: (password: string) => Promise<boolean>;
 }
 
 export interface TopicSchemaType {

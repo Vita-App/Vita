@@ -1,4 +1,4 @@
-import { Schema, model, SchemaDefinitionProperty } from 'mongoose';
+import { Schema, model, Model } from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import {
@@ -61,7 +61,10 @@ const UserSchema = new Schema<UserSchemaType>({
   },
   oauth_provider: String,
   is_mentor: Boolean,
-  signup_completed: Boolean,
+  signup_completed: {
+    type: Boolean,
+    default: false,
+  },
   mentor_information: {
     type: Schema.Types.ObjectId,
     ref: 'Mentor',
@@ -86,7 +89,7 @@ UserSchema.methods.comparePassword = async function (password: string) {
 };
 
 UserSchema.methods.issueToken = function () {
-  return jwt.sign({ user_id: this.user_id }, JWT.secret, {
+  return jwt.sign({ user_id: this._id }, JWT.secret, {
     expiresIn: JWT.expiresIn,
   });
 };

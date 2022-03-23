@@ -3,6 +3,7 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import jwtCookieMiddleware from './jwtAuth';
 import { COOKIE_KEYS, CLIENT_URL } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
@@ -27,6 +28,8 @@ const addMiddleWare = (app: Express) => {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.use(jwtCookieMiddleware);
 };
 
 export default addMiddleWare;

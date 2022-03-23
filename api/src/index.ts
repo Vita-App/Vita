@@ -9,7 +9,7 @@ import socketioService from './service/socket-io-service';
 import cors from 'cors';
 import { CORS_REGEX } from './config/keys';
 // import passport from 'passport';
-// import useMiddleWare from './middleware/index';
+import useMiddleWare from './middleware/index';
 
 // import passportService from './service/passport';
 // passportService(passport);
@@ -18,7 +18,7 @@ const app = express();
 const httpServer = new http.Server(app);
 
 connectDB();
-// useMiddleWare(app);
+useMiddleWare(app);
 
 app.use(
   cors({

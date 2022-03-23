@@ -25,5 +25,5 @@ export const COOKIE_KEYS = [process.env.COOKIE_KEYS!];
 
 export const JWT = {
   secret: process.env.JWT_SECRET || 'secret',
-  expiresIn: '1d',
+  expiresIn: '7d',
 };
