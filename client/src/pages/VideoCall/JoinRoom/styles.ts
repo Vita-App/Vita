@@ -10,15 +10,18 @@ export const mr4 = mergeStyles({
 export const container = mergeStyles({
   height: '100vh',
   overflowY: 'auto',
+  backgroundColor: 'transparent',
 });
 export const containerInner = mergeStyles({
   margin: 'auto',
+  color: 'blue',
 });
 
 export const heading = mergeStyles({
   padding: '.25em',
   textAlign: 'center',
   display: 'block',
+  color: '#2EA1FE',
 });
 
 export const submit = mergeStyles({

@@ -7,7 +7,8 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignContent: 'center',
-  color: '#f5f5f5',
+  // color: '#f5f5f5',
+  // color:'black',
   paddingLeft: '2rem',
 
   '& .MuiTypography-root': {

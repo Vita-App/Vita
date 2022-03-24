@@ -3,6 +3,7 @@ import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { Link, StyledButton as Button } from 'components/common';
+import DarkMode from '../Darkmode/DarkMode'
 
 const Toolbar = () => (
   <div>
@@ -19,6 +20,8 @@ const Toolbar = () => (
         <Link to="/room">
           <Button>Vita Meet</Button>
         </Link>
+
+        <DarkMode/>
         {/* <Button sx={{ color: '' }}>Login</Button> */}
       </Stack>
     </MaterialToolbar>

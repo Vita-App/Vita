@@ -4,6 +4,7 @@ import fscreen from 'fscreen';
 import VideoPreview from './preview';
 import CreateMeeting from './create';
 import JoinMeeting from './join';
+import DarkMode from '../../../components/Darkmode/DarkMode'
 import { container, containerInner, heading, mr4, options } from './styles';
 
 const pivotStyles: Partial<IPivotStyles> = {
@@ -34,6 +35,7 @@ const Landing = () => {
   }, []);
   return (
     <Stack className={container} horizontalAlign="center">
+      <DarkMode/>
       <Stack.Item className={containerInner}>
         <Text className={heading} variant="superLarge">
           Welcome to Vita-Meet
