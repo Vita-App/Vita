@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useForm, Controller, FieldValues } from "react-hook-form";
-import { Link } from "components/common";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
+import React, { useState } from 'react';
+import { useForm, Controller, FieldValues } from 'react-hook-form';
+import { Link } from 'components/common';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Typography,
@@ -10,8 +10,13 @@ import {
   Button,
   TextField,
   IconButton,
-} from "@mui/material";
-import { Google, LinkedIn, Visibility, VisibilityOff } from "@mui/icons-material";
+} from '@mui/material';
+import {
+  Google,
+  LinkedIn,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 
 enum AuthMode {
   login,
@@ -19,15 +24,22 @@ enum AuthMode {
 }
 
 const StyledButton = styled(Button)({
-  borderRadius: "10px",
-  textTransform: "capitalize",
+  fontWeight: 'bolder',
+  borderRadius: '10px',
+  textTransform: 'capitalize',
 });
 
 const StyledTextField = styled(TextField)({
-  marginTop: "0.5rem",
-  "& .MuiInputBase-root": {
-    borderRadius: "16px",
-    fontSize: "0.85rem",
+  marginTop: '0.5rem',
+  '& .MuiInputBase-root': {
+    borderRadius: '16px',
+    fontSize: '0.85rem',
+  },
+  '& :-webkit-autofill': {
+    '-webkit-box-shadow': '0 0 0 100px #222222 inset !important',
+    '-webkit-text-fill-color': '#fff',
+    caretColor: '#fff',
+    borderRadius: 'inherit',
   },
 });
 
@@ -61,8 +73,7 @@ const AuthForm: React.FC = () => {
       py={5}
       px={7}
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+      onSubmit={handleSubmit(onSubmit)}>
       <Avatar src="/logo192.png" />
       <Stack>
         <Typography variant="h4">Welcome Back</Typography>
@@ -70,25 +81,6 @@ const AuthForm: React.FC = () => {
           Please enter your details here to continue...
         </Typography>
       </Stack>
-      {!loginMode && (
-        <Stack>
-          <Typography variant="body2">Username</Typography>
-          <Controller
-            control={control}
-            name="username"
-            defaultValue=""
-            rules={{ required: "Username is required" }}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                placeholder="Enter your username"
-                error={Boolean(errors.username)}
-                helperText={errors.username && errors.username.message}
-              />
-            )}
-          />
-        </Stack>
-      )}
       <Stack>
         <Typography variant="body2">Email</Typography>
         <Controller
@@ -96,10 +88,10 @@ const AuthForm: React.FC = () => {
           name="email"
           defaultValue=""
           rules={{
-            required: "Email is required",
+            required: 'Email is required',
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: "Invalid email address",
+              message: 'Invalid email address',
             },
           }}
           render={({ field }) => (
@@ -120,16 +112,16 @@ const AuthForm: React.FC = () => {
           name="password"
           defaultValue=""
           rules={{
-            required: "Password is required",
+            required: 'Password is required',
             minLength: {
               value: 6,
-              message: "Password must be at least 6 characters",
+              message: 'Password must be at least 6 characters',
             },
           }}
           render={({ field }) => (
             <StyledTextField
               {...field}
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
               error={Boolean(errors.password)}
               helperText={errors.password && errors.password.message}
@@ -156,27 +148,26 @@ const AuthForm: React.FC = () => {
         )}
       </Stack>
       <StyledButton fullWidth color="primary" variant="contained" type="submit">
-        {loginMode ? "Login" : "Signup"}
+        {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton fullWidth color="inherit" variant="outlined">
         <Google sx={{ mr: 1 }} />
-        {loginMode ? "Login" : "Signup"} with Google
+        {loginMode ? 'Login' : 'Signup'} with Google
       </StyledButton>
       <StyledButton fullWidth color="inherit" variant="outlined">
         <LinkedIn sx={{ mr: 1 }} />
-        {loginMode ? "Login" : "Signup"} with LinkedIn
+        {loginMode ? 'Login' : 'Signup'} with LinkedIn
       </StyledButton>
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">
-          {loginMode ? "Don't have an account?" : "Already have an account?"}{" "}
+          {loginMode ? "Don't have an account?" : 'Already have an account?'}{' '}
         </Typography>
         <Typography
           variant="body2"
           color="primary"
-          sx={{ cursor: "pointer" }}
-          onClick={authSwitchHandler}
-        >
-          {loginMode ? "Signup" : "Login"}
+          sx={{ cursor: 'pointer' }}
+          onClick={authSwitchHandler}>
+          {loginMode ? 'Signup' : 'Login'}
         </Typography>
       </Stack>
     </Stack>
