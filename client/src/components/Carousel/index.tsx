@@ -17,6 +17,7 @@ import {
   StyledImage,
   AbsoluteGrid,
 } from './Carousel.styles';
+import Toolbar from './CarouselToolbar';
 
 SwiperCore.use([Navigation, Mousewheel, Pagination]);
 
@@ -29,22 +30,23 @@ const CarouselWrapper = ({
   const nextRef = useRef<HTMLButtonElement>(null);
   return (
     <div style={{ margin: '2rem', backgroundColor: 'inherit' }}>
+      <Toolbar />
       <Swiper
-        onInit={(swiper) => {
-          // @ts-ignore
-          swiper.params.navigation.nextEl = nextRef.current;
-          // @ts-ignore
-          swiper.params.navigation.prevEl = prevRef.current;
-          swiper.navigation.init();
-          swiper.navigation.update();
-          console.log(swiper);
-        }}
+        // onInit={(swiper) => {
+        //   // @ts-ignore
+        //   swiper.params.navigation.nextEl = nextRef.current;
+        //   // @ts-ignore
+        //   swiper.params.navigation.prevEl = prevRef.current;
+        //   swiper.navigation.init();
+        //   swiper.navigation.update();
+        //   console.log(swiper);
+        // }}
         slidesPerView={5}
         // Maybe just maybe
-        // navigation={{
-        //   prevEl: prevRef.current ? prevRef.current : undefined,
-        //   nextEl: nextRef.current ? nextRef.current : undefined,
-        // }}
+        navigation={{
+          prevEl: prevRef.current!,
+          nextEl: nextRef.current!,
+        }}
         breakpoints={{
           320: {
             slidesPerView: 1,

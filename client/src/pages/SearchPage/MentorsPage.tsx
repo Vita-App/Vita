@@ -4,17 +4,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ReactSelect as Select } from 'components/common';
 import { expertiseOptions } from 'data';
-// import UserCard from 'components/UserCard';
+import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { expertiseState, topicState } from 'store';
-import { SERVER_URL } from 'config.keys';
-import axios from 'axios';
-import { MentorSchemaType } from 'types';
 import { useQuery } from 'react-query';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import CarouselWrapper from 'components/Carousel/CarouselWrapper';
+import { getMentors } from 'utils/api-helper';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -50,27 +47,14 @@ const TextAreaWrapper = styled(Paper)({
   },
 });
 
-// const CardContainer = styled(Grid)({
-//   display: 'grid',
-//   gridTemplateColumns: 'repeat(auto-fill, 300px)',
-//   justifyContent: 'space-between',
-//   marginTop: '3rem',
-// });
+const CardContainer = styled(Grid)({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, 300px)',
+  justifyContent: 'space-between',
+  marginTop: '3rem',
+});
 
-const getMentors = async (expertise: string, topic: number) => {
-  const expertise_ = expertise === undefined ? 'All' : expertise;
-  const { data: response } = await axios.get<Partial<MentorSchemaType[]>>(
-    `${SERVER_URL}/api/get-mentors`,
-    {
-      params: {
-        expertise: expertise_,
-        topic,
-      },
-    },
-  );
-  return response;
-};
-
+// @ts-ignore
 const RenderCards = ({
   isLoading,
   data,
@@ -81,8 +65,17 @@ const RenderCards = ({
   if (isLoading || typeof data === 'undefined') return <div />;
 
   const users = data.slice(0, 50);
-  console.log(users);
-  return <CarouselWrapper userList={users}></CarouselWrapper>;
+  return (
+    <CardContainer container>
+      {users.map((user, index) => (
+        <UserCard
+          key={index}
+          // @ts-ignore
+          user={user}
+        />
+      ))}
+    </CardContainer>
+  );
 };
 
 const MentorsPage = () => {
