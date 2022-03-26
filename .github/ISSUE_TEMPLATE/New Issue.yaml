@@ -1,0 +1,41 @@
+name: New Issue
+description: NEW ISSUE TEMPALTE
+title: '[Create New Issue]: '
+labels: ["GSSoC'21"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to make an issue!
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Enter a brief description
+      placeholder: Please include a summary. Please also include relevant motivation and context.
+      value: 'Description'
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Domain
+      description: Select domain of Contribution
+      options:
+        - Front-End (Styling/Markup)
+        - Front-End (State-Management React)
+        - Backend Dev (Express)
+        - Database (Mongodb)
+        - Documentation
+        - UI/UX
+        - Full Stack
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/Rishabh-malhotraa/Vita/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I follow [Contributing Guidelines](https://github.com/Rishabh-malhotraa/Vita/blob/main/CODE_OF_CONDUCT.md) of this project.
+          required: true

@@ -7,14 +7,11 @@ import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { expertiseState, topicState } from 'store';
-import { SERVER_URL } from 'config.keys';
-import axios from 'axios';
-import { MentorSchemaType } from 'types';
 import { useQuery } from 'react-query';
-import { shuffleArray } from 'utils/helper';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { getMentors } from 'utils/api-helper';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -56,21 +53,6 @@ const CardContainer = styled(Grid)({
   justifyContent: 'space-between',
   marginTop: '3rem',
 });
-
-const getMentors = async (expertise: string, topic: number) => {
-  const expertise_ = expertise === undefined ? 'All' : expertise;
-  const { data: response } = await axios.get<Partial<MentorSchemaType[]>>(
-    `${SERVER_URL}/api/get-mentors`,
-    {
-      params: {
-        expertise: expertise_,
-        topic,
-      },
-    },
-  );
-  // @ts-ignore
-  return shuffleArray(response);
-};
 
 // @ts-ignore
 const RenderCards = ({

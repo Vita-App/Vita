@@ -16,7 +16,7 @@ const topicsData: Topic[] = [
     topicName: 'Practice Mock Interview',
     motivation: 'Job Search',
     description:
-      'Practice HR, technical and behavioural interviews with mentors.',
+      'Practice HR, technical and behavioral interviews with mentors.',
     emojiIcon: '🔍',
     emojiBadge: '🧑🏻‍🏫',
   },
@@ -31,7 +31,7 @@ const topicsData: Topic[] = [
 
   {
     value: 3,
-    topicName: 'Acing techincal interviews',
+    topicName: 'Acing technical interviews',
     motivation: 'Job Search',
     description:
       'Learn the best ways to answer technical interview questions with framework',
@@ -61,7 +61,7 @@ const topicsData: Topic[] = [
     topicName: 'Getting the most out of my internship',
     motivation: 'Career Advice',
     description:
-      'Strategies to maximize the amount of learning during an intership or co-op programs',
+      'Strategies to maximize the amount of learning during an internship or co-op programs',
     emojiIcon: '⚡',
     emojiBadge: '📚',
   },
@@ -146,7 +146,7 @@ const topicsData: Topic[] = [
   },
   {
     value: 16,
-    topicName: 'Keeping Team Member Movitvated',
+    topicName: 'Keeping Team Member Motivated',
     motivation: 'Leadership',
     description:
       'Understanding factors that lead to a motivated team - recognition, communication and more.',
@@ -219,7 +219,7 @@ const topicsData: Topic[] = [
     value: 24,
     topicName: 'Getting started with Open Source',
     motivation: 'Skills',
-    description: 'Start contriburing to production grade software',
+    description: 'Start contributing to production grade software',
     emojiIcon: '🚀',
     emojiBadge: '🔮',
   },
