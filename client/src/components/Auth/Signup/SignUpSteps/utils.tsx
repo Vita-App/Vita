@@ -3,6 +3,7 @@ import { TextField, Button } from '@mui/material';
 import { ReactSelect } from 'components/common';
 
 const StyledButton = styled(Button)({
+  fontWeight: 'bolder',
   borderRadius: '10px',
   textTransform: 'capitalize',
 });
@@ -12,6 +13,12 @@ const StyledTextField = styled(TextField)({
   '& .MuiInputBase-root': {
     // borderRadius: '16px',
     fontSize: '0.85rem',
+  },
+  '& :-webkit-autofill': {
+    '-webkit-box-shadow': '0 0 0 100px #222222 inset !important',
+    '-webkit-text-fill-color': '#fff',
+    caretColor: '#fff',
+    borderRadius: 'inherit',
   },
 });
 
@@ -25,9 +32,7 @@ const StyledReactSelect = styled(ReactSelect)({
     borderColor: '#767676',
     backgroundColor: 'transparent',
   },
-  '.select__control:hover': {
-    borderColor: '#fff',
-  },
+
   '.select__multi-value': {
     backgroundColor: '#444444',
     borderRadius: '10px',

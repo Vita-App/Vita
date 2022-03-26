@@ -71,7 +71,7 @@ export const companyOptions = [
   },
 ];
 
-export const passionOptions = [
+export const interestOptions = [
   {
     value: 'AI/ML',
     label: 'AI/ML',

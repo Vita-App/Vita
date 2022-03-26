@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/search/" element={<SearchPage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/complete-signup" element={<Signup />} />
+          <Route path="/registration-form" element={<Signup />} />
         </Routes>
       </ThemeProvider>
       <Routes>

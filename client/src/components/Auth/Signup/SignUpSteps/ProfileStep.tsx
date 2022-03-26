@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, Avatar } from '@mui/material';
-import { passionOptions } from 'data';
+import { interestOptions } from 'data';
 import {
   StyledTextField,
   StyledButton,
@@ -242,19 +242,19 @@ const ProfileStep: React.FC<{
       </Stack>
       <Stack>
         <Typography variant="h6" mb={1}>
-          Tell us about your passion
+          Tell us about your interest
         </Typography>
         <Controller
-          name="passion"
+          name="interest"
           control={control}
-          defaultValue={props.hydrate?.passion}
+          defaultValue={props.hydrate?.interest}
           render={({ field }) => (
             <Select
               {...field}
               placeholder="Choose one or more"
               isMulti
               classNamePrefix="select"
-              options={passionOptions}
+              options={interestOptions}
             />
           )}
         />

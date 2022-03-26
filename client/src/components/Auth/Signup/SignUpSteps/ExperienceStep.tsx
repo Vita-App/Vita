@@ -6,7 +6,13 @@ import {
   StyledButton,
   StyledReactSelect as Select,
 } from './utils';
-import { companyOptions, leadershipOptions, careerOptions, jobSearchOptions, skillOptions } from 'data';
+import {
+  companyOptions,
+  leadershipOptions,
+  careerOptions,
+  jobSearchOptions,
+  skillOptions,
+} from 'data';
 
 const ExperienceStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
@@ -95,7 +101,6 @@ const ExperienceStep: React.FC<{
           name="twitterProfile"
           control={control}
           defaultValue={props.hydrate?.twitterProfile || ''}
-          rules={{ required: 'Twitter Profile is Required' }}
           render={({ field }) => (
             <StyledTextField
               {...field}
