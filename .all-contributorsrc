@@ -71,6 +71,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Harshil-Jani",
+      "name": "Harshil Jani",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79367883?v=4",
+      "profile": "http://harshiljani2002@gmail.com",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
