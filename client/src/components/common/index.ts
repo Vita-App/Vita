@@ -1,9 +1,12 @@
-import { Link as Link_ } from 'react-router-dom';
+import { Link as router_Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Reactselect from 'react-select';
 
-export const Link = styled(Link_)({ color: 'inherit', textDecoration: 'none' });
+export const Link = styled(router_Link)({
+  color: 'inherit',
+  textDecoration: 'none',
+});
 
 export const ReactSelect = styled(Reactselect)({
   width: '100%',

@@ -69,5 +69,26 @@ const UserSchema = new Schema<UserSchemaType>({
   },
 });
 
+MentorSchema.index(
+  {
+    first_name: 'text',
+    last_name: 'text',
+    job_title: 'text',
+    company: 'text',
+    description: 'text',
+    expertise: 'text',
+    language: 'text',
+  },
+
+  {
+    language_override: 'dummy',
+    weights: {
+      company: 3,
+      job_title: 4,
+      expertise: 4,
+    },
+  },
+); // Full Text Search index on mentor model
+
 export const UserModel = model('User', UserSchema);
 export const MentorModel = model('Mentor', MentorSchema);
