@@ -1,19 +1,4 @@
-import { Paper, styled, Grid } from '@mui/material';
-
-// const Typography: React.CSSProperties = {
-//   color: 'black',
-//   fontFamily: "'Circular Std', sans-serif",
-//   letterSpacing: '0.05rem',
-//   margin: '0',
-// };
-
-// const Heading = styled('h4')`
-//   color: black;
-//   font-family: 'Circular Std', sans-serif;
-//   letter-spacing: 0.05rem;
-//   margin: 1rem 0;
-//   font-size: 1.5rem;
-// `;
+import { Paper, styled, Grid, IconButton } from '@mui/material';
 
 export const ArrowSpace = styled('div')`
   display: flex;
@@ -33,20 +18,6 @@ export const ArrowButton = styled('button')`
   margin: 1rem 1.5rem;
   cursor: pointer;
 `;
-
-// const Button = styled('button')`
-//   background: transparent;
-//   border: 1px solid #636363;
-//   font-family: 'Circular Std', sans-serif;
-//   letter-spacing: 0.05rem;
-//   border-radius: 0.5rem;
-//   height: 33px
-//   width: 100px;
-//   tranform: translateY(-3px);
-//   margin: 1rem;
-//   padding: 0.5rem;
-//   pointer: cursor;
-// `;
 
 export const Wrapper = styled(Paper)`
   height: 400px;
@@ -95,5 +66,30 @@ export const AbsoluteGrid = styled(Grid)`
   }
   .CarouselCard_topics {
     text-overflow: ellipsis;
+  }
+`;
+
+export const StyledIconButton = styled(IconButton)(
+  ({ theme }) => `
+  background: rgb(57,57,57,0.4);
+  textTransform: none;
+  color: #f5f5f5;
+  border: 1px solid ${theme.palette.grey[800]};
+  fontWeight: 700;
+  &:hover: {
+    opacity: 1;
+    backgroundColor: #424040;
+  },
+  `,
+);
+
+export const CarouselDiv = styled('div')`
+  margin: 2rem;
+  background: inherit;
+  .swiper-button-prev {
+    display: none;
+  }
+  .swiper-button-next {
+    display: none;
   }
 `;

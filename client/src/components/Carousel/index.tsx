@@ -1,51 +1,34 @@
 import React, { useRef } from 'react';
 import SwiperCore, { Navigation, Mousewheel, Pagination } from 'swiper';
-import BookmarksRoundedIcon from '@mui/icons-material/BookmarksRounded';
-import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { commaString } from 'utils/helper';
 import { MentorSchemaType } from 'types';
-import { Link } from 'components/common';
 import 'swiper/swiper-bundle.min.css';
-import { Grid } from '@mui/material';
-import right from './right.svg';
-import left from './left.svg';
-import {
-  ArrowSpace,
-  ArrowButton,
-  Wrapper,
-  StyledImage,
-  AbsoluteGrid,
-} from './Carousel.styles';
+import UserCard from 'components/UserCard';
 import Toolbar from './CarouselToolbar';
+import { CarouselDiv } from './Carousel.styles';
 
 SwiperCore.use([Navigation, Mousewheel, Pagination]);
 
-const CarouselWrapper = ({
-  userList,
-}: {
-  userList: Partial<MentorSchemaType>[];
-}) => {
+const Carousel = ({ userList }: { userList: Partial<MentorSchemaType>[] }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
+  console.log(prevRef, nextRef);
   return (
-    <div style={{ margin: '2rem', backgroundColor: 'inherit' }}>
-      <Toolbar />
+    <CarouselDiv style={{ margin: '2rem', backgroundColor: 'inherit' }}>
+      <Toolbar prevRef={prevRef} nextRef={nextRef} />
       <Swiper
+        navigation={{
+          prevEl: prevRef.current ? prevRef.current : undefined,
+          nextEl: nextRef.current ? nextRef.current : undefined,
+        }}
         onInit={(swiper) => {
           // @ts-ignore
-          swiper.params.navigation.nextEl = nextRef.current;
-          // @ts-ignore
           swiper.params.navigation.prevEl = prevRef.current;
-          swiper.navigation.init();
+          // @ts-ignore
+          swiper.params.navigation.nextEl = nextRef.current;
           swiper.navigation.update();
         }}
         slidesPerView={5}
-        // Maybe just maybe
-        navigation={{
-          prevEl: prevRef.current!,
-          nextEl: nextRef.current!,
-        }}
         breakpoints={{
           320: {
             slidesPerView: 1,
@@ -77,59 +60,15 @@ const CarouselWrapper = ({
         mousewheel={{ forceToAxis: true }}
         // onSwiper={(swiper) => console.log(swiper)}
         // onSlideChange={() => console.log('slide change')}
-        loop>
-        {userList.map((user: Partial<MentorSchemaType>, index) => {
-          const {
-            first_name,
-            last_name,
-            company,
-            job_title,
-            expertise,
-            image_link,
-            _id,
-          } = user;
-          const name = `${first_name} ${last_name}`;
-          return (
-            <SwiperSlide key={index}>
-              <Link to={`/user/${_id}`}>
-                <Wrapper elevation={4}>
-                  <StyledImage src={image_link} />
-                  <AbsoluteGrid container>
-                    <Grid item>
-                      <BookmarksRoundedIcon />
-                      <span className="CarouselCard_topics">
-                        {commaString(expertise)}
-                      </span>
-                    </Grid>
-                    <Grid item>
-                      <WorkRoundedIcon />
-                      <span>{job_title}</span>
-                    </Grid>
-                    <Grid item>{company}</Grid>
-                    <Grid item className="CarouselCard_text">
-                      {name}
-                    </Grid>
-                  </AbsoluteGrid>
-                </Wrapper>
-              </Link>
-            </SwiperSlide>
-          );
-        })}
+        loop={true}>
+        {userList.map((user: Partial<MentorSchemaType>, index) => (
+          <SwiperSlide key={index}>
+            <UserCard user={user} />
+          </SwiperSlide>
+        ))}
       </Swiper>
-      <ArrowSpace>
-        <div>
-          <ArrowButton ref={prevRef}>
-            {' '}
-            <img src={left} alt="" height={15} width={15} />{' '}
-          </ArrowButton>
-          <ArrowButton ref={nextRef}>
-            {' '}
-            <img src={right} alt="" height={15} width={15} />{' '}
-          </ArrowButton>
-        </div>
-      </ArrowSpace>
-    </div>
+    </CarouselDiv>
   );
 };
 
-export default CarouselWrapper;
+export default Carousel;

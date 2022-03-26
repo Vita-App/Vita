@@ -1,24 +1,16 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
 import { Typography } from '@mui/material';
-// import ChevronLeftOutlined from '@mui/icons-material/ChevronLeftOutlined';
-// import ChevronRightOutlined from '@mui/icons-material/ChevronRightOutlined';
+import ChevronLeftOutlined from '@mui/icons-material/ChevronLeftOutlined';
+import ChevronRightOutlined from '@mui/icons-material/ChevronRightOutlined';
 import { StyledButton } from 'components/common';
+import { StyledIconButton } from './Carousel.styles';
+interface AppProps {
+  prevRef: React.RefObject<HTMLButtonElement>;
+  nextRef: React.RefObject<HTMLButtonElement>;
+}
 
-// const StyledIconButton = styled(IconButton)(({ theme }) => ({
-//   background: 'rgb(59,57,57,0.4)',
-//   textTransform: 'none',
-//   color: '#f5f5f5',
-//   border: `1px solid ${theme.palette.grey[800]}`,
-//   fontWeight: 700,
-//   // Margin: '1rem',
-//   '&:hover': {
-//     opacity: 1,
-//     backgroundColor: '#424040',
-//   },
-// }));
-
-const CarouselToolbar = () => (
+const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
   <div
     style={{
       backgroundColor: '#242424',
@@ -28,16 +20,23 @@ const CarouselToolbar = () => (
       <Typography
         variant="h5"
         sx={{ fontWeight: 700, flexGrow: 1, color: '#f5f5f5' }}>
-        Explore impactful topics
+        Get mentorship from Alumni
       </Typography>
       <Stack direction="row" spacing={2}>
-        <StyledButton sx={{ p: 1 }}>Explore all</StyledButton>
-        {/* <StyledIconButton aria-label="previous page" size="medium">
-          <ChevronLeftOutlined fontSize="inherit" />
-        </StyledIconButton>
-        <StyledIconButton aria-label="next page" size="medium">
-          <ChevronRightOutlined fontSize="inherit" />
-        </StyledIconButton> */}
+        <StyledButton sx={{ p: 2 }}>Explore all</StyledButton>
+        <div>
+          <StyledIconButton
+            aria-label="previous-page"
+            size="medium"
+            ref={prevRef}>
+            <ChevronLeftOutlined fontSize="inherit" />
+          </StyledIconButton>
+        </div>
+        <div>
+          <StyledIconButton aria-label="next page" size="medium" ref={nextRef}>
+            <ChevronRightOutlined fontSize="inherit" />
+          </StyledIconButton>
+        </div>
       </Stack>
     </Stack>
   </div>
