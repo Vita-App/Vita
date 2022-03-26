@@ -22,3 +22,11 @@ export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
 
 export const COOKIE_KEYS = [process.env.COOKIE_KEYS!];
+
+export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
+
+export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT) || 465;
+
+export const EMAIL_USER = process.env.EMAIL_USER
+
+export const EMAIL_PASS = process.env.EMAIL_PASS;
