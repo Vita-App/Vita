@@ -4,7 +4,7 @@ import { TopicModel } from '../Models/Topics';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType } from '../types';
 
-// http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10
+// http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
   const expertise = req.query.expertise?.toString() || 'All';
   const topic: number = Number(req.query.topic?.toString() || -1);
@@ -13,8 +13,8 @@ export const getMentorsController = async (req: Request, res: Response) => {
   const limit = Number(req.query.limit?.toString() || '0');
 
   let searchOptions = {} as FilterQuery<MentorSchemaType>;
-  if (topic != -1) searchOptions.topics = topic;
-  if (expertise != 'All') searchOptions.expertise = expertise;
+  if (topic !== -1) searchOptions.topics = topic;
+  if (expertise !== 'All') searchOptions.expertise = expertise;
   if (mentorSearchText !== '')
     searchOptions.$text = { $search: mentorSearchText };
 
