@@ -17,6 +17,7 @@ import {
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 enum AuthMode {
   login,
@@ -51,6 +52,7 @@ const AuthForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
@@ -63,6 +65,8 @@ const AuthForm: React.FC = () => {
     if (authMode === AuthMode.login) {
       // Send Request to /login
     } else {
+      // only for demo purposes
+      navigate('/registration-form');
       // Send Request to /signup
     }
   };

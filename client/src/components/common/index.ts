@@ -22,7 +22,7 @@ export const ReactSelect = styled(Reactselect)({
     color: 'white',
   },
   '.select__control:hover': {
-    borderColor: 'transparent',
+    borderColor: '#2684ff',
   },
   '.select__menu': {
     backgroundColor: '#272626',
