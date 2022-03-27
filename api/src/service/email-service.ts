@@ -1,8 +1,8 @@
-import nodemailer from 'nodemailer';
+import nodemailer, { SendMailOptions } from 'nodemailer';
 import {EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS} from '../config/keys';
 
 
-export const sendEmail = async (to: string, subject: string, msg: string) => {
+export const sendEmail = async (to: string, subject: string, msg: string, icsFileContent?: string) => {
     try {
         const transporter = nodemailer.createTransport({
             host: EMAIL_HOST,
@@ -14,12 +14,22 @@ export const sendEmail = async (to: string, subject: string, msg: string) => {
             }
         });
         
-        const info = await transporter.sendMail({
+        const emailOptions = <SendMailOptions> {
             from: `"Vita" <${EMAIL_USER}>`,
             to,
             subject,
-            text: msg,
-        });
+            text: msg
+        }
+        
+        if (icsFileContent)
+            emailOptions.attachments = [
+                {
+                    filename: 'Event.ics',
+                    content: icsFileContent
+                }
+            ]
+
+        const info = await transporter.sendMail(emailOptions);
         
         return info.messageId;
     } catch(err) {
