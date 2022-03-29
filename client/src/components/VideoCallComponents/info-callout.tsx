@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { roomState } from 'store';
+import toast, { Timeout, ToastType } from './toast';
 
 const callout = mergeStyleSets({
   container: {
@@ -51,6 +52,7 @@ const MyCallout: React.FC<ICalloutProps & MyCalloutProps> = ({
   const room = useRecoilValue(roomState);
   const link = `${window.location.origin}/room/${room?.id}`;
   const copyLink = () => {
+    toast('Link Copied', { autoClose: Timeout.MEDIUM, type: ToastType.success });
     navigator.clipboard.writeText(link);
   };
 
