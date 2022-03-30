@@ -8,17 +8,19 @@ interface IProps {
   content: string;
   link?: string;
   button?: string;
+  minHeight: string;
 }
 
 const StyledButton = styled(Button)({
-  backgroundColor: '#262727',
+  backgroundColor: '#1d1d1d',
   color: '#fff',
   borderRadius: '16px',
+  fontWeight: 'bolder',
   textTransform: 'capitalize',
+  border: '1px solid ',
   transition: 'all 0.3s ease-in-out',
   '&:hover': {
     backgroundColor: '#fff',
-    transform: 'translateY(-5px)',
     color: 'black',
     border: '1px solid #262727',
   },
@@ -29,7 +31,7 @@ const LandingCard: FC<IProps> = (props) => (
     sx={{
       bgcolor: props.color,
       borderRadius: '0.75rem',
-      minHeight: '250px',
+      minHeight: props.minHeight,
       p: 3,
       position: 'relative',
     }}
