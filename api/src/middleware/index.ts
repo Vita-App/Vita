@@ -3,31 +3,9 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import {
-  COOKIE_KEYS,
-  CLIENT_URL,
-  NETLIFY_PREVIEW_DEPLOYMENT_REGEX,
-} from '../config/keys';
-
-const corsOptions = {
-  // origin: CLIENT_URL,
-  // @ts-ignore
-  origin: function (origin, callback) {
-    console.log('entered the function');
-    if (!origin) return callback(null, true);
-    if (CLIENT_URL.indexOf(origin) === -1)
-      if (NETLIFY_PREVIEW_DEPLOYMENT_REGEX.test(origin))
-        return callback(null, true);
-      else return callback(new Error('Not allowed by CORS'));
-    else return callback(null, true);
-  },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: 'Content-Type',
-  credentials: true,
-};
+import { COOKIE_KEYS, CLIENT_URL } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
-  app.use(cors(corsOptions));
   app.set('trust proxy', 1);
   app.use(express.json());
   app.use(cookieParser()); // parse cookies
