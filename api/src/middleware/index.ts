@@ -6,6 +6,7 @@ import session from 'express-session';
 import { COOKIE_KEYS, CLIENT_URL } from '../config/keys';
 
 const addMiddleWare = (app: Express) => {
+  app.set('trust proxy', 1);
   app.use(express.json());
   app.use(cookieParser()); // parse cookies
 

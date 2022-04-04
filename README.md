@@ -20,7 +20,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Build Test][actions-badge]][actions-url]
 
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -122,11 +121,10 @@ Written in TypeScript ♥
 
 ## Getting Started
 
-
 Follow the instructions to set up the project on your local machine.
 
 Read the Vita [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
- and [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5) doc.
+and [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5) doc.
 
 ### Prerequisites
 
@@ -263,7 +261,9 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time
@@ -286,6 +286,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://linkedin.com/in/hzmessam"><img src="https://avatars.githubusercontent.com/u/49886457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hazem Essam</b></sub></a><br /><a href="#maintenance-hazemessam" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/Lalit3716"><img src="https://avatars.githubusercontent.com/u/84276404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lalit</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Lalit3716" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/indraantoor"><img src="https://avatars.githubusercontent.com/u/64259328?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Indraan S. Toor</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=indraantoor" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://harshiljani2002@gmail.com"><img src="https://avatars.githubusercontent.com/u/79367883?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Harshil Jani</b></sub></a><br /><a href="#infra-Harshil-Jani" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
