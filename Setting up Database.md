@@ -4,6 +4,8 @@ For windows you can also follow [this video guide](https://www.youtube.com/watch
 
 For mac you can also follow [this video guide](https://www.youtube.com/watch?v=MIByvzueqHQ) to set up MongoDB
 
+[Brew commands](https://github.com/mongodb/homebrew-brew) for installing mongo.
+
 1. **Download MongoDB-community server, MongoDB toolkit & MongoDB-Compass.**
 
    - [MongoDB Community server](https://www.mongodb.com/try/download/community)
