@@ -18,16 +18,14 @@ export const sendEmail = async (to: string, subject: string, msg: string, icsFil
             from: `"Vita" <${EMAIL_USER}>`,
             to,
             subject,
-            text: msg
+            html: msg
         }
         
         if (icsFileContent)
-            emailOptions.attachments = [
-                {
-                    filename: 'Event.ics',
-                    content: icsFileContent
-                }
-            ]
+            emailOptions.icalEvent = {
+                content: icsFileContent,
+                method: 'request'
+            }
 
         const info = await transporter.sendMail(emailOptions);
         
