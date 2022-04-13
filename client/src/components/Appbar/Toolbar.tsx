@@ -19,7 +19,9 @@ const Toolbar = () => (
         <Link to="/room">
           <Button>Vita Meet</Button>
         </Link>
-        {/* <Button sx={{ color: '' }}>Login</Button> */}
+        <Link to="/auth">
+          <Button sx={{ color: '' }}>Login</Button>
+        </Link>
       </Stack>
     </MaterialToolbar>
   </div>

@@ -7,8 +7,8 @@ export const DATABASE_URL =
   process.env.DATABASE_URL || 'mongodb://localhost:27017/Vita';
 
 export const GOOGLE_KEY = {
-  clientID: process.env.GOOGLE_KEY_CLIENTID!,
-  clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET!,
+  clientID: process.env.GOOGLE_KEY_CLIENTID || " ",
+  clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET || " ",
 };
 
 export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
@@ -16,10 +16,6 @@ export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
 export const port = parseInt(<string>process.env.PORT) || 5000;
 
 export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
-
-export const NETLIFY_PREVIEW_DEPLOYMENT_REGEX = new RegExp(
-  'https://[a-zA-Z0-9-]*-*vitaa-app.netlify.app',
-);
 
 export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 

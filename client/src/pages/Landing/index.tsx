@@ -9,6 +9,7 @@ import Carousel from 'components/Carousel';
 import { useQuery } from 'react-query';
 import { getMentors } from 'utils/api-helper';
 import Loader from 'react-loader-spinner';
+import LandingCards from 'components/LandingCards';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -54,6 +55,7 @@ const Landing = () => {
         <Particles />
       </PageOneWrapper>
       <CarouselComponent />
+      <LandingCards />
       <Footer />
     </>
   );
