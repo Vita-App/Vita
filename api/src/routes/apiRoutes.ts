@@ -2,6 +2,8 @@ import { Router } from 'express';
 import {
   authController,
   logoutController,
+  jwtSignupController,
+  jwtLoginController,
   googleController,
   googleRedirectController,
   linkedinController,
@@ -22,6 +24,8 @@ const router = Router();
 // we will do our re-routing from the client side just send information from here
 // GET to /api/auth will return current logged in user info
 router.get('/auth', authController);
+router.post('/auth/signup', jwtSignupController);
+router.post('/auth/login', jwtLoginController);
 router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);

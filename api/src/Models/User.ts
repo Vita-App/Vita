@@ -1,10 +1,13 @@
-import { Schema, model, SchemaDefinitionProperty } from 'mongoose';
+import { Schema, model, Model } from 'mongoose';
+import { hash, compare } from 'bcryptjs';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import {
   UserSchemaType,
   MentorSchemaType,
   DayEnumType,
   DurationType,
 } from '../types';
+import { JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
   start_hour: Number,
@@ -12,6 +15,7 @@ const Duration = new Schema<DurationType>({
   available: Boolean,
   locale: String,
 });
+
 const TopicSchema = new Schema({
   emojiIcon: { type: String, index: 'text' },
   emojiBadge: { type: String, index: 'text' },
@@ -48,6 +52,7 @@ const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
   first_name: { type: String },
   last_name: { type: String },
+  password: { type: String },
   email: String,
   image_link: String,
   create_time: {
@@ -71,6 +76,40 @@ const UserSchema = new Schema<UserSchemaType>({
     default: [],
   },
 });
+
+UserSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await hash(this.password, 12);
+  }
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (password: string) {
+  return await compare(password, this.password);
+};
+
+UserSchema.methods.issueToken = function () {
+  return jwt.sign({ user_id: this._id }, JWT.secret, {
+    expiresIn: JWT.expiresIn,
+  });
+};
+
+UserSchema.methods.verifyToken = async function (token: string) {
+  try {
+    const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
+    const user = await this.model('User').findById(decoded.user_id);
+    if (!user) return false;
+    return user;
+  } catch (err) {
+    return false;
+  }
+};
+
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
 MentorSchema.index(
   {

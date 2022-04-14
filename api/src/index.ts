@@ -8,31 +8,17 @@ import './Models/User';
 import socketioService from './service/socket-io-service';
 import cors from 'cors';
 import { CORS_REGEX } from './config/keys';
+import useMiddleWare from './middleware/index';
 import './config/passport-config';
 import expressSession from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo';
 
-// import useMiddleWare from './middleware/index';
-
-// import passportService from './service/passport';
-// passportService(passport);
-
 const app = express();
 const httpServer = new http.Server(app);
 
+useMiddleWare(app);
 const connection = connectDB();
-// useMiddleWare(app);
-
-app.use(
-  cors({
-    origin: new RegExp(CORS_REGEX),
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type',
-    credentials: true, // allow session cookies from browser to pass throught
-  }),
-);
-app.set('trust proxy', 1);
 
 app.use(expressSession({
   secret: COOKIE_KEYS[0],
@@ -45,8 +31,6 @@ app.use(expressSession({
     // secure: true
   } 
 }))
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/api', apiRoutes);
 socketioService(httpServer);

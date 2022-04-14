@@ -32,6 +32,11 @@ export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
 
 export const COOKIE_KEYS = [process.env.COOKIE_KEYS!];
 
+export const JWT = {
+  secret: process.env.JWT_SECRET || 'secret',
+  expiresIn: '7d',
+};
+
 export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 
 export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT) || 465;
