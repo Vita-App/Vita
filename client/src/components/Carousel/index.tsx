@@ -5,7 +5,8 @@ import { MentorSchemaType } from 'types';
 import 'swiper/swiper-bundle.min.css';
 import UserCard from 'components/UserCard';
 import Toolbar from './CarouselToolbar';
-import { CarouselDiv } from './Carousel.styles';
+import { Link, StyledButton } from 'components/common';
+import { BottomExploreBtnContainer, CarouselDiv } from './Carousel.styles';
 
 SwiperCore.use([Navigation, Mousewheel, Pagination]);
 
@@ -67,6 +68,15 @@ const Carousel = ({ userList }: { userList: Partial<MentorSchemaType>[] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <BottomExploreBtnContainer>
+        <Link to="/search">
+          <StyledButton
+            sx={{ p: 5 }}
+            style={{ padding: '20px', width: '300px' }}>
+            Explore all
+          </StyledButton>
+        </Link>
+      </BottomExploreBtnContainer>
     </CarouselDiv>
   );
 };

@@ -119,3 +119,12 @@ export const TopExploreBtnContainer = styled('div')`
     display: none;
   }
 `;
+
+export const BottomExploreBtnContainer = styled('div')`
+  display: none;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
