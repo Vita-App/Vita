@@ -86,11 +86,19 @@ export const StyledIconButton = styled(IconButton)(
 export const CarouselDiv = styled('div')`
   margin: 2rem;
   background: inherit;
+
   .swiper-button-prev {
     display: none;
   }
+
   .swiper-button-next {
     display: none;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    transition: all 0.4s ease;
   }
 `;
 

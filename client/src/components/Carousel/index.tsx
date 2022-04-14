@@ -56,7 +56,7 @@ const Carousel = ({ userList }: { userList: Partial<MentorSchemaType>[] }) => {
         // pagination={{ dynamicBullets: true, clickable: true }}
         freeMode
         grabCursor
-        // centeredSlides
+        centeredSlides
         mousewheel={{ forceToAxis: true }}
         // onSwiper={(swiper) => console.log(swiper)}
         // onSlideChange={() => console.log('slide change')}
