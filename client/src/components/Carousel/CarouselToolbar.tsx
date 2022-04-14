@@ -35,19 +35,21 @@ const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
           </StyledButton>
         </Link>
       </TopExploreBtnContainer>
-      <div>
-        <StyledIconButton
-          aria-label="previous-page"
-          size="medium"
-          ref={prevRef}>
-          <ChevronLeftOutlined fontSize="inherit" />
-        </StyledIconButton>
-      </div>
-      <div>
-        <StyledIconButton aria-label="next page" size="medium" ref={nextRef}>
-          <ChevronRightOutlined fontSize="inherit" />
-        </StyledIconButton>
-      </div>
+      <Stack direction="row" spacing={2}>
+        <div>
+          <StyledIconButton
+            aria-label="previous-page"
+            size="medium"
+            ref={prevRef}>
+            <ChevronLeftOutlined fontSize="inherit" />
+          </StyledIconButton>
+        </div>
+        <div>
+          <StyledIconButton aria-label="next page" size="medium" ref={nextRef}>
+            <ChevronRightOutlined fontSize="inherit" />
+          </StyledIconButton>
+        </div>
+      </Stack>
     </CarouselNavContainer>
   </CarouselToolbarContainer>
 );
