@@ -121,6 +121,9 @@ export const getUser = (user_id: string) => {
     user_id,
     create_time,
     bookings,
+    password: '',
+    comparePassword: () => Promise.resolve(true),
+    issueToken: () => Promise.resolve(''),
   };
   return user;
 };
