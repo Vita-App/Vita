@@ -4,7 +4,12 @@ import { Typography } from '@mui/material';
 import ChevronLeftOutlined from '@mui/icons-material/ChevronLeftOutlined';
 import ChevronRightOutlined from '@mui/icons-material/ChevronRightOutlined';
 import { Link, StyledButton } from 'components/common';
-import { CarouselToolbarContainer, StyledIconButton } from './Carousel.styles';
+import {
+  CarouselNavContainer,
+  CarouselToolbarContainer,
+  StyledIconButton,
+  TopExploreBtnContainer,
+} from './Carousel.styles';
 interface AppProps {
   prevRef: React.RefObject<HTMLButtonElement>;
   nextRef: React.RefObject<HTMLButtonElement>;
@@ -22,10 +27,14 @@ const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
       }}>
       Get mentorship from Alumni
     </Typography>
-    <Stack direction="row" spacing={2}>
-      <Link to="/search">
-        <StyledButton sx={{ p: 2 }}>Explore all</StyledButton>
-      </Link>
+    <CarouselNavContainer>
+      <TopExploreBtnContainer>
+        <Link to="/search">
+          <StyledButton sx={{ p: 2, marginRight: '30px' }}>
+            Explore all
+          </StyledButton>
+        </Link>
+      </TopExploreBtnContainer>
       <div>
         <StyledIconButton
           aria-label="previous-page"
@@ -39,7 +48,7 @@ const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
           <ChevronRightOutlined fontSize="inherit" />
         </StyledIconButton>
       </div>
-    </Stack>
+    </CarouselNavContainer>
   </CarouselToolbarContainer>
 );
 

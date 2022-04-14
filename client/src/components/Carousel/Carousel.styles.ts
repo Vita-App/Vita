@@ -100,3 +100,14 @@ export const CarouselToolbarContainer = styled('div')`
   align-items: center;
   padding: 20px;
 `;
+
+export const CarouselNavContainer = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
+export const TopExploreBtnContainer = styled('div')`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
