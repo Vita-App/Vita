@@ -18,7 +18,20 @@ export const googleController = (req: Request, res: Response) => {
   })(req, res);
 };
 
+export const linkedinController = (req: Request, res: Response) => {
+  const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
+
+  passport.authenticate('linkedin', {
+    state: isMentor,
+  })(req, res);
+};
+
 export const googleRedirectController = passport.authenticate('google', {
+  successRedirect: `${CLIENT_URL}/`,
+  failureRedirect: '/login/failed',
+});
+
+export const linkedinRedirectController = passport.authenticate('linkedin', {
   successRedirect: `${CLIENT_URL}/`,
   failureRedirect: '/login/failed',
 });
@@ -46,5 +59,12 @@ export const authController = (req: Request, res: Response) => {
 
 export const logoutController = (req: Request, res: Response) => {
   req.logout();
-  res.send({ message: 'Successfully logged out' });
+  req.session.destroy((err) => {
+    if (!err) {
+        res.status(200).clearCookie('connect.sid', {path: '/'}).redirect(CLIENT_URL);
+        console.log('Successfully logged out');
+    } else {
+        console.log(err);
+    }
+});
 };

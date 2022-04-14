@@ -56,7 +56,10 @@ const UserSchema = new Schema<UserSchemaType>({
   },
   oauth_provider: String,
   is_mentor: Boolean,
-  signup_completed: Boolean,
+  signup_completed: {
+    type: Boolean,
+    default: false,
+  },
   mentor_information: {
     type: Schema.Types.ObjectId,
     ref: 'Mentor',
