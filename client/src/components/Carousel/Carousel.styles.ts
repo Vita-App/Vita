@@ -93,3 +93,10 @@ export const CarouselDiv = styled('div')`
     display: none;
   }
 `;
+
+export const CarouselToolbarContainer = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+`;
