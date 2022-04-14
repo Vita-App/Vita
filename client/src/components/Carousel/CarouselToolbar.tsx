@@ -39,13 +39,13 @@ const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
         <div>
           <StyledIconButton
             aria-label="previous-page"
-            size="medium"
+            size="large"
             ref={prevRef}>
             <ChevronLeftOutlined fontSize="inherit" />
           </StyledIconButton>
         </div>
         <div>
-          <StyledIconButton aria-label="next-page" size="medium" ref={nextRef}>
+          <StyledIconButton aria-label="next-page" size="large" ref={nextRef}>
             <ChevronRightOutlined fontSize="inherit" />
           </StyledIconButton>
         </div>
