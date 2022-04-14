@@ -4,6 +4,10 @@ import {
   logoutController,
   jwtSignupController,
   jwtLoginController,
+  googleController,
+  googleRedirectController,
+  linkedinController,
+  linkedinRedirectController
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -22,6 +26,10 @@ const router = Router();
 router.get('/auth', authController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
+router.get('/auth/google', googleController);
+router.get('/auth/googleCallback', googleRedirectController);
+router.get('/auth/linkedin', linkedinController);
+router.get('/auth/linkedinCallback', linkedinRedirectController);
 router.get('/logout', logoutController); // auth logout
 
 router.get('/get-mentor', getMentorController);
