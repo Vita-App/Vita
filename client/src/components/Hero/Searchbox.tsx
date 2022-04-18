@@ -66,6 +66,7 @@ const Seachbox = () => {
               },
             }}
             options={expertiseOptions}
+            value={expertise}
             onChange={(selectedOptions: any) => setExpertise(selectedOptions)}
             isSearchable={matches}
             isMulti={true}
