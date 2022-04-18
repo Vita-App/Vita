@@ -130,6 +130,7 @@ const MentorsPage = () => {
               menuPlacement="auto"
               name="Expertise"
               sx={{ fontSize: '20px' }}
+              value={expertise}
               options={expertiseOptions}
               onChange={(selectedOptions: any) => setExpertise(selectedOptions)}
               isSearchable={matches}

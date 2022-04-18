@@ -66,9 +66,9 @@ const Seachbox = () => {
               },
             }}
             options={expertiseOptions}
-            value={expertise}
-            onChange={setExpertise}
+            onChange={(selectedOptions: any) => setExpertise(selectedOptions)}
             isSearchable={matches}
+            isMulti={true}
             classNamePrefix="select"
             placeholder={<span>Filter by Expertise</span>}
           />
