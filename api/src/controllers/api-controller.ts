@@ -14,12 +14,15 @@ export const getMentorsController = async (req: Request, res: Response) => {
 
   let searchOptions = {} as FilterQuery<MentorSchemaType>;
   if (topic !== -1) searchOptions.topics = topic;
-  if (expertise !== 'All') searchOptions.expertise = expertise;
+  if (expertise !== 'All') {
+    searchOptions.expertise = { $in: expertise.split(",") };
+  }
   if (mentorSearchText !== '')
     searchOptions.$text = { $search: mentorSearchText };
 
   let mentors = [] as Partial<MentorSchemaType>[];
   // since we are using user input we need need to handle when user sends wrong data
+  // console.log(searchOptions);
   try {
     const mentors_ = await MentorModel.find(searchOptions).limit(limit);
     mentors = mentors_.map(

@@ -63,7 +63,7 @@ const RenderCards = ({
   data: any[];
 }) => {
   if (isLoading || typeof data === 'undefined') return <div />;
-
+  console.log("DATA IS: "+data);
   const users = data.slice(0, 50);
   return (
     <CardContainer container>
@@ -79,15 +79,20 @@ const RenderCards = ({
 };
 
 const MentorsPage = () => {
-  const [expertise, setExpertise] = useRecoilState(expertiseState);
+  const [expertise, setExpertise] = useRecoilState<any>(expertiseState);
   // @ts-ignore
-  const expertiseValue = expertise?.value;
+  // const expertiseValue = expertise?.value;
   const topic = useRecoilValue(topicState);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { isLoading, data } = useQuery(['mentors', expertiseValue, topic], () =>
-    getMentors(expertiseValue, topic),
+  const { isLoading, data } = useQuery(['mentors', expertise, topic], () =>
+    {
+      const expertiseArray = (expertise === null) ? [] : expertise.map((exp:any) => exp.value) ;
+      // console.log(expertiseArray);
+      const expertiseValue = (expertise === null) ? "All" : expertiseArray.join(',') ;
+      return getMentors(expertiseValue, topic);
+    }
   );
   const content =
     isLoading === false ? (
@@ -126,9 +131,9 @@ const MentorsPage = () => {
               name="Expertise"
               sx={{ fontSize: '20px' }}
               options={expertiseOptions}
-              value={expertise}
-              onChange={setExpertise}
+              onChange={(selectedOptions: any) => setExpertise(selectedOptions)}
               isSearchable={matches}
+              isMulti={true}
               classNamePrefix="select"
               placeholder={<span>Filter by Expertise</span>}
             />

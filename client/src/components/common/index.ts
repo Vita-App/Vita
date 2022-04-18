@@ -33,6 +33,18 @@ export const ReactSelect = styled(Reactselect)({
   '.select__option--is-focused:hover': {
     backgroundColor: '#424040',
   },
+  '.select__multi-value': {
+    backgroundColor: '#424040',
+    color: '#f5f5f5',
+  },
+  '.select__multi-value__label': {
+    backgroundColor: '#424040',
+    color: '#f5f5f5',
+  },
+  '.select__multi-value__remove': {
+    backgroundColor: '#424040',
+    color: '#f5f5f5',
+  }
 });
 
 export const StyledButton = styled(Button)(({ theme }) => ({
