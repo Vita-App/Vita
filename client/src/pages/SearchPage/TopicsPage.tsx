@@ -79,7 +79,7 @@ const MentorsPage = () => {
   );
 
   useEffect(() => {
-    if(!isLoading) setItems(data);
+    if(!isLoading) setItems(data?.slice(0, LEN));
   }, [data])
 
   const fetchMoreData = () => {
