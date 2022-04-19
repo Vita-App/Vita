@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import { Grid, InputBase, Paper } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ReactSelect as Select } from 'components/common';
-import { motivationOptions, shuffleTopics as topics } from 'data';
+import { motivationOptions } from 'data';
 import TopicCard from 'components/TopicCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { motivationState, tabIndexState, topicState } from 'store';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { Topic } from 'types';
+// import { Topic } from 'types';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useQuery } from 'react-query';
+import { getTopics } from 'utils/api-helper';
+import Loader from 'react-loader-spinner';
 
 const LEN = 8;
 
@@ -46,27 +49,43 @@ const CardContainer = styled(Grid)({
   marginTop: '3rem',
 });
 
-const filterTopics = (topics_: Topic[], motivation: string) => {
-  if (motivation === 'All' || motivation === null) return topics_;
-  return topics.filter((topic) => topic.motivation === motivation);
-};
+const StyledBox = styled(Box)({
+  width: '100%',
+  height: '15vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  '& svg': {
+    fill: 'lightgray',
+  },
+});
 
 const MentorsPage = () => {
-  const [motivation, setMotivation] = useRecoilState(motivationState);
+  const [motivation, setMotivation] = useRecoilState<any>(motivationState);
   const setTabIndex = useSetRecoilState(tabIndexState);
   const setTopic = useSetRecoilState(topicState);
-  const [items, setItems] = useState(topics.slice(0, LEN));
+  const [items, setItems] = useState<any>([]);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
-  // @ts-ignore
-  const motivationValue = motivation ? motivation?.value : 'All';
+  const { isLoading, data } = useQuery(['mentors', motivation], () =>
+    {
+      const motivationArray = (motivation === null) ? [] : motivation.map((mov:any) => mov.value) ;
+      const motivationValue = (motivation === null) ? "All" : motivationArray.join(',') ;
+      return getTopics(motivationValue);
+    }
+  );
+
+  useEffect(() => {
+    if(!isLoading) setItems(data);
+  }, [data])
 
   const fetchMoreData = () => {
     const n = items.length;
     setTimeout(() => {
-      setItems(topics.slice(0, n + LEN));
+      setItems(data?.slice(0, n + LEN));
     }, 300);
   };
 
@@ -95,33 +114,41 @@ const MentorsPage = () => {
               value={motivation}
               onChange={setMotivation}
               isSearchable={matches}
+              isMulti={true}
               classNamePrefix="select"
               placeholder={<span>Filter by Motivation</span>}
             />
           </Paper>
         </Grid>
       </SearchWrapper>
-      <InfiniteScroll
-        dataLength={Math.min(topics.length, items.length)}
-        next={fetchMoreData}
-        hasMore={
-          filterTopics(items, motivationValue).length <
-          filterTopics(topics, motivationValue).length
-        }
-        loader={<h4>Loading...</h4>}>
-        <CardContainer container>
-          {filterTopics(items, motivationValue).map((item, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                setTopic(index);
-                setTabIndex('1');
-              }}>
-              <TopicCard topic={item} />
-            </div>
-          ))}
-        </CardContainer>
-      </InfiniteScroll>
+      {
+        isLoading === false ? (
+          <InfiniteScroll
+            dataLength={Math.min(data?.length!, items.length)}
+            next={fetchMoreData}
+            hasMore={
+              items.length < data?.length!
+            }
+            loader={<h4>Loading...</h4>}>
+            <CardContainer container>
+              {items.map((item: any, index: any) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setTopic(index);
+                    setTabIndex('1');
+                  }}>
+                  <TopicCard topic={item} />
+                </div>
+              ))}
+            </CardContainer>
+          </InfiniteScroll>
+        ) : (
+          <StyledBox>
+            <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+          </StyledBox>
+        )
+      }
     </div>
   );
 };

@@ -51,6 +51,7 @@ const Seachbox = () => {
             value={motivation}
             onChange={setMotivation}
             isSearchable={matches}
+            isMulti={true}
             classNamePrefix="select"
             placeholder={<span>Filter by Motivation</span>}
           />
