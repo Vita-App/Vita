@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { getMentors } from 'utils/api-helper';
 import Loader from 'react-loader-spinner';
 import LandingCards from 'components/LandingCards';
+import CompaniesHero from 'components/CompaniesHero';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -54,6 +55,7 @@ const Landing = () => {
         </Grid>
         <Particles />
       </PageOneWrapper>
+      <CompaniesHero />
       <CarouselComponent />
       <LandingCards />
       <Footer />
