@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import useHttp from 'hooks/useHttp';
+import { authState } from 'store';
+import { useSetRecoilState } from 'recoil';
 import { SERVER_URL } from 'config.keys';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
@@ -46,8 +50,10 @@ const StyledTextField = styled(TextField)({
 });
 
 const AuthForm: React.FC = () => {
+  const setAuthState = useSetRecoilState(authState);
   const [authMode, setAuthMode] = useState(AuthMode.login);
   const [showPassword, setShowPassword] = useState(false);
+  const { loading, sendRequest, error: httpError } = useHttp();
   const {
     control,
     handleSubmit,
@@ -61,14 +67,49 @@ const AuthForm: React.FC = () => {
 
   const loginMode = authMode === AuthMode.login;
 
-  const onSubmit = (formData: FieldValues) => {
-    console.log(formData);
+  const onSubmit = async (formData: FieldValues) => {
     if (authMode === AuthMode.login) {
-      // Send Request to /login
+      sendRequest(
+        async () => {
+          const { data } = await axios.post(
+            `${SERVER_URL}/api/auth/login`,
+            formData,
+            {
+              withCredentials: true,
+            },
+          );
+          return data;
+        },
+        (data: any) => {
+          setAuthState(data);
+          if (data.isLoggedIn && !data.user.signup_completed) {
+            navigate('/registration-form');
+          } else {
+            navigate('/');
+          }
+        },
+      );
     } else {
-      // only for demo purposes
-      navigate('/registration-form');
-      // Send Request to /signup
+      sendRequest(
+        async () => {
+          const { data } = await axios.post(
+            `${SERVER_URL}/api/auth/signup`,
+            formData,
+            {
+              withCredentials: true,
+            },
+          );
+          return data;
+        },
+        (data: any) => {
+          setAuthState(data);
+          if (data.isLoggedIn && !data.user.signup_completed) {
+            navigate('/registration-form');
+          } else {
+            navigate('/');
+          }
+        },
+      );
     }
   };
 
@@ -78,7 +119,7 @@ const AuthForm: React.FC = () => {
 
   const linkedInLogin = () => {
     window.location.href = `${SERVER_URL}/api/auth/linkedin`;
-  }
+  };
 
   return (
     <Stack
@@ -151,7 +192,7 @@ const AuthForm: React.FC = () => {
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center">
-          <Checkbox color="primary" />
+          <Checkbox color="primary" name="" />
           <Typography variant="body2">Remember me</Typography>
         </Stack>
         {loginMode && (
@@ -160,7 +201,17 @@ const AuthForm: React.FC = () => {
           </Link>
         )}
       </Stack>
-      <StyledButton fullWidth color="primary" variant="contained" type="submit">
+      {httpError && (
+        <Typography variant="body1" color="error">
+          Invalid Password or Email
+        </Typography>
+      )}
+      <StyledButton
+        fullWidth
+        color="primary"
+        variant="contained"
+        type="submit"
+        disabled={loading}>
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton
@@ -171,7 +222,11 @@ const AuthForm: React.FC = () => {
         <Google sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with Google
       </StyledButton>
-      <StyledButton fullWidth color="inherit" variant="outlined" onClick={linkedInLogin}>
+      <StyledButton
+        fullWidth
+        color="inherit"
+        variant="outlined"
+        onClick={linkedInLogin}>
         <LinkedIn sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with LinkedIn
       </StyledButton>
