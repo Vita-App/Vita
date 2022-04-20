@@ -107,8 +107,10 @@ export const logoutController = (req: Request, res: Response) => {
   res.clearCookie('jwt');
   req.session.destroy((err) => {
     if (!err) {
-        res.status(200).clearCookie('connect.sid', {path: '/'}).redirect(CLIENT_URL);
-        console.log('Successfully logged out');
+        res.status(200).clearCookie('connect.sid', {path: '/'});
+        res.json({
+          success: true,
+        })
     } else {
         console.log(err);
     }
