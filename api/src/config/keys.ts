@@ -7,15 +7,15 @@ export const DATABASE_URL =
   process.env.DATABASE_URL || 'mongodb://localhost:27017/Vita';
 
 export const GOOGLE_KEY = {
-  clientID: process.env.GOOGLE_KEY_CLIENTID || "",
-  clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET || "",
-  callbackURL: process.env.GOOGLE_KEY_CALLBACKURI || ""
+  clientID: process.env.GOOGLE_KEY_CLIENTID || ' ',
+  clientSecret: process.env.GOOGLE_KEY_CLIENTSECRET || ' ',
+  callbackURL: process.env.GOOGLE_KEY_CALLBACKURI || ' ',
 };
 
 export const LINKEDIN_KEY = {
-  clientID: process.env.LINKEDIN_KEY_CLIENTID || "",
-  clientSecret: process.env.LINKEDIN_KEY_CLIENTSECRET || "",
-  callbackURL: process.env.LINKEDIN_KEY_CALLBACKURI || ""
+  clientID: process.env.LINKEDIN_KEY_CLIENTID || ' ',
+  clientSecret: process.env.LINKEDIN_KEY_CLIENTSECRET || ' ',
+  callbackURL: process.env.LINKEDIN_KEY_CALLBACKURI || ' ',
 };
 
 export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
@@ -41,6 +41,6 @@ export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 
 export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT) || 465;
 
-export const EMAIL_USER = process.env.EMAIL_USER
+export const EMAIL_USER = process.env.EMAIL_USER;
 
 export const EMAIL_PASS = process.env.EMAIL_PASS;
