@@ -11,7 +11,7 @@ const connectDB = async () => {
     return connection;
   } catch (err) {
     if (err instanceof Error) console.error(chalk.redBright(err.message));
-    process.exit(1);
+    // process.exit(1);
   }
 };
 

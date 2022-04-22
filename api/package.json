@@ -5,8 +5,8 @@
   "main": "dist/src/index.js",
   "proxy": "http://localhost:5000",
   "engines": {
-    "npm": "8.1.0",
-    "node": "16.13.0"
+    "npm": ">=8.1.0",
+    "node": ">=16.13.0"
   },
   "scripts": {
     "build-ts": "tsc",
@@ -14,12 +14,15 @@
     "start": "npm run serve",
     "serve": "node dist/src/index.js",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --fix"
+    "pretty": "prettier --write \"./**/*.{ts,js}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/",
+    "lint:fix": "eslint \"**/*.ts\" --ignore-pattern node_modules/ --fix",
+    "pre-commit": "npm run pretty && npm run lint:fix"
   },
   "author": "Rishabh Malhotra",
   "license": "MIT",
   "dependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.5",
     "@types/nodemailer": "^6.4.4",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
@@ -31,8 +34,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
-    "jsonwebtoken": "^8.5.1",
     "ics": "^2.35.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
     "nanoid": "^3.1.30",
     "node-cache": "^5.1.2",
@@ -43,8 +46,7 @@
     "passport-linkedin-oauth2": "^2.0.0",
     "passport-twitter": "^0.1.5",
     "socket.io": "^3.0.5",
-    "typescript": "^4.5.2",
-    "@faker-js/faker": "^6.0.0-alpha.5"
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -64,8 +66,10 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-xo": "^0.39.0",
     "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",

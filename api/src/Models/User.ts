@@ -1,12 +1,7 @@
-import { Schema, model, Model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import {
-  UserSchemaType,
-  MentorSchemaType,
-  DayEnumType,
-  DurationType,
-} from '../types';
+import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
 import { JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
@@ -81,6 +76,7 @@ UserSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await hash(this.password, 12);
   }
+
   next();
 });
 
@@ -98,7 +94,10 @@ UserSchema.methods.verifyToken = async function (token: string) {
   try {
     const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
     const user = await this.model('User').findById(decoded.user_id);
-    if (!user) return false;
+    if (!user) {
+      return false;
+    }
+
     return user;
   } catch (err) {
     return false;

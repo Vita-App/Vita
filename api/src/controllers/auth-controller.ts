@@ -48,14 +48,14 @@ export const authController = (req: Request, res: Response) => {
       },
       cookies: undefined,
     });
-  } else {
-    return res.status(200).json({
-      isLoggedIn: true,
-      message: 'User is logged in',
-      user: req.user,
-      cookies: req.cookies,
-    });
   }
+
+  return res.status(200).json({
+    isLoggedIn: true,
+    message: 'User is logged in',
+    user: req.user,
+    cookies: req.cookies,
+  });
 };
 
 export const jwtLoginController = async (req: Request, res: Response) => {
@@ -107,10 +107,13 @@ export const logoutController = (req: Request, res: Response) => {
   res.clearCookie('jwt');
   req.session.destroy((err) => {
     if (!err) {
-        res.status(200).clearCookie('connect.sid', {path: '/'}).redirect(CLIENT_URL);
-        console.log('Successfully logged out');
+      res
+        .status(200)
+        .clearCookie('connect.sid', { path: '/' })
+        .redirect(CLIENT_URL);
+      console.log('Successfully logged out');
     } else {
-        console.log(err);
+      console.log(err);
     }
-});
+  });
 };

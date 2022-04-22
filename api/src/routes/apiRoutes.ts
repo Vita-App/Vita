@@ -7,7 +7,7 @@ import {
   googleController,
   googleRedirectController,
   linkedinController,
-  linkedinRedirectController
+  linkedinRedirectController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -21,7 +21,7 @@ import {
 } from '../data/fakeData-controller';
 const router = Router();
 
-// we will do our re-routing from the client side just send information from here
+// We will do our re-routing from the client side just send information from here
 // GET to /api/auth will return current logged in user info
 router.get('/auth', authController);
 router.post('/auth/signup', jwtSignupController);
@@ -30,7 +30,7 @@ router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
 router.get('/auth/linkedinCallback', linkedinRedirectController);
-router.get('/logout', logoutController); // auth logout
+router.get('/logout', logoutController); // Auth logout
 
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
