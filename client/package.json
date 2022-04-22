@@ -48,9 +48,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
+    "pretty": "npx prettier --write \"./**/*.{ts,tsx,js,jsx}\"",
     "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/",
-    "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --fix"
+    "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --fix",
+    "pre-commit": "npm run pretty && npm run lint:fix"
   },
   "eslintConfig": {
     "extends": [

@@ -78,7 +78,7 @@ const AuthForm: React.FC = () => {
 
   const linkedInLogin = () => {
     window.location.href = `${SERVER_URL}/api/auth/linkedin`;
-  }
+  };
 
   return (
     <Stack
@@ -171,7 +171,11 @@ const AuthForm: React.FC = () => {
         <Google sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with Google
       </StyledButton>
-      <StyledButton fullWidth color="inherit" variant="outlined" onClick={linkedInLogin}>
+      <StyledButton
+        fullWidth
+        color="inherit"
+        variant="outlined"
+        onClick={linkedInLogin}>
         <LinkedIn sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with LinkedIn
       </StyledButton>

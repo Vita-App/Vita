@@ -1,4 +1,4 @@
-import { Schema, model, SchemaDefinitionProperty } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { TopicSchemaType } from '../types';
 
 const TopicSchema = new Schema<TopicSchemaType>({
