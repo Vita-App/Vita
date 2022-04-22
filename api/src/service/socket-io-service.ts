@@ -2,14 +2,14 @@ import { Server, Socket } from 'socket.io';
 import chalk from 'chalk';
 import { nanoid } from 'nanoid';
 import roomsCache from '../config/NodeCache';
-import { CLIENT_URL } from '../config/keys';
+import { CORS_REGEX } from '../config/keys';
 import http from 'http';
 import { Room } from '../types';
 import getRoomFromLink from '../utils/getRoomFromLink';
 const socketService = (httpServer: http.Server): void => {
   const IO_OPTIONS = {
     cors: {
-      origin: CLIENT_URL,
+      origin: new RegExp(CORS_REGEX),
       methods: ['GET', 'POST', 'DELETE', 'PATCH', 'UPDATE'],
       credentials: true,
     },
