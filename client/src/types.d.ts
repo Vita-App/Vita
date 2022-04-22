@@ -36,6 +36,16 @@ export interface DurationType {
 }
 
 export type Timeslot = Record<DayEnumType, DurationType>;
+
+export interface TopicSchemaType {
+  value: number;
+  emojiIcon: string;
+  emojiBadge: string;
+  motivation: string;
+  topicName: string;
+  topicDescription: string;
+}
+
 export interface MentorSchemaType {
   _id: string;
   user_id: string;
