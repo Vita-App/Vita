@@ -47,9 +47,14 @@ const Toolbar = () => {
               <Button sx={{ color: '' }}>Login</Button>
             </Link>
           ) : (
-            <Button sx={{ color: '' }} onClick={onLogout}>
-              Logout
-            </Button>
+            <>
+              <Link to="/dashboard">
+                <Button sx={{ color: '' }}>Dashboard</Button>
+              </Link>
+              <Button sx={{ color: '' }} onClick={onLogout}>
+                Logout
+              </Button>
+            </>
           )}
         </Stack>
       </MaterialToolbar>

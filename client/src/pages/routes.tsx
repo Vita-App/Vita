@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link, Route, Routes } from 'react-router-dom';
 import Landing from 'pages/Landing';
 import AuthPage from 'pages/Auth';
 import UserPage from 'pages/UserPage';
@@ -14,12 +15,13 @@ import useHttp from 'hooks/useHttp';
 import { SERVER_URL } from 'config.keys';
 import { useSetRecoilState } from 'recoil';
 import { authState } from 'store';
+import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
+import ProtectedRoute from 'service/ProtectedRoute';
 
 const VideoCall = lazy(() => import('pages/VideoCall'));
 
 const App = () => {
-  const navigate = useNavigate();
   const { loading, sendRequest } = useHttp();
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
@@ -34,8 +36,21 @@ const App = () => {
       },
       (data: any) => {
         setAuthState(data);
+        console.log(data);
         if (data.isLoggedIn && !data.user.signup_completed) {
-          navigate('/registration-form');
+          toast.info(
+            () => (
+              <div>
+                <p>
+                  Please complete your{' '}
+                  <Link to="/registration-form">Signup</Link>
+                </p>
+              </div>
+            ),
+            {
+              autoClose: false,
+            },
+          );
         }
       },
     );
@@ -46,12 +61,17 @@ const App = () => {
   return (
     <Suspense fallback={<Loader />}>
       <ThemeProvider theme={getTheme('dark')}>
+        <ToastContainer position="bottom-left" />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/auth" element={<AuthPage />} />
+          <Route element={<ProtectedRoute redirectTo="/dashboard" inverse />}>
+            <Route path="/auth" element={<AuthPage />} />
+          </Route>
           <Route path="/search/" element={<SearchPage />} />
           <Route path="/user/:id" element={<UserPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route element={<ProtectedRoute redirectTo="/auth" />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
           <Route path="/registration-form" element={<Signup />} />
         </Routes>
       </ThemeProvider>

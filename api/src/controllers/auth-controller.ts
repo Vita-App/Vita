@@ -87,6 +87,7 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 
 export const jwtSignupController = async (req: Request, res: Response) => {
   const { email, password, first_name, last_name } = req.body;
+
   const user = new UserModel({
     email,
     password,
@@ -94,11 +95,18 @@ export const jwtSignupController = async (req: Request, res: Response) => {
     last_name,
   });
 
+  if (await UserModel.findOne({ email })) {
+    return res
+      .status(401)
+      .json({ isLoggedIn: false, message: 'User already exists.' });
+  }
+
   await user.save();
   const token = user.issueToken();
   res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
   res.json({
-    success: true,
+    isLoggedIn: true,
+    user,
   });
 };
 
@@ -107,12 +115,12 @@ export const logoutController = (req: Request, res: Response) => {
   res.clearCookie('jwt');
   req.session.destroy((err) => {
     if (!err) {
-        res.status(200).clearCookie('connect.sid', {path: '/'});
-        res.json({
-          success: true,
-        })
+      res.status(200).clearCookie('connect.sid', { path: '/' });
+      res.json({
+        success: true,
+      });
     } else {
-        console.log(err);
+      console.log(err);
     }
-});
+  });
 };

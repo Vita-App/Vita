@@ -102,6 +102,7 @@ const AuthForm: React.FC = () => {
           return data;
         },
         (data: any) => {
+          console.log(data);
           setAuthState(data);
           if (data.isLoggedIn && !data.user.signup_completed) {
             navigate('/registration-form');
@@ -203,7 +204,7 @@ const AuthForm: React.FC = () => {
       </Stack>
       {httpError && (
         <Typography variant="body1" color="error">
-          Invalid Password or Email
+          {httpError}
         </Typography>
       )}
       <StyledButton
