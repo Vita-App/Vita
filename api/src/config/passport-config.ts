@@ -42,7 +42,7 @@ passport.use(
         email: profile._json?.email,
         image_link: profile._json?.picture,
         oauth_provider: profile.provider,
-        is_mentor: request.query.state === 'true' ? true : false,
+        is_mentor: request.query.state === 'true',
       });
 
       createUserIfNotExists(user, done);
@@ -65,7 +65,7 @@ passport.use(
         email: profile.emails[0].value,
         image_link: profile._json?.profilePicture?.displayImage,
         oauth_provider: profile.provider,
-        is_mentor: request.query.state === 'true' ? true : false,
+        is_mentor: request.query.state === 'true',
       });
 
       createUserIfNotExists(user, done);

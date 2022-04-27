@@ -59,11 +59,11 @@ export interface MentorSchemaType {
 }
 
 export interface Room {
-  id: string; // client version of Room may have id optional
+  id: string; // Client version of Room may have id optional
   created_by?: string;
   name?: string;
   opts?: {
-    maxPeople?: string; // will be int parsed when used
+    maxPeople?: string; // Will be int parsed when used
   };
 }
 

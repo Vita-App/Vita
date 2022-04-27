@@ -48,14 +48,14 @@ export const authController = (req: Request, res: Response) => {
       },
       cookies: undefined,
     });
-  } else {
-    return res.status(200).json({
-      isLoggedIn: true,
-      message: 'User is logged in',
-      user: req.user,
-      cookies: req.cookies,
-    });
   }
+
+  return res.status(200).json({
+    isLoggedIn: true,
+    message: 'User is logged in',
+    user: req.user,
+    cookies: req.cookies,
+  });
 };
 
 export const jwtLoginController = async (req: Request, res: Response) => {

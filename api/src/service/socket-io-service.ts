@@ -2,14 +2,14 @@ import { Server, Socket } from 'socket.io';
 import chalk from 'chalk';
 import { nanoid } from 'nanoid';
 import roomsCache from '../config/NodeCache';
-import { CLIENT_URL } from '../config/keys';
+import { CORS_REGEX } from '../config/keys';
 import http from 'http';
 import { Room } from '../types';
 import getRoomFromLink from '../utils/getRoomFromLink';
 const socketService = (httpServer: http.Server): void => {
   const IO_OPTIONS = {
     cors: {
-      origin: CLIENT_URL,
+      origin: new RegExp(CORS_REGEX),
       methods: ['GET', 'POST', 'DELETE', 'PATCH', 'UPDATE'],
       credentials: true,
     },
@@ -33,12 +33,12 @@ const socketService = (httpServer: http.Server): void => {
       roomsCache.set<Person>(socket.id, { sessionId });
 
       /*
-          socket joins room with same session id
+          Socket joins room with same session id
           This allows for extra layer above socket id so client just communicates with session id
         */
       socket.join(sessionId);
 
-      // join rooms person is already in
+      // Join rooms person is already in
       if (roomId) {
         socket.join(roomId);
         io.to(roomId).emit('person_reconnected', {
@@ -73,7 +73,8 @@ const socketService = (httpServer: http.Server): void => {
           cb({ error: 'Room not found or invalid input!' });
           return;
         }
-        const maxPeople = parseInt(room.opts?.maxPeople || '');
+
+        const maxPeople = parseInt(room.opts?.maxPeople || '', 10);
         const sockets = await io.in(room.id).allSockets();
         const peopleCount = sockets.size;
         if (!isNaN(maxPeople) && peopleCount >= maxPeople) {
@@ -84,7 +85,9 @@ const socketService = (httpServer: http.Server): void => {
         }
 
         const { sessionId } = roomsCache.get<Person>(socket.id) || {};
-        if (!sessionId) throw Error('No session id');
+        if (!sessionId) {
+          throw Error('No session id');
+        }
 
         socket.join(room.id);
         socket.to(room.id).emit('person_joined', {
@@ -105,7 +108,9 @@ const socketService = (httpServer: http.Server): void => {
         socket.rooms.forEach((room) => {
           const { sessionId } = roomsCache.get<Person>(socket.id) || {};
 
-          if (room === socket.id || room === sessionId) return;
+          if (room === socket.id || room === sessionId) {
+            return;
+          }
 
           socket.leave(room);
 
@@ -114,11 +119,12 @@ const socketService = (httpServer: http.Server): void => {
               sessionId,
             });
           }
+
           io.in(room)
             .allSockets()
             .then((sockets) => {
               if (sockets.size === 0) {
-                // room is now empty, clear the memory reference
+                // Room is now empty, clear the memory reference
                 roomsCache.del(room);
               }
             });
@@ -133,10 +139,15 @@ const socketService = (httpServer: http.Server): void => {
       try {
         io.to(sessionId).emit('leave_room');
         socket.rooms.forEach((room) => {
-          if (room === socket.id) return;
+          if (room === socket.id) {
+            return;
+          }
+
           const { sessionId: mySessionId } =
             roomsCache.get<Person>(socket.id) || {};
-          if (room === mySessionId) return;
+          if (room === mySessionId) {
+            return;
+          }
 
           io.to(room).emit('person_left', {
             sessionId,
@@ -148,15 +159,18 @@ const socketService = (httpServer: http.Server): void => {
     });
 
     /*
-    messages ('message' events) are send as is to other socket specified by `to` key in data 
+    Messages ('message' events) are send as is to other socket specified by `to` key in data
     `to` key is removed and `from` is added in delivered message\
     both `to` and `from` are session ids
     */
     socket.on('message', (message) => {
       const { to, ...msg } = message;
       const { sessionId } = roomsCache.get<Person>(socket.id) || {};
-      if (!sessionId) return;
-      // emit
+      if (!sessionId) {
+        return;
+      }
+
+      // Emit
       socket.to(to).send({
         from: sessionId,
         ...msg,
