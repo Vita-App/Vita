@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import Loader from 'react-loader-spinner';
-import Grid from '@mui/material/Grid';
+import Masonry from '@mui/lab/Masonry';
 import Testimonial from './Card';
 import { TextWrapper } from 'components/common';
 
@@ -23,13 +23,14 @@ const Testimonials: React.FC = () => {
       {isLoading ? (
         <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
       ) : (
-        <Grid container spacing={2} maxWidth="lg" mx="auto" my={2}>
+        <Masonry
+          spacing={2}
+          columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+          sx={{ maxWidth: 'lg', mx: 'auto', my: 2 }}>
           {testimonials.map((testimonial: any) => (
-            <Grid item key={testimonial.id} xs={12} sm={6} md={4}>
-              <Testimonial testimonial={testimonial} />
-            </Grid>
+            <Testimonial key={testimonial.id} testimonial={testimonial} />
           ))}
-        </Grid>
+        </Masonry>
       )}
     </>
   );
