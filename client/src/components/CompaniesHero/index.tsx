@@ -1,13 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-
-const TextWrapper = styled('div')({
-  color: 'white',
-  textAlign: 'center',
-  fontFamily: 'Raleway, sans-serif',
-  fontSize: '36px',
-  fontWeight: 'bolder',
-});
+import { TextWrapper } from 'components/common';
 
 const CompaniesWrapper = styled('div')(({ theme }) => ({
   display: 'flex',

@@ -62,3 +62,11 @@ export const CenteredDiv = styled('div')`
   align-items: center;
   justify-content: center;
 `;
+
+export const TextWrapper = styled('div')({
+  color: 'white',
+  textAlign: 'center',
+  fontFamily: 'Raleway, sans-serif',
+  fontSize: '36px',
+  fontWeight: 'bolder',
+});
