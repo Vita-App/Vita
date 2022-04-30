@@ -28,11 +28,11 @@ const CompaniesHero = () => (
   <div className="">
     <TextWrapper>Meet Alumni from</TextWrapper>
     <CompaniesWrapper>
-      <img src="/Google.svg" />
-      <img src="/Microsoft.svg" />
-      <img src="/Amazon.svg" />
-      <img src="/Flipkart.svg" />
-      <img src="/Intuit.svg" />
+      <img src="/company/Google.svg" />
+      <img src="/company/Microsoft.svg" />
+      <img src="/company/Amazon.svg" />
+      <img src="/company/Flipkart.svg" />
+      <img src="/company/Intuit.svg" />
     </CompaniesWrapper>
   </div>
 );
