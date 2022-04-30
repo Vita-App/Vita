@@ -11,14 +11,6 @@ const Duration = new Schema<DurationType>({
   locale: String,
 });
 
-const TopicSchema = new Schema({
-  emojiIcon: { type: String, index: 'text' },
-  emojiBadge: { type: String, index: 'text' },
-  motivation: { type: String, index: 'text' },
-  topicName: { type: String, index: 'text' },
-  topicDescription: { type: String, index: 'text' },
-});
-
 const MentorSchema = new Schema<MentorSchemaType>({
   user_id: { type: String },
   first_name: { type: String },
@@ -120,7 +112,6 @@ MentorSchema.index(
     expertise: 'text',
     language: 'text',
   },
-
   {
     language_override: 'dummy',
     weights: {
