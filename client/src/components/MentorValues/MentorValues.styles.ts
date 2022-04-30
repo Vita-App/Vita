@@ -1,10 +1,12 @@
-import { styled, Typography } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
-export const MentorValuesTitle = styled(Typography)({
-  textAlign: 'center',
-  fontStyle: 'circular-std',
-  fontWeight: 800,
+export const MentorValuesTitle = styled(Box)({
   padding: '30px',
+  '.MuiTypography-root': {
+    textAlign: 'center',
+    fontFamily: 'raleway',
+    fontWeight: 800,
+  },
 });
 
 export const CardContainer = styled('div')`

@@ -49,7 +49,6 @@ const Landing = () => {
           <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
             <Hero />
           </Grid>
-          <Particles />
         </Grid>
         <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
           <Hero />

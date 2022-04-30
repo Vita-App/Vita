@@ -13,6 +13,7 @@ export const ValueCardInfoContainer = styled('div')`
 `;
 
 export const ValueCardTitle = styled(Typography)({
+  fontFamily: 'Raleway',
   fontSize: '24px',
   lineHeight: '30px',
   padding: '30px 30px 3px 30px',

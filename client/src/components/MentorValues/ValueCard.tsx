@@ -20,10 +20,10 @@ export const ValueCard = (props: ValueCardProps) => (
     <ValueCardTitle variant="h3">{props.cardInfo.headline}</ValueCardTitle>
     <ValueCardDescription>{props.cardInfo.description}</ValueCardDescription>
     <ValueCardImageContainer
-      style={{ backgroundColor: '#' + props.cardInfo.backgroundColor }}>
+      sx={{ backgroundColor: props.cardInfo.backgroundColor }}>
       <img
         src={props.cardInfo.image}
-        alt="value-pic"
+        alt="value-illustration"
         style={{
           height: '80%',
         }}
