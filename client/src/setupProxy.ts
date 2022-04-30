@@ -1,6 +1,6 @@
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-function Proxy(app: any) {
+const Proxy = (app: any) => {
   app.use(
     '/',
     createProxyMiddleware({
@@ -8,6 +8,6 @@ function Proxy(app: any) {
       changeOrigin: true,
     }),
   );
-}
+};
 
 export default Proxy;
