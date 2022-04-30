@@ -11,6 +11,7 @@ import { getMentors } from 'utils/api-helper';
 import Loader from 'react-loader-spinner';
 import LandingCards from 'components/LandingCards';
 import CompaniesHero from 'components/CompaniesHero';
+import { MentorValues } from 'components/MentorValues';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -56,6 +57,7 @@ const Landing = () => {
         <Particles />
       </PageOneWrapper>
       <CompaniesHero />
+      <MentorValues />
       <CarouselComponent />
       <LandingCards />
       <Footer />
