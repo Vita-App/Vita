@@ -5,7 +5,7 @@ import { MentorValuesTitle, CardContainer } from './MentorValues.styles';
 import { Typography } from '@mui/material';
 
 export const MentorValues = () => (
-  <div style={{ color: 'white', marginTop: '30px' }}>
+  <div style={{ color: 'white', margin: '10% 0%' }}>
     <MentorValuesTitle>
       <Typography sx={{ typography: { xs: 'h5', sm: 'h4', md: 'h3' } }}>
         Unique stories. Real Experiences.
