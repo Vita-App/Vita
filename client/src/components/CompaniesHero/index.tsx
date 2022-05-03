@@ -1,11 +1,11 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 
-const TextWrapper = styled('div')({
+const TextWrapper = styled(Typography)({
   color: 'white',
   textAlign: 'center',
   fontFamily: 'Raleway, sans-serif',
-  fontSize: '36px',
   fontWeight: 'bolder',
 });
 
@@ -26,7 +26,7 @@ const CompaniesWrapper = styled('div')(({ theme }) => ({
 
 const CompaniesHero = () => (
   <div className="">
-    <TextWrapper>Meet Alumni from</TextWrapper>
+    <TextWrapper variant="h2">Meet Alumni from</TextWrapper>
     <CompaniesWrapper>
       <img src="/company/Google.svg" />
       <img src="/company/Microsoft.svg" />

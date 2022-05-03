@@ -12,6 +12,7 @@ import Loader from 'react-loader-spinner';
 import LandingCards from 'components/LandingCards';
 import CompaniesHero from 'components/CompaniesHero';
 import { MentorValues } from 'components/MentorValues';
+import SwipeCards from 'components/SwipeCards';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -21,7 +22,7 @@ const PageOneWrapper = styled('div')({
   position: 'relative',
 });
 
-const Landing = () => {
+const Landing2 = () => {
   const { isLoading, data } = useQuery(['mentors'], () =>
     getMentors(undefined, undefined, 12),
   );
@@ -53,13 +54,36 @@ const Landing = () => {
         <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
           <Hero />
         </Grid>
-        <Particles />
+        {/* <Particles /> */}
       </PageOneWrapper>
       <CompaniesHero />
       <MentorValues />
       <CarouselComponent />
       <LandingCards />
       <Footer />
+    </>
+  );
+};
+
+const Landing = () => {
+  const x = 1;
+
+  return (
+    <>
+      <Grid container>
+        <Grid item sx={{ zIndex: 1 }} xs={12}>
+          <Appbar />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{ background: 'pink', height: '65vh' }}></Grid>
+        <Grid item xs={12} sm={6} sx={{ background: 'green', height: '65vh' }}>
+          <SwipeCards />
+        </Grid>
+      </Grid>
+      <CompaniesHero />
     </>
   );
 };
