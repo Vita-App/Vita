@@ -3,6 +3,8 @@ import { swipeCardState } from 'store';
 import { useRecoilValue } from 'recoil';
 import { styled, Typography, Stack, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { swipeCardsInfo } from 'data';
+import TextTransition, { presets } from 'react-text-transition';
 
 const StyledButton = styled(Button)`
   background-size: 200%;
@@ -21,27 +23,48 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const Wrapper = styled(Stack)({
+const Wrapper = styled(Stack)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    alignItems: 'center',
+    textAlign: 'center',
+  },
   flexDirection: 'column',
+  display: 'flex',
   height: '100%',
   justifyContent: 'center',
-});
-const StyledText = styled(Typography)({
+  padding: '0rem 2rem',
+}));
+
+const StyledText = styled(Typography)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
+  },
   color: '#877bd5',
   letterSpacing: '8px',
   fontSize: '24px',
   fontWeight: 500,
   textTransform: 'capitalize',
-});
+}));
 
 const LandingHero = () => {
-  const position = useRecoilValue(swipeCardState);
+  const idx = useRecoilValue(swipeCardState);
 
   return (
     <Wrapper spacing={3}>
       <StyledText>SEARCH SCHEDULE MEET</StyledText>
-      <Typography variant="h3" sx={{ font: 'Inter', fontWeight: 800 }}>
-        position : {position}
+      <Typography
+        variant="h3"
+        sx={{
+          // minHeight: '120px',
+          font: 'Inter',
+          fontWeight: 800,
+          position: 'relative',
+        }}>
+        <TextTransition
+          style={{ width: '100%' }}
+          text={swipeCardsInfo[idx].info}
+          springConfig={presets.stiff}
+        />
       </Typography>
       <Link to="/search">
         <StyledButton variant="contained">Find a Mentor ⚡</StyledButton>
