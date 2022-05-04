@@ -13,6 +13,7 @@ import LandingCards from 'components/LandingCards';
 import CompaniesHero from 'components/CompaniesHero';
 import { MentorValues } from 'components/MentorValues';
 import SwipeCards from 'components/SwipeCards';
+import LandingHero from 'components/LandingHero';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -70,7 +71,7 @@ const Landing = () => {
 
   return (
     <>
-      <Grid container>
+      <Grid container flexDirection={'row-reverse'}>
         <Grid item sx={{ zIndex: 1 }} xs={12}>
           <Appbar />
         </Grid>
@@ -78,9 +79,15 @@ const Landing = () => {
           item
           xs={12}
           sm={6}
-          sx={{ background: 'pink', height: '65vh' }}></Grid>
-        <Grid item xs={12} sm={6} sx={{ background: 'green', height: '65vh' }}>
+          sx={{ background: '#7c7878', height: '65vh' }}>
           <SwipeCards />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          sx={{ backgroundColor: '#202020', color: 'white', height: '65vh' }}>
+          <LandingHero />
         </Grid>
       </Grid>
       <CompaniesHero />
