@@ -6,6 +6,7 @@ import { CORS_REGEX } from '../config/keys';
 import http from 'http';
 import { Room } from '../types';
 import getRoomFromLink from '../utils/getRoomFromLink';
+
 const socketService = (httpServer: http.Server): void => {
   const IO_OPTIONS = {
     cors: {

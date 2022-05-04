@@ -12,6 +12,7 @@ import Loader from 'react-loader-spinner';
 import LandingCards from 'components/LandingCards';
 import CompaniesHero from 'components/CompaniesHero';
 import Testimonials from 'components/Testimonials';
+import { MentorValues } from 'components/MentorValues';
 
 const PageOneWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -49,7 +50,6 @@ const Landing = () => {
           <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
             <Hero />
           </Grid>
-          <Particles />
         </Grid>
         <Grid item sx={{ display: 'flex', flexGrow: 1, zIndex: 1 }}>
           <Hero />
@@ -57,6 +57,7 @@ const Landing = () => {
         <Particles />
       </PageOneWrapper>
       <CompaniesHero />
+      <MentorValues />
       <CarouselComponent />
       <LandingCards />
       <Testimonials />

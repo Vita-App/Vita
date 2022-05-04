@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-// .dotenv why you do me dirty like this D:
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -30,7 +28,7 @@ export const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'localhost';
 
 export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
 
-export const COOKIE_KEYS = [process.env.COOKIE_KEYS!];
+export const COOKIE_KEYS = [process.env.COOKIE_KEYS || 'key'];
 
 export const JWT = {
   secret: process.env.JWT_SECRET || 'secret',
