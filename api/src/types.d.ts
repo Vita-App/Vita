@@ -4,6 +4,7 @@ export interface UserSchemaType {
   user_id: string;
   first_name: string;
   last_name: string;
+  password: string;
   email: string;
   image_link: string;
   create_time: Date;
@@ -12,6 +13,8 @@ export interface UserSchemaType {
   signup_completed: boolean;
   mentor_information: Types.ObjectId | undefined;
   bookings: Types.ObjectId[] | undefined;
+  issueToken: () => Promise<string>;
+  comparePassword: (password: string) => Promise<boolean>;
 }
 
 export interface TopicSchemaType {
@@ -56,11 +59,11 @@ export interface MentorSchemaType {
 }
 
 export interface Room {
-  id: string; // client version of Room may have id optional
+  id: string; // Client version of Room may have id optional
   created_by?: string;
   name?: string;
   opts?: {
-    maxPeople?: string; // will be int parsed when used
+    maxPeople?: string; // Will be int parsed when used
   };
 }
 

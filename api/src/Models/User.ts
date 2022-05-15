@@ -1,23 +1,14 @@
-import { Schema, model, SchemaDefinitionProperty } from 'mongoose';
-import {
-  UserSchemaType,
-  MentorSchemaType,
-  DayEnumType,
-  DurationType,
-} from '../types';
+import { Schema, model } from 'mongoose';
+import { hash, compare } from 'bcryptjs';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
+import { JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
   start_hour: Number,
   end_hour: Number,
   available: Boolean,
   locale: String,
-});
-const TopicSchema = new Schema({
-  emojiIcon: { type: String, index: 'text' },
-  emojiBadge: { type: String, index: 'text' },
-  motivation: { type: String, index: 'text' },
-  topicName: { type: String, index: 'text' },
-  topicDescription: { type: String, index: 'text' },
 });
 
 const MentorSchema = new Schema<MentorSchemaType>({
@@ -48,6 +39,7 @@ const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
   first_name: { type: String },
   last_name: { type: String },
+  password: { type: String },
   email: String,
   image_link: String,
   create_time: {
@@ -56,7 +48,10 @@ const UserSchema = new Schema<UserSchemaType>({
   },
   oauth_provider: String,
   is_mentor: Boolean,
-  signup_completed: Boolean,
+  signup_completed: {
+    type: Boolean,
+    default: false,
+  },
   mentor_information: {
     type: Schema.Types.ObjectId,
     ref: 'Mentor',
@@ -69,6 +64,44 @@ const UserSchema = new Schema<UserSchemaType>({
   },
 });
 
+UserSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await hash(this.password, 12);
+  }
+
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (password: string) {
+  return await compare(password, this.password);
+};
+
+UserSchema.methods.issueToken = function () {
+  return jwt.sign({ user_id: this._id }, JWT.secret, {
+    expiresIn: JWT.expiresIn,
+  });
+};
+
+UserSchema.methods.verifyToken = async function (token: string) {
+  try {
+    const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
+    const user = await this.model('User').findById(decoded.user_id);
+    if (!user) {
+      return false;
+    }
+
+    return user;
+  } catch (err) {
+    return false;
+  }
+};
+
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
+
 MentorSchema.index(
   {
     first_name: 'text',
@@ -79,7 +112,6 @@ MentorSchema.index(
     expertise: 'text',
     language: 'text',
   },
-
   {
     language_override: 'dummy',
     weights: {

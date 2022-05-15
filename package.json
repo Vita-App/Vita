@@ -10,9 +10,11 @@
     "client": "cd client && npm run start",
     "server": "cd api && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "pretty": "cd api && npm run pretty && cd ../client && npm run pretty",
     "pre-commit": "cd api && npm run pre-commit && cd ../client && npm run pre-commit",
     "build": "cd api && npm run dev && cd ../client && npm run build",
-    "start:production": "cd api && npm run start:production && cd ../client && npm run start:production"
+    "start:production": "cd api && npm run start:production && cd ../client && npm run start:production",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -26,7 +28,8 @@
   },
   "homepage": "https://github.com/Rishabh-malhotraa/Vita#readme",
   "devDependencies": {
-    "concurrently": "^6.4.0"
+    "concurrently": "^6.4.0",
+    "husky": "^7.0.0"
   },
   "husky": {
     "hooks": {

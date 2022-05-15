@@ -1,6 +1,5 @@
 import {
   MentorSchemaType,
-  TopicSchemaType,
   UserSchemaType,
   DurationType,
   DayEnumType,
@@ -23,7 +22,7 @@ const getRandom = <T>(array: T[]): T => {
   return array[idx];
 };
 
-const getRandomBool = (offset: number = 0) =>
+const getRandomBool = (offset = 0) =>
   Boolean(Math.max(0, Math.round(Math.random() + offset)));
 
 const shuffleArray = <T>(array: T[]) => {
@@ -34,7 +33,7 @@ const shuffleArray = <T>(array: T[]) => {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
-    // swapping 2 variables
+    // Swapping 2 variables
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
       array[currentIndex],
@@ -46,8 +45,8 @@ const shuffleArray = <T>(array: T[]) => {
 
 const getRandomArray = <T>(
   array: T[],
-  upperBound: number = Infinity,
-  lowerBound: number = 1,
+  upperBound = Infinity,
+  lowerBound = 1,
 ) => {
   const k = Math.max(
     Math.min(Math.floor(Math.random() * array.length), upperBound),
@@ -59,11 +58,8 @@ const getRandomArray = <T>(
   return shuffledArray.slice(0, k);
 };
 
-const randomDate = (start: Date, end: Date) => {
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
-  );
-};
+const randomDate = (start: Date, end: Date) =>
+  new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 const getRandomTimeSlots = (): Record<DayEnumType, DurationType> => {
   const Days: DayEnumType[] = [
@@ -76,7 +72,7 @@ const getRandomTimeSlots = (): Record<DayEnumType, DurationType> => {
     'sunday',
   ];
 
-  let timeSlots: Record<DayEnumType, DurationType> = {} as Record<
+  const timeSlots: Record<DayEnumType, DurationType> = {} as Record<
     DayEnumType,
     DurationType
   >;
@@ -95,7 +91,7 @@ const getRandomTimeSlots = (): Record<DayEnumType, DurationType> => {
   return timeSlots;
 };
 
-// const user_id = nanoid();
+// Const user_id = nanoid();
 export const getUser = (user_id: string) => {
   const isMale = getRandomBool();
 
@@ -121,6 +117,9 @@ export const getUser = (user_id: string) => {
     user_id,
     create_time,
     bookings,
+    password: '',
+    comparePassword: () => Promise.resolve(true),
+    issueToken: () => Promise.resolve(''),
   };
   return user;
 };
@@ -130,20 +129,18 @@ export const getMentor = (
   first_name: string,
   last_name: string,
   image_link: string,
-): MentorSchemaType => {
-  return {
-    user_id,
-    first_name,
-    last_name,
-    image_link,
-    job_title: getRandom(designations),
-    company: getRandom(companies),
-    expertise: getRandomArray(expertise),
-    description: getRandom(descriptions),
-    is_mentoring: getRandomBool(0.3),
-    language: ['English', ...getRandomArray(languages, 1)],
-    linkedIn: 'https://www.linkedin.com/feed/',
-    topics: getRandomArray(topicNums),
-    time_slot: getRandomTimeSlots(),
-  };
-};
+): MentorSchemaType => ({
+  user_id,
+  first_name,
+  last_name,
+  image_link,
+  job_title: getRandom(designations),
+  company: getRandom(companies),
+  expertise: getRandomArray(expertise),
+  description: getRandom(descriptions),
+  is_mentoring: getRandomBool(0.3),
+  language: ['English', ...getRandomArray(languages, 1)],
+  linkedIn: 'https://www.linkedin.com/feed/',
+  topics: getRandomArray(topicNums),
+  time_slot: getRandomTimeSlots(),
+});

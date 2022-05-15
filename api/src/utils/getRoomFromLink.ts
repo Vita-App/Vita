@@ -7,7 +7,7 @@ const ID_REGEX = /^(?<id>[A-Za-z0-9_-]+$)/;
 function getRoomFromLink(link: string): Room | undefined {
   let id: string | undefined;
   try {
-    const url = new URL(link); // throws if url is invalid
+    const url = new URL(link); // Throws if url is invalid
     /* This does not care about url host so any host is valid as long as that follows below pathname pattern
         /room/<room_id>
         room_id regex = ([A-Za-z0-9_-])+ (same as nanoid character set)
@@ -16,7 +16,8 @@ function getRoomFromLink(link: string): Room | undefined {
   } catch (error) {
     id = link.match(ID_REGEX)?.groups?.id;
   }
-  return id !== undefined ? roomsCache.get(id) : undefined;
+
+  return id === undefined ? undefined : roomsCache.get(id);
 }
 
 export default getRoomFromLink;

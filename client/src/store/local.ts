@@ -1,5 +1,6 @@
 import { atom, AtomEffect, DefaultValue } from 'recoil';
 import { MentorSchemaType } from 'types';
+import { swipeCardsInfo } from 'data';
 interface Preferences {
   name?: string;
 }
@@ -81,4 +82,9 @@ export const topicState = atom<number>({
 export const mentorState = atom<MentorSchemaType>({
   key: 'mentorState',
   default: {} as MentorSchemaType,
+});
+
+export const swipeCardState = atom<number>({
+  key: 'swipeCardState',
+  default: swipeCardsInfo.length - 1,
 });
