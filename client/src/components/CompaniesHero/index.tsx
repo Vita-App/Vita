@@ -1,12 +1,13 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 
-const TextWrapper = styled('div')({
+const TextWrapper = styled(Typography)({
+  marginTop: '2rem',
   color: 'white',
   textAlign: 'center',
-  fontFamily: 'Raleway, sans-serif',
-  fontSize: '36px',
   fontWeight: 'bolder',
+  fontSize: '3rem',
 });
 
 const CompaniesWrapper = styled('div')(({ theme }) => ({
@@ -25,16 +26,16 @@ const CompaniesWrapper = styled('div')(({ theme }) => ({
 }));
 
 const CompaniesHero = () => (
-  <div className="">
-    <TextWrapper>Meet Alumni from</TextWrapper>
+  <>
+    <TextWrapper variant="h2">Meet Alumni from</TextWrapper>
     <CompaniesWrapper>
-      <img src="/Google.svg" />
-      <img src="/Microsoft.svg" />
-      <img src="/Amazon.svg" />
-      <img src="/Flipkart.svg" />
-      <img src="/Intuit.svg" />
+      <img src="/company/Google.svg" />
+      <img src="/company/Microsoft.svg" />
+      <img src="/company/Amazon.svg" />
+      <img src="/company/Flipkart.svg" />
+      <img src="/company/Intuit.svg" />
     </CompaniesWrapper>
-  </div>
+  </>
 );
 
 export default CompaniesHero;
