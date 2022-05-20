@@ -16,6 +16,7 @@ import {
   Button,
   TextField,
   IconButton,
+  FormControlLabel,
 } from '@mui/material';
 import {
   Google,
@@ -57,12 +58,27 @@ const AuthForm: React.FC = () => {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
+  };
+
+  const getPattern = (authMode: AuthMode, isMentor: any) => {
+    console.log(isMentor);
+    if (!isMentor && authMode === AuthMode.signup)
+      return {
+        value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
+        message: 'Mentee must use thapar.edu mail',
+      };
+
+    return {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      message: 'Invalid email address',
+    };
   };
 
   const loginMode = authMode === AuthMode.login;
@@ -145,8 +161,7 @@ const AuthForm: React.FC = () => {
           rules={{
             required: 'Email is required',
             pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: 'Invalid email address',
+              ...getPattern(authMode, watch('checkbox')),
             },
           }}
           render={({ field }) => (
@@ -193,8 +208,18 @@ const AuthForm: React.FC = () => {
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center">
-          <Checkbox color="primary" name="" />
-          <Typography variant="body2">Remember me</Typography>
+          <Controller
+            name="checkbox"
+            control={control}
+            defaultValue={false}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} />}
+                label={loginMode ? 'Rememeber me' : 'Registering as a Mentor?'}
+              />
+            )}
+          />
+          <Typography variant="body2"></Typography>
         </Stack>
         {loginMode && (
           <Link to="#">
