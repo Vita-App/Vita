@@ -1,29 +1,22 @@
-import express from 'express';
-import chalk from 'chalk';
-import http from 'http';
-import { port } from './config/keys';
-import apiRoutes from './routes/apiRoutes';
 import connectDB from './config/connectDatabase';
+import createServer from './app';
+import { port } from './config/keys';
+import chalk from 'chalk';
 import './Models/User';
 import './config/passport-config';
 import socketioService from './service/socket-io-service';
-import useMiddleWare from './middleware/index';
 
-const app = express();
-const httpServer = new http.Server(app);
+const { httpServer } = createServer();
 
-connectDB();
-useMiddleWare(app);
+connectDB()
+  .then(() => {
+    socketioService(httpServer);
 
-app.use('/api', apiRoutes);
-socketioService(httpServer);
-
-app.use('/', (req, res) =>
-  res.send(`
-  <h1>Server is Running :)))</h1>
-`),
-);
-
-httpServer.listen(port, () =>
-  console.log(chalk.blueBright(`Express Server listening to port ${port}`)),
-);
+    httpServer.listen(port, () =>
+      console.log(chalk.blueBright(`Express Server listening to port ${port}`)),
+    );
+  })
+  .catch((err) => {
+    console.log(chalk.redBright(err));
+    process.exit();
+  });
