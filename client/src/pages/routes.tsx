@@ -6,6 +6,7 @@ import AuthPage from 'pages/Auth';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
 import Dashboard from 'pages/Dashboard';
+import EmailVerification from './EmailVerification';
 import Loader from 'components/Loader';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/registration-form" element={<Signup />} />
+          <Route path="/email-verification" element={<EmailVerification />} />
         </Routes>
       </ThemeProvider>
       <Routes>
