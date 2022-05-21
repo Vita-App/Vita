@@ -5,34 +5,15 @@ import { port } from './config/keys';
 import apiRoutes from './routes/apiRoutes';
 import connectDB from './config/connectDatabase';
 import './Models/User';
+import './config/passport-config';
 import socketioService from './service/socket-io-service';
-import cors from 'cors';
-import { CORS_REGEX } from './config/keys';
-// import passport from 'passport';
-// import useMiddleWare from './middleware/index';
-
-// import passportService from './service/passport';
-// passportService(passport);
+import useMiddleWare from './middleware/index';
 
 const app = express();
 const httpServer = new http.Server(app);
 
 connectDB();
-// useMiddleWare(app);
-
-app.use(
-  cors({
-    origin: new RegExp(CORS_REGEX),
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type',
-    credentials: true, // allow session cookies from browser to pass throught
-  }),
-);
-
-app.set('trust proxy', 1);
-
-// app.use(passport.initialize());
-// app.use(passport.session());
+useMiddleWare(app);
 
 app.use('/api', apiRoutes);
 socketioService(httpServer);

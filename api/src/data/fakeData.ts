@@ -317,7 +317,7 @@ export const images = {
   ],
 };
 
-const range = (from: number, to: number, step: number = 1) =>
+const range = (from: number, to: number, step = 1) =>
   [...Array(Math.floor((to - from) / step) + 1)].map((_, i) => from + i * step);
 
 export const topicNums = range(0, 24);

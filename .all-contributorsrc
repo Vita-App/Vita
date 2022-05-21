@@ -15,14 +15,27 @@
         "data",
         "design",
         "code",
-        "video"
+        "video",
+        "review"
       ]
     },
     {
-      "login": "muzam1l",
-      "name": "muzamil",
-      "avatar_url": "https://avatars.githubusercontent.com/u/52374648?v=4",
-      "profile": "http://muzam1l.com",
+      "login": "Lalit3716",
+      "name": "Lalit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84276404?v=4",
+      "profile": "https://github.com/Lalit3716",
+      "contributions": [
+        "code",
+        "design",
+        "review",
+        "test"
+      ]
+    },
+    {
+      "login": "indraantoor",
+      "name": "Indraan S. Toor",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64259328?v=4",
+      "profile": "https://github.com/indraantoor",
       "contributions": [
         "code"
       ]
@@ -37,11 +50,21 @@
       ]
     },
     {
+      "login": "DevRish",
+      "name": "Rishav Chattopadhya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/78094670?v=4",
+      "profile": "https://github.com/DevRish",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "Gurdeep475",
       "name": "Gurdeep Singh",
       "avatar_url": "https://avatars.githubusercontent.com/u/32095032?v=4",
       "profile": "https://github.com/Gurdeep475",
       "contributions": [
+        "code",
         "maintenance"
       ]
     },
@@ -51,23 +74,15 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/49886457?v=4",
       "profile": "http://linkedin.com/in/hzmessam",
       "contributions": [
+        "code",
         "maintenance"
       ]
     },
     {
-      "login": "Lalit3716",
-      "name": "Lalit",
-      "avatar_url": "https://avatars.githubusercontent.com/u/84276404?v=4",
-      "profile": "https://github.com/Lalit3716",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "indraantoor",
-      "name": "Indraan S. Toor",
-      "avatar_url": "https://avatars.githubusercontent.com/u/64259328?v=4",
-      "profile": "https://github.com/indraantoor",
+      "login": "muzam1l",
+      "name": "muzamil",
+      "avatar_url": "https://avatars.githubusercontent.com/u/52374648?v=4",
+      "profile": "http://muzam1l.com",
       "contributions": [
         "code"
       ]
@@ -82,7 +97,7 @@
       ]
     }
   ],
-  "contributorsPerLine": 7,
+  "contributorsPerLine": 5,
   "projectName": "Vita",
   "projectOwner": "Rishabh-malhotraa",
   "repoType": "github",

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { SERVER_URL } from 'config.keys';
+import { useNavigate } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
 import Stack from '@mui/material/Stack';
@@ -17,7 +19,6 @@ import {
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 
 enum AuthMode {
   login,
@@ -69,6 +70,14 @@ const AuthForm: React.FC = () => {
       navigate('/registration-form');
       // Send Request to /signup
     }
+  };
+
+  const googleLogin = () => {
+    window.location.href = `${SERVER_URL}/api/auth/google`;
+  };
+
+  const linkedInLogin = () => {
+    window.location.href = `${SERVER_URL}/api/auth/linkedin`;
   };
 
   return (
@@ -154,11 +163,19 @@ const AuthForm: React.FC = () => {
       <StyledButton fullWidth color="primary" variant="contained" type="submit">
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
-      <StyledButton fullWidth color="inherit" variant="outlined">
+      <StyledButton
+        fullWidth
+        color="inherit"
+        variant="outlined"
+        onClick={googleLogin}>
         <Google sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with Google
       </StyledButton>
-      <StyledButton fullWidth color="inherit" variant="outlined">
+      <StyledButton
+        fullWidth
+        color="inherit"
+        variant="outlined"
+        onClick={linkedInLogin}>
         <LinkedIn sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with LinkedIn
       </StyledButton>

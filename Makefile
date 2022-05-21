@@ -16,9 +16,9 @@ modules:
 	cd api
 	npm install
 
-dev: client server
+start: client server
 
-build: 
+dev: 
 	cd api
 	npm run dev
 	cd ../client/

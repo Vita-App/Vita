@@ -86,10 +86,45 @@ export const StyledIconButton = styled(IconButton)(
 export const CarouselDiv = styled('div')`
   margin: 2rem;
   background: inherit;
+
   .swiper-button-prev {
     display: none;
   }
+
   .swiper-button-next {
     display: none;
+  }
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    transition: all 0.4s ease;
+  }
+`;
+
+export const CarouselToolbarContainer = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+`;
+
+export const CarouselNavContainer = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
+export const TopExploreBtnContainer = styled('div')`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
+export const BottomExploreBtnContainer = styled('div')`
+  display: none;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
