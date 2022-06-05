@@ -2,20 +2,22 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Box,
-  Container,
   Typography,
   Button,
   Stack,
   TextField,
   IconButton,
+  Dialog,
 } from "@mui/material";
 import { Delete, Search } from "@mui/icons-material";
 import { DataGrid, GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import ConfirmDialog from "components/Modals/ConfirmDialog";
 import { users } from "data";
 
 const UsersPage = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [rows, setRows] = useState(users);
   const [selectedRows, setSelectedRows] = useState<GridSelectionModel>([]);
   const columns: GridColDef[] = [
@@ -66,8 +68,21 @@ const UsersPage = () => {
   };
 
   return (
-    <Container sx={{ width: "100%" }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Box sx={{ pl: 10, pr: 2 }}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <ConfirmDialog
+          onClose={() => setOpen(false)}
+          onConfirm={() => {}}
+          title="Are you sure?"
+          message="These users will be permanently deleted from the database"
+        />
+      </Dialog>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
+      >
         <Typography variant="h3" gutterBottom>
           Users
         </Typography>
@@ -98,15 +113,11 @@ const UsersPage = () => {
         />
       </Box>
       {selectedRows.length !== 0 && (
-        <Button
-          onClick={() => console.log(selectedRows)}
-          color="error"
-          variant="contained"
-        >
+        <Button onClick={() => setOpen(true)} color="error" variant="contained">
           Delete <Delete />
         </Button>
       )}
-    </Container>
+    </Box>
   );
 };
 

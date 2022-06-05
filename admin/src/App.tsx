@@ -8,6 +8,8 @@ import MeetingsPage from "pages/Meetings";
 import EmailsPage from "pages/Emails";
 import SettingsPage from "pages/Settings";
 import UserPage from "pages/User";
+import ApplicationPage from "pages/Application";
+import AuthPage from "pages/Auth";
 
 const App = () => {
   return (
@@ -15,19 +17,17 @@ const App = () => {
       <SideDrawer />
       <Box
         sx={{
-          width: "100vw",
           minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
           bgcolor: "rgb(245, 245, 245)",
           py: 3,
-          pl: 10,
         }}
       >
         <Routes>
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/" element={<UsersPage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/applications" element={<ApplicationsPage />} />
+          <Route path="/application/:id" element={<ApplicationPage />} />
           <Route path="/meetings" element={<MeetingsPage />} />
           <Route path="/emails" element={<EmailsPage />} />
           <Route path="/settings" element={<SettingsPage />} />

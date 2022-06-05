@@ -1,10 +1,15 @@
 import React from "react";
 import { Drawer, Avatar, Stack } from "@mui/material";
 import Toolbar from "./Toolbar";
+import { useLocation } from "react-router";
 
 const drawerWidth = "60px";
 
 const SideDrawer = () => {
+  const { pathname } = useLocation();
+
+  if (pathname === "/auth") return <></>;
+
   return (
     <Drawer
       variant="permanent"
