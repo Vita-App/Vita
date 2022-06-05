@@ -7,6 +7,7 @@ import ApplicationsPage from "pages/Applications";
 import MeetingsPage from "pages/Meetings";
 import EmailsPage from "pages/Emails";
 import SettingsPage from "pages/Settings";
+import UserPage from "pages/User";
 
 const App = () => {
   return (
@@ -19,12 +20,13 @@ const App = () => {
           display: "flex",
           flexDirection: "column",
           bgcolor: "rgb(245, 245, 245)",
-          px: 10,
           py: 3,
+          pl: 10,
         }}
       >
         <Routes>
           <Route path="/" element={<UsersPage />} />
+          <Route path="/user/:id" element={<UserPage />} />
           <Route path="/applications" element={<ApplicationsPage />} />
           <Route path="/meetings" element={<MeetingsPage />} />
           <Route path="/emails" element={<EmailsPage />} />
