@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { hash, compare } from 'bcryptjs';
+import { hash, compare, genSalt } from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
 import { JWT } from '../config/keys';
@@ -66,7 +66,8 @@ const UserSchema = new Schema<UserSchemaType>({
 
 UserSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
-    this.password = await hash(this.password, 12);
+    const salt = await genSalt();
+    this.password = await hash(this.password, salt);
   }
 
   next();
