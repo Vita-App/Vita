@@ -32,7 +32,6 @@ const EmailVerification = () => {
               To continue, please check your inbox and verify your email
               address.
             </Typography>
-
             <Typography>
               Didn&apos;t Receive the email? <Link href="#">Resend email</Link>
             </Typography>
