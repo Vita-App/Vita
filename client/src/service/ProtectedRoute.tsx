@@ -14,8 +14,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const auth = useRecoilValue(authState);
 
-  console.log(auth.isLoggedIn);
-
   if (inverse) {
     if (auth.isLoggedIn) {
       return <Navigate to={redirectTo} />;

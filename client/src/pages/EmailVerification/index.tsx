@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { Card, Grid, Stack, Typography, Link } from '@mui/material';
 import { ReactComponent as EmailSVG } from './email_verification.svg';
+import { SERVER_URL } from 'config.keys';
+import axios from 'axios';
 
 const EmailVerification = () => {
-  const email = 'test@google.com';
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (params.get('token')) {
+      axios
+        .get(`${SERVER_URL}/api/auth/verify-email`, {
+          params: { token: params.get('token') },
+        })
+        .then(() => {
+          navigate('/auth?page=login');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
+  const email = state?.email || 'test@google.com';
+
   return (
     <Grid container>
       <Grid item xs={12} sm={8} md={6} lg={5} xl={3} mx="auto" my={6}>

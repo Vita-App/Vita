@@ -4,7 +4,7 @@ import useHttp from 'hooks/useHttp';
 import { authState } from 'store';
 import { useSetRecoilState } from 'recoil';
 import { SERVER_URL } from 'config.keys';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
 import Stack from '@mui/material/Stack';
@@ -51,8 +51,11 @@ const StyledTextField = styled(TextField)({
 });
 
 const AuthForm: React.FC = () => {
+  const [params] = useSearchParams();
   const setAuthState = useSetRecoilState(authState);
-  const [authMode, setAuthMode] = useState(AuthMode.login);
+  const [authMode, setAuthMode] = useState(
+    params.get('page') === 'login' ? AuthMode.login : AuthMode.signup,
+  );
   const [showPassword, setShowPassword] = useState(false);
   const { loading, sendRequest, error: httpError } = useHttp();
   const {
@@ -68,7 +71,6 @@ const AuthForm: React.FC = () => {
   };
 
   const getPattern = (authMode: AuthMode, isMentor: any) => {
-    console.log(isMentor);
     if (!isMentor && authMode === AuthMode.signup)
       return {
         value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
@@ -118,13 +120,8 @@ const AuthForm: React.FC = () => {
           return data;
         },
         (data: any) => {
-          console.log(data);
           setAuthState(data);
-          if (data.isLoggedIn && !data.user.signup_completed) {
-            navigate('/registration-form');
-          } else {
-            navigate('/');
-          }
+          navigate('/email-verification', { state: { email: formData.email } });
         },
       );
     }
@@ -169,8 +166,8 @@ const AuthForm: React.FC = () => {
               {...field}
               type="email"
               placeholder="Enter your email"
-              error={Boolean(errors.email)}
-              helperText={errors.email && errors.email.message}
+              error={Boolean(errors.email) || Boolean(httpError?.email)}
+              helperText={errors.email?.message || httpError?.email}
             />
           )}
         />
@@ -227,11 +224,6 @@ const AuthForm: React.FC = () => {
           </Link>
         )}
       </Stack>
-      {httpError && (
-        <Typography variant="body1" color="error">
-          {httpError}
-        </Typography>
-      )}
       <StyledButton
         fullWidth
         color="primary"

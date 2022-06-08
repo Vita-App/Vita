@@ -43,6 +43,7 @@ passport.use(
         image_link: profile._json?.picture,
         oauth_provider: profile.provider,
         is_mentor: request.query.state === 'true',
+        verified: true,
       });
 
       createUserIfNotExists(user, done);
@@ -66,6 +67,7 @@ passport.use(
         image_link: profile._json?.profilePicture?.displayImage,
         oauth_provider: profile.provider,
         is_mentor: request.query.state === 'true',
+        verified: true,
       });
 
       createUserIfNotExists(user, done);

@@ -40,7 +40,7 @@ const useHttp = (initialLoading = false) => {
         dispatch({ type: 'RESPONSE', responseData });
         if (cb) cb(responseData);
       } catch (err: any) {
-        dispatch({ type: 'ERROR', errorData: err.response.data.message });
+        dispatch({ type: 'ERROR', errorData: err.response.data.error });
       }
     },
     [dispatch],

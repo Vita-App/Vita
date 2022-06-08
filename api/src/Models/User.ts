@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
-import { JWT } from '../config/keys';
+import { EMAIL_VERIFICATION_JWT, JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
   start_hour: Number,
@@ -62,6 +62,10 @@ const UserSchema = new Schema<UserSchemaType>({
     ref: 'Booking',
     default: [],
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 UserSchema.pre('save', async function (next) {
@@ -74,6 +78,14 @@ UserSchema.pre('save', async function (next) {
 
 UserSchema.methods.comparePassword = async function (password: string) {
   return await compare(password, this.password);
+};
+
+UserSchema.methods.createVerificationToken = function () {
+  const token = jwt.sign({ user_id: this._id }, EMAIL_VERIFICATION_JWT.secret, {
+    expiresIn: EMAIL_VERIFICATION_JWT.expiresIn,
+  });
+
+  return token;
 };
 
 UserSchema.methods.issueToken = function () {

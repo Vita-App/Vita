@@ -119,7 +119,9 @@ export const getUser = (user_id: string) => {
     bookings,
     password: '',
     comparePassword: () => Promise.resolve(true),
-    issueToken: () => Promise.resolve(''),
+    issueToken: () => '',
+    createVerificationToken: () => '',
+    verified: true,
   };
   return user;
 };

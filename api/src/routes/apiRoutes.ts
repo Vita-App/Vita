@@ -8,6 +8,7 @@ import {
   googleRedirectController,
   linkedinController,
   linkedinRedirectController,
+  verifyEmailController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -26,6 +27,7 @@ const router = Router();
 router.get('/auth', authController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
+router.get('/auth/verify-email', verifyEmailController);
 router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
