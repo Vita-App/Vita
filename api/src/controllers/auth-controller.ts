@@ -114,25 +114,25 @@ export const jwtSignupController = async (req: Request, res: Response) => {
       return res
         .status(401)
         .json({ isLoggedIn: false, message: 'User already exists.' });
-    } else {
-      try {
-        const emailId = await sendEmail(
-          user.email,
-          'Verify your email',
-          emailVerificationTemplate(verificationUrl),
-        );
+    }
 
-        return res.status(201).json({
-          success: true,
-          emailId,
-        });
-      } catch (err) {
-        return res.status(400).json({
-          error: {
-            email: 'Invalid email address',
-          },
-        });
-      }
+    try {
+      const emailId = await sendEmail(
+        user.email,
+        'Verify your email',
+        emailVerificationTemplate(verificationUrl),
+      );
+
+      return res.status(201).json({
+        success: true,
+        emailId,
+      });
+    } catch (err) {
+      return res.status(400).json({
+        error: {
+          email: 'Invalid email address',
+        },
+      });
     }
   }
 
