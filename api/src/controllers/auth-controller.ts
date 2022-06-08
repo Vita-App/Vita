@@ -113,7 +113,7 @@ export const jwtSignupController = async (req: Request, res: Response) => {
     if (presentUser.verified) {
       return res
         .status(401)
-        .json({ isLoggedIn: false, message: 'User already exists.' });
+        .json({ isLoggedIn: false, error: { email: 'User already exists.' } });
     }
 
     try {
@@ -128,6 +128,7 @@ export const jwtSignupController = async (req: Request, res: Response) => {
         emailId,
       });
     } catch (err) {
+      console.log(err);
       return res.status(400).json({
         error: {
           email: 'Invalid email address',
@@ -150,6 +151,7 @@ export const jwtSignupController = async (req: Request, res: Response) => {
       emailId,
     });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       error: {
         email: 'Invalid email address',

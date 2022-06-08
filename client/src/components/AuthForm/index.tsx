@@ -7,7 +7,6 @@ import { SERVER_URL } from 'config.keys';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import {
   Avatar,
@@ -17,6 +16,8 @@ import {
   TextField,
   IconButton,
   FormControlLabel,
+  Stack,
+  LinearProgress,
 } from '@mui/material';
 import {
   Google,
@@ -137,11 +138,23 @@ const AuthForm: React.FC = () => {
 
   return (
     <Stack
+      position="relative"
       spacing={3}
       py={5}
       px={7}
       component="form"
       onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <LinearProgress
+          variant="indeterminate"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+          }}
+        />
+      )}
       <Avatar src="/logo192.png" />
       <Stack>
         <Typography variant="h4">Welcome Back</Typography>
