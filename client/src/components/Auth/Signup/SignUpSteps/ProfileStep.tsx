@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, Avatar } from '@mui/material';
-import { interestOptions } from 'data';
+import { interestOptions, streamOptions } from 'data';
 import {
   StyledTextField,
   StyledButton,
@@ -63,6 +63,9 @@ const ProfileStep: React.FC<{
       };
     }
   }, []);
+
+  const minGraduationYear = 1975;
+  const maxGraduationYear = new Date().getFullYear();
 
   return (
     <Stack
@@ -153,36 +156,6 @@ const ProfileStep: React.FC<{
           />
         </Stack>
       </Stack>
-      <Stack direction="row" spacing={1}>
-        <Stack flexGrow={1}>
-          <Typography variant="body2">Quote</Typography>
-          <Controller
-            name="quote"
-            control={control}
-            defaultValue={props.hydrate?.quote || ''}
-            render={({ field }) => (
-              <StyledTextField {...field} placeholder="Enter a quote" />
-            )}
-          />
-        </Stack>
-        <Stack flexGrow={1}>
-          <Typography variant="body2">Phone</Typography>
-          <Controller
-            name="phone"
-            control={control}
-            defaultValue={props.hydrate?.phone || ''}
-            rules={{ required: 'Phone Number is Required' }}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                error={Boolean(errors.phone)}
-                helperText={errors.phone?.message}
-                placeholder="Enter a phone number"
-              />
-            )}
-          />
-        </Stack>
-      </Stack>
       <Stack>
         <Typography variant="body2">Bio</Typography>
         <Controller
@@ -201,6 +174,29 @@ const ProfileStep: React.FC<{
       </Stack>
       <Stack direction="row" spacing={1}>
         <Stack flexGrow={1}>
+          <Typography variant="body2">Phone</Typography>
+          <Controller
+            name="phone"
+            control={control}
+            defaultValue={props.hydrate?.phone || ''}
+            rules={{
+              required: 'Phone Number is Required',
+              pattern: {
+                value: /^\d{10}$/,
+                message: 'Phone number must be 10 digits',
+              },
+            }}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                error={Boolean(errors.phone)}
+                helperText={errors.phone?.message}
+                placeholder="Enter a phone number"
+              />
+            )}
+          />
+        </Stack>
+        <Stack flexGrow={1}>
           <Typography variant="body2">Graduation year</Typography>
           <Controller
             name="graduationYear"
@@ -209,6 +205,8 @@ const ProfileStep: React.FC<{
             rules={{
               required: 'Graduation Year is Required',
               pattern: { value: /^[0-9]{4}$/, message: 'Invalid Year' },
+              min: { value: minGraduationYear, message: 'Invalid Year' },
+              max: { value: maxGraduationYear, message: 'Invalid Year' },
             }}
             render={({ field }) => (
               <StyledTextField
@@ -220,25 +218,27 @@ const ProfileStep: React.FC<{
             )}
           />
         </Stack>
-        <Stack flexGrow={1}>
-          <Typography variant="body2">Stream</Typography>
-          <Controller
-            name="stream"
-            control={control}
-            defaultValue={props.hydrate?.stream || ''}
-            rules={{
-              required: 'Stream is Required',
-            }}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                error={Boolean(errors.stream)}
-                helperText={errors.stream?.message}
-                placeholder="Enter your stream"
-              />
-            )}
-          />
-        </Stack>
+      </Stack>
+      <Stack flexGrow={1}>
+        <Typography variant="body2" gutterBottom>
+          Stream
+        </Typography>
+        <Controller
+          name="stream"
+          control={control}
+          defaultValue={props.hydrate?.stream || ''}
+          rules={{
+            required: 'Stream is Required',
+          }}
+          render={({ field }) => (
+            <Select
+              {...field}
+              placeholder="Choose your course"
+              classNamePrefix="select"
+              options={streamOptions}
+            />
+          )}
+        />
       </Stack>
       <Stack>
         <Typography variant="h6" mb={1}>

@@ -48,26 +48,30 @@ export const expertiseOptions = [
   },
 ];
 
-export const companyOptions = [
+export const streamOptions = [
   {
-    value: 'Facebook',
-    label: 'Facebook',
+    value: 'Computer Science',
+    label: 'Computer Science',
   },
   {
-    value: 'Apple',
-    label: 'Apple',
+    value: 'Electronics and Communications Engineering',
+    label: 'Electronics Engineering',
   },
   {
-    value: 'Amazon',
-    label: 'Amazon',
+    value: 'Electrical Engineering',
+    label: 'Electrical Engineering',
   },
   {
-    value: 'Netflix',
-    label: 'Netflix',
+    value: 'Mechanical Engineering',
+    label: 'Mechanical Engineering',
   },
   {
-    value: 'Google',
-    label: 'Google',
+    value: 'Civil Engineering',
+    label: 'Civil Engineering',
+  },
+  {
+    value: 'Chemical Engineering',
+    label: 'Chemical Engineering',
   },
 ];
 

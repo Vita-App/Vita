@@ -7,7 +7,6 @@ import {
   StyledReactSelect as Select,
 } from './utils';
 import {
-  companyOptions,
   leadershipOptions,
   careerOptions,
   jobSearchOptions,
@@ -53,10 +52,11 @@ const ExperienceStep: React.FC<{
           defaultValue={props.hydrate?.companyName || ''}
           rules={{ required: 'Company name is required' }}
           render={({ field }) => (
-            <Select
+            <StyledTextField
               {...field}
-              options={companyOptions}
-              classNamePrefix="select"
+              placeholder="Company name"
+              error={Boolean(errors.companyName)}
+              helperText={errors.companyName?.message}
             />
           )}
         />
@@ -84,7 +84,6 @@ const ExperienceStep: React.FC<{
           name="linkedinProfile"
           control={control}
           defaultValue={props.hydrate?.linkedinProfile || ''}
-          rules={{ required: 'Linkedin Profile is Required' }}
           render={({ field }) => (
             <StyledTextField
               {...field}

@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { Card, IconButton, Stepper, Step, StepLabel } from '@mui/material';
+import {
+  Card,
+  IconButton,
+  Stepper,
+  Step,
+  StepLabel,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 
 import ExperienceStep from './ExperienceStep';
 import ProfileStep from './ProfileStep';
-import IntegrationsStep from './IntegrationsStep';
+// import IntegrationsStep from './IntegrationsStep';
+import AvailabilityStep from './AvailabilityStep';
 
-const steps = ['Profile', 'Experience', 'Integrations'];
+const steps = ['Profile', 'Experience', 'Availability'];
 
 const SignUpSteps: React.FC<{
   onCancel: () => void;
@@ -16,7 +25,7 @@ const SignUpSteps: React.FC<{
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
   }>({});
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
@@ -60,7 +69,13 @@ const SignUpSteps: React.FC<{
           />
         );
       case 2:
-        return <IntegrationsStep onBack={onBack} onContinue={onContinue} />;
+        return (
+          <AvailabilityStep
+            onBack={onBack}
+            onContinue={onContinue}
+            hydrate={formData[step]}
+          />
+        );
       default:
         return null;
     }
@@ -79,13 +94,23 @@ const SignUpSteps: React.FC<{
           md: '60%',
         },
       }}>
-      <IconButton
-        onClick={onCancel}
-        sx={{ position: 'absolute', top: 2.5, left: 2.5 }}>
-        <ArrowBack />
-      </IconButton>
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        sx={{ position: 'absolute', top: 3, left: 3 }}>
+        <IconButton onClick={onCancel}>
+          <ArrowBack />
+        </IconButton>
+        <Typography
+          variant="body1"
+          sx={{ cursor: 'pointer' }}
+          onClick={onCancel}>
+          Change your role
+        </Typography>
+      </Stack>
       {mentor && (
-        <Stepper activeStep={activeStep} alternativeLabel>
+        <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 2 }}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>

@@ -59,3 +59,9 @@ export type MotivationEnumType =
   | 'Mentorship'
   | 'Leadership'
   | 'Skills';
+
+export interface SlotType {
+  id: number;
+  start: Date | null;
+  end: Date | null;
+}
