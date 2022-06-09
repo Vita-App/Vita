@@ -25,7 +25,7 @@ const SignUpSteps: React.FC<{
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
   }>({});
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
