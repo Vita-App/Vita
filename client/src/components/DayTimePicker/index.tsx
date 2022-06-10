@@ -50,13 +50,11 @@ const DayTimePicker: FC<Props> = ({ slots, setSlots, day }) => {
   };
 
   return (
-    <Stack
-      spacing={2}
-      my={3}
-      alignItems="center"
-      direction="row"
-      justifyContent="space-between">
-      <Stack direction="row" spacing={2} alignItems="center">
+    <Stack position="relative" spacing={2} my={3} direction="row">
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        spacing={2}
+        alignItems={{ xs: 'flex-start', md: 'center' }}>
         <FormControlLabel
           control={
             <Checkbox checked={slots.length > 0} onChange={onCheckedChange} />
@@ -68,31 +66,33 @@ const DayTimePicker: FC<Props> = ({ slots, setSlots, day }) => {
             Unavailable
           </Typography>
         )}
-        {
-          <Stack spacing={2}>
-            {slots.map((timePicker) => (
-              <Stack
-                direction="row"
-                key={timePicker.id}
-                spacing={1}
-                alignItems="center">
-                <TimeRangePicker
-                  id={timePicker.id}
-                  onChange={onChange}
-                  start={timePicker.start}
-                  end={timePicker.end}
-                />
-                <IconButton
-                  color="error"
-                  onClick={() => onDelete(timePicker.id)}>
-                  <Delete />
-                </IconButton>
-              </Stack>
-            ))}
-          </Stack>
-        }
+        <Stack spacing={2}>
+          {slots.map((timePicker) => (
+            <Stack
+              direction="row"
+              key={timePicker.id}
+              spacing={1}
+              alignItems="center">
+              <TimeRangePicker
+                id={timePicker.id}
+                onChange={onChange}
+                start={timePicker.start}
+                end={timePicker.end}
+              />
+              <IconButton color="error" onClick={() => onDelete(timePicker.id)}>
+                <Delete />
+              </IconButton>
+            </Stack>
+          ))}
+        </Stack>
       </Stack>
-      <IconButton onClick={onAdd}>
+      <IconButton
+        onClick={onAdd}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+        }}>
         <Add />
       </IconButton>
     </Stack>

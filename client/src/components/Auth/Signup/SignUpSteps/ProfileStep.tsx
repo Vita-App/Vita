@@ -65,7 +65,7 @@ const ProfileStep: React.FC<{
   }, []);
 
   const minGraduationYear = 1975;
-  const maxGraduationYear = new Date().getFullYear();
+  const maxGraduationYear = new Date().getFullYear() + 5;
 
   return (
     <Stack
@@ -182,8 +182,8 @@ const ProfileStep: React.FC<{
             rules={{
               required: 'Phone Number is Required',
               pattern: {
-                value: /^\d{10}$/,
-                message: 'Phone number must be 10 digits',
+                value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
+                message: 'Invalid Phone Number',
               },
             }}
             render={({ field }) => (

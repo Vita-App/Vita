@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import {
-  Card,
-  IconButton,
-  Stepper,
-  Step,
-  StepLabel,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Card, Stepper, Step, StepLabel, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 
 import ExperienceStep from './ExperienceStep';
@@ -94,21 +86,13 @@ const SignUpSteps: React.FC<{
           md: '60%',
         },
       }}>
-      <Stack
-        direction="row"
-        spacing={1}
-        alignItems="center"
+      <Button
+        onClick={onCancel}
+        color="inherit"
+        startIcon={<ArrowBack />}
         sx={{ position: 'absolute', top: 3, left: 3 }}>
-        <IconButton onClick={onCancel}>
-          <ArrowBack />
-        </IconButton>
-        <Typography
-          variant="body1"
-          sx={{ cursor: 'pointer' }}
-          onClick={onCancel}>
-          Change your role
-        </Typography>
-      </Stack>
+        Change your role
+      </Button>
       {mentor && (
         <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 2 }}>
           {steps.map((label) => (
