@@ -264,7 +264,7 @@ const ProfileStep: React.FC<{
                 }
               }}
               color={
-                props.interests.includes(option.value) ? 'success' : 'default'
+                props.interests.includes(option.value) ? 'primary' : 'default'
               }
             />
           ))}

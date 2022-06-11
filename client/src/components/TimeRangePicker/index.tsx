@@ -80,7 +80,7 @@ const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{ width: '100px' }}
+              sx={{ width: '130px' }}
               size="small"
               error={Boolean(startTimeError)}
             />
@@ -94,7 +94,7 @@ const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{ width: '100px' }}
+              sx={{ width: '130px' }}
               size="small"
               error={Boolean(endTimeError)}
             />
