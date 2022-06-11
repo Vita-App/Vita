@@ -102,11 +102,7 @@ const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
         />
       </Stack>
 
-      <Stack
-        direction="row"
-        flexWrap="wrap"
-        spacing={2}
-        justifyContent="space-between">
+      <Stack direction="row" spacing={2} justifyContent="space-between">
         {startTimeError && (
           <Typography variant="caption" color="error">
             {startTimeError}

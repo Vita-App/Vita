@@ -18,6 +18,7 @@ const SignUpSteps: React.FC<{
     [key: number]: FieldValues;
   }>({});
   const [activeStep, setActiveStep] = useState(0);
+  const [interests, setInterests] = useState<string[]>([]);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
@@ -51,7 +52,14 @@ const SignUpSteps: React.FC<{
   const renderStep = (step: number) => {
     switch (step) {
       case 0:
-        return <ProfileStep onContinue={onContinue} hydrate={formData[step]} />;
+        return (
+          <ProfileStep
+            onContinue={onContinue}
+            hydrate={formData[step]}
+            interests={interests}
+            setInterests={setInterests}
+          />
+        );
       case 1:
         return (
           <ExperienceStep

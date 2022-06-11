@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
-import { Stack, Typography, Avatar } from '@mui/material';
+import { Stack, Typography, Avatar, Chip } from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
   StyledTextField,
@@ -11,6 +11,8 @@ import {
 const ProfileStep: React.FC<{
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate?: FieldValues;
+  interests: string[];
+  setInterests: (interests: string[]) => void;
 }> = (props) => {
   const {
     handleSubmit,
@@ -244,20 +246,29 @@ const ProfileStep: React.FC<{
         <Typography variant="h6" mb={1}>
           Tell us about your interest
         </Typography>
-        <Controller
-          name="interest"
-          control={control}
-          defaultValue={props.hydrate?.interest}
-          render={({ field }) => (
-            <Select
-              {...field}
-              placeholder="Choose one or more"
-              isMulti
-              classNamePrefix="select"
-              options={interestOptions}
+        <Stack direction="row" flexWrap="wrap">
+          {interestOptions.map((option) => (
+            <Chip
+              key={option.value}
+              label={option.label}
+              sx={{ m: 1 }}
+              onClick={() => {
+                if (props.interests.includes(option.value)) {
+                  const newInterests = props.interests.filter(
+                    (interest) => interest !== option.value,
+                  );
+
+                  props.setInterests(newInterests);
+                } else {
+                  props.setInterests([...props.interests, option.value]);
+                }
+              }}
+              color={
+                props.interests.includes(option.value) ? 'success' : 'default'
+              }
             />
-          )}
-        />
+          ))}
+        </Stack>
       </Stack>
       <Stack>
         <Typography variant="body2">Referal code (if any)</Typography>
