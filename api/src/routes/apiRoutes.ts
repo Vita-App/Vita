@@ -8,6 +8,7 @@ import {
   googleRedirectController,
   linkedinController,
   linkedinRedirectController,
+  verifyEmailController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -15,10 +16,10 @@ import {
   getMentorsController,
 } from '../controllers/api-controller';
 
-import {
-  fakeDataController,
-  topicDataController,
-} from '../data/fakeData-controller';
+// import {
+//   fakeDataController,
+//   topicDataController,
+// } from '../data/fakeData-controller';
 const router = Router();
 
 // We will do our re-routing from the client side just send information from here
@@ -26,6 +27,7 @@ const router = Router();
 router.get('/auth', authController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
+router.get('/auth/verify-email', verifyEmailController);
 router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
@@ -35,6 +37,6 @@ router.get('/logout', logoutController); // Auth logout
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
-router.get('/data', fakeDataController);
-router.get('/topicData', topicDataController);
+// router.get('/data', fakeDataController);
+// router.get('/topicData', topicDataController);
 export default router;

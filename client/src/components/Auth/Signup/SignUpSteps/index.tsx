@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { Card, IconButton, Stepper, Step, StepLabel } from '@mui/material';
+import { Card, Stepper, Step, StepLabel, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 
 import ExperienceStep from './ExperienceStep';
 import ProfileStep from './ProfileStep';
-import IntegrationsStep from './IntegrationsStep';
+// import IntegrationsStep from './IntegrationsStep';
+import AvailabilityStep from './AvailabilityStep';
 
-const steps = ['Profile', 'Experience', 'Integrations'];
+const steps = ['Profile', 'Experience', 'Availability'];
 
 const SignUpSteps: React.FC<{
   onCancel: () => void;
@@ -16,7 +17,8 @@ const SignUpSteps: React.FC<{
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
   }>({});
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
+  const [interests, setInterests] = useState<string[]>([]);
 
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
@@ -50,7 +52,14 @@ const SignUpSteps: React.FC<{
   const renderStep = (step: number) => {
     switch (step) {
       case 0:
-        return <ProfileStep onContinue={onContinue} hydrate={formData[step]} />;
+        return (
+          <ProfileStep
+            onContinue={onContinue}
+            hydrate={formData[step]}
+            interests={interests}
+            setInterests={setInterests}
+          />
+        );
       case 1:
         return (
           <ExperienceStep
@@ -60,7 +69,13 @@ const SignUpSteps: React.FC<{
           />
         );
       case 2:
-        return <IntegrationsStep onBack={onBack} onContinue={onContinue} />;
+        return (
+          <AvailabilityStep
+            onBack={onBack}
+            onContinue={onContinue}
+            hydrate={formData[step]}
+          />
+        );
       default:
         return null;
     }
@@ -79,13 +94,15 @@ const SignUpSteps: React.FC<{
           md: '60%',
         },
       }}>
-      <IconButton
+      <Button
         onClick={onCancel}
-        sx={{ position: 'absolute', top: 2.5, left: 2.5 }}>
-        <ArrowBack />
-      </IconButton>
+        color="inherit"
+        startIcon={<ArrowBack />}
+        sx={{ position: 'absolute', top: 3, left: 3 }}>
+        Change your role
+      </Button>
       {mentor && (
-        <Stepper activeStep={activeStep} alternativeLabel>
+        <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 2 }}>
           {steps.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>

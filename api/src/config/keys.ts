@@ -35,6 +35,11 @@ export const JWT = {
   expiresIn: '7d',
 };
 
+export const EMAIL_VERIFICATION_JWT = {
+  secret: process.env.EMAIL_VERIFICATION_JWT_SECRET || 'secret',
+  expiresIn: '1h',
+};
+
 export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 
 export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT, 10) || 465;

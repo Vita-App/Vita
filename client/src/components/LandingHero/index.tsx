@@ -62,7 +62,7 @@ const LandingHero = () => {
         }}>
         <TextTransition
           style={{ width: '100%' }}
-          text={swipeCardsInfo[idx].info}
+          text={swipeCardsInfo[idx]?.info}
           springConfig={presets.stiff}
         />
       </Typography>

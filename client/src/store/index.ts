@@ -4,6 +4,7 @@ import { useRecoilSnapshot } from 'recoil';
 export * from './local';
 export * from './connections';
 export * from './chat';
+export * from './auth';
 
 export const DebugObserver = () => {
   const snapshot = useRecoilSnapshot();

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import useHttp from 'hooks/useHttp';
+import { authState } from 'store';
+import { useSetRecoilState } from 'recoil';
 import { SERVER_URL } from 'config.keys';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import {
   Avatar,
@@ -12,6 +15,9 @@ import {
   Button,
   TextField,
   IconButton,
+  FormControlLabel,
+  Stack,
+  LinearProgress,
 } from '@mui/material';
 import {
   Google,
@@ -46,11 +52,17 @@ const StyledTextField = styled(TextField)({
 });
 
 const AuthForm: React.FC = () => {
-  const [authMode, setAuthMode] = useState(AuthMode.login);
+  const [params] = useSearchParams();
+  const setAuthState = useSetRecoilState(authState);
+  const [authMode, setAuthMode] = useState(
+    params.get('page') === 'login' ? AuthMode.login : AuthMode.signup,
+  );
   const [showPassword, setShowPassword] = useState(false);
+  const { loading, sendRequest, error: httpError } = useHttp();
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
@@ -59,16 +71,60 @@ const AuthForm: React.FC = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
   };
 
+  const getPattern = (authMode: AuthMode, isMentor: any) => {
+    if (!isMentor && authMode === AuthMode.signup)
+      return {
+        value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
+        message: 'Mentee must use thapar.edu mail',
+      };
+
+    return {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+      message: 'Invalid email address',
+    };
+  };
+
   const loginMode = authMode === AuthMode.login;
 
-  const onSubmit = (formData: FieldValues) => {
-    console.log(formData);
+  const onSubmit = async (formData: FieldValues) => {
     if (authMode === AuthMode.login) {
-      // Send Request to /login
+      sendRequest(
+        async () => {
+          const { data } = await axios.post(
+            `${SERVER_URL}/api/auth/login`,
+            formData,
+            {
+              withCredentials: true,
+            },
+          );
+          return data;
+        },
+        (data: any) => {
+          setAuthState(data);
+          if (data.isLoggedIn && !data.user.signup_completed) {
+            navigate('/registration-form');
+          } else {
+            navigate('/');
+          }
+        },
+      );
     } else {
-      // only for demo purposes
-      navigate('/registration-form');
-      // Send Request to /signup
+      sendRequest(
+        async () => {
+          const { data } = await axios.post(
+            `${SERVER_URL}/api/auth/signup`,
+            formData,
+            {
+              withCredentials: true,
+            },
+          );
+          return data;
+        },
+        (data: any) => {
+          setAuthState(data);
+          navigate('/email-verification', { state: { email: formData.email } });
+        },
+      );
     }
   };
 
@@ -82,11 +138,23 @@ const AuthForm: React.FC = () => {
 
   return (
     <Stack
+      position="relative"
       spacing={3}
       py={5}
       px={7}
       component="form"
       onSubmit={handleSubmit(onSubmit)}>
+      {loading && (
+        <LinearProgress
+          variant="indeterminate"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+          }}
+        />
+      )}
       <Avatar src="/logo192.png" />
       <Stack>
         <Typography variant="h4">Welcome Back</Typography>
@@ -103,8 +171,7 @@ const AuthForm: React.FC = () => {
           rules={{
             required: 'Email is required',
             pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-              message: 'Invalid email address',
+              ...getPattern(authMode, watch('checkbox')),
             },
           }}
           render={({ field }) => (
@@ -112,8 +179,8 @@ const AuthForm: React.FC = () => {
               {...field}
               type="email"
               placeholder="Enter your email"
-              error={Boolean(errors.email)}
-              helperText={errors.email && errors.email.message}
+              error={Boolean(errors.email) || Boolean(httpError?.email)}
+              helperText={errors.email?.message || httpError?.email}
             />
           )}
         />
@@ -151,8 +218,18 @@ const AuthForm: React.FC = () => {
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center">
-          <Checkbox color="primary" />
-          <Typography variant="body2">Remember me</Typography>
+          <Controller
+            name="checkbox"
+            control={control}
+            defaultValue={false}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} />}
+                label={loginMode ? 'Rememeber me' : 'Registering as a Mentor?'}
+              />
+            )}
+          />
+          <Typography variant="body2"></Typography>
         </Stack>
         {loginMode && (
           <Link to="#">
@@ -160,7 +237,12 @@ const AuthForm: React.FC = () => {
           </Link>
         )}
       </Stack>
-      <StyledButton fullWidth color="primary" variant="contained" type="submit">
+      <StyledButton
+        fullWidth
+        color="primary"
+        variant="contained"
+        type="submit"
+        disabled={loading}>
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton
