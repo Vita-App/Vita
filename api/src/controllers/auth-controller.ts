@@ -166,7 +166,9 @@ export const sendMailController = async (req: Request, res: Response) => {
 
   if (template === 'verification') {
     return await sendVerificationMail(res, user);
-  } else if (template === 'reset') {
+  }
+
+  if (template === 'reset') {
     const verificationToken = user.createVerificationToken();
     const url = `${CLIENT_URL}/reset-password?token=${verificationToken}`;
 

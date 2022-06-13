@@ -1,4 +1,4 @@
-import { Types, Document } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface UserSchemaType {
   user_id: string;
