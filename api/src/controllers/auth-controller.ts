@@ -3,8 +3,9 @@ import { Request, Response } from 'express';
 import { UserModel } from '../Models/User';
 import passport from 'passport';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import sendVerificationMail from '../utils/sendVerificationMail';
 import { sendEmail } from '../service/email-service';
-import { emailVerificationTemplate } from '../templates';
+import { makeTemplate } from '../templates';
 
 export const loginFailedController = (req: Request, res: Response) => {
   res.status(401).json({
@@ -69,7 +70,7 @@ export const jwtLoginController = async (req: Request, res: Response) => {
   if (!user) {
     return res.status(401).json({
       isLoggedIn: false,
-      message: 'User failed to authenticate.',
+      message: 'Invalid credentials',
     });
   }
 
@@ -78,15 +79,12 @@ export const jwtLoginController = async (req: Request, res: Response) => {
   if (!isMatch) {
     return res.status(401).json({
       isLoggedIn: false,
-      message: 'User failed to authenticate.',
+      message: 'Invalid credentials',
     });
   }
 
   if (!user.verified) {
-    return res.status(401).json({
-      isLoggedIn: false,
-      message: 'User failed to authenticate.',
-    });
+    return sendVerificationMail(res, user);
   }
 
   const token = user.issueToken();
@@ -105,9 +103,6 @@ export const jwtSignupController = async (req: Request, res: Response) => {
     last_name,
   });
 
-  const verificationToken = user.createVerificationToken();
-  const verificationUrl = `${CLIENT_URL}/email-verification?token=${verificationToken}`;
-
   const presentUser = await UserModel.findOne({ email });
   if (presentUser) {
     if (presentUser.verified) {
@@ -116,48 +111,12 @@ export const jwtSignupController = async (req: Request, res: Response) => {
         .json({ isLoggedIn: false, error: { email: 'User already exists.' } });
     }
 
-    try {
-      const emailId = await sendEmail(
-        user.email,
-        'Verify your email',
-        emailVerificationTemplate(verificationUrl),
-      );
-
-      return res.status(201).json({
-        success: true,
-        emailId,
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(400).json({
-        error: {
-          email: 'Invalid email address',
-        },
-      });
-    }
+    return await sendVerificationMail(res, presentUser);
   }
 
   await user.save();
 
-  try {
-    const emailId = await sendEmail(
-      user.email,
-      'Verify your email',
-      emailVerificationTemplate(verificationUrl),
-    );
-
-    return res.status(201).json({
-      success: true,
-      emailId,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json({
-      error: {
-        email: 'Invalid email address',
-      },
-    });
-  }
+  return await sendVerificationMail(res, user);
 };
 
 export const verifyEmailController = async (req: Request, res: Response) => {
@@ -168,16 +127,19 @@ export const verifyEmailController = async (req: Request, res: Response) => {
       EMAIL_VERIFICATION_JWT.secret,
     ) as JwtPayload;
 
-    const user = await UserModel.findById(user_id);
+    const user = await UserModel.findOne({
+      $and: [{ _id: user_id }, { token }],
+    });
 
     if (!user) {
       return res.status(401).json({
         isLoggedIn: false,
-        message: 'User failed to authenticate.',
+        message: 'Invalid Token',
       });
     }
 
     user.verified = true;
+    user.token = '';
     await user.save();
 
     return res.status(200).json({
@@ -189,6 +151,46 @@ export const verifyEmailController = async (req: Request, res: Response) => {
       message: 'Invalid token.',
     });
   }
+};
+
+export const sendMailController = async (req: Request, res: Response) => {
+  const { email, template } = req.body;
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    return res.status(400).json({
+      message: 'User not found',
+    });
+  }
+
+  if (template === 'verification') {
+    return await sendVerificationMail(res, user);
+  } else if (template === 'reset') {
+    const verificationToken = user.createVerificationToken();
+    const url = `${CLIENT_URL}/reset-password?token=${verificationToken}`;
+
+    try {
+      const emailId = await sendEmail(
+        email,
+        'Reset Your Password',
+        makeTemplate('forgotPassword.hbs', { url }),
+      );
+
+      return res.status(200).json({
+        success: true,
+        emailId,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        message: 'Error sending email',
+      });
+    }
+  }
+
+  return res.status(400).json({
+    message: 'Invalid template',
+  });
 };
 
 export const logoutController = (req: Request, res: Response) => {

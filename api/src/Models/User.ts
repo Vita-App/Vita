@@ -22,16 +22,17 @@ const MentorSchema = new Schema<MentorSchemaType>({
   expertise: { type: [String] },
   language: { type: [String] },
   linkedIn: String,
+  twitter: String,
   is_mentoring: Boolean,
   topics: [Number],
-  time_slot: {
-    monday: { type: Duration },
-    tuesday: { type: Duration },
-    wednesday: { type: Duration },
-    thursday: { type: Duration },
-    friday: { type: Duration },
-    saturday: { type: Duration },
-    sunday: { type: Duration },
+  time_slots: {
+    monday: [{ type: Duration }],
+    tuesday: [{ type: Duration }],
+    wednesday: [{ type: Duration }],
+    thursday: [{ type: Duration }],
+    friday: [{ type: Duration }],
+    saturday: [{ type: Duration }],
+    sunday: [{ type: Duration }],
   },
 });
 
@@ -48,6 +49,7 @@ const UserSchema = new Schema<UserSchemaType>({
   },
   oauth_provider: String,
   is_mentor: Boolean,
+  token: String,
   signup_completed: {
     type: Boolean,
     default: false,
@@ -85,6 +87,9 @@ UserSchema.methods.createVerificationToken = function () {
     expiresIn: EMAIL_VERIFICATION_JWT.expiresIn,
   });
 
+  this.token = token;
+
+  this.save();
   return token;
 };
 
@@ -92,20 +97,6 @@ UserSchema.methods.issueToken = function () {
   return jwt.sign({ user_id: this._id }, JWT.secret, {
     expiresIn: JWT.expiresIn,
   });
-};
-
-UserSchema.methods.verifyToken = async function (token: string) {
-  try {
-    const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
-    const user = await this.model('User').findById(decoded.user_id);
-    if (!user) {
-      return false;
-    }
-
-    return user;
-  } catch (err) {
-    return false;
-  }
 };
 
 UserSchema.methods.toJSON = function () {

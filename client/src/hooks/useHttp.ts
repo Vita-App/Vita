@@ -39,6 +39,7 @@ const useHttp = (initialLoading = false) => {
         const responseData = await fn(...args);
         dispatch({ type: 'RESPONSE', responseData });
         if (cb) cb(responseData);
+        return responseData;
       } catch (err: any) {
         dispatch({
           type: 'ERROR',

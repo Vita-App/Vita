@@ -2,10 +2,12 @@ import Handlebars from 'handlebars';
 import path from 'path';
 import fs from 'fs';
 
-export const emailVerificationTemplate = (url: string) => {
+export const makeTemplate = (template: string, args: any) => {
   const templateStr = fs
-    .readFileSync(path.resolve(__dirname, 'emailVerification.hbs'))
-    .toString('utf8');
-  const template = Handlebars.compile(templateStr);
-  return template({ url });
+    .readFileSync(path.resolve(__dirname, template))
+    .toString('utf-8');
+
+  const temp = Handlebars.compile(templateStr);
+
+  return temp({ ...args });
 };

@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 
 export interface UserSchemaType {
   user_id: string;
@@ -14,6 +14,7 @@ export interface UserSchemaType {
   mentor_information: Types.ObjectId | undefined;
   bookings: Types.ObjectId[] | undefined;
   verified: boolean;
+  token: string;
   issueToken: () => string;
   comparePassword: (password: string) => Promise<boolean>;
   createVerificationToken: () => string;
@@ -55,9 +56,10 @@ export interface MentorSchemaType {
   expertise: string[];
   language: string[];
   linkedIn: string;
+  twitter: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slot: Record<DayEnumType, DurationType>;
+  time_slots: Record<DayEnumType, DurationType>;
 }
 
 export interface Room {

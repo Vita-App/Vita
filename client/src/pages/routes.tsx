@@ -19,6 +19,7 @@ import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
+import ForgotPassword from './ForgotPassword';
 
 const VideoCall = lazy(() => import('pages/VideoCall'));
 
@@ -37,14 +38,13 @@ const App = () => {
       },
       (data: any) => {
         setAuthState(data);
-        console.log(data);
         if (data.isLoggedIn && !data.user.signup_completed) {
           toast.info(
             () => (
               <div>
                 <p>
-                  Please complete your{' '}
-                  <Link to="/registration-form">Signup</Link>
+                  Your registration is incomplete. Complete your{' '}
+                  <Link to="/registration-form">Registration</Link> now?
                 </p>
               </div>
             ),
@@ -74,6 +74,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route path="/registration-form" element={<Signup />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
           <Route path="/email-verification" element={<EmailVerification />} />
         </Routes>
       </ThemeProvider>
