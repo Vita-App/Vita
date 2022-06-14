@@ -65,3 +65,9 @@ export interface SlotType {
   start: Date | null;
   end: Date | null;
 }
+
+export type VerificationResponseType = {
+  success: boolean;
+  isLoggedIn?: boolean;
+  message?: string;
+};

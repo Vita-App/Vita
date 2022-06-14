@@ -69,6 +69,7 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 
   if (!user) {
     return res.status(401).json({
+      success: false,
       isLoggedIn: false,
       message: 'Invalid credentials',
     });
@@ -78,6 +79,7 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 
   if (!isMatch) {
     return res.status(401).json({
+      success: false,
       isLoggedIn: false,
       message: 'Invalid credentials',
     });
@@ -131,6 +133,12 @@ export const verifyEmailController = async (req: Request, res: Response) => {
       $and: [{ _id: user_id }, { token }],
     });
 
+    if (user?.verified === true) {
+      return res.status(200).json({
+        success: true,
+      });
+    }
+
     if (!user) {
       return res.status(401).json({
         isLoggedIn: false,
@@ -139,7 +147,7 @@ export const verifyEmailController = async (req: Request, res: Response) => {
     }
 
     user.verified = true;
-    user.token = '';
+    // user.token = '';
     await user.save();
 
     return res.status(200).json({
