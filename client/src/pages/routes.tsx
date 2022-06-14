@@ -76,12 +76,10 @@ const App = () => {
           <Route path="/registration-form" element={<Signup />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
           <Route path="/email-verification" element={<EmailVerification />} />
+          <Route path="/room" element={<VideoCall />} />
+          <Route path="/room/:id" element={<VideoCall />} />
         </Routes>
       </ThemeProvider>
-      <Routes>
-        <Route path="/room" element={<VideoCall />} />
-        <Route path="/room/:id" element={<VideoCall />} />
-      </Routes>
     </Suspense>
   );
 };

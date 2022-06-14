@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { Card, Stepper, Step, StepLabel, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
-
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import ExperienceStep from './ExperienceStep';
 import ProfileStep from './ProfileStep';
-// import IntegrationsStep from './IntegrationsStep';
 import AvailabilityStep from './AvailabilityStep';
 
 const steps = ['Profile', 'Experience', 'Availability'];
@@ -110,7 +110,9 @@ const SignUpSteps: React.FC<{
           ))}
         </Stepper>
       )}
-      {renderStep(activeStep)}
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        {renderStep(activeStep)}
+      </LocalizationProvider>
     </Card>
   );
 };

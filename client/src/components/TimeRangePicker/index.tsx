@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TimePicker } from '@mui/lab';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Stack, TextField, Typography, useMediaQuery } from '@mui/material';
 
 interface Props {
   id: number;
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
+  const mq = useMediaQuery('(max-width: 400px)');
   const [startTime, setStartTime] = useState<Date | null>(start);
   const [endTime, setEndTime] = useState<Date | null>(end);
   const [startTimeError, setStartTimeError] = useState(
@@ -80,7 +81,7 @@ const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{ width: '130px' }}
+              sx={{ width: mq ? '100px' : '130px' }}
               size="small"
               error={Boolean(startTimeError)}
             />
@@ -94,7 +95,7 @@ const TimeRangePicker: React.FC<Props> = ({ id, onChange, start, end }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{ width: '130px' }}
+              sx={{ width: mq ? '100px' : '130px' }}
               size="small"
               error={Boolean(endTimeError)}
             />

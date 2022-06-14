@@ -19,6 +19,7 @@ import useHttp from 'hooks/useHttp';
 
 const EmailVerification = () => {
   const [params] = useSearchParams();
+  const [token, setToken] = useState(params.get('token') || '');
   const { state } = useLocation();
   const [verified, setVerified] = useState(false);
   const [invalidToken, setInvalidToken] = useState(false);
@@ -26,15 +27,19 @@ const EmailVerification = () => {
 
   useEffect(() => {
     console.log('Mounting');
-    if (params.get('token')) {
+    console.log('token: ', token);
+
+    if (token) {
+      console.log('Sending Request....');
       axios
         .get(`${SERVER_URL}/api/auth/verify-email`, {
-          params: { token: params.get('token') },
+          params: { token },
         })
-        .then((_) => {
+        .then(() => {
           setVerified(true);
+          setToken('');
         })
-        .catch((_) => {
+        .catch(() => {
           setInvalidToken(true);
         });
     }
@@ -65,9 +70,9 @@ const EmailVerification = () => {
     );
   };
 
-  if (!state?.email && !params.get('token')) {
-    return <Navigate to="/auth" />;
-  }
+  // if (!state?.email && !params.get('token')) {
+  //   return <Navigate to="/auth" />;
+  // }
 
   if (verified || invalidToken) {
     return (
