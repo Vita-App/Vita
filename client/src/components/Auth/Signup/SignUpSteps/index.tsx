@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { FieldValues } from 'react-hook-form';
 import { Card, Stepper, Step, StepLabel, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
@@ -7,6 +8,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import ExperienceStep from './ExperienceStep';
 import ProfileStep from './ProfileStep';
 import AvailabilityStep from './AvailabilityStep';
+import { authState } from 'store';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
@@ -14,10 +16,17 @@ const SignUpSteps: React.FC<{
   onCancel: () => void;
   mentor: boolean;
 }> = ({ onCancel, mentor }) => {
+  const auth = useRecoilValue(authState);
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
-  }>({});
-  const [activeStep, setActiveStep] = useState(2);
+  }>({
+    0: {
+      first_name: auth.user?.first_name,
+      last_name: auth.user?.last_name,
+      email: auth.user?.email,
+    },
+  });
+  const [activeStep, setActiveStep] = useState(0);
   const [interests, setInterests] = useState<string[]>([]);
 
   const onContinue = (step: number, data: FieldValues) => {

@@ -124,39 +124,50 @@ const ProfileStep: React.FC<{
       </Stack>
       <Stack direction="row" spacing={1}>
         <Stack flexGrow={1}>
-          <Typography variant="body2">Name</Typography>
+          <Typography variant="body2">First Name</Typography>
           <Controller
-            name="name"
+            name="first_name"
             control={control}
-            defaultValue={props.hydrate?.name || ''}
-            rules={{ required: 'Name is required' }}
+            defaultValue={props.hydrate?.first_name || ''}
+            rules={{ required: 'First name is required' }}
             render={({ field }) => (
               <StyledTextField
                 {...field}
-                error={Boolean(errors.name)}
-                helperText={errors.name?.message}
-                placeholder="Enter your name"
+                error={Boolean(errors.first_name)}
+                helperText={errors.first_name?.message}
+                placeholder="Enter your first name"
               />
             )}
           />
         </Stack>
         <Stack flexGrow={1}>
-          <Typography variant="body2">Email</Typography>
+          <Typography variant="body2">Last Name</Typography>
           <Controller
-            name="email"
+            name="last_name"
             control={control}
-            defaultValue={props.hydrate?.email || ''}
-            rules={{ required: 'Email is Required' }}
+            defaultValue={props.hydrate?.last_name || ''}
             render={({ field }) => (
-              <StyledTextField
-                {...field}
-                error={Boolean(errors.email)}
-                helperText={errors.email?.message}
-                placeholder="Enter your email"
-              />
+              <StyledTextField {...field} placeholder="Enter your last name" />
             )}
           />
         </Stack>
+      </Stack>
+      <Stack flexGrow={1}>
+        <Typography variant="body2">Email</Typography>
+        <Controller
+          name="email"
+          control={control}
+          defaultValue={props.hydrate?.email || ''}
+          rules={{ required: 'Email is Required' }}
+          render={({ field }) => (
+            <StyledTextField
+              {...field}
+              error={Boolean(errors.email)}
+              helperText={errors.email?.message}
+              placeholder="Enter your email"
+            />
+          )}
+        />
       </Stack>
       <Stack>
         <Typography variant="body2">Bio</Typography>

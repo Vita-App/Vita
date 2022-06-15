@@ -38,8 +38,8 @@ const MentorSchema = new Schema<MentorSchemaType>({
 
 const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
-  first_name: { type: String },
-  last_name: { type: String },
+  first_name: String,
+  last_name: String,
   password: { type: String },
   email: String,
   image_link: String,
@@ -103,13 +103,13 @@ UserSchema.methods.issueToken = function () {
 UserSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
+  delete user.token;
   return user;
 };
 
 MentorSchema.index(
   {
-    first_name: 'text',
-    last_name: 'text',
+    name: 'text',
     job_title: 'text',
     company: 'text',
     description: 'text',

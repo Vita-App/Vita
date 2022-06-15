@@ -60,7 +60,7 @@ const ExperienceStep: React.FC<{
           <Add />
         </IconButton>
       </Stack>
-      {experiences.map((i) => (
+      {experiences.map((_, i) => (
         <Stack direction={{ xs: 'column', md: 'row' }} key={i} spacing={1}>
           <Stack flexGrow={1}>
             <Typography variant="body2">Company name</Typography>
@@ -127,7 +127,7 @@ const ExperienceStep: React.FC<{
               )}
             />
           </Stack>
-          <Stack flexGrow={1}>
+          <Stack flexGrow={1} position="relative">
             <Typography variant="body2">End Year</Typography>
             <Controller
               name={`experiences.${i}.endYear`}

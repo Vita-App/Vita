@@ -71,3 +71,12 @@ export type VerificationResponseType = {
   isLoggedIn?: boolean;
   message?: string;
 };
+
+export type UserType = {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  verified: boolean;
+  signup_completed: boolean;
+};
