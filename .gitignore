@@ -28,3 +28,6 @@ yarn-error.log*
 
 *.env
 *.ini
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/targets.log

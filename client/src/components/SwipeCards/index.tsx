@@ -29,7 +29,7 @@ const Wrapper = styled('div')(({ theme }) => ({
     height: '420px',
   },
   [theme.breakpoints.up('xl')]: {
-    height: '200px',
+    height: '560px',
   },
 
   '.swipe__card': {
