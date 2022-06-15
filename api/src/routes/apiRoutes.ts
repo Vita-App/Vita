@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { storage } from '../config/cloudinary';
+import multer from 'multer';
 import {
   authController,
   logoutController,
@@ -11,6 +13,7 @@ import {
   verifyEmailController,
   sendMailController,
   changePasswordController,
+  registerUserController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -22,6 +25,7 @@ import {
 //   fakeDataController,
 //   topicDataController,
 // } from '../data/fakeData-controller';
+const upload = multer({ storage });
 const router = Router();
 
 // We will do our re-routing from the client side just send information from here
@@ -35,6 +39,11 @@ router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
 router.get('/auth/linkedinCallback', linkedinRedirectController);
+router.post(
+  '/register',
+  upload.single('profilePicture'),
+  registerUserController,
+);
 router.post('/reset-password', changePasswordController);
 router.get('/logout', logoutController); // Auth logout
 

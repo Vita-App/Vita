@@ -9,6 +9,9 @@ import ExperienceStep from './ExperienceStep';
 import ProfileStep from './ProfileStep';
 import AvailabilityStep from './AvailabilityStep';
 import { authState } from 'store';
+import { convertToFormData } from 'utils/api-helper';
+import axios from 'axios';
+import { SERVER_URL } from 'config.keys';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
@@ -33,12 +36,26 @@ const SignUpSteps: React.FC<{
     if (!mentor && step === 0) {
       // If the user is not a mentor, we don't need to move to further steps.
       // So send req to server with profile data and complete mentee registration here.
-      console.log(data);
+      const apiData = convertToFormData({
+        ...formData[0],
+        ...formData[1],
+        available: { ...formData[2] },
+        is_mentor: mentor,
+      });
+
+      axios.post(`${SERVER_URL}/api/mentee/register`, apiData);
     } else if (step === steps.length - 1) {
       // If it's the last step and the user is a mentor, we need to send all data to server.
       // So send req to server with data and complete mentor registration here
       formData[step] = data;
-      console.log(formData);
+      const apiData = convertToFormData({
+        ...formData[0],
+        ...formData[1],
+        available: { ...formData[2] },
+        is_mentor: mentor,
+      });
+
+      axios.post(`${SERVER_URL}/api/register`, apiData);
     } else {
       // Else we move to next steps and save the data in the formData object.
       setFormData({

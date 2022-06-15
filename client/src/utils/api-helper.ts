@@ -22,6 +22,12 @@ export const convertToFormData = (data: FieldValues) => {
   const form = new FormData();
 
   Object.keys(data).forEach((key) => {
-    form.append(key, data[key]);
+    if (typeof data[key] !== 'string' && !(data[key] instanceof File)) {
+      form.append(key, JSON.stringify(data[key]));
+    } else {
+      form.append(key, data[key]);
+    }
   });
+
+  return form;
 };

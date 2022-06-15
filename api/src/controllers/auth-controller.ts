@@ -6,6 +6,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import sendVerificationMail from '../utils/sendVerificationMail';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
+import parseFormData from '../utils/parseFormData';
 
 export const loginFailedController = (req: Request, res: Response) => {
   res.status(401).json({
@@ -289,5 +290,15 @@ export const logoutController = (req: Request, res: Response) => {
     } else {
       console.log(err);
     }
+  });
+};
+
+export const registerUserController = (req: Request, res: Response) => {
+  console.log(parseFormData(req.body).topics);
+
+  console.log(req.file);
+
+  return res.json({
+    success: true,
   });
 };
