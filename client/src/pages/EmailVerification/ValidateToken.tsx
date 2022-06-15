@@ -3,6 +3,7 @@ import { VerificationResponseType } from 'types';
 import { Card, Grid, Stack, Typography, Avatar, Box } from '@mui/material';
 import { CheckOutlined, Warning } from '@mui/icons-material';
 import { Link } from 'components/common';
+import Confetti from 'react-confetti';
 
 const ValidateToken = ({
   data,
@@ -13,6 +14,7 @@ const ValidateToken = ({
     <Grid item xs={12} sm={8} md={6} lg={5} mx="auto" my={6}>
       <Card elevation={10}>
         <Stack spacing={3} py={5} px={5}>
+          {data?.success && <Confetti />}
           <Typography
             variant="h3"
             textAlign="center"

@@ -231,7 +231,7 @@ const AuthForm: React.FC = () => {
             render={({ field }) => (
               <FormControlLabel
                 control={<Checkbox {...field} />}
-                label={loginMode ? 'Rememeber me' : 'Registering as a Mentor?'}
+                label={loginMode ? 'Remember me' : 'Registering as a Mentor?'}
               />
             )}
           />

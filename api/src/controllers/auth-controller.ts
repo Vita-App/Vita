@@ -63,7 +63,7 @@ export const authController = (req: Request, res: Response) => {
 };
 
 export const jwtLoginController = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, checkbox } = req.body;
 
   const user = await UserModel.findOne({ email });
 
@@ -91,7 +91,12 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 
   const token = user.issueToken();
 
-  res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 });
+  if (checkbox) {
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+  }
   return res.status(200).json({ isLoggedIn: true, user });
 };
 
@@ -119,6 +124,74 @@ export const jwtSignupController = async (req: Request, res: Response) => {
   await user.save();
 
   return await sendVerificationMail(res, user);
+};
+
+export const changePasswordController = async (req: Request, res: Response) => {
+  const token = req.body?.token;
+
+  try {
+    const { user_id } = jwt.verify(
+      token,
+      EMAIL_VERIFICATION_JWT.secret,
+    ) as JwtPayload;
+
+    const user = await UserModel.findOne({
+      $and: [{ _id: user_id }, { token }],
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        isLoggedIn: false,
+        message: 'Invalid credentials',
+      });
+    }
+
+    const { password, confirmPassword } = req.body;
+
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          password: 'Password is required.',
+        },
+      });
+    }
+
+    if (!confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          confirmPassword: 'Confirm password is required.',
+        },
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          confirmPassword: 'Passwords do not match.',
+        },
+      });
+    }
+
+    user.password = password;
+    user.token = '';
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      isLoggedIn: true,
+      message: 'Password changed successfully',
+    });
+  } catch (err) {
+    return res.status(401).json({
+      success: false,
+      isLoggedIn: false,
+      message: 'Invalid token',
+    });
+  }
 };
 
 export const verifyEmailController = async (req: Request, res: Response) => {

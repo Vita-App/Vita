@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -18,14 +18,15 @@ import useHttp from 'hooks/useHttp';
 import { toast } from 'react-toastify';
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const ref = useRef<HTMLInputElement>();
+  const ref1 = useRef<HTMLInputElement>();
   const { loading, sendRequest, error: httpError } = useHttp();
   const [params] = useSearchParams();
   const [verified, setVerified] = useState(false);
   const [invalidToken, setInvalidToken] = useState(false);
 
   useEffect(() => {
-    console.log('Mounting');
     if (params.get('token')) {
       axios
         .get(`${SERVER_URL}/api/auth/verify-email`, {
@@ -38,10 +39,6 @@ const ForgotPassword = () => {
           setInvalidToken(true);
         });
     }
-
-    return () => {
-      console.log('Unmounting');
-    };
   }, []);
 
   const onSendMail = () => {
@@ -61,6 +58,26 @@ const ForgotPassword = () => {
               autoClose: false,
             },
           );
+        }
+      },
+    );
+  };
+
+  const onResetPassword = () => {
+    sendRequest(
+      async () => {
+        const response = await axios.post(`${SERVER_URL}/api/reset-password`, {
+          token: params.get('token'),
+          password: ref.current!.value.trim(),
+          confirmPassword: ref1.current!.value.trim(),
+        });
+
+        return response.data;
+      },
+      (data: any) => {
+        if (data.success) {
+          toast.success('Your password has been reset.');
+          navigate('/auth');
         }
       },
     );
@@ -93,17 +110,19 @@ const ForgotPassword = () => {
               <TextField
                 inputRef={ref}
                 label="New Password"
-                error={Boolean(httpError)}
+                error={Boolean(httpError?.password)}
+                helperText={httpError?.password}
               />
               <TextField
-                inputRef={ref}
+                inputRef={ref1}
                 label="Confirm Password"
-                error={Boolean(httpError)}
+                error={Boolean(httpError?.confirmPassword)}
+                helperText={httpError?.confirmPassword}
               />
               <Button
                 variant="contained"
                 color="primary"
-                onClick={onSendMail}
+                onClick={onResetPassword}
                 disabled={loading}>
                 Create Password
               </Button>

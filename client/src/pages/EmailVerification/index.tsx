@@ -8,6 +8,10 @@ import { useQuery } from 'react-query';
 import { VerificationResponseType } from 'types';
 
 const getVerificationResponse = async (token: string) => {
+  if (!token) {
+    return;
+  }
+
   const { data: response } = await axios.get<VerificationResponseType>(
     `${SERVER_URL}/api/auth/verify-email`,
     {
@@ -24,7 +28,7 @@ const EmailVerification = () => {
     getVerificationResponse(params.get('token') || ''),
   );
 
-  if (isLoading === false) {
+  if (params.get('token') && !isLoading) {
     return <ValidateToken data={data} />;
   }
 

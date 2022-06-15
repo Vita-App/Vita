@@ -10,6 +10,7 @@ import {
   linkedinRedirectController,
   verifyEmailController,
   sendMailController,
+  changePasswordController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -34,6 +35,7 @@ router.get('/auth/google', googleController);
 router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
 router.get('/auth/linkedinCallback', linkedinRedirectController);
+router.post('/reset-password', changePasswordController);
 router.get('/logout', logoutController); // Auth logout
 
 router.get('/get-mentor', getMentorController);

@@ -35,5 +35,8 @@
     "hooks": {
       "pre-commit": "npm run pre-commit"
     }
+  },
+  "dependencies": {
+    "react-confetti": "^6.1.0"
   }
 }

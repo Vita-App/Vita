@@ -24,7 +24,7 @@ import ForgotPassword from './ForgotPassword';
 const VideoCall = lazy(() => import('pages/VideoCall'));
 
 const App = () => {
-  const { loading, sendRequest } = useHttp();
+  const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
 
