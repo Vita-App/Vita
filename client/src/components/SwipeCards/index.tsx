@@ -61,8 +61,8 @@ const StyledCard = styled(Card)(({ theme }) => ({
     width: '430px',
   },
   [theme.breakpoints.up('xl')]: {
-    height: '200px',
-    width: '200px',
+    height: '540px',
+    width: '540px',
   },
   cursor: 'grabbing',
 }));
