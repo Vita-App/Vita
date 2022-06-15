@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { FieldValues } from 'react-hook-form';
-import { Card, Stepper, Step, StepLabel, Button } from '@mui/material';
+import {
+  Card,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  LinearProgress,
+} from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -12,6 +19,9 @@ import { authState } from 'store';
 import { convertToFormData } from 'utils/api-helper';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
+import useHttp from 'hooks/useHttp';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
@@ -19,6 +29,8 @@ const SignUpSteps: React.FC<{
   onCancel: () => void;
   mentor: boolean;
 }> = ({ onCancel, mentor }) => {
+  const { loading, sendRequest } = useHttp();
+  const navigate = useNavigate();
   const auth = useRecoilValue(authState);
   const [formData, setFormData] = useState<{
     [key: number]: FieldValues;
@@ -32,32 +44,79 @@ const SignUpSteps: React.FC<{
   const [activeStep, setActiveStep] = useState(0);
   const [interests, setInterests] = useState<string[]>([]);
 
+  const getTopicsArray = (topics: any) => {
+    const topicsArray: any[] = [];
+
+    for (const key of Object.keys(topics)) {
+      for (const topic of topics[key]) {
+        topicsArray.push(topic);
+      }
+    }
+
+    return topicsArray;
+  };
+
   const onContinue = (step: number, data: FieldValues) => {
     if (!mentor && step === 0) {
-      // If the user is not a mentor, we don't need to move to further steps.
-      // So send req to server with profile data and complete mentee registration here.
       const apiData = convertToFormData({
         ...formData[0],
         ...formData[1],
         available: { ...formData[2] },
         is_mentor: mentor,
+        interests,
+        topics: getTopicsArray(formData[1].topics),
       });
 
-      axios.post(`${SERVER_URL}/api/mentee/register`, apiData);
+      sendRequest(
+        async () => {
+          const response = await axios.post(
+            `${SERVER_URL}/api/mentee/register`,
+            apiData,
+            {
+              withCredentials: true,
+            },
+          );
+
+          return response.data;
+        },
+        () => {
+          toast.success(
+            "You're all set now! You can now explore the Vita community.",
+          );
+          navigate('/dashboard');
+        },
+      );
     } else if (step === steps.length - 1) {
-      // If it's the last step and the user is a mentor, we need to send all data to server.
-      // So send req to server with data and complete mentor registration here
       formData[step] = data;
       const apiData = convertToFormData({
         ...formData[0],
         ...formData[1],
         available: { ...formData[2] },
         is_mentor: mentor,
+        interests,
+        topics: getTopicsArray(formData[1].topics),
       });
 
-      axios.post(`${SERVER_URL}/api/register`, apiData);
+      sendRequest(
+        async () => {
+          const response = await axios.post(
+            `${SERVER_URL}/api/register`,
+            apiData,
+            {
+              withCredentials: true,
+            },
+          );
+
+          return response.data;
+        },
+        () => {
+          toast.success(
+            "You're all set now! Your application for mentor has been submitted. You will be notified once your application is approved.",
+          );
+          navigate('/dashboard');
+        },
+      );
     } else {
-      // Else we move to next steps and save the data in the formData object.
       setFormData({
         ...formData,
         [step]: { ...data },
@@ -100,6 +159,7 @@ const SignUpSteps: React.FC<{
             onBack={onBack}
             onContinue={onContinue}
             hydrate={formData[step]}
+            loading={loading}
           />
         );
       default:
@@ -120,6 +180,17 @@ const SignUpSteps: React.FC<{
           md: '60%',
         },
       }}>
+      {loading && (
+        <LinearProgress
+          variant="indeterminate"
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+          }}
+        />
+      )}
       <Button
         onClick={onCancel}
         color="inherit"

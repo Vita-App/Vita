@@ -7,7 +7,10 @@ export interface UserSchemaType {
   password: string;
   email: string;
   phone: string;
-  image_link: string;
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
   graduation_year: string;
   stream: string;
   interests: string[];
@@ -60,7 +63,10 @@ export interface MentorSchemaType {
   user_id: string;
   first_name: string;
   last_name: string;
-  image_link: string;
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
   experiences: ExperienceType[];
   bio: string;
   expertise: string[];

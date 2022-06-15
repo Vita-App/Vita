@@ -10,8 +10,8 @@ import {
 import { EMAIL_VERIFICATION_JWT, JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
-  start_hour: Number,
-  end_hour: Number,
+  start_hour: Date,
+  end_hour: Date,
   available: {
     type: Boolean,
     default: true,
@@ -33,7 +33,12 @@ const MentorSchema = new Schema<MentorSchemaType>({
   user_id: { type: String },
   first_name: { type: String },
   last_name: { type: String },
-  image_link: { type: String },
+  avatar: {
+    type: {
+      url: String,
+      filename: String,
+    },
+  },
   experiences: {
     type: [Experience],
   },
@@ -69,7 +74,12 @@ const UserSchema = new Schema<UserSchemaType>({
   email: String,
   stream: String,
   interests: [String],
-  image_link: String,
+  avatar: {
+    type: {
+      url: String,
+      filename: String,
+    },
+  },
   create_time: {
     type: Date,
     default: new Date(),

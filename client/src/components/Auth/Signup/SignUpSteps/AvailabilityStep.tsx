@@ -18,6 +18,7 @@ const AvailabilityStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate: FieldValues;
+  loading: boolean;
 }> = (props) => {
   const [availability, setAvailability] = useState<FieldValues>(
     props.hydrate || {},
@@ -88,6 +89,7 @@ const AvailabilityStep: React.FC<{
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <StyledButton onClick={onBackClick}>Back</StyledButton>
         <StyledButton
+          disabled={props.loading}
           onClick={onContinueClick}
           variant="contained"
           sx={{ flex: 0.3 }}>

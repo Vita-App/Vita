@@ -1,12 +1,14 @@
 import { CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
 import { Request, Response } from 'express';
-import { UserModel } from '../Models/User';
+import { Document } from 'mongoose';
+import { UserModel, MentorModel } from '../Models/User';
 import passport from 'passport';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import sendVerificationMail from '../utils/sendVerificationMail';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 import parseFormData from '../utils/parseFormData';
+import { UserSchemaType } from '../types';
 
 export const loginFailedController = (req: Request, res: Response) => {
   res.status(401).json({
@@ -64,7 +66,7 @@ export const authController = (req: Request, res: Response) => {
 };
 
 export const jwtLoginController = async (req: Request, res: Response) => {
-  const { email, password, checkbox } = req.body;
+  const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email });
 
@@ -92,24 +94,22 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 
   const token = user.issueToken();
 
-  if (checkbox) {
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
-  }
-
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  });
   return res.status(200).json({ isLoggedIn: true, user });
 };
 
 export const jwtSignupController = async (req: Request, res: Response) => {
-  const { email, password, first_name, last_name } = req.body;
+  const { email, password, first_name, last_name, checkbox } = req.body;
 
   const user = new UserModel({
     email,
     password,
     first_name,
     last_name,
+    is_mentor: checkbox,
   });
 
   const presentUser = await UserModel.findOne({ email });
@@ -293,10 +293,48 @@ export const logoutController = (req: Request, res: Response) => {
   });
 };
 
-export const registerUserController = (req: Request, res: Response) => {
-  console.log(parseFormData(req.body).topics);
+export const registerUserController = async (req: Request, res: Response) => {
+  const data = parseFormData(req.body);
 
-  console.log(req.file);
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: 'You are not logged in',
+    });
+  }
+
+  const user = req.user as Document & UserSchemaType;
+
+  user.first_name = data.first_name;
+  user.last_name = data.last_name;
+  user.interests = data.interests;
+  user.avatar = {
+    url: req.file?.path,
+    filename: req.file?.filename,
+  };
+  user.graduation_year = data.graduation_year;
+  user.stream = data.stream?.value;
+  user.phone = data.phone;
+
+  if (user.is_mentor) {
+    const mentor = new MentorModel({
+      ...user.toObject(),
+      experiences: data.experiences,
+      topics: data.topics?.map((topic: any) => topic.value),
+      expertise: data.expertise?.map((expertise: any) => expertise.value),
+      languages: data.languages?.map((language: any) => language.value),
+      bio: data.bio,
+      linkedIn: data.linkedin,
+      twitter: data.twitter,
+    });
+
+    await mentor.save();
+
+    user.mentor_information = mentor._id;
+  }
+
+  user.signup_completed = true;
+  await user.save();
 
   return res.json({
     success: true,
