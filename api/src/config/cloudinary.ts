@@ -6,12 +6,10 @@ cloudinary.config(CLOUDINARY);
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: async () => {
-    return {
-      folder: 'Vita',
-      allowedFormats: ['jpg', 'jpeg', 'png'],
-    };
-  },
+  params: async () => ({
+    folder: 'Vita',
+    allowedFormats: ['jpg', 'jpeg', 'png'],
+  }),
 });
 
 export { cloudinary, storage };
