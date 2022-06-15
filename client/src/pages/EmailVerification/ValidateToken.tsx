@@ -4,7 +4,11 @@ import { Card, Grid, Stack, Typography, Avatar, Box } from '@mui/material';
 import { CheckOutlined, Warning } from '@mui/icons-material';
 import { Link } from 'components/common';
 
-const ValidateToken = ({ data }: { data: VerificationResponseType }) => (
+const ValidateToken = ({
+  data,
+}: {
+  data: VerificationResponseType | undefined;
+}) => (
   <Grid container>
     <Grid item xs={12} sm={8} md={6} lg={5} mx="auto" my={6}>
       <Card elevation={10}>
@@ -15,7 +19,7 @@ const ValidateToken = ({ data }: { data: VerificationResponseType }) => (
             fontWeight={600}
             color="white"
             sx={{ pt: 3 }}>
-            {data.success ? 'Verified Successfully!' : 'Invalid Token'}
+            {data?.success ? 'Verified Successfully!' : 'Invalid Token'}
           </Typography>
           <Box display="flex" justifyContent="center">
             <Avatar
@@ -23,9 +27,9 @@ const ValidateToken = ({ data }: { data: VerificationResponseType }) => (
                 width: '60px',
                 height: '60px',
                 bgcolor: 'transparent',
-                border: `4px solid ${data.success ? 'green' : 'red'}`,
+                border: `4px solid ${data?.success ? 'green' : 'red'}`,
               }}>
-              {data.success ? (
+              {data?.success ? (
                 <CheckOutlined
                   sx={{ width: '50px', height: '50px', color: 'green' }}
                 />
@@ -34,7 +38,7 @@ const ValidateToken = ({ data }: { data: VerificationResponseType }) => (
               )}
             </Avatar>
           </Box>
-          {data.success ? (
+          {data?.success ? (
             <Typography>
               You can now proceed to the login page and login with your email
               and password.{' '}

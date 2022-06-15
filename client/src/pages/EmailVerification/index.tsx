@@ -20,11 +20,11 @@ const getVerificationResponse = async (token: string) => {
 const EmailVerification = () => {
   const [params] = useSearchParams();
 
-  const { data } = useQuery(['email-verification'], () =>
+  const { data, isLoading } = useQuery(['email-verification'], () =>
     getVerificationResponse(params.get('token') || ''),
   );
 
-  if (data) {
+  if (isLoading === false) {
     return <ValidateToken data={data} />;
   }
 
