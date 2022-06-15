@@ -16,6 +16,7 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import NoBookingCard from 'components/NoBookingCard';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
@@ -112,12 +113,7 @@ const UpcomingBooking = () => (
 );
 const PendingBooking = () => (
   <>
-    <div>
-      You have no upcoming bookings - start sharing a conversation with a
-      mentor.
-    </div>
-    <Button sx={{ my: 2, backgroundColor: '#3e3e3e' }}>Explore Mentors</Button>
-    <Button>Explore Mentors</Button>
+    <NoBookingCard />
   </>
 );
 const PastBooking = () => (
@@ -178,7 +174,7 @@ const ExpandMore = () => {
   // };
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'inherit' }}>
       <Accordion
         expanded={expanded}
         onChange={(event, newExpanded) => setExpanded(newExpanded)}>
