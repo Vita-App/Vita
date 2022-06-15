@@ -223,23 +223,27 @@ const AuthForm: React.FC = () => {
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center">
-          <Controller
-            name="checkbox"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-              <FormControlLabel
-                control={<Checkbox {...field} />}
-                label={loginMode ? 'Remember me' : 'Registering as a Mentor?'}
-              />
-            )}
-          />
-          <Typography variant="body2"></Typography>
-        </Stack>
+        {!loginMode && (
+          <Stack direction="row" alignItems="center">
+            <Controller
+              name="checkbox"
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={<Checkbox {...field} />}
+                  label="Registering as a Mentor?"
+                />
+              )}
+            />
+            <Typography variant="body2"></Typography>
+          </Stack>
+        )}
         {loginMode && (
           <Link to="/reset-password">
-            <Typography variant="body2">Forgot Password?</Typography>
+            <Typography variant="body2" color="Highlight">
+              Forgot Password?
+            </Typography>
           </Link>
         )}
       </Stack>

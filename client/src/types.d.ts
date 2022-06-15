@@ -79,4 +79,9 @@ export type UserType = {
   email: string;
   verified: boolean;
   signup_completed: boolean;
+  is_mentor: boolean;
+  avatar?: {
+    url?: string;
+    filename?: string;
+  };
 };

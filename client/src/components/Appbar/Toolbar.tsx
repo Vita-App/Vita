@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import { Menu, MenuItem, IconButton } from '@mui/material';
 import { Link, StyledButton as Button } from 'components/common';
 import { useRecoilState } from 'recoil';
 import { authState } from 'store';
@@ -10,6 +12,8 @@ import { SERVER_URL } from 'config.keys';
 import { useNavigate } from 'react-router-dom';
 
 const Toolbar = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const [auth, setAuthState] = useRecoilState(authState);
 
@@ -29,8 +33,28 @@ const Toolbar = () => {
 
   return (
     <div>
+      <Menu open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            onLogout();
+          }}>
+          Logout
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            navigate('/dashboard');
+          }}>
+          Dashboard
+        </MenuItem>
+      </Menu>
       <MaterialToolbar>
-        <Stack direction="row" spacing={3} style={{ width: '100%' }}>
+        <Stack
+          direction="row"
+          spacing={3}
+          style={{ width: '100%' }}
+          alignItems="center">
           <Box sx={{ flexGrow: 1 }}>
             <Link to="/">
               <Button>VITA APP</Button>
@@ -47,14 +71,9 @@ const Toolbar = () => {
               <Button sx={{ color: '' }}>Login</Button>
             </Link>
           ) : (
-            <>
-              <Link to="/dashboard">
-                <Button sx={{ color: '' }}>Dashboard</Button>
-              </Link>
-              <Button sx={{ color: '' }} onClick={onLogout}>
-                Logout
-              </Button>
-            </>
+            <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+              <Avatar src={auth.user?.avatar?.url} alt={auth.user?.email} />
+            </IconButton>
           )}
         </Stack>
       </MaterialToolbar>

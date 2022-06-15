@@ -73,6 +73,7 @@ const UserSchema = new Schema<UserSchemaType>({
   phone: String,
   email: String,
   stream: String,
+  bio: String,
   interests: [String],
   avatar: {
     type: {

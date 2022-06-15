@@ -73,9 +73,11 @@ const App = () => {
           <Route element={<ProtectedRoute redirectTo="/auth" />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
+          <Route element={<ProtectedRoute inverse redirectTo="/" />}>
+            <Route path="/email-verification" element={<EmailVerification />} />
+          </Route>
           <Route path="/registration-form" element={<Signup />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
-          <Route path="/email-verification" element={<EmailVerification />} />
           <Route path="/room" element={<VideoCall />} />
           <Route path="/room/:id" element={<VideoCall />} />
         </Routes>

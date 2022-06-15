@@ -152,23 +152,6 @@ const ProfileStep: React.FC<{
           />
         </Stack>
       </Stack>
-      <Stack flexGrow={1}>
-        <Typography variant="body2">Email</Typography>
-        <Controller
-          name="email"
-          control={control}
-          defaultValue={props.hydrate?.email || ''}
-          rules={{ required: 'Email is Required' }}
-          render={({ field }) => (
-            <StyledTextField
-              {...field}
-              error={Boolean(errors.email)}
-              helperText={errors.email?.message}
-              placeholder="Enter your email"
-            />
-          )}
-        />
-      </Stack>
       <Stack>
         <Typography variant="body2">Bio</Typography>
         <Controller

@@ -11,6 +11,7 @@ export interface UserSchemaType {
     url?: string;
     filename?: string;
   };
+  bio: string;
   graduation_year: string;
   stream: string;
   interests: string[];

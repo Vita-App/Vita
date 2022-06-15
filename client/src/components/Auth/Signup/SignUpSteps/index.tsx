@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { FieldValues } from 'react-hook-form';
-import {
-  Card,
-  Stepper,
-  Step,
-  StepLabel,
-  Button,
-  LinearProgress,
-} from '@mui/material';
-import { ArrowBack } from '@mui/icons-material';
+import { Card, Stepper, Step, StepLabel, LinearProgress } from '@mui/material';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import ExperienceStep from './ExperienceStep';
@@ -25,10 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
-const SignUpSteps: React.FC<{
-  onCancel: () => void;
-  mentor: boolean;
-}> = ({ onCancel, mentor }) => {
+const SignUpSteps: React.FC = () => {
   const { loading, sendRequest } = useHttp();
   const navigate = useNavigate();
   const auth = useRecoilValue(authState);
@@ -57,12 +46,11 @@ const SignUpSteps: React.FC<{
   };
 
   const onContinue = (step: number, data: FieldValues) => {
-    if (!mentor && step === 0) {
+    if (!auth.user!.is_mentor && step === 0) {
       const apiData = convertToFormData({
         ...formData[0],
         ...formData[1],
         available: { ...formData[2] },
-        is_mentor: mentor,
         interests,
         topics: getTopicsArray(formData[1].topics),
       });
@@ -92,7 +80,6 @@ const SignUpSteps: React.FC<{
         ...formData[0],
         ...formData[1],
         available: { ...formData[2] },
-        is_mentor: mentor,
         interests,
         topics: getTopicsArray(formData[1].topics),
       });
@@ -110,10 +97,7 @@ const SignUpSteps: React.FC<{
           return response.data;
         },
         () => {
-          toast.success(
-            "You're all set now! Your application for mentor has been submitted. You will be notified once your application is approved.",
-          );
-          navigate('/dashboard');
+          navigate('/dashboard', { state: { newlyCreated: true } });
         },
       );
     } else {
@@ -191,14 +175,7 @@ const SignUpSteps: React.FC<{
           }}
         />
       )}
-      <Button
-        onClick={onCancel}
-        color="inherit"
-        startIcon={<ArrowBack />}
-        sx={{ position: 'absolute', top: 3, left: 3 }}>
-        Change your role
-      </Button>
-      {mentor && (
+      {auth.user!.is_mentor && (
         <Stepper activeStep={activeStep} alternativeLabel sx={{ mt: 2 }}>
           {steps.map((label) => (
             <Step key={label}>

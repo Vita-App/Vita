@@ -315,6 +315,7 @@ export const registerUserController = async (req: Request, res: Response) => {
   user.graduation_year = data.graduation_year;
   user.stream = data.stream?.value;
   user.phone = data.phone;
+  user.bio = data.bio;
 
   if (user.is_mentor) {
     const mentor = new MentorModel({
@@ -323,7 +324,6 @@ export const registerUserController = async (req: Request, res: Response) => {
       topics: data.topics?.map((topic: any) => topic.value),
       expertise: data.expertise?.map((expertise: any) => expertise.value),
       languages: data.languages?.map((language: any) => language.value),
-      bio: data.bio,
       linkedIn: data.linkedin,
       twitter: data.twitter,
     });
