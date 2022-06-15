@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
+import { FieldValues } from 'react-hook-form';
 import { MentorSchemaType } from 'types';
 
 export const getMentors = async (expertise = 'All', topic = -1, limit = 0) => {
@@ -15,4 +16,12 @@ export const getMentors = async (expertise = 'All', topic = -1, limit = 0) => {
   );
 
   return response;
+};
+
+export const convertToFormData = (data: FieldValues) => {
+  const form = new FormData();
+
+  Object.keys(data).forEach((key) => {
+    form.append(key, data[key]);
+  });
 };

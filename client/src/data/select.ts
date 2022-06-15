@@ -146,50 +146,33 @@ export const interestOptions = [
   },
 ];
 
-export const leadershipOptions = [
+export const LanguageOptions = [
   {
-    label: 'Leadership Option 1',
-    value: 'Leadership Option 1',
+    label: 'English',
+    value: 'English',
   },
   {
-    label: 'Leadership Option 2',
-    value: 'Leadership Option 2',
-  },
-];
-
-export const careerOptions = [
-  {
-    label: 'Career Option 1',
-    value: 'Career Option 1',
+    label: 'Hindi',
+    value: 'Hindi',
   },
   {
-    label: 'Career Option 2',
-    value: 'Career Option 2',
+    label: 'French',
+    value: 'French',
   },
   {
-    label: 'Career Option 3',
-    value: 'Career Option 3',
-  },
-];
-
-export const skillOptions = [
-  {
-    label: 'Skill Option 1',
-    value: 'Skill Option 1',
+    label: 'German',
+    value: 'German',
   },
   {
-    label: 'Skill Option 2',
-    value: 'Skill Option 2',
-  },
-];
-
-export const jobSearchOptions = [
-  {
-    label: 'Job Search Option 1',
-    value: 'Job Search Option 1',
+    label: 'Spanish',
+    value: 'Spanish',
   },
   {
-    label: 'Job Search Option 2',
-    value: 'Job Search Option 2',
+    label: 'Italian',
+    value: 'Italian',
+  },
+  {
+    label: 'Japanese',
+    value: 'Japanese',
   },
 ];

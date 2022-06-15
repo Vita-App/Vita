@@ -43,7 +43,10 @@ const useHttp = (initialLoading = false) => {
       } catch (err: any) {
         dispatch({
           type: 'ERROR',
-          errorData: err.response.data?.error || err.response.data?.message,
+          errorData:
+            err.response?.data?.error ||
+            err.response?.data?.message ||
+            err.message,
         });
       }
     },

@@ -1,14 +1,32 @@
 import { Schema, model } from 'mongoose';
 import { hash, compare, genSalt } from 'bcryptjs';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
+import jwt from 'jsonwebtoken';
+import {
+  UserSchemaType,
+  MentorSchemaType,
+  DurationType,
+  ExperienceType,
+} from '../types';
 import { EMAIL_VERIFICATION_JWT, JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
   start_hour: Number,
   end_hour: Number,
-  available: Boolean,
-  locale: String,
+  available: {
+    type: Boolean,
+    default: true,
+  },
+  locale: {
+    type: String,
+    default: Intl.DateTimeFormat().resolvedOptions().locale,
+  },
+});
+
+const Experience = new Schema<ExperienceType>({
+  company: String,
+  role: String,
+  start_year: String,
+  end_year: String,
 });
 
 const MentorSchema = new Schema<MentorSchemaType>({
@@ -16,13 +34,14 @@ const MentorSchema = new Schema<MentorSchemaType>({
   first_name: { type: String },
   last_name: { type: String },
   image_link: { type: String },
-  job_title: { type: String },
-  company: { type: String },
-  description: { type: [String] },
-  expertise: { type: [String] },
-  language: { type: [String] },
+  experiences: {
+    type: [Experience],
+  },
+  bio: { type: String },
   linkedIn: String,
   twitter: String,
+  expertise: [String],
+  languages: [String],
   is_mentoring: Boolean,
   topics: [Number],
   time_slots: {
@@ -34,14 +53,22 @@ const MentorSchema = new Schema<MentorSchemaType>({
     saturday: [{ type: Duration }],
     sunday: [{ type: Duration }],
   },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
   first_name: String,
   last_name: String,
-  password: { type: String },
+  password: String,
+  graduation_year: String,
+  phone: String,
   email: String,
+  stream: String,
+  interests: [String],
   image_link: String,
   create_time: {
     type: Date,

@@ -6,7 +6,11 @@ export interface UserSchemaType {
   last_name: string;
   password: string;
   email: string;
+  phone: string;
   image_link: string;
+  graduation_year: string;
+  stream: string;
+  interests: string[];
   create_time: Date;
   oauth_provider: string;
   is_mentor: boolean;
@@ -45,21 +49,28 @@ interface DurationType {
   locale: string;
 }
 
+export interface ExperienceType {
+  company: string;
+  role: string;
+  start_year: string;
+  end_year: string;
+}
+
 export interface MentorSchemaType {
   user_id: string;
   first_name: string;
   last_name: string;
   image_link: string;
-  job_title: string;
-  company: string;
-  description: string[];
+  experiences: ExperienceType[];
+  bio: string;
   expertise: string[];
-  language: string[];
+  languages: string[];
   linkedIn: string;
   twitter: string;
   is_mentoring: boolean;
   topics: number[];
   time_slots: Record<DayEnumType, DurationType>;
+  approved: boolean;
 }
 
 export interface Room {

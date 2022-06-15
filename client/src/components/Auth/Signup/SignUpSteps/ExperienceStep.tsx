@@ -7,12 +7,7 @@ import {
   StyledButton,
   StyledReactSelect as Select,
 } from './utils';
-import {
-  leadershipOptions,
-  careerOptions,
-  jobSearchOptions,
-  skillOptions,
-} from 'data';
+import { LanguageOptions, getTopicOptions, expertiseOptions } from 'data';
 
 const ExperienceStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
@@ -65,16 +60,16 @@ const ExperienceStep: React.FC<{
           <Stack flexGrow={1}>
             <Typography variant="body2">Company name</Typography>
             <Controller
-              name={`experiences.${i}.companyName`}
+              name={`experiences.${i}.company`}
               control={control}
-              defaultValue={props.hydrate?.experiences?.[i]?.companyName || ''}
+              defaultValue={props.hydrate?.experiences?.[i]?.company || ''}
               rules={{ required: 'Company name is required' }}
               render={({ field }) => (
                 <StyledTextField
                   {...field}
                   placeholder="Company name"
-                  error={Boolean(errors.experiences?.[i]?.companyName)}
-                  helperText={errors.experiences?.[i]?.companyName?.message}
+                  error={Boolean(errors.experiences?.[i]?.company)}
+                  helperText={errors.experiences?.[i]?.company?.message}
                 />
               )}
             />
@@ -99,9 +94,9 @@ const ExperienceStep: React.FC<{
           <Stack flexGrow={1}>
             <Typography variant="body2">Start Year</Typography>
             <Controller
-              name={`experiences.${i}.startYear`}
+              name={`experiences.${i}.start_year`}
               control={control}
-              defaultValue={props.hydrate?.experiences?.[i]?.startYear || ''}
+              defaultValue={props.hydrate?.experiences?.[i]?.start_year || ''}
               rules={{
                 required: 'Start Year is Required',
                 validate: (val) => {
@@ -109,7 +104,7 @@ const ExperienceStep: React.FC<{
 
                   if (
                     parseInt(val, 10) >
-                    parseInt(getValues().experiences?.[i]?.endYear, 10)
+                    parseInt(getValues().experiences?.[i]?.end_year, 10)
                   ) {
                     return 'Start year is invalid';
                   }
@@ -120,8 +115,8 @@ const ExperienceStep: React.FC<{
               render={({ field }) => (
                 <StyledTextField
                   {...field}
-                  error={Boolean(errors.experiences?.[i]?.startYear)}
-                  helperText={errors.experiences?.[i]?.startYear?.message}
+                  error={Boolean(errors.experiences?.[i]?.start_year)}
+                  helperText={errors.experiences?.[i]?.start_year?.message}
                   placeholder="e.g. 2018"
                 />
               )}
@@ -130,9 +125,9 @@ const ExperienceStep: React.FC<{
           <Stack flexGrow={1} position="relative">
             <Typography variant="body2">End Year</Typography>
             <Controller
-              name={`experiences.${i}.endYear`}
+              name={`experiences.${i}.end_year`}
               control={control}
-              defaultValue={props.hydrate?.experiences?.[i]?.endYear || ''}
+              defaultValue={props.hydrate?.experiences?.[i]?.end_year || ''}
               rules={{
                 required: 'End Year is required',
                 validate: (val) => {
@@ -146,7 +141,7 @@ const ExperienceStep: React.FC<{
 
                   if (
                     parseInt(val, 10) <
-                    parseInt(getValues().experiences?.[i]?.startYear, 10)
+                    parseInt(getValues().experiences?.[i]?.start_year, 10)
                   ) {
                     return 'End Year is Invalid';
                   }
@@ -157,8 +152,8 @@ const ExperienceStep: React.FC<{
               render={({ field }) => (
                 <StyledTextField
                   {...field}
-                  error={Boolean(errors.experiences?.[i]?.endYear)}
-                  helperText={errors.experiences?.[i]?.endYear?.message}
+                  error={Boolean(errors.experiences?.[i]?.end_year)}
+                  helperText={errors.experiences?.[i]?.end_year?.message}
                   placeholder="e.g. Present"
                 />
               )}
@@ -166,19 +161,21 @@ const ExperienceStep: React.FC<{
           </Stack>
         </Stack>
       ))}
-      <Typography variant="h6">Profiles</Typography>
       <Stack>
+        <Typography variant="h5" gutterBottom>
+          Profiles
+        </Typography>
         <Typography variant="body2">Linkedin Profile</Typography>
         <Controller
-          name="linkedinProfile"
+          name="linkedin"
           control={control}
-          defaultValue={props.hydrate?.linkedinProfile || ''}
+          defaultValue={props.hydrate?.linkedin || ''}
           render={({ field }) => (
             <StyledTextField
               {...field}
               placeholder="https://www.linkedin.com/in/..."
-              error={Boolean(errors.linkedinProfile)}
-              helperText={errors.linkedinProfile?.message}
+              error={Boolean(errors.linkedin)}
+              helperText={errors.linkedin?.message}
             />
           )}
         />
@@ -186,15 +183,49 @@ const ExperienceStep: React.FC<{
       <Stack>
         <Typography variant="body2">Twitter Profile</Typography>
         <Controller
-          name="twitterProfile"
+          name="twitter"
           control={control}
-          defaultValue={props.hydrate?.twitterProfile || ''}
+          defaultValue={props.hydrate?.twitter || ''}
           render={({ field }) => (
             <StyledTextField
               {...field}
-              error={Boolean(errors.twitterProfile)}
-              helperText={errors.twitterProfile?.message}
+              error={Boolean(errors.twitter)}
+              helperText={errors.twitter?.message}
               placeholder="https://www.twitter.com/..."
+            />
+          )}
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="body2">Languages you are efficient in</Typography>
+        <Controller
+          name="languages[]"
+          control={control}
+          defaultValue={props.hydrate?.languages || []}
+          render={({ field }) => (
+            <Select
+              {...field}
+              placeholder="Languages"
+              isMulti
+              classNamePrefix="select"
+              options={LanguageOptions}
+            />
+          )}
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="body2">What&apos;s your expertise ?</Typography>
+        <Controller
+          name="expertise[]"
+          control={control}
+          defaultValue={props.hydrate?.expertise || []}
+          render={({ field }) => (
+            <Select
+              {...field}
+              placeholder="Expertise"
+              isMulti
+              classNamePrefix="select"
+              options={expertiseOptions}
             />
           )}
         />
@@ -215,10 +246,26 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                menuPlacement="top"
                 placeholder="Leadership"
                 isMulti
                 classNamePrefix="select"
-                options={leadershipOptions}
+                options={getTopicOptions('Leadership')}
+              />
+            )}
+          />
+          <Controller
+            name="topics[mentorShip]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.mentorShip || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                menuPlacement="top"
+                placeholder="Mentorship"
+                isMulti
+                classNamePrefix="select"
+                options={getTopicOptions('Mentorship')}
               />
             )}
           />
@@ -229,10 +276,11 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                menuPlacement="top"
                 placeholder="Career"
                 isMulti
                 classNamePrefix="select"
-                options={careerOptions}
+                options={getTopicOptions('Career Advice')}
               />
             )}
           />
@@ -243,10 +291,11 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                menuPlacement="top"
                 placeholder="Job Search"
                 isMulti
                 classNamePrefix="select"
-                options={jobSearchOptions}
+                options={getTopicOptions('Job Search')}
               />
             )}
           />
@@ -257,10 +306,11 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                menuPlacement="top"
                 placeholder="Skills"
                 isMulti
                 classNamePrefix="select"
-                options={skillOptions}
+                options={getTopicOptions('Skills')}
               />
             )}
           />

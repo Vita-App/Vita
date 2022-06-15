@@ -212,9 +212,9 @@ const ProfileStep: React.FC<{
         <Stack flexGrow={1}>
           <Typography variant="body2">Graduation year</Typography>
           <Controller
-            name="graduationYear"
+            name="graduation_year"
             control={control}
-            defaultValue={props.hydrate?.graduationYear || ''}
+            defaultValue={props.hydrate?.graduation_year || ''}
             rules={{
               required: 'Graduation Year is Required',
               pattern: { value: /^[0-9]{4}$/, message: 'Invalid Year' },
@@ -224,8 +224,8 @@ const ProfileStep: React.FC<{
             render={({ field }) => (
               <StyledTextField
                 {...field}
-                error={Boolean(errors.graduationYear)}
-                helperText={errors.graduationYear?.message}
+                error={Boolean(errors.graduation_year)}
+                helperText={errors.graduation_year?.message}
                 placeholder="Enter your graduation year"
               />
             )}
