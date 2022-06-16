@@ -6,7 +6,6 @@
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@fluentui/react": "^8.44.0",
     "@mui/icons-material": "^5.1.0",
     "@mui/lab": "^5.0.0-alpha.54",
     "@mui/material": "^5.1.0",
@@ -19,7 +18,6 @@
     "@types/react-dom": "^17.0.11",
     "axios": "^0.24.0",
     "date-fns": "^2.25.0",
-    "fscreen": "^1.2.0",
     "http-proxy-middleware": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -38,9 +36,6 @@
     "react-tsparticles": "^1.37.3",
     "react-use-gesture": "^5.0.0",
     "recoil": "^0.5.2",
-    "simple-peer": "^9.11.0",
-    "socket-io": "^1.0.0",
-    "socket.io-client": "^4.4.0",
     "swiper": "^6.8.4",
     "typescript": "^4.4.4",
     "web-vitals": "^1.1.2"
@@ -75,9 +70,7 @@
     ]
   },
   "devDependencies": {
-    "@types/fscreen": "^1.0.1",
     "@types/react-show-more-text": "^1.4.2",
-    "@types/simple-peer": "^9.11.3",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "chalk": "^4.1.2",
