@@ -7,6 +7,8 @@ import { PRODUCTION } from 'config.keys';
 import { RecoilRoot } from 'recoil';
 import { DebugObserver } from 'store';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import getTheme from 'utils/hooks/theme';
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -20,15 +22,17 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Router>
-          {!PRODUCTION && (
-            <>
-              <DebugObserver />
-              <ReactQueryDevtools initialIsOpen />
-            </>
-          )}
-          <Routes />
-        </Router>
+        <ThemeProvider theme={getTheme('dark')}>
+          <Router>
+            {!PRODUCTION && (
+              <>
+                <DebugObserver />
+                <ReactQueryDevtools initialIsOpen />
+              </>
+            )}
+            <Routes />
+          </Router>
+        </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );
