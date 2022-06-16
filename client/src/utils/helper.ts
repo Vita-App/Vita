@@ -1,4 +1,3 @@
-/* eslint-disable no-bitwise */
 export const commaString = (words: string[] | undefined) => {
   let result = '';
   if (typeof words === 'undefined') return result;
