@@ -27,7 +27,6 @@
     "react-loader-spinner": "^4.0.0",
     "react-query": "^3.33.6",
     "react-router-dom": "^6.0.2",
-    "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
     "react-show-more-text": "^1.5.0",
     "react-spring": "^9.4.4",
@@ -42,10 +41,9 @@
   },
   "scripts": {
     "dev": "npm run start",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
     "pretty": "npx prettier --write \"./**/*.{ts,tsx,js,jsx}\"",
     "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/",
     "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --fix",
@@ -73,10 +71,14 @@
     "@types/react-show-more-text": "^1.4.2",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
+    "@vitejs/plugin-react": "^1.3.2",
     "chalk": "^4.1.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-xo": "^0.39.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "eslint-plugin-react": "^7.27.0"
+    "eslint-plugin-react": "^7.27.0",
+    "vite": "^2.9.12",
+    "vite-plugin-svgr": "^2.1.0",
+    "vite-tsconfig-paths": "^3.5.0"
   }
 }
