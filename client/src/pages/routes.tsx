@@ -1,15 +1,11 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, lazy } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, Route, Routes } from 'react-router-dom';
-import Landing from 'pages/Landing';
 import AuthPage from 'pages/Auth';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
-import Dashboard from 'pages/Dashboard';
-import EmailVerification from './EmailVerification';
 import Loader from 'components/Loader';
 import usePageTracking from 'utils/hooks/use-page-tracking';
-import Signup from 'pages/Auth/Signup';
 import useHttp from 'hooks/useHttp';
 import { SERVER_URL } from 'config.keys';
 import { useSetRecoilState } from 'recoil';
@@ -17,6 +13,11 @@ import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
+
+const Landing = lazy(() => import('pages/Landing'));
+const EmailVerification = lazy(() => import('pages/EmailVerification'));
+const Signup = lazy(() => import('pages/Auth/Signup'));
+const Dashboard = lazy(() => import('pages/Dashboard'));
 
 const App = () => {
   const { loading, sendRequest } = useHttp();
