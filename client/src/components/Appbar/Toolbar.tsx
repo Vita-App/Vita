@@ -63,9 +63,6 @@ const Toolbar = () => {
           <Link to="/search">
             <Button>Get a match</Button>
           </Link>
-          <Link to="/room">
-            <Button>Vita Meet</Button>
-          </Link>
           {!auth.isLoggedIn ? (
             <Link to="/auth">
               <Button sx={{ color: '' }}>Login</Button>

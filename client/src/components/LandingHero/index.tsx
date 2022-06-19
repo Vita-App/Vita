@@ -2,7 +2,7 @@ import React from 'react';
 import { swipeCardState } from 'store';
 import { useRecoilValue } from 'recoil';
 import { styled, Typography, Stack, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'components/common';
 import { swipeCardsInfo } from 'data';
 import TextTransition, { presets } from 'react-text-transition';
 
