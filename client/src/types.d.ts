@@ -35,22 +35,32 @@ export interface DurationType {
   locale: string;
 }
 
+export interface ExperienceType {
+  company: string;
+  role: string;
+  start_year: string;
+  end_year: string;
+}
+
 export type Timeslot = Record<DayEnumType, DurationType>;
+
 export interface MentorSchemaType {
   _id: string;
   user_id: string;
   first_name: string;
   last_name: string;
-  image_link: string;
-  job_title: string;
-  company: string;
-  description: string[];
+  avatar: {
+    url: string;
+    filename: string;
+  };
+  experiences: ExperienceType[];
+  bio: string;
   expertise: string[];
-  language: string[];
+  languages: string[];
   linkedIn: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slot: Timeslot;
+  time_slots: Timeslot;
 }
 
 export type MotivationEnumType =
@@ -65,3 +75,23 @@ export interface SlotType {
   start: Date | null;
   end: Date | null;
 }
+
+export type VerificationResponseType = {
+  success: boolean;
+  isLoggedIn?: boolean;
+  message?: string;
+};
+
+export type UserType = {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  verified: boolean;
+  signup_completed: boolean;
+  is_mentor: boolean;
+  avatar?: {
+    url?: string;
+    filename?: string;
+  };
+};

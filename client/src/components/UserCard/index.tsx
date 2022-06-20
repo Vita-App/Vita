@@ -57,20 +57,13 @@ const AbsoluteGrid = styled(Grid)`
 `;
 
 const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
-  const {
-    first_name,
-    last_name,
-    company,
-    job_title,
-    expertise,
-    image_link,
-    _id,
-  } = user;
+  const { first_name, last_name, experiences, expertise, avatar, _id } = user;
   const name = `${first_name} ${last_name}`;
+
   return (
     <Link to={`/user/${_id}`}>
       <Wrapper elevation={4}>
-        <StyledImage src={image_link} />
+        <StyledImage src={avatar?.url} />
         <AbsoluteGrid container>
           <Grid item>
             <BookmarksRoundedIcon />
@@ -78,9 +71,9 @@ const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
           </Grid>
           <Grid item>
             <WorkRoundedIcon />
-            <span>{job_title}</span>
+            <span>{experiences && experiences[0].role}</span>
           </Grid>
-          <Grid item>{company}</Grid>
+          <Grid item>{experiences && experiences[0].company}</Grid>
           <Grid item className="UserCard_text">
             {name}
           </Grid>

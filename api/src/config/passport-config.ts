@@ -9,7 +9,7 @@ const createUserIfNotExists = async (
   done: GoogleStrategy.VerifyCallback,
 ) => {
   try {
-    const currUser = await UserModel.findOne({ user_id: user.user_id });
+    const currUser = await UserModel.findOne({ email: user.email });
     if (currUser) {
       done(null, currUser);
     } else {

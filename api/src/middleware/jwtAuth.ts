@@ -19,6 +19,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   }
 
   const token = req.cookies.jwt;
+
   if (token) {
     const user = await verifyToken(token);
     if (user) {

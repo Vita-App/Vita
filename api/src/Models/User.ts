@@ -1,53 +1,93 @@
 import { Schema, model } from 'mongoose';
 import { hash, compare, genSalt } from 'bcryptjs';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UserSchemaType, MentorSchemaType, DurationType } from '../types';
+import jwt from 'jsonwebtoken';
+import {
+  UserSchemaType,
+  MentorSchemaType,
+  DurationType,
+  ExperienceType,
+} from '../types';
 import { EMAIL_VERIFICATION_JWT, JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
-  start_hour: Number,
-  end_hour: Number,
-  available: Boolean,
-  locale: String,
+  start_hour: Date,
+  end_hour: Date,
+  available: {
+    type: Boolean,
+    default: true,
+  },
+  locale: {
+    type: String,
+    default: Intl.DateTimeFormat().resolvedOptions().locale,
+  },
+});
+
+const Experience = new Schema<ExperienceType>({
+  company: String,
+  role: String,
+  start_year: String,
+  end_year: String,
 });
 
 const MentorSchema = new Schema<MentorSchemaType>({
   user_id: { type: String },
   first_name: { type: String },
   last_name: { type: String },
-  image_link: { type: String },
-  job_title: { type: String },
-  company: { type: String },
-  description: { type: [String] },
-  expertise: { type: [String] },
-  language: { type: [String] },
+  avatar: {
+    type: {
+      url: String,
+      filename: String,
+    },
+  },
+  experiences: {
+    type: [Experience],
+  },
+  bio: { type: String },
   linkedIn: String,
+  twitter: String,
+  expertise: [String],
+  languages: [String],
   is_mentoring: Boolean,
   topics: [Number],
-  time_slot: {
-    monday: { type: Duration },
-    tuesday: { type: Duration },
-    wednesday: { type: Duration },
-    thursday: { type: Duration },
-    friday: { type: Duration },
-    saturday: { type: Duration },
-    sunday: { type: Duration },
+  time_slots: {
+    monday: [{ type: Duration }],
+    tuesday: [{ type: Duration }],
+    wednesday: [{ type: Duration }],
+    thursday: [{ type: Duration }],
+    friday: [{ type: Duration }],
+    saturday: [{ type: Duration }],
+    sunday: [{ type: Duration }],
+  },
+  approved: {
+    type: Boolean,
+    default: false,
   },
 });
 
 const UserSchema = new Schema<UserSchemaType>({
   user_id: String,
-  first_name: { type: String },
-  last_name: { type: String },
-  password: { type: String },
+  first_name: String,
+  last_name: String,
+  password: String,
+  graduation_year: String,
+  phone: String,
   email: String,
-  image_link: String,
+  stream: String,
+  bio: String,
+  interests: [String],
+  avatar: {
+    type: {
+      url: String,
+      filename: String,
+    },
+  },
   create_time: {
     type: Date,
     default: new Date(),
   },
   oauth_provider: String,
   is_mentor: Boolean,
+  token: String,
   signup_completed: {
     type: Boolean,
     default: false,
@@ -86,6 +126,9 @@ UserSchema.methods.createVerificationToken = function () {
     expiresIn: EMAIL_VERIFICATION_JWT.expiresIn,
   });
 
+  this.token = token;
+
+  this.save();
   return token;
 };
 
@@ -95,30 +138,16 @@ UserSchema.methods.issueToken = function () {
   });
 };
 
-UserSchema.methods.verifyToken = async function (token: string) {
-  try {
-    const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
-    const user = await this.model('User').findById(decoded.user_id);
-    if (!user) {
-      return false;
-    }
-
-    return user;
-  } catch (err) {
-    return false;
-  }
-};
-
 UserSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
+  delete user.token;
   return user;
 };
 
 MentorSchema.index(
   {
-    first_name: 'text',
-    last_name: 'text',
+    name: 'text',
     job_title: 'text',
     company: 'text',
     description: 'text',

@@ -47,3 +47,9 @@ export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT, 10) || 465;
 export const { EMAIL_USER } = process.env;
 
 export const { EMAIL_PASS } = process.env;
+
+export const CLOUDINARY = {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || ' ',
+  api_key: process.env.CLOUDINARY_API_KEY || ' ',
+  api_secret: process.env.CLOUDINARY_API_SECRET || ' ',
+};

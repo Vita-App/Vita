@@ -57,7 +57,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
     todaysDate.getMonth() + 2,
     0,
   );
-  const { time_slot } = useRecoilValue(mentorState);
+  const { time_slots } = useRecoilValue(mentorState);
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
@@ -81,7 +81,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
             onChange={(e) => {
               // if (typeof e === 'undefined') return;
               const dayName: DayEnumType = dayOfWeek[e.getDay()];
-              const { start_hour, end_hour } = time_slot[dayName];
+              const { start_hour, end_hour } = time_slots[dayName];
               setDate(e);
               setTimeslot(range(start_hour, end_hour, 1));
             }}
@@ -89,7 +89,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
             renderDay={(day, _value, DayComponentProps) => {
               const dayName: DayEnumType = dayOfWeek[day.getDay()];
 
-              const { available } = time_slot[dayName];
+              const { available } = time_slots[dayName];
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&
@@ -103,7 +103,7 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
               return (
                 <StyledPickersDay
                   {...DayComponentProps}
-                  validday={isSelected.toString()}
+                  validday={isSelected?.toString()}
                 />
               );
             }}

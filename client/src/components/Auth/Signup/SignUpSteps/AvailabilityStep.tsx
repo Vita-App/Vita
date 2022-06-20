@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
-import { LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {
   Stack,
   Typography,
@@ -20,6 +18,7 @@ const AvailabilityStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate: FieldValues;
+  loading: boolean;
 }> = (props) => {
   const [availability, setAvailability] = useState<FieldValues>(
     props.hydrate || {},
@@ -64,35 +63,33 @@ const AvailabilityStep: React.FC<{
   return (
     <Stack spacing={3} mt={2} component="form">
       <Typography variant="h4">Tell us about your Availability</Typography>
-      <Typography variant="body2" mb={1}>
-        Set your weekly hours
-      </Typography>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Stack>
-          {days.map((day, index) => (
-            <Box key={index}>
-              <Divider />
-              <DayTimePicker
-                day={day}
-                key={index}
-                slots={
-                  availability[day] ? (availability[day] as SlotType[]) : []
-                }
-                setSlots={(day, slots) => onDayChange(day, slots)}
-              />
-              <Divider />
-            </Box>
-          ))}
-        </Stack>
-      </LocalizationProvider>
-      <FormControlLabel
-        sx={{ alignSelf: 'flex-end' }}
-        control={<Checkbox onChange={onDefaultClick} />}
-        label="Use Default"
-      />
+      <Stack justifyContent="space-between" direction="row" alignItems="center">
+        <Typography variant="body2" mb={1}>
+          Set your weekly hours
+        </Typography>
+        <FormControlLabel
+          control={<Checkbox onChange={onDefaultClick} />}
+          label="Use Default"
+        />
+      </Stack>
+      <Stack>
+        {days.map((day, index) => (
+          <Box key={index}>
+            <Divider />
+            <DayTimePicker
+              day={day}
+              key={index}
+              slots={availability[day] ? (availability[day] as SlotType[]) : []}
+              setSlots={(day, slots) => onDayChange(day, slots)}
+            />
+            <Divider />
+          </Box>
+        ))}
+      </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <StyledButton onClick={onBackClick}>Back</StyledButton>
         <StyledButton
+          disabled={props.loading}
           onClick={onContinueClick}
           variant="contained"
           sx={{ flex: 0.3 }}>

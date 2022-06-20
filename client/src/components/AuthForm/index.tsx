@@ -55,7 +55,7 @@ const AuthForm: React.FC = () => {
   const [params] = useSearchParams();
   const setAuthState = useSetRecoilState(authState);
   const [authMode, setAuthMode] = useState(
-    params.get('page') === 'login' ? AuthMode.login : AuthMode.signup,
+    params.get('page') === 'signup' ? AuthMode.signup : AuthMode.login,
   );
   const [showPassword, setShowPassword] = useState(false);
   const { loading, sendRequest, error: httpError } = useHttp();
@@ -101,6 +101,12 @@ const AuthForm: React.FC = () => {
         },
         (data: any) => {
           setAuthState(data);
+          if (data.emailId) {
+            return navigate('/email-verification', {
+              state: { email: formData.email },
+            });
+          }
+
           if (data.isLoggedIn && !data.user.signup_completed) {
             navigate('/registration-form');
           } else {
@@ -217,26 +223,35 @@ const AuthForm: React.FC = () => {
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center">
-          <Controller
-            name="checkbox"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-              <FormControlLabel
-                control={<Checkbox {...field} />}
-                label={loginMode ? 'Rememeber me' : 'Registering as a Mentor?'}
-              />
-            )}
-          />
-          <Typography variant="body2"></Typography>
-        </Stack>
+        {!loginMode && (
+          <Stack direction="row" alignItems="center">
+            <Controller
+              name="checkbox"
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={<Checkbox {...field} />}
+                  label="Registering as a Mentor?"
+                />
+              )}
+            />
+            <Typography variant="body2"></Typography>
+          </Stack>
+        )}
         {loginMode && (
-          <Link to="#">
-            <Typography variant="body2">Forgot Password?</Typography>
+          <Link to="/reset-password">
+            <Typography variant="body2" color="Highlight">
+              Forgot Password?
+            </Typography>
           </Link>
         )}
       </Stack>
+      {typeof httpError === 'string' && (
+        <Typography variant="body2" color="error">
+          {httpError}
+        </Typography>
+      )}
       <StyledButton
         fullWidth
         color="primary"

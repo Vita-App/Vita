@@ -13,6 +13,7 @@ import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
+import ForgotPassword from './ForgotPassword';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -20,7 +21,7 @@ const Signup = lazy(() => import('pages/Auth/Signup'));
 const Dashboard = lazy(() => import('pages/Dashboard'));
 
 const App = () => {
-  const { loading, sendRequest } = useHttp();
+  const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
 
@@ -34,14 +35,13 @@ const App = () => {
       },
       (data: any) => {
         setAuthState(data);
-        console.log(data);
         if (data.isLoggedIn && !data.user.signup_completed) {
           toast.info(
             () => (
               <div>
                 <p>
-                  Please complete your{' '}
-                  <Link to="/registration-form">Signup</Link>
+                  Your registration is incomplete. Complete your{' '}
+                  <Link to="/registration-form">Registration</Link> now?
                 </p>
               </div>
             ),
@@ -69,8 +69,11 @@ const App = () => {
         <Route element={<ProtectedRoute redirectTo="/auth" />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
+        <Route element={<ProtectedRoute inverse redirectTo="/" />}>
+          <Route path="/email-verification" element={<EmailVerification />} />
+        </Route>
         <Route path="/registration-form" element={<Signup />} />
-        <Route path="/email-verification" element={<EmailVerification />} />
+        <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
     </Suspense>
   );
