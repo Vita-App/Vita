@@ -25,6 +25,7 @@ import {
   fakeDataController,
   // topicDataController,
 } from '../data/fakeData-controller';
+import { PROD } from '../config/keys';
 const upload = multer({ storage });
 const router = Router();
 
@@ -50,6 +51,8 @@ router.get('/logout', logoutController); // Auth logout
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
-router.get('/seed-data', fakeDataController);
-// router.get('/topicData', topicDataController);
+if (!PROD) {
+  router.get('/seed-data', fakeDataController);
+  // router.get('/topicData', topicDataController);
+}
 export default router;
