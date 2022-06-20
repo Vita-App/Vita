@@ -66,9 +66,8 @@ const App = () => {
         </Route>
         <Route path="/search/" element={<SearchPage />} />
         <Route path="/user/:id" element={<UserPage />} />
-        <Route element={<ProtectedRoute redirectTo="/auth" />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<ProtectedRoute redirectTo="/auth" />}></Route>
         <Route path="/registration-form" element={<Signup />} />
         <Route path="/email-verification" element={<EmailVerification />} />
       </Routes>

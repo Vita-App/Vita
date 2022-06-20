@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Grow, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
@@ -89,7 +89,7 @@ const BookingList = () => {
   const timeString = `${date.getHours()}:00 - ${date.getHours() + 1}:00`;
 
   return (
-    <GridWrapper container lg={8} sx={{ boxShadow: 3 }}>
+    <GridWrapper container xs={12} sx={{ boxShadow: 3 }}>
       <Grid item className="mentor-text">
         Mentorship session with {mentorName}
       </Grid>
@@ -134,33 +134,40 @@ const Bookings = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
-      <Typography
-        variant="h3"
-        fontFamily="inter"
-        fontWeight={600}
-        paddingBottom={2}>
-        Bookings
-      </Typography>
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Upcoming" value="1" />
-            <Tab label="Pending" value="2" />
-            <Tab label="Past" value="3" />
-          </TabList>
+    <Grid container alignItems="strech">
+      <Grid item sm={12} md={8}>
+        <Typography
+          variant="h3"
+          fontFamily="inter"
+          fontWeight={600}
+          paddingBottom={2}>
+          Bookings
+        </Typography>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Upcoming" value="1" />
+              <Tab label="Pending" value="2" />
+              <Tab label="Past" value="3" />
+            </TabList>
+          </Box>
+          <TabPanel value="1" style={{ padding: '1rem 0rem' }}>
+            <UpcomingBooking />
+          </TabPanel>
+          <TabPanel value="2">
+            <PendingBooking />
+          </TabPanel>
+          <TabPanel value="3">
+            <PastBooking />
+          </TabPanel>
+        </TabContext>
+      </Grid>
+      <Grid item sm={0} md={4}>
+        <Box sx={{ height: '100%', backgroundColor: 'rebeccapurple' }}>
+          Hello
         </Box>
-        <TabPanel value="1" style={{ padding: '1rem 0rem' }}>
-          <UpcomingBooking />
-        </TabPanel>
-        <TabPanel value="2">
-          <PendingBooking />
-        </TabPanel>
-        <TabPanel value="3">
-          <PastBooking />
-        </TabPanel>
-      </TabContext>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
