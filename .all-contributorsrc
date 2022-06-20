@@ -95,6 +95,15 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "DTFds",
+      "name": "Daniel Siebert",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23038761?v=4",
+      "profile": "https://github.com/DTFds",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 5,
@@ -102,5 +111,6 @@
   "projectOwner": "Rishabh-malhotraa",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }
