@@ -21,10 +21,10 @@ import {
   getMentorsController,
 } from '../controllers/api-controller';
 
-// import {
-//   fakeDataController,
-//   topicDataController,
-// } from '../data/fakeData-controller';
+import {
+  fakeDataController,
+  // topicDataController,
+} from '../data/fakeData-controller';
 const upload = multer({ storage });
 const router = Router();
 
@@ -50,6 +50,6 @@ router.get('/logout', logoutController); // Auth logout
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
-// router.get('/data', fakeDataController);
+router.get('/seed-data', fakeDataController);
 // router.get('/topicData', topicDataController);
 export default router;

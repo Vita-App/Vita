@@ -23,9 +23,18 @@ export const getMentorsController = async (req: Request, res: Response) => {
   try {
     const mentors_ = await MentorModel.find(searchOptions).limit(limit);
     mentors = mentors_.map(
-      ({ _id, first_name, last_name, experiences, avatar, topics }) => ({
+      ({
         _id,
         first_name,
+        last_name,
+        expertise,
+        experiences,
+        avatar,
+        topics,
+      }) => ({
+        _id,
+        first_name,
+        expertise,
         last_name,
         experiences,
         avatar,
