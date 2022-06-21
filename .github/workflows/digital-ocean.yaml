@@ -19,7 +19,8 @@ jobs:
             rm -rf Vita
             git clone https://github.com/Vita-App/Vita.git
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh   
+            source ~/.nvm/nvm.sh
+            cp ~/env/.env ~/Vita/api/   
             cd Vita/api && npm install
             pm2 stop vita-server
             pm2 start dist/src/index.js --name "vita-server"
