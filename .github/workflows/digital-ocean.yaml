@@ -1,0 +1,24 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy NodeJS app
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}} # IP address of the server you wish to ssh into
+          key: ${{secrets.SSH_KEY}} # Private or public key of the server
+          username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
+
+          script: |
+            cd Vita
+            git pull origin main
+            cd Vita/api && rm -rf node_modules && rm -rf dist
+            npm install
+            pm2 stop index
+            pm2 start dist/src/index.js
+            echo 'Deployment successful to digital ocean'
