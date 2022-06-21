@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../Models/User';
+import { AdminModel } from '../Models/Admins';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { JWT } from '../config/keys';
 
@@ -13,17 +14,35 @@ const verifyToken = async (token: string) => {
   }
 };
 
+const verifyAdminToken = async (token: string) => {
+  try {
+    const decoded = jwt.verify(token, JWT.secret) as JwtPayload;
+    const admin = await AdminModel.findById(decoded.admin_id);
+    return admin;
+  } catch (error) {
+    return null;
+  }
+};
+
 export default async (req: Request, res: Response, next: NextFunction) => {
   if (req.user) {
     return next();
   }
 
   const token = req.cookies.jwt;
+  const adminToken = req.cookies.adminToken;
 
   if (token) {
     const user = await verifyToken(token);
     if (user) {
       req.user = user;
+    }
+  }
+
+  if (adminToken) {
+    const admin = await verifyAdminToken(adminToken);
+    if (admin) {
+      req.user = admin;
     }
   }
 

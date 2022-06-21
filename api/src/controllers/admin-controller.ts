@@ -1,57 +1,89 @@
 import { Request, Response } from 'express';
+import { AdminModel } from '../Models/Admins';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
-import { ADMIN } from '../config/keys';
 
-let otp: number;
-
-export const adminLogin = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      error: 'Email or password is missing',
+export const adminAuthController = async (req: Request, res: Response) => {
+  if (req.user) {
+    res.status(200).json({
+      isLoggedIn: true,
+      user: req.user,
     });
-  }
-
-  if (email !== ADMIN.email || password !== ADMIN.password) {
-    return res.status(400).json({
-      error: 'Invalid Credentials',
-    });
-  }
-
-  otp = Math.floor(Math.random() * 100000);
-
-  const template = makeTemplate('email/admin-login', { otp });
-
-  try {
-    const emailID = await sendEmail(email, 'Vita Admin Login', template);
-
-    return res.status(200).json({
-      message: 'Email sent',
-      emailID,
-    });
-  } catch (err) {
-    return res.status(500).json({
-      error: 'Email could not be sent',
+  } else {
+    res.status(200).json({
+      isLoggedIn: false,
     });
   }
 };
 
-export const adminLoginVerify = async (req: Request, res: Response) => {
-  if (!req.params.otp) {
-    return res.status(400).json({
-      error: 'OTP is missing',
+export const adminLoginController = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const admin = await AdminModel.findOne({ email });
+  if (!admin) {
+    return res.status(401).json({
+      message: 'Invalid email or password',
     });
   }
 
-  if (req.params.otp !== otp.toString()) {
-    return res.status(400).json({
-      error: 'Invalid OTP',
+  const isPasswordMatch = await admin.comparePassword(password);
+  if (!isPasswordMatch) {
+    return res.status(401).json({
+      message: 'Invalid email or password',
     });
   }
+
+  const otp = await admin.generateOTP();
+  const template = makeTemplate('adminOtp.hbs', {
+    otp,
+  });
+  const emailId = await sendEmail(admin.email, 'Vita Admin Login', template);
+  return res.status(200).json({
+    message: 'Email sent',
+    emailId,
+  });
+};
+
+export const adminVerifyOtpController = async (req: Request, res: Response) => {
+  const { email, otp } = req.body;
+  const admin = await AdminModel.findOne({ email });
+  if (!admin) {
+    return res.status(401).json({
+      message: 'Invalid email or password',
+    });
+  }
+
+  const isOtpMatch = await admin.verifyOTP(otp);
+  if (!isOtpMatch) {
+    return res.status(401).json({
+      message: 'Invalid OTP',
+    });
+  }
+
+  const token = admin.issueToken();
+
+  res.cookie('adminToken', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 1,
+  });
 
   return res.status(200).json({
     message: 'OTP verified',
+    user: admin,
+  });
+};
+
+export const createAdminController = async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+
+  const admin = new AdminModel({
+    name,
+    email,
+    password,
+  });
+
+  await admin.save();
+
+  return res.status(201).json({
+    message: 'Admin Created Successfully',
   });
 };

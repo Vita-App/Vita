@@ -27,6 +27,12 @@ import {
   fakeDataController,
   // topicDataController,
 } from '../data/fakeData-controller';
+import {
+  adminAuthController,
+  adminLoginController,
+  adminVerifyOtpController,
+  createAdminController,
+} from '../controllers/admin-controller';
 import { PROD } from '../config/keys';
 const upload = multer({ storage });
 const router = Router();
@@ -50,12 +56,17 @@ router.post(
 router.post('/reset-password', changePasswordController);
 router.get('/logout', logoutController); // Auth logout
 
+router.post('/admin/login', adminLoginController);
+router.post('/admin/verify-otp', adminVerifyOtpController);
+router.get('/admin/auth', adminAuthController);
+
 router.get('/get-users', getUsersController);
 router.get('/get-user', getUserController);
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
 if (!PROD) {
+  router.post('/admin/create', createAdminController);
   router.get('/seed-data', fakeDataController);
   // router.get('/topicData', topicDataController);
 }

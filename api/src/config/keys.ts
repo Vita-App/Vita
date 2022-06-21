@@ -43,6 +43,11 @@ export const EMAIL_VERIFICATION_JWT = {
   expiresIn: '1h',
 };
 
+export const ADMIN_JWT = {
+  secret: process.env.ADMIN_JWT_SECRET || 'secret',
+  expiresIn: '1d',
+};
+
 export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 
 export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT, 10) || 465;
@@ -55,9 +60,4 @@ export const CLOUDINARY = {
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME || ' ',
   api_key: process.env.CLOUDINARY_API_KEY || ' ',
   api_secret: process.env.CLOUDINARY_API_SECRET || ' ',
-};
-
-export const ADMIN = {
-  email: process.env.ADMIN_EMAIL || ' ',
-  password: process.env.ADMIN_PASSWORD || ' ',
 };
