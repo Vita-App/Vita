@@ -56,3 +56,8 @@ export const CLOUDINARY = {
   api_key: process.env.CLOUDINARY_API_KEY || ' ',
   api_secret: process.env.CLOUDINARY_API_SECRET || ' ',
 };
+
+export const ADMIN = {
+  email: process.env.ADMIN_EMAIL || ' ',
+  password: process.env.ADMIN_PASSWORD || ' ',
+};
