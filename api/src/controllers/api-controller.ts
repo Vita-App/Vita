@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { MentorModel } from '../Models/User';
+import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
 import { FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType } from '../types';
@@ -64,4 +64,18 @@ export const getMentorController = async (req: Request, res: Response) => {
   let mentor;
   if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
   res.json(mentor);
+};
+
+// http://localhost:5000/api/get-users
+export const getUsersController = async (req: Request, res: Response) => {
+  const users = await UserModel.find({});
+  res.json(users);
+};
+
+// http://localhost:5000/api/get-user?id=61a211ab8e41a1fc1c49c2a4
+export const getUserController = async (req: Request, res: Response) => {
+  const id = req.query.id?.toString() || '';
+  let user;
+  if (id && isValidObjectId(id)) user = await UserModel.findById(id);
+  res.json(user);
 };

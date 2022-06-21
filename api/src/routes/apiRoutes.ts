@@ -19,6 +19,8 @@ import {
   getTopicsController,
   getMentorController,
   getMentorsController,
+  getUsersController,
+  getUserController,
 } from '../controllers/api-controller';
 
 import {
@@ -48,6 +50,8 @@ router.post(
 router.post('/reset-password', changePasswordController);
 router.get('/logout', logoutController); // Auth logout
 
+router.get('/get-users', getUsersController);
+router.get('/get-user', getUserController);
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
