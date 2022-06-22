@@ -116,3 +116,7 @@ export type MotivationEnumType =
   | 'Mentorship'
   | 'Leadership'
   | 'Skills';
+
+export interface AdminUser extends Express.User {
+  role: 'admin' | null | undefined;
+}

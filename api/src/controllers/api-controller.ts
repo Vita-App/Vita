@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { FilterQuery, isValidObjectId } from 'mongoose';
+import { Document, FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType } from '../types';
 
 // http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
@@ -78,4 +78,25 @@ export const getUserController = async (req: Request, res: Response) => {
   let user;
   if (id && isValidObjectId(id)) user = await UserModel.findById(id);
   res.json(user);
+};
+
+export const approveMentorController = async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  let mentor: (Document & MentorSchemaType) | null = null;
+  if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
+
+  if (!mentor) {
+    return res.status(401).json({
+      error: 'Mentor Not Found',
+    });
+  }
+
+  mentor.approved = true;
+
+  await mentor.save();
+  return res.status(200).json({
+    success: true,
+    message: 'Mentor Approved!',
+  });
 };

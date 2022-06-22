@@ -49,8 +49,9 @@ AdminSchema.methods.generateOTP = async function () {
 };
 
 AdminSchema.methods.verifyOTP = async function (otp) {
-  if (this.otp === otp && this.validTill > new Date()) {
+  if (this.otp.toString() === otp && this.validTill > new Date()) {
     this.otp = null;
+    this.validTill = null;
     await this.save();
     return true;
   }

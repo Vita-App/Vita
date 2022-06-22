@@ -21,6 +21,7 @@ import {
   getMentorsController,
   getUsersController,
   getUserController,
+  approveMentorController,
 } from '../controllers/api-controller';
 
 import {
@@ -33,6 +34,7 @@ import {
   createAdminController,
 } from '../controllers/admin-controller';
 import { PROD } from '../config/keys';
+import { checkAdmin } from '../middleware/checkAdmin';
 const upload = multer({ storage });
 const router = Router();
 
@@ -63,6 +65,9 @@ router.get('/get-user', getUserController);
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
+
+router.put('/approve-mentor', checkAdmin, approveMentorController);
+
 if (!PROD) {
   router.post('/admin/create', createAdminController);
   router.get('/seed-data', fakeDataController);
