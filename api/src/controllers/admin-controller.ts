@@ -59,6 +59,16 @@ export const adminVerifyOtpController = async (req: Request, res: Response) => {
   });
 };
 
+/*
+curl --location --request POST 'localhost:5000/api/admin/create' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Rishabh Malhtora",
+    "email": "rishabhmalhotraa01@gmail.com",
+    "password": "password"
+}'
+*/
+
 export const createAdminController = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 

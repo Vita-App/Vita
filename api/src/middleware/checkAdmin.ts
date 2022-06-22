@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response, Express } from 'express';
-import { AdminUser } from '../types';
+import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { AdminModel } from '../Models/Admins';
 import { ADMIN_JWT } from '../config/keys';
