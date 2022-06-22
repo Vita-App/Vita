@@ -3,7 +3,7 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import jwtCookieMiddleware from './jwtAuth';
+import { jwtCookieMiddleware } from './jwtAuth';
 import { COOKIE_KEYS, CORS_REGEX, DATABASE_URL } from '../config/keys';
 import MongoStore from 'connect-mongo';
 
@@ -14,7 +14,7 @@ const corsOptions = {
   credentials: true,
 };
 
-const addMiddleWare = (app: Express) => {
+export const useMiddleWare = (app: Express) => {
   app.use(cors(corsOptions));
   app.set('trust proxy', 1);
   app.use(express.json());
@@ -42,5 +42,3 @@ const addMiddleWare = (app: Express) => {
 
   app.use(jwtCookieMiddleware);
 };
-
-export default addMiddleWare;
