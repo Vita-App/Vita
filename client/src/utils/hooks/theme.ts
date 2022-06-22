@@ -8,9 +8,7 @@ const getTheme = (mode: ThemeMode) => {
   let theme = createTheme({
     palette: {
       mode,
-      primary: {
-        main: '#1876d1',
-      },
+
       common: {
         black: '#242424',
       },
