@@ -28,7 +28,6 @@ import {
   // topicDataController,
 } from '../data/fakeData-controller';
 import {
-  adminAuthController,
   adminLoginController,
   adminVerifyOtpController,
   createAdminController,
@@ -58,7 +57,6 @@ router.get('/logout', logoutController); // Auth logout
 
 router.post('/admin/login', adminLoginController);
 router.post('/admin/verify-otp', adminVerifyOtpController);
-router.get('/admin/auth', adminAuthController);
 
 router.get('/get-users', getUsersController);
 router.get('/get-user', getUserController);

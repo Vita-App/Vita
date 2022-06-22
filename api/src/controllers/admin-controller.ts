@@ -3,32 +3,19 @@ import { AdminModel } from '../Models/Admins';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 
-export const adminAuthController = async (req: Request, res: Response) => {
-  if (req.user) {
-    res.status(200).json({
-      isLoggedIn: true,
-      user: req.user,
-    });
-  } else {
-    res.status(200).json({
-      isLoggedIn: false,
-    });
-  }
-};
-
 export const adminLoginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const admin = await AdminModel.findOne({ email });
   if (!admin) {
     return res.status(401).json({
-      message: 'Invalid email or password',
+      error: 'Invalid email or password',
     });
   }
 
   const isPasswordMatch = await admin.comparePassword(password);
   if (!isPasswordMatch) {
     return res.status(401).json({
-      message: 'Invalid email or password',
+      error: 'Invalid email or password',
     });
   }
 
@@ -48,14 +35,14 @@ export const adminVerifyOtpController = async (req: Request, res: Response) => {
   const admin = await AdminModel.findOne({ email });
   if (!admin) {
     return res.status(401).json({
-      message: 'Invalid email or password',
+      error: 'Invalid email or password',
     });
   }
 
   const isOtpMatch = await admin.verifyOTP(otp);
   if (!isOtpMatch) {
     return res.status(401).json({
-      message: 'Invalid OTP',
+      error: 'Invalid OTP',
     });
   }
 

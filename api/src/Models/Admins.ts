@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { AdminSchemaType } from '../types';
 import { ADMIN_JWT } from '../config/keys';
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const AdminSchema = new Schema<AdminSchemaType>({
   name: {
@@ -27,6 +27,7 @@ AdminSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
   next();
 });
 
@@ -41,7 +42,7 @@ AdminSchema.methods.comparePassword = async function (password) {
 };
 
 AdminSchema.methods.generateOTP = async function () {
-  this.otp = Math.floor(Math.random() * 100000);
+  this.otp = Math.floor(Math.random() * 1000000);
   this.validTill = new Date(Date.now() + 1000 * 60 * 60 * 1);
   await this.save();
   return this.otp;
@@ -53,6 +54,7 @@ AdminSchema.methods.verifyOTP = async function (otp) {
     await this.save();
     return true;
   }
+
   return false;
 };
 
