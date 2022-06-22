@@ -7,7 +7,7 @@ import connectDB from './config/connectDatabase';
 import './Models/User';
 import './config/passport-config';
 import socketioService from './service/socket-io-service';
-import useMiddleWare from './middleware/index';
+import useMiddleWare from './middleware/express-setup';
 
 const app = express();
 const httpServer = new http.Server(app);

@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserModel } from '../Models/User';
-import { AdminModel } from '../Models/Admins';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { ADMIN_JWT, JWT } from '../config/keys';
+import { JWT } from '../config/keys';
 
 const verifyToken = async (token: string) => {
   try {

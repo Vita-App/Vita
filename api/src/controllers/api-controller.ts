@@ -4,7 +4,7 @@ import { TopicModel } from '../Models/Topics';
 import { Document, FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType } from '../types';
 
-// http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
+// curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
   const expertise = req.query.expertise?.toString() || 'All';
   const topic = Number(req.query.topic?.toString() || -1);
@@ -48,7 +48,7 @@ export const getMentorsController = async (req: Request, res: Response) => {
   res.json(mentors);
 };
 
-// http://localhost:5000/api/get-topics?textSearch=a
+// curl -X GET http://localhost:5000/api/get-topics?textSearch=a
 export const getTopicsController = async (req: Request, res: Response) => {
   const searchString = req.query.textSearch?.toString() || '';
   let topics;
@@ -58,7 +58,7 @@ export const getTopicsController = async (req: Request, res: Response) => {
   res.json(topics);
 };
 
-// http://localhost:5000/api/get-mentor?id=61a211ab8e41a1fc1c49c2a4
+// curl -X GET http://localhost:5000/api/get-mentor?id=61a211ab8e41a1fc1c49c2a4
 export const getMentorController = async (req: Request, res: Response) => {
   const id = req.query.id?.toString() || '';
   let mentor;
@@ -66,13 +66,13 @@ export const getMentorController = async (req: Request, res: Response) => {
   res.json(mentor);
 };
 
-// http://localhost:5000/api/get-users
+// curl -X GET http://localhost:5000/api/get-users
 export const getUsersController = async (req: Request, res: Response) => {
   const users = await UserModel.find({});
   res.json(users);
 };
 
-// http://localhost:5000/api/get-user?id=61a211ab8e41a1fc1c49c2a4
+// curl -X GET http://localhost:5000/api/get-user?id=61a211ab8e41a1fc1c49c2a4
 export const getUserController = async (req: Request, res: Response) => {
   const id = req.query.id?.toString() || '';
   let user;

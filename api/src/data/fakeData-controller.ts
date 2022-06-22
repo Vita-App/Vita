@@ -3,20 +3,10 @@ import { nanoid } from 'nanoid';
 import { getMentor, getUser } from './index';
 import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { DATABASE_URL } from '../config/keys';
 import chalk from 'chalk';
 import { topics } from '../utils/topicsData';
-import url from 'url';
 
 export const fakeDataController = async (req: Request, res: Response) => {
-  // eslint-disable-next-line node/no-deprecated-api
-  const { hostname } = url.parse(DATABASE_URL, true);
-
-  if (hostname !== 'localhost')
-    return res.status(406).json({
-      message: 'DANGER!',
-    });
-
   await Promise.all([UserModel.deleteMany({}), MentorModel.deleteMany({})]);
 
   console.log(chalk.green('Deleted all users and mentors'));
