@@ -28,6 +28,18 @@ export interface UserSchemaType {
   createVerificationToken: () => string;
 }
 
+export interface AdminSchemaType {
+  name: string;
+  email: string;
+  password: string;
+  otp: number;
+  validTill: Date;
+  comparePassword: (password: string) => Promise<boolean>;
+  verifyOTP: (otp: number) => Promise<boolean>;
+  generateOTP: () => Promise<number>;
+  issueToken: () => string;
+}
+
 export interface TopicSchemaType {
   value: number;
   emojiIcon: string;
@@ -104,3 +116,7 @@ export type MotivationEnumType =
   | 'Mentorship'
   | 'Leadership'
   | 'Skills';
+
+export interface AdminUser extends Express.User {
+  role: 'admin' | null | undefined;
+}

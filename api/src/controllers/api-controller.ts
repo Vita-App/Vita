@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { MentorModel } from '../Models/User';
+import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { FilterQuery, isValidObjectId } from 'mongoose';
+import { Document, FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType } from '../types';
 
 // http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
@@ -64,4 +64,39 @@ export const getMentorController = async (req: Request, res: Response) => {
   let mentor;
   if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
   res.json(mentor);
+};
+
+// http://localhost:5000/api/get-users
+export const getUsersController = async (req: Request, res: Response) => {
+  const users = await UserModel.find({});
+  res.json(users);
+};
+
+// http://localhost:5000/api/get-user?id=61a211ab8e41a1fc1c49c2a4
+export const getUserController = async (req: Request, res: Response) => {
+  const id = req.query.id?.toString() || '';
+  let user;
+  if (id && isValidObjectId(id)) user = await UserModel.findById(id);
+  res.json(user);
+};
+
+export const approveMentorController = async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  let mentor: (Document & MentorSchemaType) | null = null;
+  if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
+
+  if (!mentor) {
+    return res.status(401).json({
+      error: 'Mentor Not Found',
+    });
+  }
+
+  mentor.approved = true;
+
+  await mentor.save();
+  return res.status(200).json({
+    success: true,
+    message: 'Mentor Approved!',
+  });
 };
