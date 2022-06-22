@@ -34,8 +34,8 @@ import {
   createAdminController,
 } from '../controllers/admin-controller';
 import { PROD } from '../config/keys';
-import { checkAdmin } from '../middleware/checkAdmin';
-import { checkDBUrl } from '../middleware/checkDBUrl';
+import { checkAdmin } from '../middleware';
+import { checkDBUrl } from '../middleware';
 const upload = multer({ storage });
 const router = Router();
 
