@@ -3,6 +3,27 @@ import { AdminModel } from '../Models/Admins';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 
+export const adminAuthController = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(200).json({
+      isLoggedIn: false,
+      message: 'User is not logged in.',
+      user: {
+        name: '',
+        image_link: '',
+      },
+      cookies: undefined,
+    });
+  }
+
+  return res.status(200).json({
+    isLoggedIn: true,
+    message: 'User is logged in',
+    user: req.user,
+    cookies: req.cookies,
+  });
+};
+
 export const adminLoginController = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const admin = await AdminModel.findOne({ email });
@@ -82,5 +103,12 @@ export const createAdminController = async (req: Request, res: Response) => {
 
   return res.status(201).json({
     message: 'Admin Created Successfully',
+  });
+};
+
+export const adminLogoutController = async (req: Request, res: Response) => {
+  res.clearCookie('adminToken');
+  return res.json({
+    success: true,
   });
 };

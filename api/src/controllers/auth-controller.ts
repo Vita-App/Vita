@@ -281,7 +281,6 @@ export const sendMailController = async (req: Request, res: Response) => {
 export const logoutController = (req: Request, res: Response) => {
   req.logout();
   res.clearCookie('jwt');
-  res.clearCookie('adminToken');
   req.session.destroy((err) => {
     if (!err) {
       res.status(200).clearCookie('connect.sid', { path: '/' });

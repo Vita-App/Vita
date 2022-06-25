@@ -2,7 +2,9 @@ import { Request, Response } from 'express';
 import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
 import { Document, FilterQuery, isValidObjectId } from 'mongoose';
-import { MentorSchemaType } from '../types';
+import { MentorSchemaType, UserSchemaType } from '../types';
+import { sendEmail } from '../service/email-service';
+import { makeTemplate } from '../templates';
 
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
@@ -92,11 +94,60 @@ export const approveMentorController = async (req: Request, res: Response) => {
     });
   }
 
+  const user = await UserModel.findOne({ mentor_information: mentor._id });
+
   mentor.approved = true;
 
   await mentor.save();
+
+  try {
+    await sendEmail(
+      user!.email,
+      'Vita Application Approved!',
+      makeTemplate('acceptMentor.hbs'),
+    );
+  } catch (err) {
+    return res.status(500).json({
+      message: "Email didn't sent",
+    });
+  }
+
   return res.status(200).json({
     success: true,
     message: 'Mentor Approved!',
   });
+};
+
+export const rejectController = async (req: Request, res: Response) => {
+  const { id } = req.query;
+
+  let user: (Document & UserSchemaType) | null = null;
+  if (id && isValidObjectId(id)) user = await UserModel.findById(id);
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User didn't found!",
+    });
+  }
+
+  await Promise.all([
+    user.delete(),
+    MentorModel.deleteOne({ _id: user.mentor_information }),
+  ]);
+
+  try {
+    await sendEmail(
+      user.email,
+      'Vita Application rejected',
+      makeTemplate('rejectMentor.hbs'),
+    );
+    return res.status(200).json({
+      success: true,
+      message: 'Mentor rejected successfully!',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Email didn't sent",
+    });
+  }
 };

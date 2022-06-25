@@ -22,6 +22,7 @@ export const checkAdmin = async (
   if (adminToken) {
     const admin = await verifyAdminToken(adminToken);
     if (admin) {
+      req.user = admin;
       return next();
     }
   }
