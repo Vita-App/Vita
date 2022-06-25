@@ -36,10 +36,11 @@ export interface DurationType {
 }
 
 export interface ExperienceType {
+  id: string;
   company: string;
   role: string;
-  start_year: string;
-  end_year: string;
+  start_year?: string;
+  end_year?: string;
 }
 
 export type Timeslot = Record<DayEnumType, DurationType>;
