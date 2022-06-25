@@ -102,14 +102,14 @@ export const jwtLoginController = async (req: Request, res: Response) => {
 };
 
 export const jwtSignupController = async (req: Request, res: Response) => {
-  const { email, password, first_name, last_name, checkbox } = req.body;
+  const { email, password, first_name, last_name, mentor } = req.body;
 
   const user = new UserModel({
     email,
     password,
     first_name,
     last_name,
-    is_mentor: checkbox,
+    is_mentor: mentor,
   });
 
   const presentUser = await UserModel.findOne({ email });
