@@ -90,6 +90,7 @@ export interface MentorSchemaType {
   topics: number[];
   time_slots: Record<DayEnumType, DurationType>;
   approved: boolean;
+  top_mentor: boolean;
 }
 
 export interface Room {

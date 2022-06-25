@@ -49,6 +49,10 @@ const MentorSchema = new Schema<MentorSchemaType>({
   languages: [String],
   is_mentoring: Boolean,
   topics: [Number],
+  top_mentor: {
+    type: Boolean,
+    default: false,
+  },
   time_slots: {
     monday: [{ type: Duration }],
     tuesday: [{ type: Duration }],
