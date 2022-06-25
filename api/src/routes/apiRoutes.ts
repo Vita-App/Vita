@@ -23,6 +23,8 @@ import {
   getUserController,
   approveMentorController,
   rejectController,
+  getTopMentorsController,
+  changeTopMentorStatusController,
 } from '../controllers/api-controller';
 
 import {
@@ -70,10 +72,12 @@ router.get('/get-users', getUsersController);
 router.get('/get-user', getUserController);
 router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
+router.get('/top-mentors', getTopMentorsController);
 router.get('/get-topics', getTopicsController);
 
 router.put('/approve-mentor', checkAdmin, approveMentorController);
 router.get('/reject-mentor', checkAdmin, rejectController);
+router.put('/change-topmentor', checkAdmin, changeTopMentorStatusController);
 
 if (!PROD) {
   router.post('/admin/create', checkDBUrl, createAdminController);

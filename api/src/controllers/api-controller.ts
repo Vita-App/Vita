@@ -50,6 +50,12 @@ export const getMentorsController = async (req: Request, res: Response) => {
   res.json(mentors);
 };
 
+export const getTopMentorsController = async (req: Request, res: Response) => {
+  const mentors = await MentorModel.find({ top_mentor: true });
+
+  return res.status(200).json(mentors);
+};
+
 // curl -X GET http://localhost:5000/api/get-topics?textSearch=a
 export const getTopicsController = async (req: Request, res: Response) => {
   const searchString = req.query.textSearch?.toString() || '';
@@ -150,4 +156,43 @@ export const rejectController = async (req: Request, res: Response) => {
       message: "Email didn't sent",
     });
   }
+};
+
+export const changeTopMentorStatusController = async (
+  req: Request,
+  res: Response,
+) => {
+  const { id } = req.body;
+
+  let mentor: (Document & MentorSchemaType) | null = null;
+  if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
+
+  if (!mentor) {
+    return res.status(401).json({
+      error: 'Mentor Not Found',
+    });
+  }
+
+  const user = await UserModel.findOne({ mentor_information: mentor._id });
+
+  mentor.top_mentor = !mentor.top_mentor;
+
+  await mentor.save();
+
+  try {
+    await sendEmail(
+      user!.email,
+      'Vita top mentor',
+      makeTemplate('topMentor.hbs', { top_mentor: mentor.top_mentor }),
+    );
+  } catch (err) {
+    return res.status(500).json({
+      message: "Email didn't sent",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: 'Mentor Approved!',
+  });
 };

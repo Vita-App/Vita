@@ -18,6 +18,14 @@ export const getMentors = async (expertise = 'All', topic = -1, limit = 0) => {
   return response;
 };
 
+export const getTopMentors = async () => {
+  const { data: response } = await axios.get<MentorSchemaType[]>(
+    `${SERVER_URL}/api/top-mentors`,
+  );
+
+  return response;
+};
+
 export const convertToFormData = (data: FieldValues) => {
   const form = new FormData();
 

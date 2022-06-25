@@ -186,4 +186,5 @@ export const getMentor = (
   twitter: 'https://twitter.com/',
   experiences: getRandomExperiences(3),
   time_slots: getRandomTimeSlots(),
+  top_mentor: getRandomBool(-0.3),
 });
