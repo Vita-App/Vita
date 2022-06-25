@@ -30,7 +30,7 @@ const SignUpSteps: React.FC = () => {
       email: auth.user?.email,
     },
   });
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [interests, setInterests] = useState<string[]>([]);
 
   const getTopicsArray = (topics: any) => {

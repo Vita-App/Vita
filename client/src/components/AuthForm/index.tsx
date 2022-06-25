@@ -18,6 +18,8 @@ import {
   FormControlLabel,
   Stack,
   LinearProgress,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
 import {
   Google,
@@ -71,7 +73,7 @@ const AuthForm: React.FC = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
   };
 
-  const getPattern = (authMode: AuthMode, isMentor: any) => {
+  const getPattern = (authMode: AuthMode, isMentor: boolean) => {
     if (!isMentor && authMode === AuthMode.signup)
       return {
         value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
@@ -119,7 +121,7 @@ const AuthForm: React.FC = () => {
         async () => {
           const { data } = await axios.post(
             `${SERVER_URL}/api/auth/signup`,
-            formData,
+            { ...formData, mentor: role === 'mentor' },
             {
               withCredentials: true,
             },
@@ -141,6 +143,8 @@ const AuthForm: React.FC = () => {
   const linkedInLogin = () => {
     window.location.href = `${SERVER_URL}/api/auth/linkedin`;
   };
+
+  const role = watch('role');
 
   return (
     <Stack
@@ -177,7 +181,7 @@ const AuthForm: React.FC = () => {
           rules={{
             required: 'Email is required',
             pattern: {
-              ...getPattern(authMode, watch('checkbox')),
+              ...getPattern(authMode, role === 'mentor'),
             },
           }}
           render={({ field }) => (
@@ -226,14 +230,14 @@ const AuthForm: React.FC = () => {
         {!loginMode && (
           <Stack direction="row" alignItems="center">
             <Controller
-              name="checkbox"
+              name="role"
               control={control}
-              defaultValue={false}
+              defaultValue={null}
               render={({ field }) => (
-                <FormControlLabel
-                  control={<Checkbox {...field} />}
-                  label="Registering as a Mentor?"
-                />
+                <ToggleButtonGroup exclusive {...field} color="primary">
+                  <ToggleButton value="mentee">Mentee</ToggleButton>
+                  <ToggleButton value="mentor">Mentor</ToggleButton>
+                </ToggleButtonGroup>
               )}
             />
             <Typography variant="body2"></Typography>
@@ -257,13 +261,14 @@ const AuthForm: React.FC = () => {
         color="primary"
         variant="contained"
         type="submit"
-        disabled={loading}>
+        disabled={loading || (!loginMode && !role)}>
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton
         fullWidth
         color="inherit"
         variant="outlined"
+        disabled={loading || (!loginMode && !role)}
         onClick={googleLogin}>
         <Google sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with Google
@@ -272,6 +277,7 @@ const AuthForm: React.FC = () => {
         fullWidth
         color="inherit"
         variant="outlined"
+        disabled={loading || (!loginMode && !role)}
         onClick={linkedInLogin}>
         <LinkedIn sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with LinkedIn
