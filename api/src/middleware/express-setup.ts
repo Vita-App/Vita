@@ -6,6 +6,7 @@ import session from 'express-session';
 import { jwtCookieMiddleware } from './jwtAuth';
 import { COOKIE_KEYS, CORS_REGEX, DATABASE_URL } from '../config/keys';
 import MongoStore from 'connect-mongo';
+import path from 'path';
 
 const corsOptions = {
   origin: new RegExp(CORS_REGEX),
@@ -18,6 +19,7 @@ export const useMiddleWare = (app: Express) => {
   app.use(cors(corsOptions));
   app.set('trust proxy', 1);
   app.use(express.json());
+  app.use(express.static(path.join(__dirname, '..', 'public')));
   app.use(cookieParser()); // Parse cookies
 
   app.use(express.urlencoded({ extended: true }));

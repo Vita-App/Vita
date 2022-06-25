@@ -22,6 +22,7 @@ import {
   getUsersController,
   getUserController,
   approveMentorController,
+  rejectController,
 } from '../controllers/api-controller';
 
 import {
@@ -29,7 +30,9 @@ import {
   // topicDataController,
 } from '../data/fakeData-controller';
 import {
+  adminAuthController,
   adminLoginController,
+  adminLogoutController,
   adminVerifyOtpController,
   createAdminController,
 } from '../controllers/admin-controller';
@@ -42,6 +45,7 @@ const router = Router();
 // We will do our re-routing from the client side just send information from here
 // GET to /api/auth will return current logged in user info
 router.get('/auth', authController);
+router.get('/admin/auth', checkAdmin, adminAuthController);
 router.post('/send-email', sendMailController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
@@ -57,6 +61,7 @@ router.post(
 );
 router.post('/reset-password', changePasswordController);
 router.get('/logout', logoutController); // Auth logout
+router.get('/admin/logout', adminLogoutController); // Auth logout
 
 router.post('/admin/login', adminLoginController);
 router.post('/admin/verify-otp', adminVerifyOtpController);
@@ -68,6 +73,7 @@ router.get('/get-mentors', getMentorsController);
 router.get('/get-topics', getTopicsController);
 
 router.put('/approve-mentor', checkAdmin, approveMentorController);
+router.get('/reject-mentor', checkAdmin, rejectController);
 
 if (!PROD) {
   router.post('/admin/create', checkDBUrl, createAdminController);
