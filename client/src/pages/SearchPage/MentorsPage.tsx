@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
@@ -10,6 +10,7 @@ import { expertiseState, topicState } from 'store';
 import { useInfiniteQuery, InfiniteData } from 'react-query';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { getMentors, GetMentorsResponse } from 'utils/api-helper';
 
@@ -65,9 +66,9 @@ const RenderCards = ({
 
   return (
     <CardContainer container>
-      {data.pages.map((page) => page.mentors.map((user, index) => (
-          <UserCard key={index} user={user} />
-        )))}
+      {data.pages.map((page) =>
+        page.mentors.map((user, index) => <UserCard key={index} user={user} />),
+      )}
     </CardContainer>
   );
 };
@@ -85,32 +86,27 @@ const MentorsPage = () => {
       ['mentors', expertiseValue, topic],
       ({ pageParam }) => getMentors(expertiseValue, topic, pageParam),
       {
-        getNextPageParam: (lastPage) => lastPage.nextPage === null ? undefined : lastPage.nextPage,
-        getPreviousPageParam: (lastPage) => lastPage.prevPage === null ? undefined : lastPage.prevPage,
+        getNextPageParam: (lastPage) =>
+          lastPage.nextPage === null ? undefined : lastPage.nextPage,
+        getPreviousPageParam: (lastPage) =>
+          lastPage.prevPage === null ? undefined : lastPage.prevPage,
       },
     );
 
-  useEffect(() => {
-    const onScroll = async (e: any) => {
-      let fetching = false;
-      const { scrollHeight, scrollTop, clientHeight } =
-        e.target.scrollingElement;
-
-      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
-        fetching = true;
-        if (hasNextPage) await fetchNextPage();
-        fetching = false;
-      }
-    };
-
-    document.addEventListener('scroll', onScroll);
-
-    return () => document.removeEventListener('scroll', onScroll);
-  }, []);
-
   const content =
     isLoading === false ? (
-      <RenderCards isLoading={isLoading} data={data} />
+      <>
+        <InfiniteScroll
+          dataLength={
+            data?.pages.reduce((acc, page) => page.mentors.length + acc, 0) || 0
+          }
+          next={fetchNextPage}
+          hasMore={Boolean(hasNextPage)}
+          loader={<h3>Loading...</h3>}>
+          {null}
+        </InfiniteScroll>
+        <RenderCards isLoading={isLoading} data={data} />
+      </>
     ) : (
       <StyledBox>
         <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
