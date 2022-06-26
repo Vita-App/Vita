@@ -13,7 +13,8 @@ import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
-import ForgotPassword from './ForgotPassword';
+import ForgotPassword from 'pages/ForgotPassword';
+import Banner from 'components/Banner';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -59,6 +60,7 @@ const App = () => {
   return (
     <Suspense fallback={<Loader />}>
       <ToastContainer position="bottom-left" />
+      <Banner />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route element={<ProtectedRoute redirectTo="/dashboard" inverse />}>

@@ -5,6 +5,7 @@ import { Document, FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType, UserSchemaType } from '../types';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
+import { BannerModel } from '../Models/Banner';
 
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
@@ -63,7 +64,7 @@ export const getTopicsController = async (req: Request, res: Response) => {
   if (searchString)
     topics = await TopicModel.find({ $text: { $search: searchString } });
 
-  res.json(topics);
+  return res.json(topics);
 };
 
 // curl -X GET http://localhost:5000/api/get-mentor?id=61a211ab8e41a1fc1c49c2a4
@@ -195,4 +196,26 @@ export const changeTopMentorStatusController = async (
     success: true,
     message: 'Mentor Approved!',
   });
+};
+
+export const modifyBanner = async (req: Request, res: Response) => {
+  const deletePromise = BannerModel.deleteMany({});
+  const createPromise = BannerModel.create(req.body);
+
+  try {
+    const [banner] = await Promise.all([createPromise, deletePromise]);
+
+    return res.status(200).json({
+      success: true,
+      banner,
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const getBanner = async (req: Request, res: Response) => {
+  const banner = await BannerModel.findOne({});
+
+  return res.json(banner || {});
 };
