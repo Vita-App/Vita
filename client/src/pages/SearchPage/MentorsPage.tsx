@@ -65,11 +65,9 @@ const RenderCards = ({
 
   return (
     <CardContainer container>
-      {data.pages.map((page) => {
-        return page.mentors.map((user, index) => (
+      {data.pages.map((page) => page.mentors.map((user, index) => (
           <UserCard key={index} user={user} />
-        ));
-      })}
+        )))}
     </CardContainer>
   );
 };
@@ -87,12 +85,8 @@ const MentorsPage = () => {
       ['mentors', expertiseValue, topic],
       ({ pageParam }) => getMentors(expertiseValue, topic, pageParam),
       {
-        getNextPageParam: (lastPage) => {
-          return lastPage.nextPage === null ? undefined : lastPage.nextPage;
-        },
-        getPreviousPageParam: (lastPage) => {
-          return lastPage.prevPage === null ? undefined : lastPage.prevPage;
-        },
+        getNextPageParam: (lastPage) => lastPage.nextPage === null ? undefined : lastPage.nextPage,
+        getPreviousPageParam: (lastPage) => lastPage.prevPage === null ? undefined : lastPage.prevPage,
       },
     );
 

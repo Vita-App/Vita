@@ -9,7 +9,7 @@ import { makeTemplate } from '../templates';
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&page=1&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
   const page = Number(req.query.page || '1');
-  let totalPages: number = 0;
+  let totalPages = 0;
   let nextPage: number | null = null;
   let prevPage: number | null = null;
   const expertise = req.query.expertise?.toString() || 'All';
