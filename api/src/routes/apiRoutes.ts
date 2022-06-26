@@ -25,6 +25,8 @@ import {
   rejectController,
   getTopMentorsController,
   changeTopMentorStatusController,
+  modifyBanner,
+  getBanner,
 } from '../controllers/api-controller';
 
 import {
@@ -78,6 +80,9 @@ router.get('/get-topics', getTopicsController);
 router.put('/approve-mentor', checkAdmin, approveMentorController);
 router.get('/reject-mentor', checkAdmin, rejectController);
 router.put('/change-topmentor', checkAdmin, changeTopMentorStatusController);
+
+router.post('/modify-banner', checkAdmin, modifyBanner);
+router.get('/get-banner', getBanner);
 
 if (!PROD) {
   router.post('/admin/create', checkDBUrl, createAdminController);

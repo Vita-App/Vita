@@ -11,11 +11,9 @@ import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Typography,
-  Checkbox,
   Button,
   TextField,
   IconButton,
-  FormControlLabel,
   Stack,
   LinearProgress,
   ToggleButtonGroup,
