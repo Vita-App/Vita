@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
@@ -7,11 +7,11 @@ import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { expertiseState, topicState } from 'store';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, InfiniteData } from 'react-query';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { getMentors } from 'utils/api-helper';
+import { getMentors, GetMentorsResponse } from 'utils/api-helper';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -54,26 +54,22 @@ const CardContainer = styled(Grid)({
   marginTop: '3rem',
 });
 
-// @ts-ignore
 const RenderCards = ({
   isLoading,
   data,
 }: {
   isLoading: boolean;
-  data: any[];
+  data?: InfiniteData<GetMentorsResponse>;
 }) => {
-  if (isLoading || typeof data === 'undefined') return <div />;
+  if (isLoading || !data) return <div />;
 
-  const users = data.slice(0, 50);
   return (
     <CardContainer container>
-      {users.map((user, index) => (
-        <UserCard
-          key={index}
-          // @ts-ignore
-          user={user}
-        />
-      ))}
+      {data.pages.map((page) => {
+        return page.mentors.map((user, index) => (
+          <UserCard key={index} user={user} />
+        ));
+      })}
     </CardContainer>
   );
 };
@@ -86,16 +82,41 @@ const MentorsPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { isLoading, data } = useQuery(['mentors', expertiseValue, topic], () =>
-    getMentors(expertiseValue, topic),
-  );
+  const { isLoading, data, fetchNextPage, hasNextPage } =
+    useInfiniteQuery<GetMentorsResponse>(
+      ['mentors', expertiseValue, topic],
+      ({ pageParam }) => getMentors(expertiseValue, topic, pageParam),
+      {
+        getNextPageParam: (lastPage) => {
+          return lastPage.nextPage === null ? undefined : lastPage.nextPage;
+        },
+        getPreviousPageParam: (lastPage) => {
+          return lastPage.prevPage === null ? undefined : lastPage.prevPage;
+        },
+      },
+    );
+
+  useEffect(() => {
+    const onScroll = async (e: any) => {
+      let fetching = false;
+      const { scrollHeight, scrollTop, clientHeight } =
+        e.target.scrollingElement;
+
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true;
+        if (hasNextPage) await fetchNextPage();
+        fetching = false;
+      }
+    };
+
+    document.addEventListener('scroll', onScroll);
+
+    return () => document.removeEventListener('scroll', onScroll);
+  }, []);
+
   const content =
     isLoading === false ? (
-      <RenderCards
-        isLoading={isLoading}
-        // @ts-ignore
-        data={data}
-      />
+      <RenderCards isLoading={isLoading} data={data} />
     ) : (
       <StyledBox>
         <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
