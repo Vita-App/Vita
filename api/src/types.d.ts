@@ -49,6 +49,12 @@ export interface TopicSchemaType {
   topicDescription: string;
 }
 
+export interface BannerSchemaType {
+  content: string;
+  height: number;
+  show: boolean;
+}
+
 type DayEnumType =
   | 'monday'
   | 'tuesday'
