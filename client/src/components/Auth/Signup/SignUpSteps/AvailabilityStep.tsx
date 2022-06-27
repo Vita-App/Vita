@@ -11,6 +11,7 @@ import {
 import { StyledButton } from './utils';
 import DayTimePicker from 'components/DayTimePicker';
 import { SlotType } from 'types';
+import { transformSlots } from 'utils/helper';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -29,7 +30,8 @@ const AvailabilityStep: React.FC<{
   };
 
   const onContinueClick = () => {
-    props.onContinue(2, availability);
+    console.log(transformSlots(availability));
+    // props.onContinue(2, availability);
   };
 
   const onDayChange = (day: string, slots: SlotType[]) => {
