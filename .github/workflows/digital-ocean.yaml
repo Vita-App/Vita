@@ -20,9 +20,7 @@ jobs:
             git clone https://github.com/Vita-App/Vita.git
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cd ~/Vita/api && npm install
-            cp ~/env/.env ~/Vita/api/dist/src   
-            cd ~
+            cd ~/Vita/api && npm install && cd ~/
             pm2 stop vita-server
-            pm2 start ~/Vita/api/dist/src/index.js --name "vita-server"
+            pm2 start ~/env/ecosystem.config.js --env production
             echo 'Deployment successful to digital ocean'
