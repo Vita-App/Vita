@@ -16,12 +16,13 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
           script: |
-            rm -rf Vita
+            rm -rf ~/Vita
             git clone https://github.com/Vita-App/Vita.git
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            cp ~/env/.env ~/Vita/api/   
-            cd Vita/api && npm install
+            cd ~/Vita/api && npm install
+            cp ~/env/.env ~/Vita/api/dist/src   
+            cd ~
             pm2 stop vita-server
-            pm2 start dist/src/index.js --name "vita-server"
+            pm2 start ~/Vita/api/dist/src/index.js --name "vita-server"
             echo 'Deployment successful to digital ocean'
