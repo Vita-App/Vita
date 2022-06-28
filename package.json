@@ -35,5 +35,8 @@
     "hooks": {
       "pre-commit": "npm run pre-commit"
     }
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.34"
   }
 }

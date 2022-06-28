@@ -1,4 +1,5 @@
 import { SlotType } from 'types';
+import moment from 'moment-timezone';
 
 export const commaString = (words: string[] | undefined) => {
   let result = '';
@@ -44,7 +45,7 @@ const WeekDays: { [key: string]: number } = {
 };
 
 export const transformSlots = (slots: any) => {
-  console.log(slots);
+  console.log('==== Converted Slots to America/New_York Timezone ====');
   return Object.keys(slots).reduce((acc, day) => {
     let daySlots = slots[day] as SlotType[];
 
@@ -57,7 +58,7 @@ export const transformSlots = (slots: any) => {
         newStartDate.setHours(slot.start.getHours());
         newStartDate.setMinutes(slot.start.getMinutes());
 
-        let offsetDay: number = newStartDate.getDay() - WeekDays[day];
+        const offsetDay: number = newStartDate.getDay() - WeekDays[day];
         newStartDate.setDate(newStartDate.getDate() - offsetDay);
       }
 
@@ -66,9 +67,28 @@ export const transformSlots = (slots: any) => {
         newEndDate.setHours(slot.end.getHours());
         newEndDate.setMinutes(slot.end.getMinutes());
 
-        let offsetDay: number = newEndDate.getDay() - WeekDays[day];
+        const offsetDay: number = newEndDate.getDay() - WeekDays[day];
         newEndDate.setDate(newEndDate.getDate() - offsetDay);
       }
+
+      const timeZoneStart = moment(newStartDate);
+      const timeZoneEnd = moment(newEndDate);
+
+      console.log(
+        'Start: (Asia/Calcutta)',
+        timeZoneStart.format('ddd, h:mm a'),
+      );
+      console.log('End: (Asia/Calcutta)', timeZoneEnd.format('ddd, h:mm a'));
+
+      console.log(
+        'Start (America/New_York): ',
+        timeZoneStart.tz('America/New_York').format('ddd, h:mm a'),
+      );
+      console.log(
+        'End (America/New_York): ',
+        timeZoneEnd.tz('America/New_York').format('ddd, h:mm a'),
+      );
+      console.log('================================================');
 
       return {
         id: slot.id,
