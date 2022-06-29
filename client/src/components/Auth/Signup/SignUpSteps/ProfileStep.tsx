@@ -4,9 +4,9 @@ import { Stack, Typography, Avatar, Chip } from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
   StyledTextField,
-  StyledButton,
+  MuiStyledButton as StyledButton,
   StyledReactSelect as Select,
-} from './utils';
+} from 'components/common';
 
 const ProfileStep: React.FC<{
   onContinue: (step: number, formData: FieldValues) => void;
@@ -18,7 +18,7 @@ const ProfileStep: React.FC<{
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm(props.hydrate);
+  } = useForm();
 
   const [avatarSrc, setAvatarSrc] = useState('');
   const profilePicRef = useRef<HTMLInputElement>();

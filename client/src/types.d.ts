@@ -19,14 +19,7 @@ export interface Topic {
   emojiBadge: string;
 }
 
-export type DayEnumType =
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday'
-  | 'sunday';
+export type DayEnumType = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 
 export interface DurationType {
   start_hour: number;
@@ -42,8 +35,6 @@ export interface ExperienceType {
   start_year?: string;
   end_year?: string;
 }
-
-export type Timeslot = Record<DayEnumType, DurationType>;
 
 export interface MentorSchemaType {
   _id: string;
@@ -61,7 +52,7 @@ export interface MentorSchemaType {
   linkedIn: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slots: Timeslot;
+  time_slots: SlotType[];
 }
 
 export type MotivationEnumType =
@@ -72,10 +63,17 @@ export type MotivationEnumType =
   | 'Skills';
 
 export interface SlotType {
-  id: number;
   start: Date | null;
   end: Date | null;
 }
+
+export type AvailabilitySlots = {
+  [key: string]: {
+    checked: boolean;
+    label: string;
+    value: SlotType;
+  }[];
+};
 
 export type VerificationResponseType = {
   success: boolean;
