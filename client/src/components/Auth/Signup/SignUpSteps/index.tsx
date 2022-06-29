@@ -14,6 +14,7 @@ import { SERVER_URL } from 'config.keys';
 import useHttp from 'hooks/useHttp';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { transformSlots } from 'utils/helper';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
@@ -30,7 +31,7 @@ const SignUpSteps: React.FC = () => {
       email: auth.user?.email,
     },
   });
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
   const [interests, setInterests] = useState<string[]>([]);
 
   const getTopicsArray = (topics: any) => {
@@ -49,10 +50,7 @@ const SignUpSteps: React.FC = () => {
     if (!auth.user!.is_mentor && step === 0) {
       const apiData = convertToFormData({
         ...formData[0],
-        ...formData[1],
-        available: { ...formData[2] },
         interests,
-        topics: getTopicsArray(formData[1].topics),
       });
 
       sendRequest(
@@ -79,7 +77,7 @@ const SignUpSteps: React.FC = () => {
       const apiData = convertToFormData({
         ...formData[0],
         ...formData[1],
-        available: { ...formData[2] },
+        timeSlots: transformSlots(formData[2].slots),
         interests,
         topics: getTopicsArray(formData[1].topics),
       });

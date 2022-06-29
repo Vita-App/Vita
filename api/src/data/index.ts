@@ -1,8 +1,8 @@
+import { Types } from 'mongoose';
 import {
   MentorSchemaType,
   UserSchemaType,
   DurationType,
-  DayEnumType,
   ExperienceType,
 } from '../types';
 import {
@@ -19,7 +19,6 @@ import {
   streams,
 } from './fakeData';
 import faker from '@faker-js/faker';
-const ENTRIES = 100;
 
 const getRandom = <T>(array: T[]): T => {
   const idx = Math.floor(Math.random() * array.length);
@@ -65,31 +64,28 @@ const getRandomArray = <T>(
 const randomDate = (start: Date, end: Date) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
-const getRandomTimeSlots = (): Record<DayEnumType, DurationType> => {
-  const Days: DayEnumType[] = [
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-    'sunday',
-  ];
+const getRandomTimeSlots = (): DurationType[] => {
+  const Days = [0, 1, 2, 3, 4, 5, 6];
 
-  const timeSlots: Record<DayEnumType, DurationType> = {} as Record<
-    DayEnumType,
-    DurationType
-  >;
+  const timeSlots: DurationType[] = [];
 
   Days.forEach((day) => {
     const start_hour = Math.floor(Math.random() * 23);
+    const start = new Date();
+    const offsetStart = start.getDay() - day;
+    start.setDate(start.getDate() - offsetStart);
+    start.setHours(start_hour);
     const end_hour = Math.min(23, start_hour + Math.ceil(Math.random() * 4));
-    timeSlots[day] = {
-      start_hour,
-      end_hour,
+    const end = new Date();
+    const offsetEnd = end.getDay() - day;
+    end.setDate(end.getDate() - offsetEnd);
+    end.setHours(end_hour);
+
+    timeSlots.push({
+      start,
+      end,
       available: getRandomBool(-0.1),
-      locale: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    };
+    });
   });
 
   return timeSlots;
@@ -129,7 +125,7 @@ export const getUser = (user_id: string) => {
   const is_mentor = getRandomBool();
   const signup_completed = getRandomBool();
   const mentor_information = undefined;
-  const bookings: any[] = [];
+  const bookings: Types.ObjectId[] = [];
   const create_time = randomDate(new Date(2021, 11, 8), new Date());
   const graduation_year = getRandom(graduationYears).toString();
 

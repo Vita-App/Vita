@@ -8,7 +8,7 @@ import sendVerificationMail from '../utils/sendVerificationMail';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 import parseFormData from '../utils/parseFormData';
-import { UserSchemaType } from '../types';
+import { SelectOption, UserSchemaType } from '../types';
 
 export const loginFailedController = (req: Request, res: Response) => {
   res.status(401).json({
@@ -320,10 +320,15 @@ export const registerUserController = async (req: Request, res: Response) => {
   if (user.is_mentor) {
     const mentor = new MentorModel({
       ...user.toObject(),
+      time_slots: data.timeSlots,
       experiences: data.experiences,
-      topics: data.topics?.map((topic: any) => topic.value),
-      expertise: data.expertise?.map((expertise: any) => expertise.value),
-      languages: data.languages?.map((language: any) => language.value),
+      topics: data.topics?.map((topic: SelectOption) => topic.value),
+      expertise: data.expertise?.map(
+        (expertise: SelectOption) => expertise.value,
+      ),
+      languages: data.languages?.map(
+        (language: SelectOption) => language.value,
+      ),
       linkedIn: data.linkedin,
       twitter: data.twitter,
     });

@@ -5,9 +5,9 @@ import { Stack, Typography, IconButton } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 import {
   StyledTextField,
-  StyledButton,
+  MuiStyledButton as StyledButton,
   StyledReactSelect as Select,
-} from './utils';
+} from 'components/common';
 import { LanguageOptions, getTopicOptions, expertiseOptions } from 'data';
 import { ExperienceType } from 'types';
 
@@ -31,7 +31,7 @@ const ExperienceStep: React.FC<{
     control,
     formState: { errors },
     getValues,
-  } = useForm(props.hydrate);
+  } = useForm();
 
   const onSubmit = (formData: FieldValues) => {
     // Continuing to the next step through props instead of continuing in the index.tsx component, because I wanted to do validation here before continuing.

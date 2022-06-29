@@ -10,15 +10,11 @@ import {
 import { EMAIL_VERIFICATION_JWT, JWT } from '../config/keys';
 
 const Duration = new Schema<DurationType>({
-  start_hour: Date,
-  end_hour: Date,
+  start: Date,
+  end: Date,
   available: {
     type: Boolean,
     default: true,
-  },
-  locale: {
-    type: String,
-    default: Intl.DateTimeFormat().resolvedOptions().locale,
   },
 });
 
@@ -54,13 +50,7 @@ const MentorSchema = new Schema<MentorSchemaType>({
     default: false,
   },
   time_slots: {
-    monday: [{ type: Duration }],
-    tuesday: [{ type: Duration }],
-    wednesday: [{ type: Duration }],
-    thursday: [{ type: Duration }],
-    friday: [{ type: Duration }],
-    saturday: [{ type: Duration }],
-    sunday: [{ type: Duration }],
+    type: [Duration],
   },
   approved: {
     type: Boolean,

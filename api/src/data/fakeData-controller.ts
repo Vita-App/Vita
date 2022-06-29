@@ -21,6 +21,7 @@ export const fakeDataController = async (req: Request, res: Response) => {
       userData.last_name,
       userData.avatar.url!,
     );
+
     const user = new UserModel(userData);
     const mentor = new MentorModel(mentorData);
     user.mentor_information = mentor._id;

@@ -1,5 +1,4 @@
-import { SlotType } from 'types';
-import moment from 'moment-timezone';
+import { AvailabilitySlots, SlotType } from 'types';
 
 export const commaString = (words: string[] | undefined) => {
   let result = '';
@@ -44,12 +43,12 @@ const WeekDays: { [key: string]: number } = {
   Sat: 6,
 };
 
-export const transformSlots = (slots: any) => {
-  console.log('==== Converted Slots to America/New_York Timezone ====');
-  return Object.keys(slots).reduce((acc, day) => {
-    let daySlots = slots[day] as SlotType[];
+export const transformSlots = (slots: AvailabilitySlots) =>
+  Object.keys(slots).reduce((acc, day) => {
+    if (!slots[day]) return [...acc];
 
-    daySlots = daySlots.map((slot) => {
+    const daySlots = slots[day].map((s) => {
+      const slot = s.value;
       let newStartDate: Date | null = null;
       let newEndDate: Date | null = null;
 
@@ -71,27 +70,7 @@ export const transformSlots = (slots: any) => {
         newEndDate.setDate(newEndDate.getDate() - offsetDay);
       }
 
-      const timeZoneStart = moment(newStartDate);
-      const timeZoneEnd = moment(newEndDate);
-
-      console.log(
-        'Start: (Asia/Calcutta)',
-        timeZoneStart.format('ddd, h:mm a'),
-      );
-      console.log('End: (Asia/Calcutta)', timeZoneEnd.format('ddd, h:mm a'));
-
-      console.log(
-        'Start (America/New_York): ',
-        timeZoneStart.tz('America/New_York').format('ddd, h:mm a'),
-      );
-      console.log(
-        'End (America/New_York): ',
-        timeZoneEnd.tz('America/New_York').format('ddd, h:mm a'),
-      );
-      console.log('================================================');
-
       return {
-        id: slot.id,
         start: newStartDate,
         end: newEndDate,
       };
@@ -99,4 +78,28 @@ export const transformSlots = (slots: any) => {
 
     return [...acc, ...daySlots];
   }, [] as SlotType[]);
+
+// export const changeSlotsTimezone = (
+//   slots: AvailabilitySlots,
+//   timeZone: string,
+// ) => {
+//   const newSlots = {};
+
+//   Object.keys(slots).forEach((day) => {
+//     slots[day].forEach((slot) => {
+//       const momentStart = moment(slot.start);
+//       const momentEnd = moment(slot.end);
+//       momentStart.tz(timeZone);
+//       momentEnd.tz(timeZone);
+//     });
+//   });
+// };
+
+export const isObjectEmpty = (obj: Object): boolean => {
+  if (!obj) return true;
+  if (obj === {} || obj === []) return true;
+
+  return Object.values(obj).every(
+    (val: any) => !val || val === [] || val === {},
+  );
 };

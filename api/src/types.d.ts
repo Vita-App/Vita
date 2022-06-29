@@ -65,10 +65,9 @@ type DayEnumType =
   | 'sunday';
 
 interface DurationType {
-  start_hour: number;
-  end_hour: number;
+  start: Date;
+  end: Date;
   available: boolean;
-  locale: string;
 }
 
 export interface ExperienceType {
@@ -94,7 +93,7 @@ export interface MentorSchemaType {
   twitter: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slots: Record<DayEnumType, DurationType>;
+  time_slots: DurationType[];
   approved: boolean;
   top_mentor: boolean;
 }
@@ -126,4 +125,9 @@ export type MotivationEnumType =
 
 export interface AdminUser extends Express.User {
   role: 'admin' | null | undefined;
+}
+
+export interface SelectOption {
+  value: string;
+  label: string;
 }

@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, lazy } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import AuthPage from 'pages/Auth';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
@@ -22,6 +22,7 @@ const Signup = lazy(() => import('pages/Auth/Signup'));
 const Dashboard = lazy(() => import('pages/Dashboard'));
 
 const App = () => {
+  const { pathname } = useLocation();
   const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
@@ -37,6 +38,7 @@ const App = () => {
       (data: any) => {
         setAuthState(data);
         if (data.isLoggedIn && !data.user.signup_completed) {
+          if (pathname === '/registration-form') return;
           toast.info(
             () => (
               <div>

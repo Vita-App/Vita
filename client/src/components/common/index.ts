@@ -1,6 +1,7 @@
 import { Link as router_Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Reactselect from 'react-select';
 
 export const Link = styled(router_Link)({
@@ -35,6 +36,36 @@ export const ReactSelect = styled(Reactselect)({
   },
 });
 
+export const StyledReactSelect = styled(ReactSelect)({
+  '.select__control': {
+    borderColor: '#767676',
+    backgroundColor: 'transparent',
+    padding: '6px',
+  },
+  '.select__input-container': {
+    borderColor: '#767676',
+    backgroundColor: 'transparent',
+  },
+
+  '.select__multi-value': {
+    backgroundColor: '#444444',
+    borderRadius: '10px',
+    color: '#fff',
+  },
+  '.select__multi-value__label': {
+    color: '#fff',
+  },
+  '.select__multi-value__remove': {
+    backgroundColor: 'transparent',
+  },
+  '.select__multi-value__remove:hover': {
+    backgroundColor: 'transparent',
+  },
+  '.select__menu': {
+    overflow: 'auto',
+  },
+});
+
 export const StyledButton = styled(Button)(({ theme }) => ({
   background: 'rgb(59,57,57,0.4)',
   textTransform: 'none',
@@ -54,6 +85,26 @@ export const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#424040',
   },
 }));
+
+export const MuiStyledButton = styled(Button)({
+  fontWeight: 'bolder',
+  borderRadius: '10px',
+  textTransform: 'capitalize',
+});
+
+export const StyledTextField = styled(TextField)({
+  marginTop: '0.5rem',
+  '& .MuiInputBase-root': {
+    // borderRadius: '16px',
+    fontSize: '0.85rem',
+  },
+  '& :-webkit-autofill': {
+    '-webkit-box-shadow': '0 0 0 100px #222222 inset !important',
+    '-webkit-text-fill-color': '#fff',
+    caretColor: '#fff',
+    borderRadius: 'inherit',
+  },
+});
 
 export const CenteredDiv = styled('div')`
   height: 100%;
