@@ -3,13 +3,27 @@ import { SERVER_URL } from 'config.keys';
 import { FieldValues } from 'react-hook-form';
 import { MentorSchemaType } from 'types';
 
-export const getMentors = async (expertise = 'All', topic = -1, limit = 0) => {
-  const { data: response } = await axios.get<MentorSchemaType[]>(
+export interface GetMentorsResponse {
+  mentors: MentorSchemaType[];
+  page: number;
+  nextPage: number | null;
+  prevPage: number | null;
+  totalPages: number;
+}
+
+export const getMentors = async (
+  expertise = 'All',
+  topic = -1,
+  page = 1,
+  limit = 0,
+) => {
+  const { data: response } = await axios.get<GetMentorsResponse>(
     `${SERVER_URL}/api/get-mentors`,
     {
       params: {
         expertise,
         topic,
+        page,
         limit,
       },
     },

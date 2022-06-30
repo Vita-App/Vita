@@ -7,13 +7,17 @@ import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 import { BannerModel } from '../Models/Banner';
 
-// curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&mentorSearchText=Google
+// curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&page=1&mentorSearchText=Google
 export const getMentorsController = async (req: Request, res: Response) => {
+  const page = Number(req.query.page || '1');
+  let totalPages = 0;
+  let nextPage: number | null = null;
+  let prevPage: number | null = null;
   const expertise = req.query.expertise?.toString() || 'All';
   const topic = Number(req.query.topic?.toString() || -1);
   const mentorSearchText = req.query.mentorSearchText?.toString() || '';
   //  A limit() value of 0 is equivalent to setting no limit.
-  const limit = Number(req.query.limit?.toString() || '0');
+  const limit = Number(req.query.limit) === 0 ? 15 : Number(req.query.limit);
 
   const searchOptions = {} as FilterQuery<MentorSchemaType>;
   if (topic !== -1) searchOptions.topics = topic;
@@ -24,7 +28,17 @@ export const getMentorsController = async (req: Request, res: Response) => {
   let mentors = [] as Partial<MentorSchemaType>[];
   // Since we are using user input we need need to handle when user sends wrong data
   try {
-    const mentors_ = await MentorModel.find(searchOptions).limit(limit);
+    const [mentors_, totalDocs] = await Promise.all([
+      MentorModel.find(searchOptions)
+        .skip(limit * (page - 1))
+        .limit(limit),
+      MentorModel.countDocuments(searchOptions),
+    ]);
+
+    totalPages = Math.ceil(totalDocs / limit);
+    nextPage = page + 1 <= totalPages ? page + 1 : null;
+    prevPage = page - 1 >= 1 ? page - 1 : null;
+
     mentors = mentors_.map(
       ({
         _id,
@@ -48,7 +62,7 @@ export const getMentorsController = async (req: Request, res: Response) => {
     mentors = [];
   }
 
-  res.json(mentors);
+  res.json({ mentors, totalPages, nextPage, prevPage, page });
 };
 
 export const getTopMentorsController = async (req: Request, res: Response) => {

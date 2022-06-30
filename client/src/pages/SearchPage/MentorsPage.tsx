@@ -7,11 +7,12 @@ import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { expertiseState, topicState } from 'store';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, InfiniteData } from 'react-query';
 import Loader from 'react-loader-spinner';
 import { useTheme } from '@mui/material/styles';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { getMentors } from 'utils/api-helper';
+import { getMentors, GetMentorsResponse } from 'utils/api-helper';
 
 const GridWrapper = styled(Grid)({
   '.search_wrapper': {
@@ -54,26 +55,20 @@ const CardContainer = styled(Grid)({
   marginTop: '3rem',
 });
 
-// @ts-ignore
 const RenderCards = ({
   isLoading,
   data,
 }: {
   isLoading: boolean;
-  data: any[];
+  data?: InfiniteData<GetMentorsResponse>;
 }) => {
-  if (isLoading || typeof data === 'undefined') return <div />;
+  if (isLoading || !data) return <div />;
 
-  const users = data.slice(0, 50);
   return (
     <CardContainer container>
-      {users.map((user, index) => (
-        <UserCard
-          key={index}
-          // @ts-ignore
-          user={user}
-        />
-      ))}
+      {data.pages.map((page) =>
+        page.mentors.map((user, index) => <UserCard key={index} user={user} />),
+      )}
     </CardContainer>
   );
 };
@@ -86,16 +81,32 @@ const MentorsPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { isLoading, data } = useQuery(['mentors', expertiseValue, topic], () =>
-    getMentors(expertiseValue, topic),
-  );
+  const { isLoading, data, fetchNextPage, hasNextPage } =
+    useInfiniteQuery<GetMentorsResponse>(
+      ['mentors', expertiseValue, topic],
+      ({ pageParam }) => getMentors(expertiseValue, topic, pageParam),
+      {
+        getNextPageParam: (lastPage) =>
+          lastPage.nextPage === null ? undefined : lastPage.nextPage,
+        getPreviousPageParam: (lastPage) =>
+          lastPage.prevPage === null ? undefined : lastPage.prevPage,
+      },
+    );
+
   const content =
     isLoading === false ? (
-      <RenderCards
-        isLoading={isLoading}
-        // @ts-ignore
-        data={data}
-      />
+      <>
+        <InfiniteScroll
+          dataLength={
+            data?.pages.reduce((acc, page) => page.mentors.length + acc, 0) || 0
+          }
+          next={fetchNextPage}
+          hasMore={Boolean(hasNextPage)}
+          loader={<h3>Loading...</h3>}>
+          {null}
+        </InfiniteScroll>
+        <RenderCards isLoading={isLoading} data={data} />
+      </>
     ) : (
       <StyledBox>
         <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
