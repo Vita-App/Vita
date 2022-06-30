@@ -164,10 +164,12 @@ export const getMentor = (
   first_name: string,
   last_name: string,
   image_link: string,
+  email: string,
 ): MentorSchemaType => ({
   user_id,
   first_name,
   last_name,
+  email,
   avatar: {
     url: image_link,
     filename: image_link.split('/').pop(),

@@ -86,6 +86,7 @@ export interface MentorSchemaType {
     filename?: string;
   };
   experiences: ExperienceType[];
+  email: string;
   bio: string;
   expertise: string[];
   languages: string[];

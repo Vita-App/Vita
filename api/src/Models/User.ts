@@ -38,6 +38,7 @@ const MentorSchema = new Schema<MentorSchemaType>({
   experiences: {
     type: [Experience],
   },
+  email: String,
   bio: { type: String },
   linkedIn: String,
   twitter: String,

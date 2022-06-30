@@ -19,7 +19,8 @@ export const fakeDataController = async (req: Request, res: Response) => {
       id,
       userData.first_name,
       userData.last_name,
-      userData.avatar.url!,
+      userData.avatar.url || '',
+      userData.email,
     );
 
     const user = new UserModel(userData);

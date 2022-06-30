@@ -139,6 +139,7 @@ const AvailabilityStep: React.FC<{
                     rules={{ required: 'Please select at least one time slot' }}
                     render={({ field }) => (
                       <StyledReactSelect
+                        closeMenuOnSelect={false}
                         menuPlacement="top"
                         {...field}
                         placeholder="Select your time slots"
