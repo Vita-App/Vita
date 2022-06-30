@@ -97,9 +97,9 @@ export const transformSlots = (slots: AvailabilitySlots) =>
 
 export const isObjectEmpty = (obj: Object): boolean => {
   if (!obj) return true;
-  if (obj === {} || obj === []) return true;
+  if (Object.keys(obj).length === 0) return true;
 
   return Object.values(obj).every(
-    (val: any) => !val || val === [] || val === {},
+    (val: any) => !val || Object.keys(val).length === 0,
   );
 };

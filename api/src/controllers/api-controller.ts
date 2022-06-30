@@ -115,15 +115,13 @@ export const approveMentorController = async (req: Request, res: Response) => {
     });
   }
 
-  const user = await UserModel.findOne({ mentor_information: mentor._id });
-
   mentor.approved = true;
 
   await mentor.save();
 
   try {
     await sendEmail(
-      user!.email,
+      mentor.email,
       'Vita Application Approved!',
       makeTemplate('acceptMentor.hbs'),
     );
@@ -188,15 +186,13 @@ export const changeTopMentorStatusController = async (
     });
   }
 
-  const user = await UserModel.findOne({ mentor_information: mentor._id });
-
   mentor.top_mentor = !mentor.top_mentor;
 
   await mentor.save();
 
   try {
     await sendEmail(
-      user!.email,
+      mentor.email,
       'Vita top mentor',
       makeTemplate('topMentor.hbs', { top_mentor: mentor.top_mentor }),
     );
