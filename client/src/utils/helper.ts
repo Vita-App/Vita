@@ -95,11 +95,12 @@ export const transformSlots = (slots: AvailabilitySlots) =>
 //   });
 // };
 
-export const isObjectEmpty = (obj: Object): boolean => {
+export const isObjectEmpty = (obj: any) => {
   if (!obj) return true;
-  if (Object.keys(obj).length === 0) return true;
+
+  if (Array.isArray(obj) && obj.length === 0) return true;
 
   return Object.values(obj).every(
-    (val: any) => !val || Object.keys(val).length === 0,
+    (val: any) => !val || (Array.isArray(obj) && val.length === 0),
   );
 };
