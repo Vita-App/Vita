@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldValues } from 'react-hook-form';
 import { Stack, Typography, Avatar } from '@mui/material';
 import { CalendarToday, Power } from '@mui/icons-material';
-import { StyledButton } from './utils';
+import { MuiStyledButton as StyledButton } from 'components/common';
 
 const IntegrationStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
