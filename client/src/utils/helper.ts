@@ -1,4 +1,5 @@
-import moment from 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
+
 import { AvailabilitySlots, DurationType, SlotType } from 'types';
 
 export const commaString = (words: string[] | undefined) => {
@@ -80,7 +81,11 @@ export const transformSlots = (slots: AvailabilitySlots) =>
     return [...acc, ...daySlots];
   }, [] as SlotType[]);
 
-export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
+export const getSlotsByDays = (
+  slots: SlotType[],
+  busySlots: Date[],
+  _timeZone?: string,
+) => {
   let timeZone: string;
   if (!_timeZone) {
     timeZone = moment.tz.guess();
@@ -103,7 +108,6 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
         {
           start: momentStart,
           end: momentEnd,
-          available: slot.available,
         },
       ];
     } else {
@@ -111,7 +115,6 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
         {
           start: momentStart,
           end: momentEnd,
-          available: slot.available,
         },
       ];
     }
@@ -119,6 +122,39 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
 
   return newSlots;
 };
+
+// const getDays = (month: number, weekDay: string) => {
+//   const days: Moment[] = [];
+
+//   const firstDay = moment({ month }).startOf('month').day(weekDay);
+//   if (firstDay.date() > 7) firstDay.add(7, 'd');
+
+//   const _month = firstDay.month();
+//   while (_month === firstDay.month()) {
+//     days.push(firstDay);
+//     firstDay.add(7, 'd');
+//   }
+
+//   return days;
+// };
+
+// const filterBusy = (
+//   slots: Record<string, DurationType[]>,
+//   busySlots: Date[],
+//   timeZone: string,
+// ) => {
+//   const newSlots: Record<string, DurationType[]> = {};
+
+//   for (const key of Object.keys(slots)) {
+//     const daySlots = slots[key];
+//     const allDates = getDays(new Date().getMonth(), key);
+
+//     allDates.forEach((date) => {
+//       date.tz(timeZone);
+
+//     });
+//   }
+// };
 
 export const isObjectEmpty = (obj: any) => {
   if (!obj) return true;

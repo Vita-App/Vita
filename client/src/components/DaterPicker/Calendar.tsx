@@ -13,6 +13,9 @@ import { getSlotsByDays } from 'utils/helper';
 import { Stack, Typography } from '@mui/material';
 import moment from 'moment-timezone';
 import { ReactSelect } from 'components/common';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { SERVER_URL } from 'config.keys';
 
 const Wrapper = styled('div')`
   color: white;
@@ -55,12 +58,24 @@ const checkValidDate = (todaysDate: Date, date: Date) => {
   return true;
 };
 
+const getBusySlots = async (id: string) => {
+  const { data } = await axios.get<Date[]>(`${SERVER_URL}/api/busySlots`, {
+    params: { id },
+  });
+
+  return data;
+};
+
 const Calendar: React.FC<CalendarProps> = ({
   date,
   setDate,
   setTimeslot,
   setSelectedSlot,
 }) => {
+  const { time_slots: _time_slots, _id } = useRecoilValue(mentorState);
+  const { isLoading, data: busySlots } = useQuery(['getBusySlots', _id], () =>
+    getBusySlots(_id),
+  );
   const [timeZone, setTimeZone] = useRecoilState(timeZoneState);
   const todaysDate = new Date();
   const minDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1);
@@ -70,9 +85,9 @@ const Calendar: React.FC<CalendarProps> = ({
     0,
   );
 
-  const { time_slots: _time_slots } = useRecoilValue(mentorState);
+  if (isLoading) return null;
 
-  const time_slots = getSlotsByDays(_time_slots, timeZone.value);
+  const time_slots = getSlotsByDays(_time_slots, busySlots, timeZone.value);
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
@@ -128,9 +143,10 @@ const Calendar: React.FC<CalendarProps> = ({
             renderDay={(day, _value, DayComponentProps) => {
               const dayName: DayEnumType = dayOfWeek[day.getDay()];
 
-              const { available } = time_slots[dayName]
-                ? time_slots[dayName][0]
-                : { available: false };
+              const available = time_slots[dayName]
+                ? time_slots[dayName].length > 0
+                : false;
+
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&
