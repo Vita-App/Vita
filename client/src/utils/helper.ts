@@ -92,7 +92,7 @@ export const getSlotsByDays = (
     timeZone = _timeZone;
   }
 
-  const newSlots: Record<string, DurationType[]> = {};
+  let newSlots: Record<string, DurationType[]> = {};
 
   slots.forEach((slot) => {
     const momentStart = moment(slot.start);
@@ -119,13 +119,18 @@ export const getSlotsByDays = (
     }
   });
 
+  newSlots = filterBusy(newSlots, busySlots, timeZone);
+
   return newSlots;
 };
 
-// const getDays = (month: number, weekDay: string) => {
+// const getDays = (month: number, weekDay: number) => {
 //   const days: Moment[] = [];
 
-//   const firstDay = moment({ month }).startOf('month').day(weekDay);
+//   const firstDay = moment({ month }).startOf("month").day(weekDay);
+
+//   console.log(firstDay.date());
+
 //   if (firstDay.date() > 7) firstDay.add(7, 'd');
 
 //   const _month = firstDay.month();
@@ -137,23 +142,44 @@ export const getSlotsByDays = (
 //   return days;
 // };
 
-// const filterBusy = (
-//   slots: Record<string, DurationType[]>,
-//   busySlots: Date[],
-//   timeZone: string,
-// ) => {
-//   const newSlots: Record<string, DurationType[]> = {};
+const filterBusy = (
+  slots: Record<string, DurationType[]>,
+  busySlots: Date[],
+  timeZone: string,
+) => {
+  const newSlots: Record<number, DurationType[]> = {};
 
-//   for (const key of Object.keys(slots)) {
-//     const daySlots = slots[key];
-//     const allDates = getDays(new Date().getMonth(), key);
+  const a = moment().startOf('month');
+  const b = moment().endOf('month');
 
-//     allDates.forEach((date) => {
-//       date.tz(timeZone);
+  for (const date = moment(a); date.isBefore(b); date.add(1, 'days')) {
+    const daySlots = slots[date.format('ddd')];
+    newSlots[date.date()] = daySlots?.filter((slot) => {
+      const start = moment(slot.start);
+      start.tz(timeZone);
+      const isBusy = busySlots.find((_busySlot) => {
+        const busySlot = moment(_busySlot);
+        busySlot.tz(timeZone);
 
-//     });
-//   }
-// };
+        if (
+          busySlot.date() === date.date() &&
+          busySlot.hours() === start.hours() &&
+          busySlot.minutes() === start.minutes()
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (isBusy) return false;
+
+      return true;
+    });
+  }
+
+  return newSlots;
+};
 
 export const isObjectEmpty = (obj: any) => {
   if (!obj) return true;

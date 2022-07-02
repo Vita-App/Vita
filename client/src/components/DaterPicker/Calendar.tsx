@@ -8,7 +8,7 @@ import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { mentorState, timeZoneState } from 'store';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DayEnumType, DurationType } from 'types';
+import { DurationType } from 'types';
 import { getSlotsByDays } from 'utils/helper';
 import { Stack, Typography } from '@mui/material';
 import moment from 'moment-timezone';
@@ -31,16 +31,6 @@ const Wrapper = styled('div')`
     color: white !important;
   }
 `;
-
-const dayOfWeek: DayEnumType[] = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
-];
 
 interface CalendarProps {
   date: Date | null;
@@ -135,17 +125,12 @@ const Calendar: React.FC<CalendarProps> = ({
             maxDate={maxDate}
             onChange={(e) => {
               // if (typeof e === 'undefined') return;
-              const dayName: DayEnumType = dayOfWeek[e.getDay()];
               setDate(e);
-              setTimeslot(time_slots[dayName]);
+              setTimeslot(time_slots[e?.getDate()]);
             }}
             renderLoading={() => <CalendarPickerSkeleton />}
             renderDay={(day, _value, DayComponentProps) => {
-              const dayName: DayEnumType = dayOfWeek[day.getDay()];
-
-              const { available } = time_slots[dayName]
-                ? time_slots[dayName][0]
-                : { available: false };
+              const available = time_slots[day.getDate()]?.length > 0;
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&

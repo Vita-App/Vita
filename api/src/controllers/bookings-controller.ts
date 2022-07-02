@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Document } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel } from '../Models/User';
@@ -42,6 +43,7 @@ export const availabilityController = async (req: Request, res: Response) => {
 };
 
 export const bookSlotController = async (req: Request, res: Response) => {
+  const user = req.user as UserSchemaType & Document;
   const { start_date, mentor_id, email, topic, description } = req.body as {
     start_date: string;
     mentor_id: string;
@@ -50,7 +52,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
     description?: string;
   };
 
-  if (req.user?.id === mentor_id) {
+  if (user._id === mentor_id) {
     return res.status(400).json({
       error: "You can't book yourself",
     });
@@ -63,6 +65,18 @@ export const bookSlotController = async (req: Request, res: Response) => {
   if (!mentor) {
     return res.json(404).json({
       error: 'Mentor Not Found!',
+    });
+  }
+
+  const alreadyWaiting = await BookingModel.find({
+    mentee_id: user._id,
+    status: BookingStatus.WAITING,
+  });
+
+  if (alreadyWaiting) {
+    return res.status(400).json({
+      error:
+        'You have already asked for a booking slot. You cannot ask for one more',
     });
   }
 
@@ -101,7 +115,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
   if (
     existingBooking &&
     existingBooking.status === BookingStatus.WAITING &&
-    existingBooking.mentee_id === req.user?._id
+    existingBooking.mentee_id === user._id
   ) {
     return res.status(400).json({
       error: 'You already have one booking in waiting with this mentor!',
@@ -111,12 +125,13 @@ export const bookSlotController = async (req: Request, res: Response) => {
   const end_date = new Date();
   end_date.setDate(startDate.getDate());
   end_date.setMonth(startDate.getMonth());
+  end_date.setMinutes(startDate.getMinutes());
   end_date.setHours(startDate.getHours() + 1);
 
   const booking = new BookingModel({
     mentor_email: mentor.email,
-    mentee_email: req.user?.email,
-    mentee_id: req.user?._id,
+    mentee_email: user.email,
+    mentee_id: user._id,
     mentor_id: mentor._id,
     start_date: startDate,
     end_date,
@@ -126,8 +141,6 @@ export const bookSlotController = async (req: Request, res: Response) => {
       description,
     },
   });
-
-  const user = req.user as UserSchemaType;
 
   try {
     await sendEmail(
