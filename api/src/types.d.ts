@@ -99,6 +99,23 @@ export interface MentorSchemaType {
   top_mentor: boolean;
 }
 
+interface Session {
+  motivation: string;
+  topic: string;
+  description: string;
+}
+
+export interface BookingSchemaType {
+  mentor_id: Types.ObjectId | undefined;
+  mentee_id: Types.ObjectId | undefined;
+  mentor_email: string;
+  mentee_email: string;
+  start_date: Date;
+  end_date: Date;
+  status: 'accepted' | 'cancelled' | 'waiting';
+  session: Session;
+}
+
 export interface Room {
   id: string; // Client version of Room may have id optional
   created_by?: string;

@@ -59,6 +59,8 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
   );
   const { time_slots } = useRecoilValue(mentorState);
 
+  console.log(time_slots);
+
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
     font-weight: 800;

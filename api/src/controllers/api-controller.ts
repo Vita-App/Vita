@@ -20,6 +20,7 @@ export const getMentorsController = async (req: Request, res: Response) => {
   const limit = Number(req.query.limit) === 0 ? 15 : Number(req.query.limit);
 
   const searchOptions = {} as FilterQuery<MentorSchemaType>;
+  searchOptions.approved = true;
   if (topic !== -1) searchOptions.topics = topic;
   if (expertise !== 'All') searchOptions.expertise = expertise;
   if (mentorSearchText !== '')
