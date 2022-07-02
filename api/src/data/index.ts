@@ -75,7 +75,7 @@ const getRandomTimeSlots = (): DurationType[] => {
     const offsetStart = start.getDay() - day;
     start.setDate(start.getDate() - offsetStart);
     start.setHours(start_hour);
-    const end_hour = Math.min(23, start_hour + Math.ceil(Math.random() * 4));
+    const end_hour = start_hour === 23 ? 0 : start_hour + 1;
     const end = new Date();
     const offsetEnd = end.getDay() - day;
     end.setDate(end.getDate() - offsetEnd);
@@ -84,7 +84,7 @@ const getRandomTimeSlots = (): DurationType[] => {
     timeSlots.push({
       start,
       end,
-      available: getRandomBool(-0.1),
+      available: true,
     });
   });
 

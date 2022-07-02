@@ -43,6 +43,10 @@ import {
 import { PROD } from '../config/keys';
 import { checkAdmin } from '../middleware';
 import { checkDBUrl } from '../middleware';
+import {
+  bookSlot,
+  getAvailableSlots,
+} from '../controllers/bookings-controller';
 const upload = multer({ storage });
 const router = Router();
 
@@ -76,6 +80,10 @@ router.get('/get-mentor', getMentorController);
 router.get('/get-mentors', getMentorsController);
 router.get('/top-mentors', getTopMentorsController);
 router.get('/get-topics', getTopicsController);
+
+// Bookins API
+router.get('/availableSlots', getAvailableSlots);
+router.post('/bookSlot', bookSlot);
 
 router.put('/approve-mentor', checkAdmin, approveMentorController);
 router.get('/reject-mentor', checkAdmin, rejectController);
