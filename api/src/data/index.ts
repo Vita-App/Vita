@@ -80,6 +80,8 @@ const getRandomTimeSlots = (): DurationType[] => {
     const offsetEnd = end.getDay() - day;
     end.setDate(end.getDate() - offsetEnd);
     end.setHours(end_hour);
+    start.setMinutes(0);
+    end.setMinutes(0);
 
     timeSlots.push({
       start,

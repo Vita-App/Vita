@@ -17,6 +17,8 @@ import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { DurationType } from 'types';
+import { getDurationLabel } from 'utils/helper';
 
 export const optionsData = [
   {
@@ -90,14 +92,16 @@ const StyledButton = styled(Button)`
 `;
 interface ConfirmationProps {
   date: Date | null;
-  hour: number;
-  setHour: React.Dispatch<React.SetStateAction<number>>;
+  selectedSlot: DurationType;
+  setSelectedSlot: React.Dispatch<
+    React.SetStateAction<DurationType | undefined>
+  >;
 }
 
 const Confirmation: React.FC<ConfirmationProps> = ({
   date: date_,
-  setHour,
-  hour,
+  setSelectedSlot,
+  selectedSlot,
 }) => {
   const { first_name, last_name } = useRecoilValue(mentorState);
   const date = date_ ? date_ : new Date();
@@ -111,7 +115,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     month: 'short',
     day: 'numeric',
   });
-  const timeString = `${hour}:00 - ${hour + 1}:00`;
+
+  const timeString = getDurationLabel(selectedSlot);
   return (
     <div>
       <Typography variant="h5" sx={{ fontWeight: 800, p: '8px 0px' }}>
@@ -175,7 +180,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       </StyledButton>
       <div style={{ marginTop: '1rem' }}>
         <Button
-          onClick={() => setHour(-1)}
+          onClick={() => setSelectedSlot(undefined)}
           startIcon={<KeyboardBackspaceIcon />}
           sx={{
             margin: 'auto',

@@ -1,10 +1,11 @@
 import React from 'react';
 import { styled, Grid, Button } from '@mui/material';
+import { DurationType } from 'types';
+import { getDurationLabel } from 'utils/helper';
 interface TimeSelectorProps {
   date: Date | null;
-  hour: number;
-  timeslot: number[];
-  setHour: React.Dispatch<React.SetStateAction<number>>;
+  timeslot: DurationType[];
+  setSelectedSlot: React.Dispatch<React.SetStateAction<DurationType>>;
 }
 const getDate = (_date: Date | null) => {
   const date = _date ? _date : new Date();
@@ -24,14 +25,9 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const addZero = (time: number) => {
-  if (time > 9) return '';
-  return '0';
-};
-
 const TimeSelector: React.FC<TimeSelectorProps> = ({
   date,
-  setHour,
+  setSelectedSlot,
   timeslot,
 }) => {
   if (timeslot.length === 0) return <div />;
@@ -50,12 +46,12 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
       <div style={{ fontWeight: 600, marginBottom: '8px' }}>
         {getDate(date)}
       </div>
-      {timeslot.map((time, index) => (
+      {timeslot.map((slot, index) => (
         <StyledButton
           variant="outlined"
           key={index}
-          onClick={() => setHour(time)}>
-          {`${addZero(time)}${time}:00 `}
+          onClick={() => setSelectedSlot(slot)}>
+          {getDurationLabel(slot)}
         </StyledButton>
       ))}
     </Grid>

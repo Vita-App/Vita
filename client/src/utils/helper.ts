@@ -1,4 +1,5 @@
-import { AvailabilitySlots, SlotType } from 'types';
+import moment from 'moment-timezone';
+import { AvailabilitySlots, DurationType, SlotType } from 'types';
 
 export const commaString = (words: string[] | undefined) => {
   let result = '';
@@ -79,21 +80,45 @@ export const transformSlots = (slots: AvailabilitySlots) =>
     return [...acc, ...daySlots];
   }, [] as SlotType[]);
 
-// export const changeSlotsTimezone = (
-//   slots: AvailabilitySlots,
-//   timeZone: string,
-// ) => {
-//   const newSlots = {};
+export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
+  let timeZone: string;
+  if (!_timeZone) {
+    timeZone = moment.tz.guess();
+  } else {
+    timeZone = _timeZone;
+  }
 
-//   Object.keys(slots).forEach((day) => {
-//     slots[day].forEach((slot) => {
-//       const momentStart = moment(slot.start);
-//       const momentEnd = moment(slot.end);
-//       momentStart.tz(timeZone);
-//       momentEnd.tz(timeZone);
-//     });
-//   });
-// };
+  const newSlots: Record<string, DurationType[]> = {};
+
+  slots.forEach((slot) => {
+    const momentStart = moment(slot.start);
+    const momentEnd = moment(slot.end);
+    momentStart.tz(timeZone);
+    momentEnd.tz(timeZone);
+
+    const day = momentStart.format('ddd');
+    if (day in newSlots) {
+      newSlots[day] = [
+        ...newSlots[day],
+        {
+          start: momentStart,
+          end: momentEnd,
+          available: slot.available,
+        },
+      ];
+    } else {
+      newSlots[day] = [
+        {
+          start: momentStart,
+          end: momentEnd,
+          available: slot.available,
+        },
+      ];
+    }
+  });
+
+  return newSlots;
+};
 
 export const isObjectEmpty = (obj: any) => {
   if (!obj) return true;
@@ -104,3 +129,13 @@ export const isObjectEmpty = (obj: any) => {
     (val: any) => !val || (Array.isArray(obj) && val.length === 0),
   );
 };
+
+export const addZero = (time: number) => {
+  if (time > 9) return time;
+  return '0' + time;
+};
+
+export const getDurationLabel = (duration: DurationType) =>
+  `${addZero(duration.start.hours())}:${addZero(
+    duration.start.minutes(),
+  )} - ${addZero(duration.end.hours())}:${addZero(duration.end.minutes())}`;
