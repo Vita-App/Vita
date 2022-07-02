@@ -14,7 +14,7 @@ const ValidateToken = ({
     <Grid item xs={12} sm={8} md={6} lg={5} mx="auto" my={6}>
       <Card elevation={10}>
         <Stack spacing={3} py={5} px={5}>
-          {data?.success && <Confetti />}
+          {data?.success && <Confetti recycle={false} />}
           <Typography
             variant="h3"
             textAlign="center"
@@ -29,14 +29,18 @@ const ValidateToken = ({
                 width: '60px',
                 height: '60px',
                 bgcolor: 'transparent',
-                border: `4px solid ${data?.success ? 'green' : 'red'}`,
+                border: `4px solid ${
+                  data?.success ? 'success.main' : 'error.main'
+                }`,
               }}>
               {data?.success ? (
                 <CheckOutlined
-                  sx={{ width: '50px', height: '50px', color: 'green' }}
+                  sx={{ width: '50px', height: '50px', color: 'success.main' }}
                 />
               ) : (
-                <Warning sx={{ width: '50px', height: '50px', color: 'red' }} />
+                <Warning
+                  sx={{ width: '50px', height: '50px', color: 'error.main' }}
+                />
               )}
             </Avatar>
           </Box>

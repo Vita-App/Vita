@@ -153,10 +153,12 @@ const ForgotPassword = () => {
                     width: '60px',
                     height: '60px',
                     bgcolor: 'transparent',
-                    border: `4px solid ${verified ? 'green' : 'red'}`,
+                    border: `4px solid ${
+                      verified ? 'success.main' : 'error.main'
+                    }`,
                   }}>
                   <Warning
-                    sx={{ width: '50px', height: '50px', color: 'red' }}
+                    sx={{ width: '50px', height: '50px', color: 'error.main' }}
                   />
                 </Avatar>
               </Box>
