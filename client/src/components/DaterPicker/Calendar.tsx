@@ -143,10 +143,9 @@ const Calendar: React.FC<CalendarProps> = ({
             renderDay={(day, _value, DayComponentProps) => {
               const dayName: DayEnumType = dayOfWeek[day.getDay()];
 
-              const available = time_slots[dayName]
-                ? time_slots[dayName].length > 0
-                : false;
-
+              const { available } = time_slots[dayName]
+                ? time_slots[dayName][0]
+                : { available: false };
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&

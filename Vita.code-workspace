@@ -11,6 +11,10 @@
     {
       "name": "backend",
       "path": "api"
+    },
+    {
+      "name": "admin",
+      "path": "../Admin"
     }
   ],
   "settings": {

@@ -1,5 +1,4 @@
-import moment, { Moment } from 'moment-timezone';
-
+import moment from 'moment-timezone';
 import { AvailabilitySlots, DurationType, SlotType } from 'types';
 
 export const commaString = (words: string[] | undefined) => {

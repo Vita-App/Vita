@@ -54,7 +54,7 @@ const router = Router();
 // We will do our re-routing from the client side just send information from here
 // GET to /api/auth will return current logged in user info
 router.get('/auth', authController);
-router.get('/admin/auth', checkAdmin, adminAuthController);
+router.get('/admin/auth', adminAuthController);
 router.post('/send-email', sendMailController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);

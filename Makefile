@@ -9,17 +9,13 @@ client:
 	npm run start
 
 
-modules: 
-	npm install
-	cd client
-	npm install
-	cd api
-	npm install
+install: 
+	npm run install-modules-full
+
+remove:
+	npm run remove-modules-full
 
 start: client server
 
 dev: 
-	cd api
 	npm run dev
-	cd ../client/
-	npm run build
