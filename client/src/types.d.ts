@@ -1,3 +1,4 @@
+import { Moment } from 'moment-timezone';
 import React from 'react';
 
 export interface AppbarProps {
@@ -20,13 +21,6 @@ export interface Topic {
 }
 
 export type DayEnumType = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
-
-export interface DurationType {
-  start_hour: number;
-  end_hour: number;
-  available: boolean;
-  locale: string;
-}
 
 export interface ExperienceType {
   id: string;
@@ -65,6 +59,13 @@ export type MotivationEnumType =
 export interface SlotType {
   start: Date | null;
   end: Date | null;
+  available?: boolean;
+}
+
+export interface DurationType {
+  start: Moment;
+  end: Moment;
+  available?: boolean;
 }
 
 export type AvailabilitySlots = {

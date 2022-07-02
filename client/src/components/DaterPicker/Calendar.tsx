@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
 // @ts-nocheck
-import * as React from 'react';
+import React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CalendarPicker from '@mui/lab/CalendarPicker';
 import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
-import { mentorState } from 'store';
-import { useRecoilValue } from 'recoil';
-import { DayEnumType } from 'types';
-import { range } from 'utils/helper';
+import { mentorState, timeZoneState } from 'store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { DayEnumType, DurationType } from 'types';
+import { getSlotsByDays } from 'utils/helper';
+import { Stack, Typography } from '@mui/material';
+import moment from 'moment-timezone';
+import { ReactSelect } from 'components/common';
 
 const Wrapper = styled('div')`
   color: white;
@@ -27,19 +30,22 @@ const Wrapper = styled('div')`
 `;
 
 const dayOfWeek: DayEnumType[] = [
-  'sunday',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
 ];
 
 interface CalendarProps {
   date: Date | null;
   setDate: React.Dispatch<React.SetStateAction<Date | null>>;
-  setTimeslot: React.Dispatch<React.SetStateAction<number[]>>;
+  setTimeslot: React.Dispatch<React.SetStateAction<DurationType[]>>;
+  setSelectedSlot: React.Dispatch<
+    React.SetStateAction<DurationType | undefined>
+  >;
 }
 
 const checkValidDate = (todaysDate: Date, date: Date) => {
@@ -49,7 +55,13 @@ const checkValidDate = (todaysDate: Date, date: Date) => {
   return true;
 };
 
-const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
+const Calendar: React.FC<CalendarProps> = ({
+  date,
+  setDate,
+  setTimeslot,
+  setSelectedSlot,
+}) => {
+  const [timeZone, setTimeZone] = useRecoilState(timeZoneState);
   const todaysDate = new Date();
   const minDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1);
   const maxDate = new Date(
@@ -57,9 +69,10 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
     todaysDate.getMonth() + 2,
     0,
   );
-  const { time_slots } = useRecoilValue(mentorState);
 
-  console.log(time_slots);
+  const { time_slots: _time_slots } = useRecoilValue(mentorState);
+
+  const time_slots = getSlotsByDays(_time_slots, timeZone.value);
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
@@ -75,6 +88,31 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
   return (
     <div style={{ backgroundColor: '#292727' }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Stack spacing={2}>
+          <ReactSelect
+            value={timeZone}
+            placeholder={<div>Change TimeZone</div>}
+            onChange={(e: any) => {
+              if (e.value !== timeZone.value) {
+                setDate(null);
+                setTimeslot([]);
+                setSelectedSlot(undefined);
+              }
+
+              setTimeZone(e);
+            }}
+            classNamePrefix="select"
+            options={moment.tz
+              .names()
+              .map((name) => ({ value: name, label: name }))}
+          />
+          <Typography variant="subtitle1" px={2} mb={1}>
+            Your default timezone is{' '}
+            <Typography component="span" color="Highlight">
+              {moment.tz.guess()}
+            </Typography>
+          </Typography>
+        </Stack>
         <Wrapper>
           <CalendarPicker
             date={date}
@@ -83,15 +121,16 @@ const Calendar: React.FC<CalendarProps> = ({ date, setDate, setTimeslot }) => {
             onChange={(e) => {
               // if (typeof e === 'undefined') return;
               const dayName: DayEnumType = dayOfWeek[e.getDay()];
-              const { start_hour, end_hour } = time_slots[dayName];
               setDate(e);
-              setTimeslot(range(start_hour, end_hour, 1));
+              setTimeslot(time_slots[dayName]);
             }}
             renderLoading={() => <CalendarPickerSkeleton />}
             renderDay={(day, _value, DayComponentProps) => {
               const dayName: DayEnumType = dayOfWeek[day.getDay()];
 
-              const { available } = time_slots[dayName];
+              const { available } = time_slots[dayName]
+                ? time_slots[dayName][0]
+                : { available: false };
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&

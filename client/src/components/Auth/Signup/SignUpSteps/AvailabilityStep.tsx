@@ -58,9 +58,16 @@ const AvailabilityStep: React.FC<{
     setValue('dayChecked[Sat]', true);
     setValue('slots[Sat]', [
       {
-        label: '11:00-13:00',
+        label: '11:00-12:00',
         value: {
           start: new Date(2021, 0, 1, 11, 0),
+          end: new Date(2021, 0, 1, 12, 0),
+        },
+      },
+      {
+        label: '12:00-13:00',
+        value: {
+          start: new Date(2021, 0, 1, 12, 0),
           end: new Date(2021, 0, 1, 13, 0),
         },
       },
@@ -69,9 +76,16 @@ const AvailabilityStep: React.FC<{
     setValue('dayChecked[Sun]', true);
     setValue('slots[Sun]', [
       {
-        label: '11:00-13:00',
+        label: '11:00-12:00',
         value: {
           start: new Date(2021, 0, 1, 11, 0),
+          end: new Date(2021, 0, 1, 12, 0),
+        },
+      },
+      {
+        label: '12:00-13:00',
+        value: {
+          start: new Date(2021, 0, 1, 12, 0),
           end: new Date(2021, 0, 1, 13, 0),
         },
       },
