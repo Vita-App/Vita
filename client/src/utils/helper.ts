@@ -83,6 +83,7 @@ export const transformSlots = (slots: AvailabilitySlots) =>
 export const getSlotsByDays = (
   slots: SlotType[],
   busySlots: Date[],
+  month: number,
   _timeZone?: string,
 ) => {
   let timeZone: string;
@@ -119,7 +120,7 @@ export const getSlotsByDays = (
     }
   });
 
-  newSlots = filterBusy(newSlots, busySlots, timeZone);
+  newSlots = filterBusy(newSlots, busySlots, month, timeZone);
 
   return newSlots;
 };
@@ -145,12 +146,13 @@ export const getSlotsByDays = (
 const filterBusy = (
   slots: Record<string, DurationType[]>,
   busySlots: Date[],
+  month: number,
   timeZone: string,
 ) => {
   const newSlots: Record<number, DurationType[]> = {};
 
-  const a = moment().startOf('month');
-  const b = moment().endOf('month');
+  const a = moment({ month }).startOf('month');
+  const b = moment({ month }).endOf('month');
 
   for (const date = moment(a); date.isBefore(b); date.add(1, 'days')) {
     const daySlots = slots[date.format('ddd')];

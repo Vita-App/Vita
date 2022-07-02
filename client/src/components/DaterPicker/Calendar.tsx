@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // @ts-nocheck
-import React from 'react';
+import React, { useState } from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CalendarPicker from '@mui/lab/CalendarPicker';
@@ -62,6 +62,7 @@ const Calendar: React.FC<CalendarProps> = ({
   setTimeslot,
   setSelectedSlot,
 }) => {
+  const [month, setMonth] = useState(new Date().getMonth());
   const { time_slots: _time_slots, _id } = useRecoilValue(mentorState);
   const { isLoading, data: busySlots } = useQuery(['getBusySlots', _id], () =>
     getBusySlots(_id),
@@ -77,7 +78,12 @@ const Calendar: React.FC<CalendarProps> = ({
 
   if (isLoading) return null;
 
-  const time_slots = getSlotsByDays(_time_slots, busySlots, timeZone.value);
+  const time_slots = getSlotsByDays(
+    _time_slots,
+    busySlots,
+    month,
+    timeZone.value,
+  );
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
@@ -123,6 +129,9 @@ const Calendar: React.FC<CalendarProps> = ({
             date={date}
             minDate={minDate}
             maxDate={maxDate}
+            onMonthChange={(e) => {
+              setMonth(e.getMonth());
+            }}
             onChange={(e) => {
               // if (typeof e === 'undefined') return;
               setDate(e);
