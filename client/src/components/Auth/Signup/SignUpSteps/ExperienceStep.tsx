@@ -264,6 +264,7 @@ const ExperienceStep: React.FC<{
           defaultValue={props.hydrate?.languages || []}
           render={({ field }) => (
             <Select
+              closeMenuOnSelect={false}
               {...field}
               placeholder="Languages"
               isMulti
@@ -281,6 +282,7 @@ const ExperienceStep: React.FC<{
           defaultValue={props.hydrate?.expertise || []}
           render={({ field }) => (
             <Select
+              closeMenuOnSelect={false}
               {...field}
               placeholder="Expertise"
               isMulti
@@ -305,6 +307,7 @@ const ExperienceStep: React.FC<{
             defaultValue={props.hydrate?.topics?.leaderShip || []}
             render={({ field }) => (
               <Select
+                closeMenuOnSelect={false}
                 {...field}
                 menuPlacement="top"
                 placeholder="Leadership"
@@ -321,6 +324,7 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                closeMenuOnSelect={false}
                 menuPlacement="top"
                 placeholder="Mentorship"
                 isMulti
@@ -351,6 +355,7 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                closeMenuOnSelect={false}
                 menuPlacement="top"
                 placeholder="Job Search"
                 isMulti
@@ -366,6 +371,7 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                closeMenuOnSelect={false}
                 menuPlacement="top"
                 placeholder="Skills"
                 isMulti
