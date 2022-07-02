@@ -9,8 +9,10 @@ export const Link = styled(router_Link)({
   textDecoration: 'none',
 });
 
-export const ReactSelect = styled(Reactselect)({
+// this is like react mui
+export const ReactSelect = styled(Reactselect)(({ theme }) => ({
   width: '100%',
+  boxShadow: 'white',
   '.select__single-value': {
     color: '#f5f5f5',
   },
@@ -23,7 +25,7 @@ export const ReactSelect = styled(Reactselect)({
     color: 'white',
   },
   '.select__control:hover': {
-    borderColor: '#2684ff',
+    borderColor: 'white',
   },
   '.select__menu': {
     backgroundColor: '#272626',
@@ -34,7 +36,7 @@ export const ReactSelect = styled(Reactselect)({
   '.select__option--is-focused:hover': {
     backgroundColor: '#424040',
   },
-});
+}));
 
 export const StyledReactSelect = styled(ReactSelect)({
   '.select__control': {

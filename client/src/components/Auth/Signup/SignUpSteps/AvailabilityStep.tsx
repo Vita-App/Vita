@@ -165,7 +165,7 @@ const AvailabilityStep: React.FC<{
                   />
                 )}
                 {errors?.slots?.[day] && (
-                  <Typography variant="caption" color="red">
+                  <Typography variant="caption" color="error.main">
                     {errors.slots[day].message}
                   </Typography>
                 )}
