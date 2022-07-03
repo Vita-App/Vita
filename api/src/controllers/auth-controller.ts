@@ -64,17 +64,27 @@ export const passportLinkedin = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const page =
+    JSON.parse((req.query.state as string) || '{}')?.loginMode === 'true'
+      ? 'login'
+      : 'signup';
+
   passport.authenticate('linkedin', (err, user) => {
-    if (err) return res.redirect(`${CLIENT_URL}/auth?socialAuthFailed=${err}`);
+    if (err)
+      return res.redirect(
+        `${CLIENT_URL}/auth?page=${page}7socialAuthFailed=${err}`,
+      );
 
     if (!user)
       return res.redirect(
-        `${CLIENT_URL}/auth?socialAuthFailed=Something Went Wrong!`,
+        `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=Something Went Wrong!`,
       );
 
     req.logIn(user, (err) => {
       if (err)
-        return res.redirect(`${CLIENT_URL}/auth?socialAuthFailed=${err}`);
+        return res.redirect(
+          `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=${err}`,
+        );
 
       return next();
     });
@@ -84,39 +94,6 @@ export const passportLinkedin = async (
 export const socialAuthCallback = async (req: Request, res: Response) => {
   if (req.user) {
     const user = req.user as UserSchemaType;
-
-    if (user.signup_completed) {
-      return res.redirect(`${CLIENT_URL}/dashboard`);
-    }
-
-    return res.redirect(`${CLIENT_URL}/registration-form`);
-  }
-
-  return res.redirect(
-    `${CLIENT_URL}/auth?socialAuthFailed=Something Went Wrong!`,
-  );
-};
-
-export const linkedInAuthCallback = async (req: Request, res: Response) => {
-  if (req.user?.errors) {
-    return res.redirect(
-      `${CLIENT_URL}/auth?socialAuthFailed=${req.user.errors}`,
-    );
-  }
-
-  if (req.user) {
-    const user = req.user as UserSchemaType;
-
-    if (
-      !user.is_mentor &&
-      !/^[A-Za-z0-9._%+-]+@thapar.edu$/i.test(user.email)
-    ) {
-      await req.user.delete();
-
-      return res.redirect(
-        `${CLIENT_URL}/auth?socialAuthFailed=Mentee must use thapar.edu email`,
-      );
-    }
 
     if (user.signup_completed) {
       return res.redirect(`${CLIENT_URL}/dashboard`);
