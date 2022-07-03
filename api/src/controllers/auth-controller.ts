@@ -1,5 +1,5 @@
 import { CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { UserModel, MentorModel } from '../Models/User';
 import passport from 'passport';
@@ -10,39 +10,102 @@ import { makeTemplate } from '../templates';
 import parseFormData from '../utils/parseFormData';
 import { SelectOption, UserSchemaType } from '../types';
 
-export const loginFailedController = (req: Request, res: Response) => {
-  res.status(401).json({
-    isLoggedIn: false,
-    message: 'user failed to authenticate.',
-  });
-};
-
-export const googleController = (req: Request, res: Response) => {
-  const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
+export const googleController = async (req: Request, res: Response) => {
+  const { isMentor, loginMode } = req.query;
 
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-    state: isMentor,
+    state: JSON.stringify({ isMentor, loginMode }),
   })(req, res);
 };
 
-export const linkedinController = (req: Request, res: Response) => {
-  const isMentor = req.query.isMentor?.toString() === 'true' ? 'true' : 'false';
+export const linkedinController = async (req: Request, res: Response) => {
+  const { isMentor, loginMode } = req.query;
 
   passport.authenticate('linkedin', {
-    state: isMentor,
+    state: JSON.stringify({ isMentor, loginMode }),
   })(req, res);
 };
 
-export const googleRedirectController = passport.authenticate('google', {
-  successRedirect: `${CLIENT_URL}/`,
-  failureRedirect: '/login/failed',
-});
+export const passportGoogle = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const page =
+    JSON.parse((req.query.state as string) || '{}')?.loginMode === 'true'
+      ? 'login'
+      : 'signup';
 
-export const linkedinRedirectController = passport.authenticate('linkedin', {
-  successRedirect: `${CLIENT_URL}/`,
-  failureRedirect: '/login/failed',
-});
+  passport.authenticate('google', (err, user) => {
+    if (err)
+      return res.redirect(
+        `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=${err}`,
+      );
+
+    if (!user)
+      return res.redirect(
+        `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=Something Went Wrong!`,
+      );
+
+    req.logIn(user, (err) => {
+      if (err)
+        return res.redirect(
+          `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=${err}`,
+        );
+
+      return next();
+    });
+  })(req, res, next);
+};
+
+export const passportLinkedin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const page =
+    JSON.parse((req.query.state as string) || '{}')?.loginMode === 'true'
+      ? 'login'
+      : 'signup';
+
+  passport.authenticate('linkedin', (err, user) => {
+    if (err)
+      return res.redirect(
+        `${CLIENT_URL}/auth?page=${page}7socialAuthFailed=${err}`,
+      );
+
+    if (!user)
+      return res.redirect(
+        `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=Something Went Wrong!`,
+      );
+
+    req.logIn(user, (err) => {
+      if (err)
+        return res.redirect(
+          `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=${err}`,
+        );
+
+      return next();
+    });
+  })(req, res, next);
+};
+
+export const socialAuthCallback = async (req: Request, res: Response) => {
+  if (req.user) {
+    const user = req.user as UserSchemaType;
+
+    if (user.signup_completed) {
+      return res.redirect(`${CLIENT_URL}/dashboard`);
+    }
+
+    return res.redirect(`${CLIENT_URL}/registration-form`);
+  }
+
+  return res.redirect(
+    `${CLIENT_URL}/auth?socialAuthFailed=Something Went Wrong!`,
+  );
+};
 
 export const authController = (req: Request, res: Response) => {
   if (!req.user) {

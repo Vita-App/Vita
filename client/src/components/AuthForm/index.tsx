@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useHttp from 'hooks/useHttp';
 import { authState } from 'store';
@@ -57,8 +57,9 @@ const AuthForm: React.FC = () => {
   const [authMode, setAuthMode] = useState(
     params.get('page') === 'signup' ? AuthMode.signup : AuthMode.login,
   );
+  const [oauthErr, setOauthErr] = useState(params.get('socialAuthFailed'));
   const [showPassword, setShowPassword] = useState(false);
-  const { loading, sendRequest, error: httpError } = useHttp();
+  const { loading, sendRequest, error: httpError, clearError } = useHttp();
   const {
     control,
     handleSubmit,
@@ -69,6 +70,8 @@ const AuthForm: React.FC = () => {
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
+    clearError();
+    setOauthErr(null);
   };
 
   const getPattern = (authMode: AuthMode, isMentor: boolean) => {
@@ -134,15 +137,27 @@ const AuthForm: React.FC = () => {
     }
   };
 
+  const role = watch('role');
+  const isMentor = role === 'mentor';
+
   const googleLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/google`;
+    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 
   const linkedInLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/linkedin`;
+    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 
-  const role = watch('role');
+  useEffect(() => {
+    const subscription = watch((_, { type }) => {
+      if (type === 'change') {
+        if (oauthErr) setOauthErr(null);
+        if (httpError) clearError();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <Stack
@@ -226,7 +241,7 @@ const AuthForm: React.FC = () => {
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         {!loginMode && (
-          <Stack direction="row" alignItems="center">
+          <Stack spacing={1}>
             <Controller
               name="role"
               control={control}
@@ -238,20 +253,29 @@ const AuthForm: React.FC = () => {
                 </ToggleButtonGroup>
               )}
             />
-            <Typography variant="body2"></Typography>
+            {!role && (
+              <Typography variant="caption" color="info.main">
+                Select your role to enable signup
+              </Typography>
+            )}
           </Stack>
         )}
         {loginMode && (
           <Link to="/reset-password">
-            <Typography variant="body2" color="Highlight">
+            <Typography variant="body2" color="info.main">
               Forgot Password?
             </Typography>
           </Link>
         )}
       </Stack>
       {typeof httpError === 'string' && (
-        <Typography variant="body2" color="error">
+        <Typography variant="body2" color="error.main">
           {httpError}
+        </Typography>
+      )}
+      {oauthErr && (
+        <Typography variant="body2" color="error.main">
+          {oauthErr}
         </Typography>
       )}
       <StyledButton

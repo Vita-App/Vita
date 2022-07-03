@@ -7,13 +7,14 @@ import {
   jwtSignupController,
   jwtLoginController,
   googleController,
-  googleRedirectController,
   linkedinController,
-  linkedinRedirectController,
   verifyEmailController,
   sendMailController,
   changePasswordController,
   registerUserController,
+  passportGoogle,
+  passportLinkedin,
+  socialAuthCallback,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -27,6 +28,7 @@ import {
   changeTopMentorStatusController,
   modifyBanner,
   getBanner,
+  deleteUser,
 } from '../controllers/api-controller';
 
 import {
@@ -54,15 +56,15 @@ const router = Router();
 // We will do our re-routing from the client side just send information from here
 // GET to /api/auth will return current logged in user info
 router.get('/auth', authController);
-router.get('/admin/auth', adminAuthController);
+router.get('/admin/auth', checkAdmin, adminAuthController);
 router.post('/send-email', sendMailController);
 router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
 router.get('/auth/verify-email', verifyEmailController);
 router.get('/auth/google', googleController);
-router.get('/auth/googleCallback', googleRedirectController);
 router.get('/auth/linkedin', linkedinController);
-router.get('/auth/linkedinCallback', linkedinRedirectController);
+router.get('/auth/googleCallback', passportGoogle, socialAuthCallback);
+router.get('/auth/linkedinCallback', passportLinkedin, socialAuthCallback);
 router.post(
   '/register',
   upload.single('profilePicture'),
@@ -89,6 +91,7 @@ router.post('/bookSlot', isAuth, bookSlotController);
 router.put('/approve-mentor', checkAdmin, approveMentorController);
 router.get('/reject-mentor', checkAdmin, rejectController);
 router.put('/change-topmentor', checkAdmin, changeTopMentorStatusController);
+router.delete('/delete-user/:id', checkAdmin, deleteUser);
 
 router.post('/modify-banner', checkAdmin, modifyBanner);
 router.get('/get-banner', getBanner);
