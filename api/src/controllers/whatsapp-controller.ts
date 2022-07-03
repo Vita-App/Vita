@@ -13,13 +13,12 @@ export const verifyWebHook = async (req: Request, res: Response) => {
 };
 
 export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
-  const body = JSON.parse(req.body);
-  if (body.field !== 'messages') {
+  if (req.body.field !== 'messages') {
     // not from the messages webhook so dont process
     return res.sendStatus(400);
   }
 
-  const messages = body.value;
+  const messages = req.body.value;
 
   console.log(messages);
 
