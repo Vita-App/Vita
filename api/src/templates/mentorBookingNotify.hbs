@@ -1,0 +1,17 @@
+<div>
+  <h1>{{user}} has requested you for a session!</h1>
+  <p>
+    Hi we want to let you know that
+    {{user}}
+    has requested you for a session on
+    {{#if session.topic}}
+      {{session.topic}}
+    {{/if}}
+  </p>
+  {{#if session.description}}
+    <h3>From Student:</h3>
+    <p>
+      {{session.description}}
+    </p>
+  {{/if}}
+</div>

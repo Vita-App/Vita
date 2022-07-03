@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // @ts-nocheck
-import React from 'react';
+import React, { useState } from 'react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import CalendarPicker from '@mui/lab/CalendarPicker';
@@ -8,11 +8,14 @@ import { CalendarPickerSkeleton, PickersDay } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { mentorState, timeZoneState } from 'store';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DayEnumType, DurationType } from 'types';
+import { DurationType } from 'types';
 import { getSlotsByDays } from 'utils/helper';
 import { Stack, Typography } from '@mui/material';
 import moment from 'moment-timezone';
 import { ReactSelect } from 'components/common';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { SERVER_URL } from 'config.keys';
 
 const Wrapper = styled('div')`
   color: white;
@@ -28,16 +31,6 @@ const Wrapper = styled('div')`
     color: white !important;
   }
 `;
-
-const dayOfWeek: DayEnumType[] = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
-];
 
 interface CalendarProps {
   date: Date | null;
@@ -55,12 +48,25 @@ const checkValidDate = (todaysDate: Date, date: Date) => {
   return true;
 };
 
+const getBusySlots = async (id: string) => {
+  const { data } = await axios.get<Date[]>(`${SERVER_URL}/api/busySlots`, {
+    params: { id },
+  });
+
+  return data;
+};
+
 const Calendar: React.FC<CalendarProps> = ({
   date,
   setDate,
   setTimeslot,
   setSelectedSlot,
 }) => {
+  const [month, setMonth] = useState(new Date().getMonth());
+  const { time_slots: _time_slots, _id } = useRecoilValue(mentorState);
+  const { isLoading, data: busySlots } = useQuery(['getBusySlots', _id], () =>
+    getBusySlots(_id),
+  );
   const [timeZone, setTimeZone] = useRecoilState(timeZoneState);
   const todaysDate = new Date();
   const minDate = new Date(todaysDate.getFullYear(), todaysDate.getMonth(), 1);
@@ -70,9 +76,14 @@ const Calendar: React.FC<CalendarProps> = ({
     0,
   );
 
-  const { time_slots: _time_slots } = useRecoilValue(mentorState);
+  if (isLoading) return null;
 
-  const time_slots = getSlotsByDays(_time_slots, timeZone.value);
+  const time_slots = getSlotsByDays(
+    _time_slots,
+    busySlots,
+    month,
+    timeZone.value,
+  );
 
   const StyledPickersDay = styled(PickersDay)`
     background: transparent;
@@ -118,19 +129,17 @@ const Calendar: React.FC<CalendarProps> = ({
             date={date}
             minDate={minDate}
             maxDate={maxDate}
+            onMonthChange={(e) => {
+              setMonth(e.getMonth());
+            }}
             onChange={(e) => {
               // if (typeof e === 'undefined') return;
-              const dayName: DayEnumType = dayOfWeek[e.getDay()];
               setDate(e);
-              setTimeslot(time_slots[dayName]);
+              setTimeslot(time_slots[e?.getDate()]);
             }}
             renderLoading={() => <CalendarPickerSkeleton />}
             renderDay={(day, _value, DayComponentProps) => {
-              const dayName: DayEnumType = dayOfWeek[day.getDay()];
-
-              const { available } = time_slots[dayName]
-                ? time_slots[dayName][0]
-                : { available: false };
+              const available = time_slots[day.getDate()]?.length > 0;
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
                 available &&

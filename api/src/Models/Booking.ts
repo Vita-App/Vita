@@ -14,7 +14,7 @@ const BookingSchema = new Schema<BookingSchemaType>({
     default: 'waiting',
   },
   session: {
-    motivation: String,
+    email: String,
     topic: String,
     description: String,
   },

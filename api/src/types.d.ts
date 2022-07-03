@@ -1,4 +1,12 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: Express.User & (Document & (AdminSchemaType | UserSchemaType));
+    }
+  }
+}
 
 export interface UserSchemaType {
   user_id: string;
@@ -100,9 +108,9 @@ export interface MentorSchemaType {
 }
 
 interface Session {
-  motivation: string;
-  topic: string;
-  description: string;
+  email?: string;
+  topic?: string;
+  description?: string;
 }
 
 export interface BookingSchemaType {

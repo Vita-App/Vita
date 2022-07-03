@@ -80,7 +80,12 @@ export const transformSlots = (slots: AvailabilitySlots) =>
     return [...acc, ...daySlots];
   }, [] as SlotType[]);
 
-export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
+export const getSlotsByDays = (
+  slots: SlotType[],
+  busySlots: Date[],
+  month: number,
+  _timeZone?: string,
+) => {
   let timeZone: string;
   if (!_timeZone) {
     timeZone = moment.tz.guess();
@@ -88,7 +93,7 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
     timeZone = _timeZone;
   }
 
-  const newSlots: Record<string, DurationType[]> = {};
+  let newSlots: Record<string, DurationType[]> = {};
 
   slots.forEach((slot) => {
     const momentStart = moment(slot.start);
@@ -103,7 +108,6 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
         {
           start: momentStart,
           end: momentEnd,
-          available: slot.available,
         },
       ];
     } else {
@@ -111,11 +115,70 @@ export const getSlotsByDays = (slots: SlotType[], _timeZone?: string) => {
         {
           start: momentStart,
           end: momentEnd,
-          available: slot.available,
         },
       ];
     }
   });
+
+  newSlots = filterBusy(newSlots, busySlots, month, timeZone);
+
+  return newSlots;
+};
+
+// const getDays = (month: number, weekDay: number) => {
+//   const days: Moment[] = [];
+
+//   const firstDay = moment({ month }).startOf("month").day(weekDay);
+
+//   console.log(firstDay.date());
+
+//   if (firstDay.date() > 7) firstDay.add(7, 'd');
+
+//   const _month = firstDay.month();
+//   while (_month === firstDay.month()) {
+//     days.push(firstDay);
+//     firstDay.add(7, 'd');
+//   }
+
+//   return days;
+// };
+
+const filterBusy = (
+  slots: Record<string, DurationType[]>,
+  busySlots: Date[],
+  month: number,
+  timeZone: string,
+) => {
+  const newSlots: Record<number, DurationType[]> = {};
+
+  const a = moment({ month }).startOf('month');
+  const b = moment({ month }).endOf('month');
+
+  for (const date = moment(a); date.isBefore(b); date.add(1, 'days')) {
+    const daySlots = slots[date.format('ddd')];
+    newSlots[date.date()] = daySlots?.filter((slot) => {
+      const start = moment(slot.start);
+      start.tz(timeZone);
+      const isBusy = busySlots.find((_busySlot) => {
+        const busySlot = moment(_busySlot);
+        busySlot.tz(timeZone);
+
+        if (
+          busySlot.date() === date.date() &&
+          busySlot.hours() === start.hours() &&
+          busySlot.minutes() === start.minutes()
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      if (isBusy) return false;
+
+      return true;
+    });
+  }
 
   return newSlots;
 };
