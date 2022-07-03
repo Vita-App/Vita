@@ -172,6 +172,40 @@ export const rejectController = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  let user: (Document & UserSchemaType) | null = null;
+  if (id && isValidObjectId(id)) user = await UserModel.findById(id);
+
+  if (!user) {
+    return res.status(404).json({
+      error: 'User not found',
+    });
+  }
+
+  await Promise.all([
+    user.delete(),
+    MentorModel.deleteOne({ _id: user.mentor_information }),
+  ]);
+
+  try {
+    await sendEmail(
+      user.email,
+      'User account deleted',
+      makeTemplate('accountDeleted.hbs', { email: user.email }),
+    );
+    return res.status(200).json({
+      success: true,
+      message: 'Mentor rejected successfully!',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Email didn't sent",
+    });
+  }
+};
+
 export const changeTopMentorStatusController = async (
   req: Request,
   res: Response,

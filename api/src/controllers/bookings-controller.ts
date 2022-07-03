@@ -68,7 +68,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
     });
   }
 
-  const alreadyWaiting = await BookingModel.find({
+  const alreadyWaiting = await BookingModel.findOne({
     mentee_id: user._id,
     status: BookingStatus.WAITING,
   });
@@ -76,7 +76,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
   if (alreadyWaiting) {
     return res.status(400).json({
       error:
-        'You have already asked for a booking slot. You cannot ask for one more',
+        'You already have a booking slot in waiting with this mentor. You cannot book for one more till that slot is accepted or cancelled',
     });
   }
 
