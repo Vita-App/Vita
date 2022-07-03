@@ -50,6 +50,10 @@ import {
   bookSlotController,
 } from '../controllers/bookings-controller';
 import { isAuth } from '../middleware/isAuth';
+import {
+  handleWhatsAppWebHook,
+  verifyWebHook,
+} from '../controllers/whatsapp-controller';
 const upload = multer({ storage });
 const router = Router();
 
@@ -95,6 +99,8 @@ router.delete('/delete-user/:id', checkAdmin, deleteUser);
 
 router.post('/modify-banner', checkAdmin, modifyBanner);
 router.get('/get-banner', getBanner);
+
+router.route('/webhooks').get(verifyWebHook).post(handleWhatsAppWebHook);
 
 if (!PROD) {
   router.post('/admin/create', checkDBUrl, createAdminController);
