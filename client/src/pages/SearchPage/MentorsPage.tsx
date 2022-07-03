@@ -93,25 +93,26 @@ const MentorsPage = () => {
       },
     );
 
-  const content =
-    isLoading === false ? (
-      <>
-        <InfiniteScroll
-          dataLength={
-            data?.pages.reduce((acc, page) => page.mentors.length + acc, 0) || 0
-          }
-          next={fetchNextPage}
-          hasMore={Boolean(hasNextPage)}
-          loader={<h3>Loading...</h3>}>
-          {null}
-        </InfiniteScroll>
-        <RenderCards isLoading={isLoading} data={data} />
-      </>
-    ) : (
-      <StyledBox>
-        <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
-      </StyledBox>
-    );
+  const content = (
+    <>
+      <InfiniteScroll
+        dataLength={
+          data?.pages.reduce((acc, page) => page.mentors.length + acc, 0) || 0
+        }
+        loader={
+          isLoading && (
+            <StyledBox>
+              <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+            </StyledBox>
+          )
+        }
+        next={fetchNextPage}
+        hasMore={Boolean(hasNextPage)}>
+        {null}
+      </InfiniteScroll>
+      <RenderCards isLoading={isLoading} data={data} />
+    </>
+  );
 
   return (
     <>

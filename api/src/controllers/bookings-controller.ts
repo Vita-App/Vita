@@ -26,7 +26,7 @@ export const availabilityController = async (req: Request, res: Response) => {
 
   const bookings = await BookingModel.find({
     mentor_id: mentor._id,
-    status: BookingStatus.WAITING,
+    status: BookingStatus.WAITING, // This should be BookingStatus.ACCEPTED
   });
 
   if (bookings.length === 0) {
@@ -70,6 +70,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
 
   const alreadyWaiting = await BookingModel.findOne({
     mentee_id: user._id,
+    mentor_id,
     status: BookingStatus.WAITING,
   });
 
