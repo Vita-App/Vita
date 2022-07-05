@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Reactselect from 'react-select';
 
+export * from './ChipSelect';
+
 export const Link = styled(router_Link)({
   color: 'inherit',
   textDecoration: 'none',

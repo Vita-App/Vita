@@ -17,7 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { transformSlots } from 'utils/helper';
 import moment from 'moment';
 
-const steps = ['Profile', 'Experience', 'Availability'];
+// const steps = ['Profile', 'Experience', 'Availability'];
+const steps = ['Experience', 'Profile', 'Availability'];
 
 const SignUpSteps: React.FC = () => {
   const { loading, sendRequest } = useHttp();
@@ -121,7 +122,7 @@ const SignUpSteps: React.FC = () => {
 
   const renderStep = (step: number) => {
     switch (step) {
-      case 0:
+      case 1:
         return (
           <ProfileStep
             onContinue={onContinue}
@@ -130,7 +131,7 @@ const SignUpSteps: React.FC = () => {
             setInterests={setInterests}
           />
         );
-      case 1:
+      case 0:
         return (
           <ExperienceStep
             onBack={onBack}

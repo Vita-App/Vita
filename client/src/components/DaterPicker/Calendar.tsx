@@ -12,7 +12,7 @@ import { DurationType } from 'types';
 import { getSlotsByDays } from 'utils/helper';
 import { Stack, Typography } from '@mui/material';
 import moment from 'moment-timezone';
-import { ReactSelect } from 'components/common';
+import { StyledReactSelect } from 'components/common';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
@@ -100,7 +100,7 @@ const Calendar: React.FC<CalendarProps> = ({
     <div style={{ backgroundColor: '#292727' }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Stack spacing={2}>
-          <ReactSelect
+          <StyledReactSelect
             value={timeZone}
             placeholder={<div>Change TimeZone</div>}
             onChange={(e: any) => {
