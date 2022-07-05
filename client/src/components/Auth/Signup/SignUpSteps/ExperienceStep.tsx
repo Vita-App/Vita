@@ -7,6 +7,7 @@ import {
   StyledTextField,
   MuiStyledButton as StyledButton,
   StyledReactSelect as Select,
+  MultiSelectElement,
 } from 'components/common';
 import { LanguageOptions, getTopicOptions, expertiseOptions } from 'data';
 import { ExperienceType } from 'types';
@@ -331,10 +332,10 @@ const ExperienceStep: React.FC<{
               />
             )}
           />
-          <Controller
+          {/* <Controller
             name="topics[career]"
             control={control}
-            defaultValue={props.hydrate?.topics?.career || []}
+            defaultValue={props.hydrate?.topics?.career}
             render={({ field }) => (
               <Select
                 {...field}
@@ -345,6 +346,17 @@ const ExperienceStep: React.FC<{
                 options={getTopicOptions('Career Advice')}
               />
             )}
+          /> */}
+          <MultiSelectElement
+            multiple
+            control={control}
+            name="topics[career]"
+            defaultValue={props.hydrate?.topics?.career}
+            menuItems={getTopicOptions('Career Advice')}
+            showChips
+            // itemKey="value"
+            itemLabel="label"
+            // showCheckbox
           />
           <Controller
             name="topics[jobSearch]"
