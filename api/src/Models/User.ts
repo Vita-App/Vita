@@ -140,6 +140,10 @@ UserSchema.methods.toJSON = function () {
   return user;
 };
 
+UserSchema.index({
+  phone: 'text',
+});
+
 MentorSchema.index(
   {
     name: 'text',
