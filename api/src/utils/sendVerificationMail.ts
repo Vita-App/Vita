@@ -12,7 +12,7 @@ const sendVerificationMail = async (res: Response, user: UserSchemaType) => {
     const emailId = await sendEmail(
       user.email,
       'Verify your email',
-      makeTemplate('emailVerification.hbs', { url: verificationUrl }),
+      makeTemplate('emailVerification.hbs', { url: verificationUrl, name: user.first_name }),
     );
 
     return res.status(200).json({
