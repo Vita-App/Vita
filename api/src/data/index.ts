@@ -19,6 +19,7 @@ import {
   streams,
 } from './fakeData';
 import faker from '@faker-js/faker';
+import moment from 'moment-timezone';
 
 const getRandom = <T>(array: T[]): T => {
   const idx = Math.floor(Math.random() * array.length);
@@ -141,6 +142,7 @@ export const getUser = (user_id: string) => {
     },
     oauth_provider,
     signup_completed,
+    timezone: moment.tz.guess(),
     is_mentor,
     mentor_information,
     user_id,
@@ -167,7 +169,8 @@ export const getMentor = (
   last_name: string,
   image_link: string,
   email: string,
-): MentorSchemaType => ({
+  phone: string,
+): Partial<MentorSchemaType> => ({
   user_id,
   first_name,
   last_name,
@@ -176,6 +179,7 @@ export const getMentor = (
     url: image_link,
     filename: image_link.split('/').pop(),
   },
+  phone,
   bio: getRandom(descriptions)[0],
   approved: true,
   languages: ['English', ...getRandomArray(languages, 1)],

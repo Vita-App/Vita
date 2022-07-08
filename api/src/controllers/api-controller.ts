@@ -104,6 +104,12 @@ export const getUserController = async (req: Request, res: Response) => {
   res.json(user);
 };
 
+export const isPhoneRegistered = async (req: Request, res: Response) => {
+  const phone = req.query.phone ? `+${req.query.phone}` : '';
+  const user = await UserModel.findOne({ phone });
+  res.json(Boolean(user));
+};
+
 export const approveMentorController = async (req: Request, res: Response) => {
   const { id } = req.body;
 

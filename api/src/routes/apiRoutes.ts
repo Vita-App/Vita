@@ -29,6 +29,7 @@ import {
   modifyBanner,
   getBanner,
   deleteUser,
+  isPhoneRegistered,
 } from '../controllers/api-controller';
 
 import {
@@ -81,6 +82,7 @@ router.get('/admin/logout', adminLogoutController); // Auth logout
 router.post('/admin/login', adminLoginController);
 router.post('/admin/verify-otp', adminVerifyOtpController);
 
+router.get('/check-phone', isPhoneRegistered);
 router.get('/get-users', getUsersController);
 router.get('/get-user', getUserController);
 router.get('/get-mentor', getMentorController);

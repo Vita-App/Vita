@@ -29,7 +29,7 @@ export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
       const bookingID = message.button.payload;
       const booking = await BookingModel.findById(bookingID);
 
-      const user = await UserModel.find({ $text: { $search: message.from } });
+      const user = await UserModel.find({ phone: message.from });
 
       if (!user || !booking) {
         return res.sendStatus(400);

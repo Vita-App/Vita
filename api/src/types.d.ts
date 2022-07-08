@@ -20,6 +20,7 @@ export interface UserSchemaType {
     filename?: string;
   };
   bio: string;
+  timezone: string;
   graduation_year: string;
   stream: string;
   interests: string[];
@@ -95,7 +96,9 @@ export interface MentorSchemaType {
   };
   experiences: ExperienceType[];
   email: string;
+  timezone: string;
   bio: string;
+  phone: string;
   expertise: string[];
   languages: string[];
   linkedIn: string;

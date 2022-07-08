@@ -5,7 +5,12 @@ import Calendar from './Calendar';
 import TimeSelector from './TimeSelector';
 import Confirmation from './ConfirmationPage';
 import { DurationType } from 'types';
-const Scheduler = () => {
+
+interface IProps {
+  close: () => void;
+}
+
+const Scheduler: React.FC<IProps> = ({ close }) => {
   const [timeslot, setTimeslot] = useState<DurationType[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<DurationType | undefined>();
@@ -45,8 +50,10 @@ const Scheduler = () => {
             }}>
             <Confirmation
               date={date}
+              setDate={setDate}
               selectedSlot={selectedSlot}
               setSelectedSlot={setSelectedSlot}
+              close={close}
             />
           </Grid>
         </>

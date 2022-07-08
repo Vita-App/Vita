@@ -377,8 +377,9 @@ export const registerUserController = async (req: Request, res: Response) => {
   };
   user.graduation_year = data.graduation_year;
   user.stream = data.stream?.value;
-  user.phone = data.phone;
+  user.phone = data.countryCode.value.replace('+', '') + data.phone;
   user.bio = data.bio;
+  user.timezone = data.timezone;
 
   if (user.is_mentor) {
     const mentor = new MentorModel({

@@ -1,12 +1,103 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
-import { Stack, Typography, Avatar, Chip } from '@mui/material';
+import {
+  Stack,
+  Typography,
+  Avatar,
+  Chip,
+  CircularProgress,
+  styled,
+} from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
   StyledTextField,
   MuiStyledButton as StyledButton,
   StyledReactSelect as Select,
 } from 'components/common';
+import { useMutation, useQuery } from 'react-query';
+import { SERVER_URL } from 'config.keys';
+import axios from 'axios';
+
+const StyledSelect = styled(Select)({
+  width: '180px',
+  '.select__control': {
+    border: 'none',
+    outline: 'none',
+  },
+  '.select__input-container': {
+    border: 'none',
+    backgroundColor: 'transparent',
+  },
+  '.select__input-container:focus': {
+    border: 'none',
+    backgroundColor: 'transparent',
+  },
+  '.select__input-container:active': {
+    border: 'none',
+    backgroundColor: 'transparent',
+  },
+  '.select__control:focus': {
+    border: 'none',
+  },
+});
+
+const checkPhone = async (phone: string) => {
+  const { data } = await axios.get(
+    `${SERVER_URL}/api/check-phone?phone=${phone}`,
+  );
+  return data;
+};
+
+interface RestCountriesAPIResponse {
+  name: string;
+  callingCodes?: string[];
+  flags: { png: string; svg: string };
+}
+
+interface CountryData {
+  value: string;
+  label: any;
+}
+
+const defaultCountry = [
+  {
+    value: '+91',
+    label: (
+      <Stack direction="row" alignItems="center">
+        <img src="https://flagcdn.com/in.svg" height="20px" width="20px" />
+        +91
+      </Stack>
+    ),
+  },
+];
+
+const getCountryCodes = async () => {
+  const { data } = await axios.get<RestCountriesAPIResponse[]>(
+    'https://restcountries.com/v2/all',
+  );
+
+  const options: CountryData[] = [];
+
+  data.forEach((country) =>
+    country.callingCodes?.forEach((code) => {
+      options.push({
+        value: `+${code}`,
+        label: (
+          <Stack direction="row" alignItems="center">
+            <img
+              src={country.flags.svg || country.flags.png}
+              height="20px"
+              width="20px"
+            />
+            {`+${code}`}
+          </Stack>
+        ),
+      });
+    }),
+  );
+
+  return options;
+};
 
 const ProfileStep: React.FC<{
   onContinue: (step: number, formData: FieldValues) => void;
@@ -18,25 +109,50 @@ const ProfileStep: React.FC<{
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
+    setError,
   } = useForm();
 
   const [avatarSrc, setAvatarSrc] = useState('');
   const profilePicRef = useRef<HTMLInputElement>();
 
-  const onSubmit = (data: FieldValues) => {
-    // Continuing to the next step through props instead of continuing in the index.tsx component, because I wanted to do validation here before continuing.
-    // Cool thing is that I can pass this data to the index.tsx component and gather all data from all the steps.
-    let file;
-    if (
-      profilePicRef.current!.files &&
-      profilePicRef.current!.files.length > 0
-    ) {
-      file = profilePicRef.current!.files[0];
-    } else if (avatarSrc) {
-      file = props.hydrate?.profilePicture;
-    }
+  const { data } = useQuery<CountryData[]>('countryCodes', getCountryCodes);
 
-    props.onContinue(0, { ...data, profilePicture: file });
+  const mutation = useMutation(
+    'check-phone',
+    (phone: string) => checkPhone(phone),
+    {
+      onSuccess: (data) => {
+        if (data) {
+          setError('phone', {
+            type: 'manual',
+            message: 'Phone number is already in use',
+          });
+          return;
+        }
+
+        let file;
+        if (
+          profilePicRef.current!.files &&
+          profilePicRef.current!.files.length > 0
+        ) {
+          file = profilePicRef.current!.files[0];
+        } else if (avatarSrc) {
+          file = props.hydrate?.profilePicture;
+        }
+
+        const form = getValues();
+
+        props.onContinue(0, {
+          ...form,
+          profilePicture: file,
+        });
+      },
+    },
+  );
+
+  const onSubmit = (data: FieldValues) => {
+    mutation.mutate(`${data.countryCode.value}${data.phone}`.replace('+', ''));
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,8 +284,8 @@ const ProfileStep: React.FC<{
           )}
         />
       </Stack>
-      <Stack direction="row" spacing={1}>
-        <Stack flexGrow={1}>
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
+        <Stack flexGrow={1} position="relative">
           <Typography variant="body2">Phone</Typography>
           <Controller
             name="phone"
@@ -178,7 +294,7 @@ const ProfileStep: React.FC<{
             rules={{
               required: 'Phone Number is Required',
               pattern: {
-                value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
+                value: /^\d{10}$/,
                 message: 'Invalid Phone Number',
               },
             }}
@@ -188,6 +304,25 @@ const ProfileStep: React.FC<{
                 error={Boolean(errors.phone)}
                 helperText={errors.phone?.message}
                 placeholder="Enter a phone number"
+                InputProps={{
+                  startAdornment: (
+                    <Controller
+                      name="countryCode"
+                      control={control}
+                      defaultValue={
+                        props.hydrate?.countryCode || defaultCountry[0]
+                      }
+                      render={({ field }) => (
+                        <StyledSelect
+                          {...field}
+                          placeholder=""
+                          classNamePrefix="select"
+                          options={data || defaultCountry}
+                        />
+                      )}
+                    />
+                  ),
+                }}
               />
             )}
           />
@@ -276,8 +411,16 @@ const ProfileStep: React.FC<{
         />
       </Stack>
       <Stack direction="row" justifyContent="center">
-        <StyledButton type="submit" variant="contained" sx={{ flex: 0.5 }}>
-          Continue
+        <StyledButton
+          type="submit"
+          variant="contained"
+          sx={{ flex: 0.5 }}
+          disabled={mutation.isLoading}>
+          {mutation.isLoading ? (
+            <CircularProgress variant="indeterminate" sx={{ width: '50px' }} />
+          ) : (
+            'Continue'
+          )}
         </StyledButton>
       </Stack>
     </Stack>
