@@ -122,7 +122,7 @@ const SignUpSteps: React.FC = () => {
 
   const renderStep = (step: number) => {
     switch (step) {
-      case 1:
+      case 0:
         return (
           <ProfileStep
             onContinue={onContinue}
@@ -131,7 +131,7 @@ const SignUpSteps: React.FC = () => {
             setInterests={setInterests}
           />
         );
-      case 0:
+      case 1:
         return (
           <ExperienceStep
             onBack={onBack}

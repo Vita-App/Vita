@@ -255,40 +255,16 @@ const ExperienceStep: React.FC<{
           )}
         />
       </Stack>
-      <Stack spacing={1}>
-        <Typography variant="body2">Languages you are efficient in</Typography>
-        <Controller
-          name="languages[]"
-          control={control}
-          defaultValue={props.hydrate?.languages || []}
-          render={({ field }) => (
-            <Select
-              closeMenuOnSelect={false}
-              {...field}
-              placeholder="Languages"
-              isMulti
-              classNamePrefix="select"
-              options={LanguageOptions}
-            />
-          )}
-        />
-      </Stack>
-      <Stack spacing={1}>
+      <Stack spacing={2}>
         <Typography variant="body2">What&apos;s your expertise ?</Typography>
-        <Controller
-          name="expertise[]"
+        <MultiSelectElement
+          multiple
           control={control}
-          defaultValue={props.hydrate?.expertise || []}
-          render={({ field }) => (
-            <Select
-              closeMenuOnSelect={false}
-              {...field}
-              placeholder="Expertise"
-              isMulti
-              classNamePrefix="select"
-              options={expertiseOptions}
-            />
-          )}
+          menuItems={expertiseOptions}
+          name="expertise[]"
+          defaultValue={props.hydrate?.exepertise}
+          showChips
+          label="Expertise"
         />
       </Stack>
       <Stack>
@@ -299,54 +275,16 @@ const ExperienceStep: React.FC<{
           We recommend selecting at least 5 topic areas to explore what
           interests you.
         </Typography>
-        <Stack mt={1} spacing={2}>
-          <Controller
-            name="topics[leaderShip]"
+        <Stack mt={2} spacing={2}>
+          <MultiSelectElement
+            multiple
             control={control}
-            defaultValue={props.hydrate?.topics?.leaderShip || []}
-            render={({ field }) => (
-              <Select
-                closeMenuOnSelect={false}
-                {...field}
-                menuPlacement="top"
-                placeholder="Leadership"
-                isMulti
-                classNamePrefix="select"
-                options={getTopicOptions('Leadership')}
-              />
-            )}
+            name="topics[jobSearch]"
+            defaultValue={props.hydrate?.topics?.jobSearch}
+            menuItems={getTopicOptions('Job Search')}
+            showChips
+            label="Job Search"
           />
-          <Controller
-            name="topics[mentorShip]"
-            control={control}
-            defaultValue={props.hydrate?.topics?.mentorShip || []}
-            render={({ field }) => (
-              <Select
-                {...field}
-                closeMenuOnSelect={false}
-                menuPlacement="top"
-                placeholder="Mentorship"
-                isMulti
-                classNamePrefix="select"
-                options={getTopicOptions('Mentorship')}
-              />
-            )}
-          />
-          {/* <Controller
-            name="topics[career]"
-            control={control}
-            defaultValue={props.hydrate?.topics?.career}
-            render={({ field }) => (
-              <Select
-                {...field}
-                menuPlacement="top"
-                placeholder="Career"
-                isMulti
-                classNamePrefix="select"
-                options={getTopicOptions('Career Advice')}
-              />
-            )}
-          /> */}
           <MultiSelectElement
             multiple
             control={control}
@@ -354,41 +292,25 @@ const ExperienceStep: React.FC<{
             defaultValue={props.hydrate?.topics?.career}
             menuItems={getTopicOptions('Career Advice')}
             showChips
-            // itemKey="value"
-            itemLabel="label"
-            // showCheckbox
+            label="Career Advice"
           />
-          <Controller
-            name="topics[jobSearch]"
+          <MultiSelectElement
+            multiple
             control={control}
-            defaultValue={props.hydrate?.topics?.jobSearch || []}
-            render={({ field }) => (
-              <Select
-                {...field}
-                closeMenuOnSelect={false}
-                menuPlacement="top"
-                placeholder="Job Search"
-                isMulti
-                classNamePrefix="select"
-                options={getTopicOptions('Job Search')}
-              />
-            )}
+            name="topics[leaderShip]"
+            defaultValue={props.hydrate?.topics?.leaderShip}
+            menuItems={getTopicOptions('Leadership')}
+            showChips
+            label="Leadership"
           />
-          <Controller
+          <MultiSelectElement
+            multiple
+            control={control}
             name="topics[skills]"
-            control={control}
-            defaultValue={props.hydrate?.topics?.skills || []}
-            render={({ field }) => (
-              <Select
-                {...field}
-                closeMenuOnSelect={false}
-                menuPlacement="top"
-                placeholder="Skills"
-                isMulti
-                classNamePrefix="select"
-                options={getTopicOptions('Skills')}
-              />
-            )}
+            defaultValue={props.hydrate?.topics?.skills}
+            menuItems={getTopicOptions('Skills')}
+            showChips
+            label="Skills"
           />
         </Stack>
       </Stack>

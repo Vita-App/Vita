@@ -1,177 +1,3 @@
-// import React from 'react';
-// import CloseIcon from '@mui/icons-material/Cancel';
-// import { Control, Controller, FieldError } from 'react-hook-form';
-// import {
-//   Checkbox,
-//   Chip,
-//   FormControl,
-//   FormHelperText,
-//   InputLabel,
-//   ListItemText,
-//   MenuItem,
-//   Select,
-//   SelectProps,
-// } from '@mui/material';
-
-// interface MenuItemType {
-//   label: string;
-//   value: number;
-// }
-
-// type MultiSelectElementProps = Omit<SelectProps, 'value'> & {
-//   menuItems: MenuItemType[];
-//   label?: string;
-//   itemKey?: string;
-//   itemValue?: string;
-//   itemLabel?: string;
-//   required?: boolean;
-//   validation?: any;
-//   name: string;
-//   parseError?: (error: FieldError) => string;
-//   minWidth?: number;
-//   menuMaxHeight?: number;
-//   menuMaxWidth?: number;
-//   helperText?: string;
-//   showChips?: boolean;
-//   control?: Control<any>;
-//   showCheckbox?: boolean;
-// };
-
-// const ITEM_HEIGHT = 48;
-// const ITEM_PADDING_TOP = 8;
-
-// export const MultiSelectElement = ({
-//   menuItems,
-//   label = '',
-//   itemKey = '',
-//   itemValue = '',
-//   itemLabel = '',
-//   required = false,
-//   validation = {},
-//   parseError,
-//   name,
-//   menuMaxHeight = ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//   menuMaxWidth = 250,
-//   minWidth = 120,
-//   helperText,
-//   showChips,
-//   variant,
-//   control,
-//   showCheckbox,
-//   ...rest
-// }: MultiSelectElementProps) => {
-//   if (required && !validation.required) {
-//     validation.required = 'This field is required';
-//   }
-
-//   return (
-//     <Controller
-//       name={name}
-//       rules={validation}
-//       control={control}
-//       render={({
-//         field: { value, onChange, onBlur },
-//         fieldState: { invalid, error },
-//       }) => {
-//         helperText = error
-//           ? typeof parseError === 'function'
-//             ? parseError(error)
-//             : error.message
-//           : helperText;
-//         return (
-//           <FormControl
-//             variant={variant}
-//             style={{ minWidth }}
-//             fullWidth={rest.fullWidth}
-//             error={invalid}>
-//             {label && (
-//               <InputLabel
-//                 error={invalid}
-//                 htmlFor={rest.id || `select-multi-select-${name}`}
-//                 required={required}>
-//                 {label}
-//               </InputLabel>
-//             )}
-//             <Select
-//               {...rest}
-//               id={rest.id || `select-multi-select-${name}`}
-//               multiple
-//               label={label || undefined}
-//               error={invalid}
-//               value={value || []}
-//               required={required}
-//               onChange={onChange}
-//               onBlur={onBlur}
-//               MenuProps={{
-//                 PaperProps: {
-//                   style: {
-//                     maxHeight: menuMaxHeight,
-//                     width: menuMaxWidth,
-//                   },
-//                 },
-//               }}
-//               renderValue={
-//                 typeof rest.renderValue === 'function'
-//                   ? rest.renderValue
-//                   : showChips
-//                   ? (selected: MenuItemType[]) => (
-//                       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-//                         {selected.map((selectedValue) => (
-//                           <Chip
-//                             key={selectedValue.value}
-//                             label={selectedValue.label}
-//                             style={{ display: 'flex', flexWrap: 'wrap' }}
-//                             onDelete={() => {
-//                               console.log(value);
-//                               onChange(
-//                                 value.filter(
-//                                   (i: MenuItemType) => i !== selectedValue,
-//                                 ),
-//                               );
-//                               // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
-//                             }}
-//                             deleteIcon={
-//                               <CloseIcon
-//                                 onMouseDown={(ev) => {
-//                                   ev.stopPropagation();
-//                                 }}
-//                               />
-//                             }
-//                           />
-//                         ))}
-//                       </div>
-//                     )
-//                   : (selected) => selected?.join(', ')
-//               }>
-//               {menuItems.map((item: MenuItemType) => {
-//                 const isChecked = value?.includes(item) ?? false;
-//                 // const key = itemValue || itemKey;
-//                 // const val = key ? item[key] : item;
-//                 console.log(menuItems);
-//                 return (
-//                   <MenuItem
-//                     key={item.value}
-//                     value={item.value}
-//                     sx={{
-//                       fontWeight: (theme) =>
-//                         isChecked
-//                           ? theme.typography.fontWeightBold
-//                           : theme.typography.fontWeightRegular,
-//                     }}>
-//                     {showCheckbox && <Checkbox checked={isChecked} />}
-//                     <ListItemText primary={item.label} />
-//                   </MenuItem>
-//                 );
-//               })}
-//             </Select>
-//             {helperText && <FormHelperText>{helperText}</FormHelperText>}
-//           </FormControl>
-//         );
-//       }}
-//     />
-//   );
-// };
-
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Cancel';
 import { Control, Controller, FieldError } from 'react-hook-form';
@@ -186,13 +12,11 @@ import {
   Select,
   SelectProps,
 } from '@mui/material';
+import StaticTimePicker from '@mui/lab/StaticTimePicker';
 
 export type MultiSelectElementProps = Omit<SelectProps, 'value'> & {
-  menuItems: any[];
+  menuItems: MenuItemType[];
   label?: string;
-  itemKey?: string;
-  itemValue?: string;
-  itemLabel?: string;
   required?: boolean;
   validation?: any;
   name: string;
@@ -209,12 +33,21 @@ export type MultiSelectElementProps = Omit<SelectProps, 'value'> & {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
+interface MenuItemType {
+  label: string;
+  value: unknown;
+}
+
+const isPresent = (list: MenuItemType[], item: MenuItemType) => {
+  for (let i = 0; i < list?.length; i++)
+    if (list[i].label === item.label) return true;
+
+  return false;
+};
+
 export const MultiSelectElement = ({
   menuItems,
   label = '',
-  itemKey = '',
-  itemValue = '',
-  itemLabel = '',
   required = false,
   validation = {},
   parseError,
@@ -239,7 +72,7 @@ export const MultiSelectElement = ({
       rules={validation}
       control={control}
       render={({
-        field: { value, onChange, onBlur },
+        field: { value: optionSelected, onChange, onBlur },
         fieldState: { invalid, error },
       }) => {
         helperText = error
@@ -267,7 +100,7 @@ export const MultiSelectElement = ({
               multiple
               label={label || undefined}
               error={invalid}
-              value={value || []}
+              value={optionSelected || []}
               required={required}
               onChange={onChange}
               onBlur={onBlur}
@@ -283,41 +116,46 @@ export const MultiSelectElement = ({
                 typeof rest.renderValue === 'function'
                   ? rest.renderValue
                   : showChips
-                  ? (selected) => (
+                  ? (selected: MenuItemType[]) => (
                       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {((selected as any[]) || []).map((selectedValue) => (
-                          <Chip
-                            key={selectedValue}
-                            label={selectedValue}
-                            style={{ display: 'flex', flexWrap: 'wrap' }}
-                            onDelete={() => {
-                              onChange(
-                                value.filter((i: any) => i !== selectedValue),
-                              );
-                              // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
-                            }}
-                            deleteIcon={
-                              <CloseIcon
-                                onMouseDown={(ev) => {
-                                  ev.stopPropagation();
-                                }}
-                              />
-                            }
-                          />
-                        ))}
+                        {(selected || []).map(
+                          (selectedValue, index: number) => (
+                            <Chip
+                              key={index}
+                              label={selectedValue.label}
+                              sx={{
+                                margin: '4px',
+                              }}
+                              onDelete={() => {
+                                onChange(
+                                  optionSelected.filter(
+                                    (i: any) => i !== selectedValue,
+                                  ),
+                                );
+                                // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
+                              }}
+                              deleteIcon={
+                                <CloseIcon
+                                  onMouseDown={(ev) => {
+                                    ev.stopPropagation();
+                                  }}
+                                />
+                              }
+                            />
+                          ),
+                        )}
                       </div>
                     )
                   : (selected) => selected?.join(', ')
               }>
-              {menuItems.map((item: any) => {
-                const isChecked = value?.includes(item) ?? false;
-                const key = itemValue || itemKey;
-                const val = key ? item[key] : item;
-                console.log(item, key, val);
+              {menuItems.map((item: MenuItemType, index: number) => {
+                const isChecked = isPresent(optionSelected, item);
+                console.log(item.label, isChecked);
                 return (
+                  // @ts-ignore
                   <MenuItem
-                    key={val}
-                    value={val}
+                    key={index}
+                    value={item}
                     sx={{
                       fontWeight: (theme) =>
                         isChecked
@@ -325,9 +163,7 @@ export const MultiSelectElement = ({
                           : theme.typography.fontWeightRegular,
                     }}>
                     {showCheckbox && <Checkbox checked={isChecked} />}
-                    <ListItemText
-                      primary={itemLabel ? item[itemLabel] : item}
-                    />
+                    <ListItemText primary={item.label} />
                   </MenuItem>
                 );
               })}

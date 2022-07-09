@@ -11,6 +11,7 @@ import {
 import {
   MuiStyledButton as StyledButton,
   StyledReactSelect,
+  MultiSelectElement,
 } from 'components/common';
 import { TimeSlotsOptions } from 'data';
 import { isObjectEmpty } from 'utils/helper';
@@ -31,6 +32,7 @@ const AvailabilityStep: React.FC<{
     setValue,
     clearErrors,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: props.hydrate,
@@ -54,21 +56,23 @@ const AvailabilityStep: React.FC<{
 
   const onDefaultClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) return;
+    // clearing off previous state
+    reset({});
 
     setValue('dayChecked[Sat]', true);
     setValue('slots[Sat]', [
       {
         label: '11:00 - 12:00',
         value: {
-          start: new Date(2021, 0, 1, 11, 0),
-          end: new Date(2021, 0, 1, 12, 0),
+          start: new Date(2022, 0, 1, 11, 0),
+          end: new Date(2022, 0, 1, 12, 0),
         },
       },
       {
         label: '12:00 - 13:00',
         value: {
-          start: new Date(2021, 0, 1, 12, 0),
-          end: new Date(2021, 0, 1, 13, 0),
+          start: new Date(2022, 0, 1, 12, 0),
+          end: new Date(2022, 0, 1, 13, 0),
         },
       },
     ]);
@@ -78,22 +82,24 @@ const AvailabilityStep: React.FC<{
       {
         label: '11:00 - 12:00',
         value: {
-          start: new Date(2021, 0, 1, 11, 0),
-          end: new Date(2021, 0, 1, 12, 0),
+          start: new Date(2022, 0, 1, 11, 0),
+          end: new Date(2022, 0, 1, 12, 0),
         },
       },
       {
         label: '12:00 - 13:00',
         value: {
-          start: new Date(2021, 0, 1, 12, 0),
-          end: new Date(2021, 0, 1, 13, 0),
+          start: new Date(2022, 0, 1, 12, 0),
+          end: new Date(2022, 0, 1, 13, 0),
         },
       },
     ]);
   };
 
   const isError = isObjectEmpty(form?.slots);
-
+  console.log(isError);
+  console.log(form);
+  console.log(errors);
   return (
     <Stack
       spacing={3}
@@ -147,21 +153,15 @@ const AvailabilityStep: React.FC<{
                     Unavailable
                   </Typography>
                 ) : (
-                  <Controller
-                    name={`slots[${day}]`}
+                  <MultiSelectElement
+                    multiple
                     control={control}
-                    rules={{ required: 'Please select at least one time slot' }}
-                    render={({ field }) => (
-                      <StyledReactSelect
-                        closeMenuOnSelect={false}
-                        menuPlacement="top"
-                        {...field}
-                        placeholder="Select your time slots"
-                        isMulti
-                        classNamePrefix="select"
-                        options={TimeSlotsOptions}
-                      />
-                    )}
+                    menuItems={TimeSlotsOptions}
+                    name={`slots[${day}]`}
+                    showChips
+                    showCheckbox
+                    label="Select your time slots"
+                    error={errors?.slots?.[day]}
                   />
                 )}
                 {errors?.slots?.[day] && (
