@@ -1,6 +1,8 @@
 import { Topic } from 'types';
 import { shuffleArray } from 'utils/helper';
 
+type MotivationType = 'Job Search' | 'Career Advice' | 'Skills' | 'Leadership';
+
 const topicsData: Topic[] = [
   {
     value: 0,
@@ -225,7 +227,7 @@ const topicsData: Topic[] = [
   },
 ];
 
-export const getTopicOptions = (motivation: string) =>
+export const getTopicOptions = (motivation: MotivationType) =>
   topics
     .filter((topic) => topic.motivation === motivation)
     .map((topic) => ({
