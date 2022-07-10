@@ -3,6 +3,28 @@ import GoogleStrategy from 'passport-google-oauth20';
 import LinkedinStrategy from 'passport-linkedin-oauth2';
 import { GOOGLE_KEY, LINKEDIN_KEY } from './keys';
 import { UserModel } from '../Models/User';
+import { CalendarCredentialsModel } from '../Models/CalendarCredentials';
+
+const calendarEventCreationEmail = async (
+  email: any,
+  refresh_token: string,
+) => {
+  if (email !== process.env.CREATE_CALENDER_EMAIL) return;
+
+  const currCredentials: any = await CalendarCredentialsModel.findOne({ email });
+
+  if (!currCredentials) {
+    const newCalenderCredential = new CalendarCredentialsModel({
+      email,
+      refresh_token,
+    });
+    newCalenderCredential.save();
+  }
+
+  //Refresh token updated
+  currCredentials.refresh_token = refresh_token;
+  currCredentials.save();
+};
 
 const createUserIfNotExists = async (
   user: any,
@@ -51,6 +73,8 @@ passport.use(
     { ...GOOGLE_KEY, passReqToCallback: true },
     (request, _accessToken, _refreshToken, profile, done) => {
       const state = JSON.parse((request.query.state as string) || '{}');
+
+      calendarEventCreationEmail(profile._json.email, _refreshToken)
 
       const user = new UserModel({
         user_id: profile.id,
