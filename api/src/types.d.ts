@@ -157,3 +157,19 @@ export interface SelectOption {
   value: string;
   label: string;
 }
+
+export interface CalenderCredentialsSchemaTypes {
+  email: string;
+  refresh_token: string;
+}
+
+export interface AttendeesEmailTypes {
+  email: string;
+}
+export interface CalendarOptionTypes {
+  startTime: Date;
+  endTime: Date;
+  attendeesEmails: AttendeesEmail[];
+  summary: string | undefined;
+  description: string | undefined;
+}
