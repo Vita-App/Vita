@@ -48,6 +48,7 @@ import { checkDBUrl } from '../middleware';
 import {
   availabilityController,
   bookSlotController,
+  acceptBookingController
 } from '../controllers/bookings-controller';
 import { isAuth } from '../middleware/isAuth';
 import {
@@ -91,6 +92,7 @@ router.get('/get-topics', getTopicsController);
 // Bookins API
 router.get('/busySlots', availabilityController);
 router.post('/bookSlot', isAuth, bookSlotController);
+router.get('/booking/accept/:id',isAuth, acceptBookingController);
 
 router.put('/approve-mentor', checkAdmin, approveMentorController);
 router.get('/reject-mentor', checkAdmin, rejectController);

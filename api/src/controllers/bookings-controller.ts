@@ -5,7 +5,13 @@ import { BookingModel } from '../Models/Booking';
 import { MentorModel } from '../Models/User';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
-import { UserSchemaType } from '../types';
+import {
+  AttendeesEmailTypes,
+  CalendarOptionTypes,
+  UserSchemaType,
+} from '../types';
+
+import createCalenderEvent from '../utils/createCalendarEvent';
 
 enum BookingStatus {
   ACCEPTED = 'accepted',
@@ -166,6 +172,54 @@ export const bookSlotController = async (req: Request, res: Response) => {
     console.log(err);
     res.status(400).json({
       error: "Email couldn't send!",
+    });
+  }
+};
+
+export const acceptBookingController = async (req: Request, res: Response) => {
+  try {
+    const mentor = req.user as UserSchemaType & Document;
+    const { id } = req.params;
+
+    const booking = await BookingModel.findById(id);
+
+    if (!booking) {
+      return res.json(404).json({
+        error: 'Booking Not Found!',
+      });
+    }
+
+    if (booking.mentor_id !== mentor._id) {
+      return res
+        .json(404)
+        .json({ error: 'You dont have access to accept this booking!' });
+    }
+
+    booking.status = BookingStatus.ACCEPTED;
+
+    const attendeesEmails: AttendeesEmailTypes[] = [
+      { email: booking.mentor_email },
+      { email: booking.mentee_email },
+    ];
+
+    const options: CalendarOptionTypes = {
+      startTime: booking.start_date,
+      endTime: booking.end_date,
+      attendeesEmails: attendeesEmails,
+      summary: booking.session.topic,
+      description: booking.session.description,
+    };
+
+    const googleMeetLink = await createCalenderEvent(options);
+
+    booking.save()
+
+    return res
+      .status(200)
+      .json({ googleMeetLink: googleMeetLink, message: 'Meet Scheduled!' });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Unable to Schedule meet",
     });
   }
 };
