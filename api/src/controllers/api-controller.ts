@@ -105,7 +105,7 @@ export const getUserController = async (req: Request, res: Response) => {
 };
 
 export const isPhoneRegistered = async (req: Request, res: Response) => {
-  const phone = req.query.phone ? `+${req.query.phone}` : '';
+  const phone = req.query.phone ? req.query.phone.toString() : '';
   const user = await UserModel.findOne({ phone });
   res.json(Boolean(user));
 };
