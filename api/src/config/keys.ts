@@ -59,6 +59,11 @@ export const { EMAIL_PASS } = process.env;
 export const WHATSAPP_WEBHOOK_TOKEN =
   process.env.WHATSAPP_WEBHOOK_TOKEN || 'token';
 
+export const WHATSAPP = {
+  PHONE_NUMBER_ID: process.env.WHATSAPP_APP_ID || ' ',
+  ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN || ' ',
+};
+
 export const CLOUDINARY = {
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME || ' ',
   api_key: process.env.CLOUDINARY_API_KEY || ' ',

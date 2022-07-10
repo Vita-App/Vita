@@ -21,10 +21,14 @@ export const fakeDataController = async (req: Request, res: Response) => {
       userData.last_name,
       userData.avatar.url || '',
       userData.email,
+      userData.phone,
     );
 
     const user = new UserModel(userData);
-    const mentor = new MentorModel(mentorData);
+    const mentor = new MentorModel({
+      ...mentorData,
+      timezone: userData.timezone,
+    });
     user.mentor_information = mentor._id;
 
     txn.push(user.save());

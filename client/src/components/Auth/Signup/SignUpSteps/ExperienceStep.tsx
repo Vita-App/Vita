@@ -34,8 +34,6 @@ const ExperienceStep: React.FC<{
   } = useForm();
 
   const onSubmit = (formData: FieldValues) => {
-    // Continuing to the next step through props instead of continuing in the index.tsx component, because I wanted to do validation here before continuing.
-    // Cool thing is that I can pass this data to the index.tsx component and gather all data from all the steps.
     props.onContinue(1, { ...formData, experiences });
   };
 

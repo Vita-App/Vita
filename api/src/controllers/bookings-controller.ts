@@ -3,9 +3,11 @@ import { Document } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel } from '../Models/User';
+import { sendBookingRequestMessage } from '../service/whatsapp-service';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 import { UserSchemaType } from '../types';
+import moment from 'moment-timezone';
 
 enum BookingStatus {
   ACCEPTED = 'accepted',
@@ -142,6 +144,17 @@ export const bookSlotController = async (req: Request, res: Response) => {
       description,
     },
   });
+
+  const menteeName = `${user.first_name} ${user.last_name}`;
+  const mentorName = `${mentor.first_name} ${mentor.last_name}`;
+  const date = moment(startDate).tz(mentor.timezone);
+  await sendBookingRequestMessage(
+    mentor.phone,
+    mentorName,
+    menteeName,
+    date.format('dddd, MMMM Do YYYY'),
+    date.format('h:mm a'),
+  );
 
   try {
     await sendEmail(

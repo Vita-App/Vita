@@ -30,6 +30,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
   setSelectedSlot,
   timeslot,
 }) => {
+  if (!date) return <div />;
   if (timeslot.length === 0) return <div />;
 
   return (
