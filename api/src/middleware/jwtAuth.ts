@@ -23,7 +23,6 @@ export const jwtCookieMiddleware = async (
   }
 
   const token = req.cookies.jwt;
-
   if (token) {
     const user = await verifyToken(token);
     if (user) {

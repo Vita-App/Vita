@@ -116,6 +116,12 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.methods.comparePassword = async function (password: string) {
+  if (!this.password) {
+    throw new Error(
+      'You do not have a password for this account, please log in using your Google Account!',
+    );
+  }
+
   return await compare(password, this.password);
 };
 
