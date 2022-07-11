@@ -104,11 +104,20 @@
       "contributions": [
         "infra"
       ]
+    },
+    {
+      "login": "ancoreraj",
+      "name": "Ankur Raj",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64456355?v=4",
+      "profile": "https://github.com/ancoreraj",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 5,
   "projectName": "Vita",
-  "projectOwner": "Rishabh-malhotraa",
+  "projectOwner": "Vita-App",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
