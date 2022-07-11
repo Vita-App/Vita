@@ -1,4 +1,11 @@
-# Guide to Setup up mock data in MongoDB
+# Guide to Setup up mock data in MongoDB (DEPRECATED)
+
+**The dump data is not upto date.**
+Use the following command instead
+
+```sh
+curl -X GET http://localhost:5000/api/seed-data
+```
 
 For windows you can also follow [this video guide](https://www.youtube.com/watch?v=FwMwO8pXfq0) to set up MongoDB
 

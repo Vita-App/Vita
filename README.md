@@ -162,6 +162,12 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 
 ### Setting up DATABASE
 
+Run the following command to setup the DB
+
+```sh
+curl -X GET http://localhost:5000/api/seed-data
+```
+
 To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
 
 ## Roadmap

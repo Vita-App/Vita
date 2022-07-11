@@ -71,7 +71,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
         </Grid>
       </Paper>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DatePicker />
+        <DatePicker close={() => setOpen(false)} />
       </Dialog>
     </>
   );

@@ -5,19 +5,18 @@ const { OAuth2 } = google.auth;
 import { CalendarOptionTypes } from '../types';
 
 const createCalenderEvent = async (options: CalendarOptionTypes) => {
-
-  let oAuth2Client = new OAuth2(
+  const oAuth2Client = new OAuth2(
     process.env.GOOGLE_KEY_CLIENTID,
     process.env.GOOGLE_KEY_CLIENTSECRET,
   );
 
-  const refresh_token: any = await CalendarCredentialsModel.find({})
+  const refresh_token: any = await CalendarCredentialsModel.find({});
 
   oAuth2Client.setCredentials({
     refresh_token: refresh_token[0],
   });
 
-  let calendar: any = google.calendar({ version: 'v3', auth: oAuth2Client });
+  const calendar: any = google.calendar({ version: 'v3', auth: oAuth2Client });
 
   const event = {
     summary: options.summary,
@@ -55,7 +54,7 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     conferenceDataVersion: 1,
   });
 
-  console.log(response)
+  console.log(response);
 
   return response.data.hangoutLink;
 };

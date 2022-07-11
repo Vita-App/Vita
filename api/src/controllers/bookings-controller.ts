@@ -3,8 +3,10 @@ import { Document } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel } from '../Models/User';
+import { sendBookingRequestMessage } from '../service/whatsapp-service';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
+
 import {
   AttendeesEmailTypes,
   CalendarOptionTypes,
@@ -12,6 +14,7 @@ import {
 } from '../types';
 
 import createCalenderEvent from '../utils/createCalendarEvent';
+import moment from 'moment-timezone';
 
 enum BookingStatus {
   ACCEPTED = 'accepted',
@@ -149,6 +152,17 @@ export const bookSlotController = async (req: Request, res: Response) => {
     },
   });
 
+  const menteeName = `${user.first_name} ${user.last_name}`;
+  const mentorName = `${mentor.first_name} ${mentor.last_name}`;
+  const date = moment(startDate).tz(mentor.timezone);
+  await sendBookingRequestMessage(
+    mentor.phone,
+    mentorName,
+    menteeName,
+    date.format('dddd, MMMM Do YYYY'),
+    date.format('h:mm a'),
+  );
+
   try {
     await sendEmail(
       email || mentor.email,
@@ -205,21 +219,19 @@ export const acceptBookingController = async (req: Request, res: Response) => {
     const options: CalendarOptionTypes = {
       startTime: booking.start_date,
       endTime: booking.end_date,
-      attendeesEmails: attendeesEmails,
+      attendeesEmails,
       summary: booking.session.topic,
       description: booking.session.description,
     };
 
     const googleMeetLink = await createCalenderEvent(options);
 
-    booking.save()
+    booking.save();
 
-    return res
-      .status(200)
-      .json({ googleMeetLink: googleMeetLink, message: 'Meet Scheduled!' });
+    return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
   } catch (err) {
     return res.status(500).json({
-      message: "Unable to Schedule meet",
+      message: 'Unable to Schedule meet',
     });
   }
 };

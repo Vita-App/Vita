@@ -95,7 +95,9 @@ const StyledButton = styled(Button)`
   transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68);
 `;
 interface ConfirmationProps {
+  close: () => void;
   date: Date | null;
+  setDate: React.Dispatch<React.SetStateAction<Date | null>>;
   selectedSlot: DurationType;
   setSelectedSlot: React.Dispatch<
     React.SetStateAction<DurationType | undefined>
@@ -121,7 +123,9 @@ const bookSlot = async (formData: BookSlotPostData) => {
 const Confirmation: React.FC<ConfirmationProps> = ({
   date: date_,
   setSelectedSlot,
+  setDate,
   selectedSlot,
+  close,
 }) => {
   const [topic, setTopic] = useState<{ label: string; value: string } | null>(
     null,
@@ -140,6 +144,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           'We have let the mentor know about your interest. Keeping checking your email for further updates!',
         );
         setSelectedSlot(undefined);
+        setDate(null);
+        close();
         queryClient.invalidateQueries('getBusySlots');
       },
       onError: (err: any) => {

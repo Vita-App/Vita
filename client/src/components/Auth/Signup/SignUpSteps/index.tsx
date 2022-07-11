@@ -15,6 +15,7 @@ import useHttp from 'hooks/useHttp';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { transformSlots } from 'utils/helper';
+import moment from 'moment';
 
 const steps = ['Profile', 'Experience', 'Availability'];
 
@@ -51,6 +52,7 @@ const SignUpSteps: React.FC = () => {
       const apiData = convertToFormData({
         ...formData[0],
         interests,
+        timezone: moment.tz.guess(),
       });
 
       sendRequest(
@@ -80,6 +82,7 @@ const SignUpSteps: React.FC = () => {
         timeSlots: transformSlots(formData[2].slots),
         interests,
         topics: getTopicsArray(formData[1].topics),
+        timezone: moment.tz.guess(),
       });
 
       sendRequest(
