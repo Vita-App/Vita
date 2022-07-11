@@ -142,13 +142,20 @@ export const jwtLoginController = async (req: Request, res: Response) => {
     });
   }
 
-  const isMatch = await user.comparePassword(password);
-
-  if (!isMatch) {
-    return res.status(401).json({
+  try {
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        isLoggedIn: false,
+        message: 'Invalid credentials',
+      });
+    }
+  } catch (err: any) {
+    return res.status(400).json({
       success: false,
       isLoggedIn: false,
-      message: 'Invalid credentials',
+      message: err.message,
     });
   }
 
