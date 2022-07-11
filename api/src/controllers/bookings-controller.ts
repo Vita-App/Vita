@@ -164,7 +164,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
     mentor.phone,
     mentorName,
     menteeName,
-    date.format('dddd, MMMM Do YYYY at h:mm a'),
+    date.format('dddd, MMMM Do YYYY, h:mm a'),
     mentor._id,
     booking._id,
   );
@@ -214,6 +214,12 @@ export const acceptBookingController = async (req: Request, res: Response) => {
         .json({ error: 'You dont have access to accept this booking!' });
     }
 
+    if (booking.status === BookingStatus.ACCEPTED) {
+      return res.status(400).json({
+        error: 'Booking already accepted',
+      });
+    }
+
     booking.status = BookingStatus.ACCEPTED;
 
     const attendeesEmails: AttendeesEmailTypes[] = [
@@ -246,7 +252,7 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       menteeName,
       mentorName,
       booking.session.topic || '',
-      slot.tz(mentee.timezone).format('dddd, MMMM Do YYYY at h:mm a'),
+      slot.tz(mentee.timezone).format('dddd, MMMM Do YYYY, h:mm a'),
       googleMeetCode,
     );
 
@@ -255,11 +261,11 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       mentorName,
       menteeName,
       booking.session.topic || '',
-      slot.tz(mentor.timezone).format('dddd, MMMM Do YYYY at h:mm a'),
+      slot.tz(mentor.timezone).format('dddd, MMMM Do YYYY, h:mm a'),
       googleMeetCode,
     );
 
-    await booking.save();
+    // await booking.save();
 
     return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
   } catch (err: any) {

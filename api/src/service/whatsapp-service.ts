@@ -110,7 +110,7 @@ export const sendBookingConfirmationMessage = async (
   try {
     const { data } = await axios.post(
       URL,
-      getTemplate('booking__confirmation', to, [
+      getTemplate('booking__accept', to, [
         {
           type: 'body',
           parameters: [
@@ -134,12 +134,12 @@ export const sendBookingConfirmationMessage = async (
         },
         {
           type: 'button',
-          sub_type: 'call_to_action',
+          sub_type: 'url',
           index: '0',
           parameters: [
             {
-              type: 'url',
-              payload: meetingCode,
+              type: 'text',
+              text: meetingCode,
             },
           ],
         },
@@ -153,7 +153,7 @@ export const sendBookingConfirmationMessage = async (
 
     return data;
   } catch (err: any) {
-    console.log(err.message);
+    console.log(err);
     return null;
   }
 };
