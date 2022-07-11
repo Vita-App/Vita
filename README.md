@@ -255,7 +255,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [license-shield]: https://img.shields.io/github/license/Rishabh-malhotraa/Vita.svg?style=for-the-badge
 [license-url]: https://github.com/Rishabh-malhotraa/Vita/blob/main/LICENSE.txt
 [actions-url]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml
-[actions-badge]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml/badge.svg?branch=main
+[actions-badge]: https://github.com/Vita-App/Vita/actions/workflows/digital-ocean.yaml
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/rishabh-malhotra-4536a418b
 [product-demo]: images/Vita-demonstation.gif
