@@ -194,7 +194,6 @@ export const acceptBookingController = async (req: Request, res: Response) => {
   try {
     const mentor = req.user as UserSchemaType & Document;
     const { id } = req.params;
-
     const booking = await BookingModel.findById(id);
 
     if (!booking) {
@@ -203,9 +202,9 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       });
     }
 
-    if (booking.mentor_id !== mentor._id) {
+    if (booking.mentor_id?.toString() !== mentor._id.toString()) {
       return res
-        .json(404)
+        .status(404)
         .json({ error: 'You dont have access to accept this booking!' });
     }
 
@@ -229,7 +228,8 @@ export const acceptBookingController = async (req: Request, res: Response) => {
     booking.save();
 
     return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
-  } catch (err) {
+  } catch (err: any) {
+    console.log(err.message);
     return res.status(500).json({
       message: 'Unable to Schedule meet',
     });

@@ -10,10 +10,10 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     process.env.GOOGLE_KEY_CLIENTSECRET,
   );
 
-  const refresh_token: any = await CalendarCredentialsModel.find({});
+  const credentials: any = await CalendarCredentialsModel.findOne({});
 
   oAuth2Client.setCredentials({
-    refresh_token: refresh_token[0],
+    refresh_token: credentials.refresh_token,
   });
 
   const calendar: any = google.calendar({ version: 'v3', auth: oAuth2Client });
@@ -53,8 +53,6 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     resource: event,
     conferenceDataVersion: 1,
   });
-
-  console.log(response);
 
   return response.data.hangoutLink;
 };
