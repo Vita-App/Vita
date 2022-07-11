@@ -18,6 +18,7 @@ const BookingSchema = new Schema<BookingSchemaType>({
     topic: String,
     description: String,
   },
+  google_meeting_link: String,
 });
 
 export const BookingModel = model('Booking', BookingSchema);

@@ -123,6 +123,7 @@ export interface BookingSchemaType {
   mentee_email: string;
   start_date: Date;
   end_date: Date;
+  google_meeting_link: string;
   status: 'accepted' | 'cancelled' | 'waiting';
   session: Session;
 }

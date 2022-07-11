@@ -2,8 +2,11 @@ import { Request, Response } from 'express';
 import { Document } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
-import { MentorModel } from '../Models/User';
-import { sendBookingRequestMessage } from '../service/whatsapp-service';
+import { MentorModel, UserModel } from '../Models/User';
+import {
+  sendBookingConfirmationMessage,
+  sendBookingRequestMessage,
+} from '../service/whatsapp-service';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 
@@ -35,7 +38,7 @@ export const availabilityController = async (req: Request, res: Response) => {
 
   const bookings = await BookingModel.find({
     mentor_id: mentor._id,
-    status: BookingStatus.WAITING, // This should be BookingStatus.ACCEPTED
+    status: BookingStatus.ACCEPTED, // This should be BookingStatus.ACCEPTED
   });
 
   if (bookings.length === 0) {
@@ -141,6 +144,8 @@ export const bookSlotController = async (req: Request, res: Response) => {
   const booking = new BookingModel({
     mentor_email: mentor.email,
     mentee_email: user.email,
+    mentor_phone: mentor.phone,
+    mentee_phone: user.phone,
     mentee_id: user._id,
     mentor_id: mentor._id,
     start_date: startDate,
@@ -159,8 +164,9 @@ export const bookSlotController = async (req: Request, res: Response) => {
     mentor.phone,
     mentorName,
     menteeName,
-    date.format('dddd, MMMM Do YYYY'),
-    date.format('h:mm a'),
+    date.format('dddd, MMMM Do YYYY at h:mm a'),
+    mentor._id,
+    booking._id,
   );
 
   try {
@@ -224,8 +230,36 @@ export const acceptBookingController = async (req: Request, res: Response) => {
     };
 
     const googleMeetLink = await createCalenderEvent(options);
+    booking.google_meeting_link = googleMeetLink;
 
-    booking.save();
+    const mentee = (await UserModel.findById(
+      booking.mentee_id,
+    )) as UserSchemaType;
+
+    const slot = moment(booking.start_date);
+    const googleMeetCode = googleMeetLink.split('/').pop();
+    const mentorName = `${mentor.first_name} ${mentor.last_name}`;
+    const menteeName = `${mentee.first_name} ${mentee.last_name}`;
+
+    await sendBookingConfirmationMessage(
+      mentee.phone,
+      menteeName,
+      mentorName,
+      booking.session.topic || '',
+      slot.tz(mentee.timezone).format('dddd, MMMM Do YYYY at h:mm a'),
+      googleMeetCode,
+    );
+
+    await sendBookingConfirmationMessage(
+      mentor.phone,
+      mentorName,
+      menteeName,
+      booking.session.topic || '',
+      slot.tz(mentor.timezone).format('dddd, MMMM Do YYYY at h:mm a'),
+      googleMeetCode,
+    );
+
+    await booking.save();
 
     return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
   } catch (err: any) {
