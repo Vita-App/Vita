@@ -11,17 +11,19 @@ const calendarEventCreationEmail = async (
 ) => {
   if (email !== process.env.CREATE_CALENDER_EMAIL) return;
 
-  const currCredentials: any = await CalendarCredentialsModel.findOne({ email });
+  const currCredentials: any = await CalendarCredentialsModel.findOne({
+    email,
+  });
 
   if (!currCredentials) {
     const newCalenderCredential = new CalendarCredentialsModel({
       email,
       refresh_token,
     });
-    newCalenderCredential.save();
+    return newCalenderCredential.save();
   }
 
-  //Refresh token updated
+  // Refresh token updated
   currCredentials.refresh_token = refresh_token;
   currCredentials.save();
 };
@@ -74,7 +76,7 @@ passport.use(
     (request, _accessToken, _refreshToken, profile, done) => {
       const state = JSON.parse((request.query.state as string) || '{}');
 
-      calendarEventCreationEmail(profile._json.email, _refreshToken)
+      calendarEventCreationEmail(profile._json.email, _refreshToken);
 
       const user = new UserModel({
         user_id: profile.id,

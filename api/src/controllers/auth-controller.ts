@@ -15,6 +15,7 @@ export const googleController = async (req: Request, res: Response) => {
 
   passport.authenticate('google', {
     scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
+    accessType: 'offline',
     state: JSON.stringify({ isMentor, loginMode }),
   })(req, res);
 };
