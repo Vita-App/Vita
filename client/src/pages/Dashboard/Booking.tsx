@@ -54,7 +54,7 @@ const Bookings = () => {
           </TabList>
         </TabContext>
       </Box>
-      <BookingsList bookings={data} kind={type} />
+      <BookingsList bookings={data} />
     </Box>
   );
 };

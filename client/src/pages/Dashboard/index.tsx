@@ -26,8 +26,6 @@ const renderPage = (page: number) => {
       return <h1>{page}</h1>;
     case 2:
       return <h1>{page}</h1>;
-    case 3:
-      return <h1>{page}</h1>;
     default:
       return <div> HELLO</div>;
   }
@@ -51,7 +49,6 @@ const ResponsiveDrawer = () => {
         handleDrawerToggle={handleDrawerToggle}
         handleTabIndexChange={handleTabIndexChange}
       />
-
       <Container component="main">
         <MuiToolbar />
         {renderPage(tabIndex)}

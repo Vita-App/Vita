@@ -5,7 +5,6 @@ import {
   AccordionProps,
   AccordionSummary as MuiAccordionSummary,
   AccordionSummaryProps,
-  Box,
   Grid,
   Stack,
   Typography,
@@ -25,6 +24,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 import { toast } from 'react-toastify';
+import NoBooking from 'components/NoBookingCard';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
@@ -84,15 +84,6 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const getName = (user: User) => `${user?.first_name} ${user?.last_name}`;
 
-const NoBooking: React.FC<{ kind: string }> = ({ kind }) => (
-  <Box mt={2}>
-    <div>
-      You have no {kind} bookings - start sharing a conversation with a mentor.
-    </div>
-    <Button sx={{ my: 2, backgroundColor: '#3e3e3e' }}>Explore Mentors</Button>
-  </Box>
-);
-
 const ExpandMore: React.FC<{ description: string }> = ({ description }) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
@@ -120,10 +111,7 @@ const acceptBooking = async (id: string) => {
   return data;
 };
 
-const BookingsList: React.FC<{ bookings: BookingType[]; kind: string }> = ({
-  bookings,
-  kind,
-}) => {
+const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     'acceptBooking',
@@ -140,7 +128,7 @@ const BookingsList: React.FC<{ bookings: BookingType[]; kind: string }> = ({
     },
   );
   const { user } = useRecoilValue(authState);
-  if (bookings.length === 0) return <NoBooking kind={kind} />;
+  if (bookings.length === 0) return <NoBooking />;
 
   return (
     <>

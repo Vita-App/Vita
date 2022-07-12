@@ -8,7 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import { styled } from '@mui/material/styles';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
@@ -34,8 +33,6 @@ const DrawerWrapper = styled('div')({
 
 const getIcon = (icon: string) => {
   switch (icon) {
-    case 'Home':
-      return <HomeRoundedIcon />;
     case 'Bookings':
       return <AccessTimeOutlinedIcon />;
     case 'Settings':
@@ -50,7 +47,7 @@ const getIcon = (icon: string) => {
 const DrawerItems: React.FC<{
   handleTabIndexChange: (index: number) => void;
 }> = ({ handleTabIndexChange }) => {
-  const IconData = ['Home', 'Settings'];
+  const IconData = ['Bookings', 'Settings'];
   return (
     <DrawerWrapper>
       <Toolbar />
