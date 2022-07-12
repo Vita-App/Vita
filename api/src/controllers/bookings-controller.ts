@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
-import { Document } from 'mongoose';
+import { Document, FilterQuery } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
-import { MentorModel } from '../Models/User';
-import { sendBookingRequestMessage } from '../service/whatsapp-service';
+import { MentorModel, UserModel } from '../Models/User';
+import {
+  sendBookingConfirmationMessage,
+  sendBookingRequestMessage,
+} from '../service/whatsapp-service';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../templates';
 
 import {
   AttendeesEmailTypes,
+  BookingSchemaType,
   CalendarOptionTypes,
   UserSchemaType,
 } from '../types';
@@ -35,7 +39,7 @@ export const availabilityController = async (req: Request, res: Response) => {
 
   const bookings = await BookingModel.find({
     mentor_id: mentor._id,
-    status: BookingStatus.WAITING, // This should be BookingStatus.ACCEPTED
+    status: BookingStatus.ACCEPTED,
   });
 
   if (bookings.length === 0) {
@@ -125,7 +129,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
   if (
     existingBooking &&
     existingBooking.status === BookingStatus.WAITING &&
-    existingBooking.mentee_id === user._id
+    existingBooking.mentee === user._id
   ) {
     return res.status(400).json({
       error: 'You already have one booking in waiting with this mentor!',
@@ -141,8 +145,10 @@ export const bookSlotController = async (req: Request, res: Response) => {
   const booking = new BookingModel({
     mentor_email: mentor.email,
     mentee_email: user.email,
-    mentee_id: user._id,
-    mentor_id: mentor._id,
+    mentor_phone: mentor.phone,
+    mentee_phone: user.phone,
+    mentee: user._id,
+    mentor: mentor._id,
     start_date: startDate,
     end_date,
     session: {
@@ -159,8 +165,9 @@ export const bookSlotController = async (req: Request, res: Response) => {
     mentor.phone,
     mentorName,
     menteeName,
-    date.format('dddd, MMMM Do YYYY'),
-    date.format('h:mm a'),
+    date.format('dddd, MMMM Do YYYY, h:mm a'),
+    mentor._id,
+    booking._id,
   );
 
   try {
@@ -202,10 +209,16 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       });
     }
 
-    if (booking.mentor_id?.toString() !== mentor._id.toString()) {
+    if (booking.mentor?.toString() !== mentor._id.toString()) {
       return res
         .status(404)
         .json({ error: 'You dont have access to accept this booking!' });
+    }
+
+    if (booking.status === BookingStatus.ACCEPTED) {
+      return res.status(400).json({
+        error: 'Booking already accepted',
+      });
     }
 
     booking.status = BookingStatus.ACCEPTED;
@@ -223,15 +236,71 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       description: booking.session.description,
     };
 
-    const googleMeetLink = await createCalenderEvent(options);
+    const event = await createCalenderEvent(options);
+    booking.event_id = event.id;
+    booking.google_meeting_link = event.hangoutLink;
 
-    booking.save();
+    const mentee = (await UserModel.findById(booking.mentee)) as UserSchemaType;
 
-    return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
+    const slot = moment(booking.start_date);
+    const googleMeetCode = event.hangoutLink.split('/').pop();
+    const mentorName = `${mentor.first_name} ${mentor.last_name}`;
+    const menteeName = `${mentee.first_name} ${mentee.last_name}`;
+
+    await sendBookingConfirmationMessage(
+      mentee.phone,
+      menteeName,
+      mentorName,
+      booking.session.topic || '',
+      slot.tz(mentee.timezone).format('dddd, MMMM Do YYYY, h:mm a'),
+      googleMeetCode,
+    );
+
+    await sendBookingConfirmationMessage(
+      mentor.phone,
+      mentorName,
+      menteeName,
+      booking.session.topic || '',
+      slot.tz(mentor.timezone).format('dddd, MMMM Do YYYY, h:mm a'),
+      googleMeetCode,
+    );
+
+    await booking.save();
+
+    return res.status(200).json({ message: 'Meet Scheduled!' });
   } catch (err: any) {
     console.log(err.message);
     return res.status(500).json({
       message: 'Unable to Schedule meet',
     });
   }
+};
+
+export const getBookings = async (req: Request, res: Response) => {
+  const type = req.query.type as string;
+  const user = req.user as UserSchemaType & Document;
+
+  const searchOptions: FilterQuery<BookingSchemaType> = {
+    $or: [{ mentee_id: user._id }, { mentor_id: user._id }],
+  };
+
+  if (type === 'upcoming') {
+    searchOptions.start_date = { $gte: new Date() };
+    searchOptions.status = BookingStatus.ACCEPTED;
+  } else if (type === 'past') {
+    searchOptions.start_date = { $lte: new Date() };
+  } else if (type === 'pending') {
+    searchOptions.status = BookingStatus.WAITING;
+  } else {
+    return res.status(400).json({
+      error:
+        'Please provide a valid query param of type upcoming, past or pending',
+    });
+  }
+
+  const bookings = await BookingModel.find(searchOptions)
+    .populate('mentor', 'first_name last_name')
+    .populate('mentee', 'first_name last_name');
+
+  return res.json(bookings);
 };

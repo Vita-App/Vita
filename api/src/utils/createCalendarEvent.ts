@@ -24,11 +24,9 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     description: options.description,
     start: {
       dateTime: options.startTime,
-      timeZone: 'Asia/Kolkata',
     },
     end: {
       dateTime: options.endTime,
-      timeZone: 'Asia/Kolkata',
     },
     attendees: options.attendeesEmails,
     reminders: {
@@ -52,9 +50,10 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     calendarId: 'primary',
     resource: event,
     conferenceDataVersion: 1,
+    sendNotifications: true,
   });
 
-  return response.data.hangoutLink;
+  return response.data;
 };
 
 export default createCalenderEvent;

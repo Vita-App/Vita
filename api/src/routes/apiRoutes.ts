@@ -50,6 +50,7 @@ import {
   availabilityController,
   bookSlotController,
   acceptBookingController,
+  getBookings,
 } from '../controllers/bookings-controller';
 import { isAuth } from '../middleware/isAuth';
 import {
@@ -92,6 +93,7 @@ router.get('/top-mentors', getTopMentorsController);
 router.get('/get-topics', getTopicsController);
 
 // Bookins API
+router.get('/bookings', isAuth, getBookings);
 router.get('/busySlots', availabilityController);
 router.post('/bookSlot', isAuth, bookSlotController);
 router.get('/booking/accept/:id', isAuth, acceptBookingController);

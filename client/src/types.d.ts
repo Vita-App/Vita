@@ -95,3 +95,30 @@ export type UserType = {
     filename?: string;
   };
 };
+
+export interface BookingType {
+  session: Session;
+  _id: string;
+  mentee_email: string;
+  mentor_email: string;
+  start_date: Date;
+  end_date: Date;
+  status: string;
+  __v: number;
+  event_id: string;
+  google_meeting_link: string;
+  mentee: User;
+  mentor: User;
+}
+
+export interface User {
+  _id: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface Session {
+  email: string;
+  topic: string;
+  description: string;
+}
