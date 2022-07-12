@@ -146,50 +146,197 @@ export const interestOptions = [
   },
 ];
 
-export const leadershipOptions = [
+export const LanguageOptions = [
   {
-    label: 'Leadership Option 1',
-    value: 'Leadership Option 1',
+    label: 'English',
+    value: 'English',
   },
   {
-    label: 'Leadership Option 2',
-    value: 'Leadership Option 2',
-  },
-];
-
-export const careerOptions = [
-  {
-    label: 'Career Option 1',
-    value: 'Career Option 1',
+    label: 'Hindi',
+    value: 'Hindi',
   },
   {
-    label: 'Career Option 2',
-    value: 'Career Option 2',
+    label: 'French',
+    value: 'French',
   },
   {
-    label: 'Career Option 3',
-    value: 'Career Option 3',
-  },
-];
-
-export const skillOptions = [
-  {
-    label: 'Skill Option 1',
-    value: 'Skill Option 1',
+    label: 'German',
+    value: 'German',
   },
   {
-    label: 'Skill Option 2',
-    value: 'Skill Option 2',
+    label: 'Spanish',
+    value: 'Spanish',
+  },
+  {
+    label: 'Italian',
+    value: 'Italian',
+  },
+  {
+    label: 'Japanese',
+    value: 'Japanese',
   },
 ];
 
-export const jobSearchOptions = [
+export const TimeSlotsOptions = [
   {
-    label: 'Job Search Option 1',
-    value: 'Job Search Option 1',
+    label: '00:00 - 01:00',
+    value: {
+      start: new Date(2021, 0, 1, 0, 0),
+      end: new Date(2021, 0, 1, 1, 0),
+    },
   },
   {
-    label: 'Job Search Option 2',
-    value: 'Job Search Option 2',
+    label: '01:00 - 02:00',
+    value: {
+      start: new Date(2021, 0, 1, 1, 0),
+      end: new Date(2021, 0, 1, 2, 0),
+    },
+  },
+  {
+    label: '02:00 - 03:00',
+    value: {
+      start: new Date(2021, 0, 1, 2, 0),
+      end: new Date(2021, 0, 1, 3, 0),
+    },
+  },
+  {
+    label: '03:00 - 04:00',
+    value: {
+      start: new Date(2021, 0, 1, 3, 0),
+      end: new Date(2021, 0, 1, 4, 0),
+    },
+  },
+  {
+    label: '04:00 - 05:00',
+    value: {
+      start: new Date(2021, 0, 1, 4, 0),
+      end: new Date(2021, 0, 1, 5, 0),
+    },
+  },
+  {
+    label: '05:00 - 06:00',
+    value: {
+      start: new Date(2021, 0, 1, 5, 0),
+      end: new Date(2021, 0, 1, 6, 0),
+    },
+  },
+  {
+    label: '06:00 - 07:00',
+    value: {
+      start: new Date(2021, 0, 1, 6, 0),
+      end: new Date(2021, 0, 1, 7, 0),
+    },
+  },
+  {
+    label: '07:00 - 08:00',
+    value: {
+      start: new Date(2021, 0, 1, 7, 0),
+      end: new Date(2021, 0, 1, 8, 0),
+    },
+  },
+  {
+    label: '08:00 - 09:00',
+    value: {
+      start: new Date(2021, 0, 1, 8, 0),
+      end: new Date(2021, 0, 1, 9, 0),
+    },
+  },
+  {
+    label: '10:00 - 11:00',
+    value: {
+      start: new Date(2021, 0, 1, 10, 0),
+      end: new Date(2021, 0, 1, 11, 0),
+    },
+  },
+  {
+    label: '11:00 - 12:00',
+    value: {
+      start: new Date(2021, 0, 1, 11, 0),
+      end: new Date(2021, 0, 1, 12, 0),
+    },
+  },
+  {
+    label: '12:00 - 13:00',
+    value: {
+      start: new Date(2021, 0, 1, 12, 0),
+      end: new Date(2021, 0, 1, 13, 0),
+    },
+  },
+  {
+    label: '13:00 - 14:00',
+    value: {
+      start: new Date(2021, 0, 1, 13, 0),
+      end: new Date(2021, 0, 1, 14, 0),
+    },
+  },
+  {
+    label: '14:00 - 15:00',
+    value: {
+      start: new Date(2021, 0, 1, 14, 0),
+      end: new Date(2021, 0, 1, 15, 0),
+    },
+  },
+  {
+    label: '15:00 - 16:00',
+    value: {
+      start: new Date(2021, 0, 1, 15, 0),
+      end: new Date(2021, 0, 1, 16, 0),
+    },
+  },
+  {
+    label: '16:00 - 17:00',
+    value: {
+      start: new Date(2021, 0, 1, 16, 0),
+      end: new Date(2021, 0, 1, 17, 0),
+    },
+  },
+  {
+    label: '17:00 - 18:00',
+    value: {
+      start: new Date(2021, 0, 1, 17, 0),
+      end: new Date(2021, 0, 1, 18, 0),
+    },
+  },
+  {
+    label: '18:00 - 19:00',
+    value: {
+      start: new Date(2021, 0, 1, 18, 0),
+      end: new Date(2021, 0, 1, 19, 0),
+    },
+  },
+  {
+    label: '19:00 - 20:00',
+    value: {
+      start: new Date(2021, 0, 1, 19, 0),
+      end: new Date(2021, 0, 1, 20, 0),
+    },
+  },
+  {
+    label: '20:00 - 21:00',
+    value: {
+      start: new Date(2021, 0, 1, 20, 0),
+      end: new Date(2021, 0, 1, 21, 0),
+    },
+  },
+  {
+    label: '21:00 - 22:00',
+    value: {
+      start: new Date(2021, 0, 1, 21, 0),
+      end: new Date(2021, 0, 1, 22, 0),
+    },
+  },
+  {
+    label: '22:00 - 23:00',
+    value: {
+      start: new Date(2021, 0, 1, 22, 0),
+      end: new Date(2021, 0, 1, 23, 0),
+    },
+  },
+  {
+    label: '23:00 - 00:00',
+    value: {
+      start: new Date(2021, 0, 1, 23, 0),
+      end: new Date(2021, 0, 1, 0, 0),
+    },
   },
 ];

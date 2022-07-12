@@ -63,14 +63,6 @@ const DrawerItems: React.FC<{
           </ListItem>
         ))}
       </List>
-      <Divider />
-      <div style={{ display: 'flex', flexGrow: 1 }} />
-      <List>
-        <ListItem button onClick={() => handleTabIndexChange(3)}>
-          <ListItemIcon>{getIcon('Support')}</ListItemIcon>
-          <ListItemText primary="Support" />
-        </ListItem>
-      </List>
     </DrawerWrapper>
   );
 };

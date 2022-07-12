@@ -162,6 +162,12 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 
 ### Setting up DATABASE
 
+Run the following command to setup the DB
+
+```sh
+curl -X GET http://localhost:5000/api/seed-data
+```
+
 To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
 
 ## Roadmap
@@ -249,7 +255,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [license-shield]: https://img.shields.io/github/license/Rishabh-malhotraa/Vita.svg?style=for-the-badge
 [license-url]: https://github.com/Rishabh-malhotraa/Vita/blob/main/LICENSE.txt
 [actions-url]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml
-[actions-badge]: https://github.com/Rishabh-malhotraa/Vita/actions/workflows/build.yaml/badge.svg?branch=main
+[actions-badge]: https://github.com/Vita-App/Vita/actions/workflows/digital-ocean.yaml
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/rishabh-malhotra-4536a418b
 [product-demo]: images/Vita-demonstation.gif
@@ -261,7 +267,7 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [vita-hld]: assets/vita-hld.png
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time
@@ -277,17 +283,21 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://rishabh-malhotraa.github.io/Rishabh-Portfolio-main/"><img src="https://avatars.githubusercontent.com/u/54576074?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishabh Malhotra</b></sub></a><br /><a href="#infra-Rishabh-malhotraa" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#data-Rishabh-malhotraa" title="Data">🔣</a> <a href="#design-Rishabh-malhotraa" title="Design">🎨</a> <a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Rishabh-malhotraa" title="Code">💻</a> <a href="#video-Rishabh-malhotraa" title="Videos">📹</a> <a href="https://github.com/Rishabh-malhotraa/Vita/pulls?q=is%3Apr+reviewed-by%3ARishabh-malhotraa" title="Reviewed Pull Requests">👀</a></td>
-    <td align="center"><a href="https://github.com/Lalit3716"><img src="https://avatars.githubusercontent.com/u/84276404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lalit</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Lalit3716" title="Code">💻</a> <a href="#design-Lalit3716" title="Design">🎨</a> <a href="https://github.com/Rishabh-malhotraa/Vita/pulls?q=is%3Apr+reviewed-by%3ALalit3716" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Lalit3716" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/indraantoor"><img src="https://avatars.githubusercontent.com/u/64259328?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Indraan S. Toor</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=indraantoor" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Sahaj-Srivastava24"><img src="https://avatars.githubusercontent.com/u/72143774?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mad1ad</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Sahaj-Srivastava24" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/DevRish"><img src="https://avatars.githubusercontent.com/u/78094670?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishav Chattopadhya</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=DevRish" title="Code">💻</a></td>
+    <td align="center"><a href="https://rishabh-malhotraa.github.io/Rishabh-Portfolio-main/"><img src="https://avatars.githubusercontent.com/u/54576074?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishabh Malhotra</b></sub></a><br /><a href="#infra-Rishabh-malhotraa" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#data-Rishabh-malhotraa" title="Data">🔣</a> <a href="#design-Rishabh-malhotraa" title="Design">🎨</a> <a href="https://github.com/Vita-App/Vita/commits?author=Rishabh-malhotraa" title="Code">💻</a> <a href="#video-Rishabh-malhotraa" title="Videos">📹</a> <a href="https://github.com/Vita-App/Vita/pulls?q=is%3Apr+reviewed-by%3ARishabh-malhotraa" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/Lalit3716"><img src="https://avatars.githubusercontent.com/u/84276404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lalit</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=Lalit3716" title="Code">💻</a> <a href="#design-Lalit3716" title="Design">🎨</a> <a href="https://github.com/Vita-App/Vita/pulls?q=is%3Apr+reviewed-by%3ALalit3716" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/Vita-App/Vita/commits?author=Lalit3716" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/indraantoor"><img src="https://avatars.githubusercontent.com/u/64259328?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Indraan S. Toor</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=indraantoor" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Sahaj-Srivastava24"><img src="https://avatars.githubusercontent.com/u/72143774?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mad1ad</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=Sahaj-Srivastava24" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/DevRish"><img src="https://avatars.githubusercontent.com/u/78094670?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rishav Chattopadhya</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=DevRish" title="Code">💻</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/Gurdeep475"><img src="https://avatars.githubusercontent.com/u/32095032?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gurdeep Singh</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=Gurdeep475" title="Code">💻</a> <a href="#maintenance-Gurdeep475" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://linkedin.com/in/hzmessam"><img src="https://avatars.githubusercontent.com/u/49886457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hazem Essam</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=hazemessam" title="Code">💻</a> <a href="#maintenance-hazemessam" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://muzam1l.com"><img src="https://avatars.githubusercontent.com/u/52374648?v=4?s=100" width="100px;" alt=""/><br /><sub><b>muzamil</b></sub></a><br /><a href="https://github.com/Rishabh-malhotraa/Vita/commits?author=muzam1l" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Gurdeep475"><img src="https://avatars.githubusercontent.com/u/32095032?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gurdeep Singh</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=Gurdeep475" title="Code">💻</a> <a href="#maintenance-Gurdeep475" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://linkedin.com/in/hzmessam"><img src="https://avatars.githubusercontent.com/u/49886457?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hazem Essam</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=hazemessam" title="Code">💻</a> <a href="#maintenance-hazemessam" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://muzam1l.com"><img src="https://avatars.githubusercontent.com/u/52374648?v=4?s=100" width="100px;" alt=""/><br /><sub><b>muzamil</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=muzam1l" title="Code">💻</a></td>
     <td align="center"><a href="http://harshiljani2002@gmail.com"><img src="https://avatars.githubusercontent.com/u/79367883?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Harshil Jani</b></sub></a><br /><a href="#infra-Harshil-Jani" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://github.com/DTFds"><img src="https://avatars.githubusercontent.com/u/23038761?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Daniel Siebert</b></sub></a><br /><a href="#infra-DTFds" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/ancoreraj"><img src="https://avatars.githubusercontent.com/u/64456355?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ankur Raj</b></sub></a><br /><a href="https://github.com/Vita-App/Vita/commits?author=ancoreraj" title="Code">💻</a></td>
   </tr>
 </table>
 

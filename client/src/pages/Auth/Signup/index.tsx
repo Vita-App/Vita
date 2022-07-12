@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
-import { Cards, SignUpSteps } from 'components/Auth/Signup';
+import { SignUpSteps } from 'components/Auth/Signup';
 import Appbar from 'components/Appbar';
+import { authState } from 'store';
+import { Navigate } from 'react-router-dom';
 
 const PageWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -15,11 +18,11 @@ const PageWrapper = styled('div')({
 });
 
 const Signup: React.FC = () => {
-  const [mentor, setMentor] = useState<boolean | null>(null);
+  const auth = useRecoilValue(authState);
 
-  const handleCardClick = (type: 'mentor' | 'mentee') => {
-    setMentor(type === 'mentor');
-  };
+  if (auth.user?.signup_completed) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <PageWrapper>
@@ -32,11 +35,7 @@ const Signup: React.FC = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {mentor === null ? (
-          <Cards onClick={handleCardClick} />
-        ) : (
-          <SignUpSteps onCancel={() => setMentor(null)} mentor={mentor} />
-        )}
+        <SignUpSteps />
       </Container>
     </PageWrapper>
   );

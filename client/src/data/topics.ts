@@ -225,6 +225,14 @@ const topicsData: Topic[] = [
   },
 ];
 
+export const getTopicOptions = (motivation: string) =>
+  topics
+    .filter((topic) => topic.motivation === motivation)
+    .map((topic) => ({
+      label: topic.topicName,
+      value: topic.value,
+    }));
+
 export const topics = topicsData.sort((a, b) => a.value - b.value);
 
 export const shuffleTopics = shuffleArray(topicsData);

@@ -13,7 +13,11 @@ const verifyToken = async (token: string) => {
   }
 };
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export const jwtCookieMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   if (req.user) {
     return next();
   }

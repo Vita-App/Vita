@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Divider,
@@ -7,6 +7,8 @@ import {
   Button,
   InputBase,
 } from '@mui/material';
+import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 import { ReactSelect } from 'components/common';
 import { Link } from 'react-router-dom';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
@@ -17,6 +19,10 @@ import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { DurationType } from 'types';
+import { getDurationLabel } from 'utils/helper';
+import axios from 'axios';
+import { SERVER_URL } from 'config.keys';
 
 export const optionsData = [
   {
@@ -89,18 +95,68 @@ const StyledButton = styled(Button)`
   transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68);
 `;
 interface ConfirmationProps {
+  close: () => void;
   date: Date | null;
-  hour: number;
-  setHour: React.Dispatch<React.SetStateAction<number>>;
+  setDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  selectedSlot: DurationType;
+  setSelectedSlot: React.Dispatch<
+    React.SetStateAction<DurationType | undefined>
+  >;
 }
+
+interface BookSlotPostData {
+  mentor_id: string;
+  start_date: string;
+  email?: string;
+  topic?: string;
+  description?: string;
+}
+
+const bookSlot = async (formData: BookSlotPostData) => {
+  const { data } = await axios.post(`${SERVER_URL}/api/bookSlot`, formData, {
+    withCredentials: true,
+  });
+
+  return data;
+};
 
 const Confirmation: React.FC<ConfirmationProps> = ({
   date: date_,
-  setHour,
-  hour,
+  setSelectedSlot,
+  setDate,
+  selectedSlot,
+  close,
 }) => {
-  const { first_name, last_name } = useRecoilValue(mentorState);
+  const [topic, setTopic] = useState<{ label: string; value: string } | null>(
+    null,
+  );
+  const queryClient = useQueryClient();
+  const [email, setEmail] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const { first_name, last_name, _id } = useRecoilValue(mentorState);
+  const { start } = selectedSlot;
+  const mutation = useMutation(
+    'bookSlot',
+    (data: BookSlotPostData) => bookSlot(data),
+    {
+      onSuccess: () => {
+        toast.success(
+          'We have let the mentor know about your interest. Keeping checking your email for further updates!',
+        );
+        setSelectedSlot(undefined);
+        setDate(null);
+        close();
+        queryClient.invalidateQueries('getBusySlots');
+      },
+      onError: (err: any) => {
+        toast.error(err.response.data.error);
+      },
+    },
+  );
   const date = date_ ? date_ : new Date();
+  start.set('month', date.getMonth());
+  start.set('date', date.getDate());
+  start.set('year', date.getFullYear());
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -111,7 +167,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     month: 'short',
     day: 'numeric',
   });
-  const timeString = `${hour}:00 - ${hour + 1}:00`;
+
+  const timeString = getDurationLabel(selectedSlot);
   return (
     <div>
       <Typography variant="h5" sx={{ fontWeight: 800, p: '8px 0px' }}>
@@ -132,6 +189,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <Divider style={{ margin: '1rem 0rem' }} />
       <label style={{ fontWeight: 500 }}>Select Main Topic</label>
       <ReactSelect
+        value={topic}
+        onChange={(e: any) => setTopic(e)}
         menuPlacement="auto"
         sx={{
           margin: '6px 0px',
@@ -153,6 +212,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <TextAreaWrapper>
         <Email sx={{ color: 'darkgrey' }} />
         <InputBase
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="Search_Input"
           placeholder="Get invite link in your mail"
           inputProps={{
@@ -162,6 +223,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       </TextAreaWrapper>
       <div style={{ padding: '1rem 0rem' }}>
         <TextArea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           aria-label="minimum height"
           minRows={6}
           maxRows={10}
@@ -170,12 +233,23 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           · Share your goal for session "
         />
       </div>
-      <StyledButton disabled sx={{ cursor: 'not-allowed' }}>
-        Confirm your Booking
+      <StyledButton
+        sx={{ cursor: 'pointer' }}
+        disabled={mutation.isLoading}
+        onClick={() =>
+          mutation.mutate({
+            mentor_id: _id,
+            start_date: start.format(),
+            email: email.trim(),
+            description: description.trim(),
+            topic: topic?.value,
+          })
+        }>
+        {mutation.isLoading ? 'Booking...' : 'Confirm your Booking'}
       </StyledButton>
       <div style={{ marginTop: '1rem' }}>
         <Button
-          onClick={() => setHour(-1)}
+          onClick={() => setSelectedSlot(undefined)}
           startIcon={<KeyboardBackspaceIcon />}
           sx={{
             margin: 'auto',

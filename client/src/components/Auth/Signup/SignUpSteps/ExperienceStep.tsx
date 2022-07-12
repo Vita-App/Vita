@@ -1,95 +1,239 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, IconButton } from '@mui/material';
+import { Add, Delete } from '@mui/icons-material';
 import {
   StyledTextField,
-  StyledButton,
+  MuiStyledButton as StyledButton,
   StyledReactSelect as Select,
-} from './utils';
-import {
-  leadershipOptions,
-  careerOptions,
-  jobSearchOptions,
-  skillOptions,
-} from 'data';
+} from 'components/common';
+import { LanguageOptions, getTopicOptions, expertiseOptions } from 'data';
+import { ExperienceType } from 'types';
 
 const ExperienceStep: React.FC<{
   onBack: (step: number, formData: FieldValues) => void;
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate?: FieldValues;
 }> = (props) => {
+  const [experiences, setExperiences] = useState<ExperienceType[]>(
+    props.hydrate?.experiences || [
+      {
+        id: uuid(),
+        company: '',
+        role: '',
+      },
+    ],
+  );
+
   const {
     handleSubmit,
     control,
     formState: { errors },
     getValues,
-  } = useForm(props.hydrate);
+  } = useForm();
 
   const onSubmit = (formData: FieldValues) => {
-    // Continuing to the next step through props instead of continuing in the index.tsx component, because I wanted to do validation here before continuing.
-    // Cool thing is that I can pass this data to the index.tsx component and gather all data from all the steps.
-    props.onContinue(1, formData);
+    props.onContinue(1, { ...formData, experiences });
   };
 
   const onBack = () => {
-    props.onBack(1, getValues());
+    props.onBack(1, { ...getValues(), experiences });
+  };
+
+  const onExperienceChange = (id: string, exp: Partial<ExperienceType>) => {
+    const experience = experiences.map((e) => {
+      if (e.id === id) {
+        return { ...e, ...exp };
+      }
+
+      return e;
+    });
+    setExperiences(experience);
   };
 
   return (
     <Stack
       spacing={3}
       mt={2}
+      position="relative"
       component="form"
       onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h4">Tell us about your experience</Typography>
-      <Stack>
-        <Typography variant="body2" mb={1}>
-          Company name
+      <Typography variant="h4">Experience</Typography>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h6">
+          Tell us about your previous experiences.
         </Typography>
-        <Controller
-          name="companyName"
-          control={control}
-          defaultValue={props.hydrate?.companyName || ''}
-          rules={{ required: 'Company name is required' }}
-          render={({ field }) => (
-            <StyledTextField
-              {...field}
-              placeholder="Company name"
-              error={Boolean(errors.companyName)}
-              helperText={errors.companyName?.message}
-            />
-          )}
-        />
+        <IconButton
+          onClick={() =>
+            setExperiences((prev) => [
+              ...prev,
+              {
+                id: uuid(),
+                company: '',
+                role: '',
+              },
+            ])
+          }>
+          <Add />
+        </IconButton>
       </Stack>
-      <Stack>
-        <Typography variant="body2">Professional role</Typography>
-        <Controller
-          name="professionalRole"
-          control={control}
-          defaultValue={props.hydrate?.professionalRole || ''}
-          rules={{ required: 'Professional Role is Required' }}
-          render={({ field }) => (
-            <StyledTextField
-              {...field}
-              error={Boolean(errors.professionalRole)}
-              helperText={errors.professionalRole?.message}
-              placeholder="e.g. Software Engineer"
-            />
+      {experiences.map((exp) => (
+        <Stack spacing={1} key={exp.id}>
+          {experiences.length > 1 && (
+            <IconButton
+              color="error"
+              sx={{ alignSelf: 'flex-start' }}
+              onClick={() => {
+                setExperiences((prevExp) =>
+                  prevExp.filter((e) => e.id !== exp.id),
+                );
+              }}>
+              <Delete />
+            </IconButton>
           )}
-        />
-      </Stack>
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
+            <Stack flexGrow={1}>
+              <Typography variant="body2">Company name</Typography>
+              <Controller
+                name={`experience[${exp.id}].company`}
+                control={control}
+                defaultValue={exp.company || ''}
+                rules={{ required: 'Company name is required' }}
+                render={({ field: { onChange, ...other } }) => (
+                  <StyledTextField
+                    {...other}
+                    onChange={(e) => {
+                      onChange(e);
+                      onExperienceChange(exp.id, { company: e.target.value });
+                    }}
+                    placeholder="Company name"
+                    error={Boolean(errors.experience?.[exp.id]?.company)}
+                    helperText={errors.experience?.[exp.id]?.company?.message}
+                  />
+                )}
+              />
+            </Stack>
+            <Stack flexGrow={1}>
+              <Typography variant="body2">Professional role</Typography>
+              <Controller
+                name={`experience[${exp.id}].role`}
+                control={control}
+                defaultValue={exp.role || ''}
+                rules={{ required: 'Professional Role is Required' }}
+                render={({ field: { onChange, ...other } }) => (
+                  <StyledTextField
+                    {...other}
+                    onChange={(e) => {
+                      onChange(e);
+                      onExperienceChange(exp.id, { role: e.target.value });
+                    }}
+                    error={Boolean(errors.experience?.[exp.id]?.role)}
+                    helperText={errors.experience?.[exp.id]?.role?.message}
+                    placeholder="e.g. Software Engineer"
+                  />
+                )}
+              />
+            </Stack>
+            <Stack flexGrow={1}>
+              <Typography variant="body2">Start Year</Typography>
+              <Controller
+                name={`experience[${exp.id}].start_year`}
+                control={control}
+                defaultValue={exp.start_year || ''}
+                rules={{
+                  required: 'Start Year is Required',
+                  validate: (val) => {
+                    if (isNaN(parseInt(val, 10)))
+                      return 'Start Year is Invalid';
+
+                    if (
+                      parseInt(val, 10) >
+                      parseInt(getValues().experience[exp.id]?.end_year, 10)
+                    ) {
+                      return 'Start year is invalid';
+                    }
+
+                    return true;
+                  },
+                }}
+                render={({ field: { onChange, ...other } }) => (
+                  <StyledTextField
+                    {...other}
+                    onChange={(e) => {
+                      onChange(e);
+                      onExperienceChange(exp.id, {
+                        start_year: e.target.value,
+                      });
+                    }}
+                    error={Boolean(errors.experience?.[exp.id]?.start_year)}
+                    helperText={
+                      errors.experience?.[exp.id]?.start_year?.message
+                    }
+                    placeholder="e.g. 2018"
+                  />
+                )}
+              />
+            </Stack>
+            <Stack flexGrow={1} position="relative">
+              <Typography variant="body2">End Year</Typography>
+              <Controller
+                name={`experience[${exp.id}].end_year`}
+                control={control}
+                defaultValue={exp.end_year || ''}
+                rules={{
+                  required: 'End Year is required',
+                  validate: (val) => {
+                    if (val.toLowerCase() === 'present') {
+                      return true;
+                    }
+
+                    if (isNaN(parseInt(val, 10))) {
+                      return 'End Year is Invalid';
+                    }
+
+                    if (
+                      parseInt(val, 10) <
+                      parseInt(getValues().experience[exp.id]?.start_year, 10)
+                    ) {
+                      return 'End Year is Invalid';
+                    }
+
+                    return true;
+                  },
+                }}
+                render={({ field: { onChange, ...other } }) => (
+                  <StyledTextField
+                    {...other}
+                    onChange={(e) => {
+                      onChange(e);
+                      onExperienceChange(exp.id, { end_year: e.target.value });
+                    }}
+                    error={Boolean(errors.experience?.[exp.id]?.end_year)}
+                    helperText={errors.experience?.[exp.id]?.end_year?.message}
+                    placeholder="e.g. Present"
+                  />
+                )}
+              />
+            </Stack>
+          </Stack>
+        </Stack>
+      ))}
       <Stack>
+        <Typography variant="h5" gutterBottom>
+          Profiles
+        </Typography>
         <Typography variant="body2">Linkedin Profile</Typography>
         <Controller
-          name="linkedinProfile"
+          name="linkedin"
           control={control}
-          defaultValue={props.hydrate?.linkedinProfile || ''}
+          defaultValue={props.hydrate?.linkedin || ''}
           render={({ field }) => (
             <StyledTextField
               {...field}
               placeholder="https://www.linkedin.com/in/..."
-              error={Boolean(errors.linkedinProfile)}
-              helperText={errors.linkedinProfile?.message}
+              error={Boolean(errors.linkedin)}
+              helperText={errors.linkedin?.message}
             />
           )}
         />
@@ -97,15 +241,51 @@ const ExperienceStep: React.FC<{
       <Stack>
         <Typography variant="body2">Twitter Profile</Typography>
         <Controller
-          name="twitterProfile"
+          name="twitter"
           control={control}
-          defaultValue={props.hydrate?.twitterProfile || ''}
+          defaultValue={props.hydrate?.twitter || ''}
           render={({ field }) => (
             <StyledTextField
               {...field}
-              error={Boolean(errors.twitterProfile)}
-              helperText={errors.twitterProfile?.message}
+              error={Boolean(errors.twitter)}
+              helperText={errors.twitter?.message}
               placeholder="https://www.twitter.com/..."
+            />
+          )}
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="body2">Languages you are efficient in</Typography>
+        <Controller
+          name="languages[]"
+          control={control}
+          defaultValue={props.hydrate?.languages || []}
+          render={({ field }) => (
+            <Select
+              closeMenuOnSelect={false}
+              {...field}
+              placeholder="Languages"
+              isMulti
+              classNamePrefix="select"
+              options={LanguageOptions}
+            />
+          )}
+        />
+      </Stack>
+      <Stack spacing={1}>
+        <Typography variant="body2">What&apos;s your expertise ?</Typography>
+        <Controller
+          name="expertise[]"
+          control={control}
+          defaultValue={props.hydrate?.expertise || []}
+          render={({ field }) => (
+            <Select
+              closeMenuOnSelect={false}
+              {...field}
+              placeholder="Expertise"
+              isMulti
+              classNamePrefix="select"
+              options={expertiseOptions}
             />
           )}
         />
@@ -125,11 +305,29 @@ const ExperienceStep: React.FC<{
             defaultValue={props.hydrate?.topics?.leaderShip || []}
             render={({ field }) => (
               <Select
+                closeMenuOnSelect={false}
                 {...field}
+                menuPlacement="top"
                 placeholder="Leadership"
                 isMulti
                 classNamePrefix="select"
-                options={leadershipOptions}
+                options={getTopicOptions('Leadership')}
+              />
+            )}
+          />
+          <Controller
+            name="topics[mentorShip]"
+            control={control}
+            defaultValue={props.hydrate?.topics?.mentorShip || []}
+            render={({ field }) => (
+              <Select
+                {...field}
+                closeMenuOnSelect={false}
+                menuPlacement="top"
+                placeholder="Mentorship"
+                isMulti
+                classNamePrefix="select"
+                options={getTopicOptions('Mentorship')}
               />
             )}
           />
@@ -140,10 +338,11 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                menuPlacement="top"
                 placeholder="Career"
                 isMulti
                 classNamePrefix="select"
-                options={careerOptions}
+                options={getTopicOptions('Career Advice')}
               />
             )}
           />
@@ -154,10 +353,12 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                closeMenuOnSelect={false}
+                menuPlacement="top"
                 placeholder="Job Search"
                 isMulti
                 classNamePrefix="select"
-                options={jobSearchOptions}
+                options={getTopicOptions('Job Search')}
               />
             )}
           />
@@ -168,10 +369,12 @@ const ExperienceStep: React.FC<{
             render={({ field }) => (
               <Select
                 {...field}
+                closeMenuOnSelect={false}
+                menuPlacement="top"
                 placeholder="Skills"
                 isMulti
                 classNamePrefix="select"
-                options={skillOptions}
+                options={getTopicOptions('Skills')}
               />
             )}
           />

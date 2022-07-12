@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, lazy } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import AuthPage from 'pages/Auth';
 import UserPage from 'pages/UserPage';
 import SearchPage from 'pages/SearchPage';
@@ -13,6 +13,8 @@ import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
+import ForgotPassword from 'pages/ForgotPassword';
+import Banner from 'components/Banner';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -20,7 +22,8 @@ const Signup = lazy(() => import('pages/Auth/Signup'));
 const Dashboard = lazy(() => import('pages/Dashboard'));
 
 const App = () => {
-  const { loading, sendRequest } = useHttp();
+  const { pathname } = useLocation();
+  const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
 
@@ -34,14 +37,14 @@ const App = () => {
       },
       (data: any) => {
         setAuthState(data);
-        console.log(data);
         if (data.isLoggedIn && !data.user.signup_completed) {
+          if (pathname === '/registration-form') return;
           toast.info(
             () => (
               <div>
                 <p>
-                  Please complete your{' '}
-                  <Link to="/registration-form">Signup</Link>
+                  Your registration is incomplete. Complete your{' '}
+                  <Link to="/registration-form">Registration</Link> now?
                 </p>
               </div>
             ),
@@ -59,6 +62,7 @@ const App = () => {
   return (
     <Suspense fallback={<Loader />}>
       <ToastContainer position="bottom-left" />
+      <Banner />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route element={<ProtectedRoute redirectTo="/dashboard" inverse />}>
@@ -66,10 +70,14 @@ const App = () => {
         </Route>
         <Route path="/search/" element={<SearchPage />} />
         <Route path="/user/:id" element={<UserPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route element={<ProtectedRoute redirectTo="/auth" />}></Route>
+        <Route element={<ProtectedRoute redirectTo="/auth" />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<ProtectedRoute inverse redirectTo="/" />}>
+          <Route path="/email-verification" element={<EmailVerification />} />
+        </Route>
         <Route path="/registration-form" element={<Signup />} />
-        <Route path="/email-verification" element={<EmailVerification />} />
+        <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
     </Suspense>
   );

@@ -123,13 +123,12 @@ const UserPage = () => {
   const {
     first_name,
     last_name,
-    image_link,
-    description,
+    avatar: { url: image_link },
+    bio,
     linkedIn,
-    job_title,
-    company,
+    experiences,
     expertise,
-    language,
+    languages,
     topics: topicNums,
   } = data;
 
@@ -193,7 +192,7 @@ const UserPage = () => {
                 Hi, I m {name}
               </Typography>
               <Typography fontWeight={600} sx={{ py: 1 }}>
-                {job_title} at {company}
+                {experiences[0].role} at {experiences[0].company}
               </Typography>
               <ShowMoreText
                 /* Default options */
@@ -205,12 +204,7 @@ const UserPage = () => {
                 onClick={() => setIsExpanded(!isExpanded)}
                 expanded={false}
                 truncatedEndingComponent={'... '}>
-                {description}
-                {description.map((description, index) => (
-                  <div key={index} style={{ padding: '8px, 0px' }}>
-                    {description}
-                  </div>
-                ))}
+                {bio}
               </ShowMoreText>
             </TextWrapper>
             <Grid container sx={{ py: 2 }}>
@@ -236,7 +230,7 @@ const UserPage = () => {
                 <Grid item fontWeight={700}>
                   Languages
                 </Grid>
-                <Grid item>{commaString(language)}</Grid>
+                <Grid item>{commaString(languages)}</Grid>
               </Grid>
             </Grid>
             <Divider />

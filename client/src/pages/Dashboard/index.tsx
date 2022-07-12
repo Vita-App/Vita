@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from 'components/UserDashboard/Toolbar';
 import Drawer from 'components/UserDashboard/Drawer';
@@ -6,6 +7,7 @@ import MuiToolbar from '@mui/material/Toolbar';
 import { drawerWidth } from 'utils/settings';
 import { styled } from '@mui/material/styles';
 import Bookings from './Booking';
+import ApplicationSubmitted from 'components/Modals/ApplicationSubmitted';
 
 const Container = styled(Box)(({ theme }) => ({
   flexGrow: 1,
@@ -30,6 +32,8 @@ const renderPage = (page: number) => {
 };
 
 const ResponsiveDrawer = () => {
+  const { state } = useLocation();
+  const [open, setOpen] = React.useState<boolean>(state?.newlyCreated || false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -37,7 +41,8 @@ const ResponsiveDrawer = () => {
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   const handleTabIndexChange = (index: number) => setTabIndex(index);
   return (
-    <Box sx={{ display: 'flex', height: '100vh' }}>
+    <Box sx={{ display: 'flex' }}>
+      <ApplicationSubmitted open={open} onClose={() => setOpen(false)} />
       <Toolbar handleDrawerToggle={handleDrawerToggle} />
       <Drawer
         mobileOpen={mobileOpen}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useHttp from 'hooks/useHttp';
 import { authState } from 'store';
@@ -11,13 +11,13 @@ import { styled } from '@mui/material/styles';
 import {
   Avatar,
   Typography,
-  Checkbox,
   Button,
   TextField,
   IconButton,
-  FormControlLabel,
   Stack,
   LinearProgress,
+  ToggleButtonGroup,
+  ToggleButton,
 } from '@mui/material';
 import {
   Google,
@@ -55,10 +55,11 @@ const AuthForm: React.FC = () => {
   const [params] = useSearchParams();
   const setAuthState = useSetRecoilState(authState);
   const [authMode, setAuthMode] = useState(
-    params.get('page') === 'login' ? AuthMode.login : AuthMode.signup,
+    params.get('page') === 'signup' ? AuthMode.signup : AuthMode.login,
   );
+  const [oauthErr, setOauthErr] = useState(params.get('socialAuthFailed'));
   const [showPassword, setShowPassword] = useState(false);
-  const { loading, sendRequest, error: httpError } = useHttp();
+  const { loading, sendRequest, error: httpError, clearError } = useHttp();
   const {
     control,
     handleSubmit,
@@ -69,9 +70,11 @@ const AuthForm: React.FC = () => {
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
+    clearError();
+    setOauthErr(null);
   };
 
-  const getPattern = (authMode: AuthMode, isMentor: any) => {
+  const getPattern = (authMode: AuthMode, isMentor: boolean) => {
     if (!isMentor && authMode === AuthMode.signup)
       return {
         value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
@@ -101,6 +104,12 @@ const AuthForm: React.FC = () => {
         },
         (data: any) => {
           setAuthState(data);
+          if (data.emailId) {
+            return navigate('/email-verification', {
+              state: { email: formData.email },
+            });
+          }
+
           if (data.isLoggedIn && !data.user.signup_completed) {
             navigate('/registration-form');
           } else {
@@ -113,7 +122,7 @@ const AuthForm: React.FC = () => {
         async () => {
           const { data } = await axios.post(
             `${SERVER_URL}/api/auth/signup`,
-            formData,
+            { ...formData, mentor: role === 'mentor' },
             {
               withCredentials: true,
             },
@@ -128,13 +137,27 @@ const AuthForm: React.FC = () => {
     }
   };
 
+  const role = watch('role');
+  const isMentor = role === 'mentor';
+
   const googleLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/google`;
+    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 
   const linkedInLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/linkedin`;
+    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
+
+  useEffect(() => {
+    const subscription = watch((_, { type }) => {
+      if (type === 'change') {
+        if (oauthErr) setOauthErr(null);
+        if (httpError) clearError();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <Stack
@@ -157,7 +180,7 @@ const AuthForm: React.FC = () => {
       )}
       <Avatar src="/logo192.png" />
       <Stack>
-        <Typography variant="h4">Welcome Back</Typography>
+        <Typography variant="h4">{loginMode ? 'Login' : 'Sign up'}</Typography>
         <Typography variant="body1" color="textSecondary">
           Please enter your details here to continue...
         </Typography>
@@ -171,7 +194,7 @@ const AuthForm: React.FC = () => {
           rules={{
             required: 'Email is required',
             pattern: {
-              ...getPattern(authMode, watch('checkbox')),
+              ...getPattern(authMode, role === 'mentor'),
             },
           }}
           render={({ field }) => (
@@ -217,38 +240,57 @@ const AuthForm: React.FC = () => {
         />
       </Stack>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center">
-          <Controller
-            name="checkbox"
-            control={control}
-            defaultValue={false}
-            render={({ field }) => (
-              <FormControlLabel
-                control={<Checkbox {...field} />}
-                label={loginMode ? 'Rememeber me' : 'Registering as a Mentor?'}
-              />
+        {!loginMode && (
+          <Stack spacing={1}>
+            <Controller
+              name="role"
+              control={control}
+              defaultValue={null}
+              render={({ field }) => (
+                <ToggleButtonGroup exclusive {...field} color="primary">
+                  <ToggleButton value="mentee">Mentee</ToggleButton>
+                  <ToggleButton value="mentor">Mentor</ToggleButton>
+                </ToggleButtonGroup>
+              )}
+            />
+            {!role && (
+              <Typography variant="caption" color="info.main">
+                Select your role to enable signup
+              </Typography>
             )}
-          />
-          <Typography variant="body2"></Typography>
-        </Stack>
+          </Stack>
+        )}
         {loginMode && (
-          <Link to="#">
-            <Typography variant="body2">Forgot Password?</Typography>
+          <Link to="/reset-password">
+            <Typography variant="body2" color="info.main">
+              Forgot Password?
+            </Typography>
           </Link>
         )}
       </Stack>
+      {typeof httpError === 'string' && (
+        <Typography variant="body2" color="error.main">
+          {httpError}
+        </Typography>
+      )}
+      {oauthErr && (
+        <Typography variant="body2" color="error.main">
+          {oauthErr}
+        </Typography>
+      )}
       <StyledButton
         fullWidth
         color="primary"
         variant="contained"
         type="submit"
-        disabled={loading}>
+        disabled={loading || (!loginMode && !role)}>
         {loginMode ? 'Login' : 'Signup'}
       </StyledButton>
       <StyledButton
         fullWidth
         color="inherit"
         variant="outlined"
+        disabled={loading || (!loginMode && !role)}
         onClick={googleLogin}>
         <Google sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with Google
@@ -257,6 +299,7 @@ const AuthForm: React.FC = () => {
         fullWidth
         color="inherit"
         variant="outlined"
+        disabled={loading || (!loginMode && !role)}
         onClick={linkedInLogin}>
         <LinkedIn sx={{ mr: 1 }} />
         {loginMode ? 'Login' : 'Signup'} with LinkedIn

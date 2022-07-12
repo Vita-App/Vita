@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { MentorSchemaType } from 'types';
 import { swipeCardsInfo } from 'data';
+import moment from 'moment-timezone';
 
 export const motivationState = atom<unknown>({
   key: 'motivationState',
@@ -30,4 +31,12 @@ export const mentorState = atom<MentorSchemaType>({
 export const swipeCardState = atom<number>({
   key: 'swipeCardState',
   default: swipeCardsInfo.length - 1,
+});
+
+export const timeZoneState = atom<{ value: string; label: string }>({
+  key: 'timezone',
+  default: {
+    value: moment.tz.guess(),
+    label: moment.tz.guess(),
+  },
 });

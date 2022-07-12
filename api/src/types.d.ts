@@ -1,4 +1,12 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: Express.User & (Document & (AdminSchemaType | UserSchemaType));
+    }
+  }
+}
 
 export interface UserSchemaType {
   user_id: string;
@@ -6,7 +14,16 @@ export interface UserSchemaType {
   last_name: string;
   password: string;
   email: string;
-  image_link: string;
+  phone: string;
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
+  bio: string;
+  timezone: string;
+  graduation_year: string;
+  stream: string;
+  interests: string[];
   create_time: Date;
   oauth_provider: string;
   is_mentor: boolean;
@@ -14,9 +31,22 @@ export interface UserSchemaType {
   mentor_information: Types.ObjectId | undefined;
   bookings: Types.ObjectId[] | undefined;
   verified: boolean;
+  token: string;
   issueToken: () => string;
   comparePassword: (password: string) => Promise<boolean>;
   createVerificationToken: () => string;
+}
+
+export interface AdminSchemaType {
+  name: string;
+  email: string;
+  password: string;
+  otp: number;
+  validTill: Date;
+  comparePassword: (password: string) => Promise<boolean>;
+  verifyOTP: (otp: number) => Promise<boolean>;
+  generateOTP: () => Promise<number>;
+  issueToken: () => string;
 }
 
 export interface TopicSchemaType {
@@ -26,6 +56,12 @@ export interface TopicSchemaType {
   motivation: string;
   topicName: string;
   topicDescription: string;
+}
+
+export interface BannerSchemaType {
+  content: string;
+  height: number;
+  show: boolean;
 }
 
 type DayEnumType =
@@ -38,26 +74,59 @@ type DayEnumType =
   | 'sunday';
 
 interface DurationType {
-  start_hour: number;
-  end_hour: number;
+  start: Date;
+  end: Date;
   available: boolean;
-  locale: string;
+}
+
+export interface ExperienceType {
+  company: string;
+  role: string;
+  start_year: string;
+  end_year: string;
 }
 
 export interface MentorSchemaType {
   user_id: string;
   first_name: string;
   last_name: string;
-  image_link: string;
-  job_title: string;
-  company: string;
-  description: string[];
+  avatar: {
+    url?: string;
+    filename?: string;
+  };
+  experiences: ExperienceType[];
+  email: string;
+  timezone: string;
+  bio: string;
+  phone: string;
   expertise: string[];
-  language: string[];
+  languages: string[];
   linkedIn: string;
+  twitter: string;
   is_mentoring: boolean;
   topics: number[];
-  time_slot: Record<DayEnumType, DurationType>;
+  time_slots: DurationType[];
+  approved: boolean;
+  top_mentor: boolean;
+}
+
+interface Session {
+  email?: string;
+  topic?: string;
+  description?: string;
+}
+
+export interface BookingSchemaType {
+  mentor: Types.ObjectId | undefined;
+  mentee: Types.ObjectId | undefined;
+  mentor_email: string;
+  mentee_email: string;
+  start_date: Date;
+  end_date: Date;
+  google_meeting_link: string;
+  event_id: string;
+  status: 'accepted' | 'cancelled' | 'waiting';
+  session: Session;
 }
 
 export interface Room {
@@ -84,3 +153,28 @@ export type MotivationEnumType =
   | 'Mentorship'
   | 'Leadership'
   | 'Skills';
+
+export interface AdminUser extends Express.User {
+  role: 'admin' | null | undefined;
+}
+
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
+export interface CalenderCredentialsSchemaTypes {
+  email: string;
+  refresh_token: string;
+}
+
+export interface AttendeesEmailTypes {
+  email: string;
+}
+export interface CalendarOptionTypes {
+  startTime: Date;
+  endTime: Date;
+  attendeesEmails: AttendeesEmail[];
+  summary: string | undefined;
+  description: string | undefined;
+}

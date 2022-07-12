@@ -5,10 +5,14 @@ import { StyledButton as Button } from 'components/common';
 import DatePicker from 'components/DaterPicker';
 import { Topic } from 'types';
 import { colorPalatte } from 'data';
+import { authState, mentorState } from 'store';
+import { useRecoilValue } from 'recoil';
 interface BookingCardProps {
   topic: Topic;
 }
 const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
+  const auth = useRecoilValue(authState);
+  const mentor = useRecoilValue(mentorState);
   const { motivation, topicName, description: topicDescription } = topic;
   const topicColor = colorPalatte[motivation].overlay;
   const [open, setOpen] = React.useState(false);
@@ -57,15 +61,17 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
               {topicDescription}
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={1} sx={{ px: 2 }}>
-            <Button sx={{ p: 1 }} onClick={() => setOpen(true)}>
-              Book
-            </Button>
-          </Grid>
+          {auth.user?._id !== mentor._id && (
+            <Grid item xs={12} sm={1} sx={{ px: 2 }}>
+              <Button sx={{ p: 1 }} onClick={() => setOpen(true)}>
+                Book
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Paper>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DatePicker />
+        <DatePicker close={() => setOpen(false)} />
       </Dialog>
     </>
   );

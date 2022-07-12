@@ -24,9 +24,12 @@ export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
 
 export const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
+export const ADMIN_URL = process.env.CLIENT_URL || 'http://localhost:3001';
+
 export const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN || 'localhost';
 
-export const CORS_REGEX = process.env.CORS_REGEX || CLIENT_URL;
+export const CORS_REGEX =
+  process.env.CORS_REGEX || [CLIENT_URL, ADMIN_URL].join('|');
 
 export const COOKIE_KEYS = [process.env.COOKIE_KEYS || 'key'];
 
@@ -40,6 +43,11 @@ export const EMAIL_VERIFICATION_JWT = {
   expiresIn: '1h',
 };
 
+export const ADMIN_JWT = {
+  secret: process.env.ADMIN_JWT_SECRET || 'secret',
+  expiresIn: '1d',
+};
+
 export const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 
 export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT, 10) || 465;
@@ -47,3 +55,17 @@ export const EMAIL_PORT = parseInt(<string>process.env.EMAIL_PORT, 10) || 465;
 export const { EMAIL_USER } = process.env;
 
 export const { EMAIL_PASS } = process.env;
+
+export const WHATSAPP_WEBHOOK_TOKEN =
+  process.env.WHATSAPP_WEBHOOK_TOKEN || 'token';
+
+export const WHATSAPP = {
+  PHONE_NUMBER_ID: process.env.WHATSAPP_APP_ID || ' ',
+  ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN || ' ',
+};
+
+export const CLOUDINARY = {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || ' ',
+  api_key: process.env.CLOUDINARY_API_KEY || ' ',
+  api_secret: process.env.CLOUDINARY_API_SECRET || ' ',
+};
