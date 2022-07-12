@@ -2,8 +2,8 @@ import { Schema, model, Types } from 'mongoose';
 import { BookingSchemaType } from '../types';
 
 const BookingSchema = new Schema<BookingSchemaType>({
-  mentor_id: { ref: 'Mentor', type: Types.ObjectId },
-  mentee_id: { ref: 'User', type: Types.ObjectId },
+  mentor: { ref: 'Mentor', type: Types.ObjectId },
+  mentee: { ref: 'User', type: Types.ObjectId },
   mentee_email: String,
   mentor_email: String,
   start_date: Date,

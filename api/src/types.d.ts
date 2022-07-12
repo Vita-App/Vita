@@ -117,8 +117,8 @@ interface Session {
 }
 
 export interface BookingSchemaType {
-  mentor_id: Types.ObjectId | undefined;
-  mentee_id: Types.ObjectId | undefined;
+  mentor: Types.ObjectId | undefined;
+  mentee: Types.ObjectId | undefined;
   mentor_email: string;
   mentee_email: string;
   start_date: Date;

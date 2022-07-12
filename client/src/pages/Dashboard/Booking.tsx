@@ -88,7 +88,7 @@ const BookingList = () => {
   const timeString = `${date.getHours()}:00 - ${date.getHours() + 1}:00`;
 
   return (
-    <GridWrapper container lg={8} sx={{ boxShadow: 3 }}>
+    <GridWrapper container sx={{ boxShadow: 3 }}>
       <Grid item className="mentor-text">
         Mentorship session with {mentorName}
       </Grid>

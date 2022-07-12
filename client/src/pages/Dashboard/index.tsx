@@ -35,7 +35,7 @@ const renderPage = (page: number) => {
 
 const ResponsiveDrawer = () => {
   const { state } = useLocation();
-  const [open, setOpen] = React.useState(state?.newlyCreated);
+  const [open, setOpen] = React.useState<boolean>(state?.newlyCreated || false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const [tabIndex, setTabIndex] = React.useState(0);

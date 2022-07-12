@@ -50,7 +50,7 @@ const getIcon = (icon: string) => {
 const DrawerItems: React.FC<{
   handleTabIndexChange: (index: number) => void;
 }> = ({ handleTabIndexChange }) => {
-  const IconData = ['Home', 'Bookings', 'Settings'];
+  const IconData = ['Home', 'Settings'];
   return (
     <DrawerWrapper>
       <Toolbar />
@@ -65,14 +65,6 @@ const DrawerItems: React.FC<{
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
-      <Divider />
-      <div style={{ display: 'flex', flexGrow: 1 }} />
-      <List>
-        <ListItem button onClick={() => handleTabIndexChange(3)}>
-          <ListItemIcon>{getIcon('Support')}</ListItemIcon>
-          <ListItemText primary="Support" />
-        </ListItem>
       </List>
     </DrawerWrapper>
   );

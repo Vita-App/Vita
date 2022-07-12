@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Document } from 'mongoose';
+import { Document, FilterQuery } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel, UserModel } from '../Models/User';
@@ -12,6 +12,7 @@ import { makeTemplate } from '../templates';
 
 import {
   AttendeesEmailTypes,
+  BookingSchemaType,
   CalendarOptionTypes,
   UserSchemaType,
 } from '../types';
@@ -128,7 +129,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
   if (
     existingBooking &&
     existingBooking.status === BookingStatus.WAITING &&
-    existingBooking.mentee_id === user._id
+    existingBooking.mentee === user._id
   ) {
     return res.status(400).json({
       error: 'You already have one booking in waiting with this mentor!',
@@ -208,7 +209,7 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       });
     }
 
-    if (booking.mentor_id?.toString() !== mentor._id.toString()) {
+    if (booking.mentor?.toString() !== mentor._id.toString()) {
       return res
         .status(404)
         .json({ error: 'You dont have access to accept this booking!' });
@@ -239,9 +240,7 @@ export const acceptBookingController = async (req: Request, res: Response) => {
     booking.event_id = event.id;
     booking.google_meeting_link = event.hangoutLink;
 
-    const mentee = (await UserModel.findById(
-      booking.mentee_id,
-    )) as UserSchemaType;
+    const mentee = (await UserModel.findById(booking.mentee)) as UserSchemaType;
 
     const slot = moment(booking.start_date);
     const googleMeetCode = event.hangoutLink.split('/').pop();
@@ -275,4 +274,33 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       message: 'Unable to Schedule meet',
     });
   }
+};
+
+export const getBookings = async (req: Request, res: Response) => {
+  const type = req.query.type as string;
+  const user = req.user as UserSchemaType & Document;
+
+  const searchOptions: FilterQuery<BookingSchemaType> = {
+    $or: [{ mentee_id: user._id }, { mentor_id: user._id }],
+  };
+
+  if (type === 'upcoming') {
+    searchOptions.start_date = { $gte: new Date() };
+    searchOptions.status = BookingStatus.ACCEPTED;
+  } else if (type === 'past') {
+    searchOptions.start_date = { $lte: new Date() };
+  } else if (type === 'pending') {
+    searchOptions.status = BookingStatus.WAITING;
+  } else {
+    return res.status(400).json({
+      error:
+        'Please provide a valid query param of type upcoming, past or pending',
+    });
+  }
+
+  const bookings = await BookingModel.find(searchOptions)
+    .populate('mentor', 'first_name last_name')
+    .populate('mentee', 'first_name last_name');
+
+  return res.json(bookings);
 };
