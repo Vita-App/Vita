@@ -124,6 +124,7 @@ export interface BookingSchemaType {
   start_date: Date;
   end_date: Date;
   google_meeting_link: string;
+  event_id: string;
   status: 'accepted' | 'cancelled' | 'waiting';
   session: Session;
 }

@@ -18,6 +18,7 @@ const BookingSchema = new Schema<BookingSchemaType>({
     topic: String,
     description: String,
   },
+  event_id: String,
   google_meeting_link: String,
 });
 

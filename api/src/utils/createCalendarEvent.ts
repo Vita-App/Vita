@@ -53,7 +53,7 @@ const createCalenderEvent = async (options: CalendarOptionTypes) => {
     sendNotifications: true,
   });
 
-  return response.data.hangoutLink;
+  return response.data;
 };
 
 export default createCalenderEvent;

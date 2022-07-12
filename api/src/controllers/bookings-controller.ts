@@ -38,7 +38,7 @@ export const availabilityController = async (req: Request, res: Response) => {
 
   const bookings = await BookingModel.find({
     mentor_id: mentor._id,
-    status: BookingStatus.ACCEPTED, // This should be BookingStatus.ACCEPTED
+    status: BookingStatus.ACCEPTED,
   });
 
   if (bookings.length === 0) {
@@ -235,15 +235,16 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       description: booking.session.description,
     };
 
-    const googleMeetLink = await createCalenderEvent(options);
-    booking.google_meeting_link = googleMeetLink;
+    const event = await createCalenderEvent(options);
+    booking.event_id = event.id;
+    booking.google_meeting_link = event.hangoutLink;
 
     const mentee = (await UserModel.findById(
       booking.mentee_id,
     )) as UserSchemaType;
 
     const slot = moment(booking.start_date);
-    const googleMeetCode = googleMeetLink.split('/').pop();
+    const googleMeetCode = event.hangoutLink.split('/').pop();
     const mentorName = `${mentor.first_name} ${mentor.last_name}`;
     const menteeName = `${mentee.first_name} ${mentee.last_name}`;
 
@@ -265,9 +266,9 @@ export const acceptBookingController = async (req: Request, res: Response) => {
       googleMeetCode,
     );
 
-    // await booking.save();
+    await booking.save();
 
-    return res.status(200).json({ googleMeetLink, message: 'Meet Scheduled!' });
+    return res.status(200).json({ message: 'Meet Scheduled!' });
   } catch (err: any) {
     console.log(err.message);
     return res.status(500).json({
