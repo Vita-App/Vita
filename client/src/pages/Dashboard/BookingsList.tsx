@@ -7,8 +7,10 @@ import {
   AccordionSummaryProps,
   Box,
   Grid,
+  Stack,
   Typography,
 } from '@mui/material';
+import MuiButton from '@mui/material/Button';
 import { StyledButton as Button } from 'components/common';
 import { styled } from '@mui/material/styles';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
@@ -16,6 +18,13 @@ import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { BookingType, User } from 'types';
 import moment from 'moment';
+import { VideoCall } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'store';
+import { useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
+import { SERVER_URL } from 'config.keys';
+import { toast } from 'react-toastify';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
@@ -73,7 +82,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-const getName = (user: User) => `${user.first_name} ${user.last_name}`;
+const getName = (user: User) => `${user?.first_name} ${user?.last_name}`;
 
 const NoBooking: React.FC<{ kind: string }> = ({ kind }) => (
   <Box mt={2}>
@@ -84,12 +93,8 @@ const NoBooking: React.FC<{ kind: string }> = ({ kind }) => (
   </Box>
 );
 
-const ExpandMore = () => {
+const ExpandMore: React.FC<{ description: string }> = ({ description }) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
-
-  // const handleChange = (event: React.SyntheticEvent, newExpanded: boolean) => {
-  //   setExpanded(newExpanded);
-  // };
 
   return (
     <div>
@@ -97,25 +102,44 @@ const ExpandMore = () => {
         expanded={expanded}
         onChange={(event, newExpanded) => setExpanded(newExpanded)}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Collapsible Group Item #1</Typography>
+          <Typography>Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <Typography>{description}</Typography>
         </AccordionDetails>
       </Accordion>
     </div>
   );
 };
 
+const acceptBooking = async (id: string) => {
+  const { data } = await axios.get(`${SERVER_URL}/api/booking/accept/${id}`, {
+    withCredentials: true,
+  });
+
+  return data;
+};
+
 const BookingsList: React.FC<{ bookings: BookingType[]; kind: string }> = ({
   bookings,
   kind,
 }) => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    'acceptBooking',
+    (id: string) => acceptBooking(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getBookings');
+      },
+      onError: () => {
+        toast.error(
+          'Something went wrong! Cannot accept the booking right now',
+        );
+      },
+    },
+  );
+  const { user } = useRecoilValue(authState);
   if (bookings.length === 0) return <NoBooking kind={kind} />;
 
   return (
@@ -123,7 +147,11 @@ const BookingsList: React.FC<{ bookings: BookingType[]; kind: string }> = ({
       {bookings.map((booking) => (
         <GridWrapper container sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
           <Grid item className="mentor-text">
-            Mentorship session with {getName(booking.mentor)}
+            Session with{' '}
+            {user?._id === booking.mentor?._id
+              ? getName(booking.mentee)
+              : getName(booking.mentor)}{' '}
+            on {booking.session.topic}
           </Grid>
           <Grid item className="time-container">
             <EventAvailableTwoToneIcon color="action" />
@@ -135,8 +163,41 @@ const BookingsList: React.FC<{ bookings: BookingType[]; kind: string }> = ({
               {moment(booking.start_date).format('hh:mm a')}
             </span>
           </Grid>
-          <Grid item>
-            <ExpandMore />
+          {booking.session.description && (
+            <Grid item>
+              <ExpandMore description={booking.session.description} />
+            </Grid>
+          )}
+          <Grid item mt={1}>
+            {booking.google_meeting_link && (
+              <a
+                style={{ textDecoration: 'none' }}
+                href={booking.google_meeting_link}>
+                <MuiButton
+                  variant="contained"
+                  color="success"
+                  startIcon={<VideoCall />}>
+                  Join Meet
+                </MuiButton>
+              </a>
+            )}
+            {booking.status === 'waiting' && (
+              <Stack direction="row" spacing={2}>
+                <Button
+                  disabled={mutation.isLoading}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => mutation.mutate(booking._id)}>
+                  Accept
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => console.log('Cancel')}>
+                  Cancel
+                </Button>
+              </Stack>
+            )}
           </Grid>
         </GridWrapper>
       ))}

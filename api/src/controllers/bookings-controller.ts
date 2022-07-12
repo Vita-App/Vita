@@ -147,8 +147,8 @@ export const bookSlotController = async (req: Request, res: Response) => {
     mentee_email: user.email,
     mentor_phone: mentor.phone,
     mentee_phone: user.phone,
-    mentee_id: user._id,
-    mentor_id: mentor._id,
+    mentee: user._id,
+    mentor: mentor._id,
     start_date: startDate,
     end_date,
     session: {
