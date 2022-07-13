@@ -19,6 +19,7 @@ jobs:
             rm -rf ~/Vita
             git clone https://github.com/Vita-App/Vita.git
             export NVM_DIR=~/.nvm
+            export NODE_OPTIONS="--max-old-space-size=8192"
             source ~/.nvm/nvm.sh
             cd ~/Vita/api && npm install && cd ~/
             pm2 stop vita-server
