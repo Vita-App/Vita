@@ -16,6 +16,8 @@ export const LINKEDIN_KEY = {
   callbackURL: process.env.LINKEDIN_KEY_CALLBACKURI || ' ',
 };
 
+export const CREATE_CALENDER_EMAIL = process.env.CREATE_CALENDER_EMAIL || ' ';
+
 export const PROD: boolean = JSON.parse(process.env.PROD || 'false');
 
 export const port = parseInt(<string>process.env.PORT, 10) || 5000;

@@ -1,15 +1,20 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import LinkedinStrategy from 'passport-linkedin-oauth2';
-import { GOOGLE_KEY, LINKEDIN_KEY } from './keys';
+import { CREATE_CALENDER_EMAIL, GOOGLE_KEY, LINKEDIN_KEY } from './keys';
 import { UserModel } from '../Models/User';
 import { CalendarCredentialsModel } from '../Models/CalendarCredentials';
 
 const calendarEventCreationEmail = async (
   email: any,
   refresh_token: string,
+  done: GoogleStrategy.VerifyCallback,
 ) => {
-  if (email !== process.env.CREATE_CALENDER_EMAIL) return;
+  if (email !== CREATE_CALENDER_EMAIL) return done('Invalid email');
+
+  if (!refresh_token) {
+    return done('Could not get refresh token');
+  }
 
   const currCredentials: any = await CalendarCredentialsModel.findOne({
     email,
@@ -20,12 +25,14 @@ const calendarEventCreationEmail = async (
       email,
       refresh_token,
     });
-    return newCalenderCredential.save();
+    await newCalenderCredential.save();
+    return done(null, newCalenderCredential);
   }
 
   // Refresh token updated
   currCredentials.refresh_token = refresh_token;
-  currCredentials.save();
+  await currCredentials.save();
+  return done(null, currCredentials);
 };
 
 const createUserIfNotExists = async (
@@ -73,23 +80,25 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GoogleStrategy.Strategy(
     { ...GOOGLE_KEY, passReqToCallback: true },
-    (request, _accessToken, _refreshToken, profile, done) => {
+    async (request, _accessToken, _refreshToken, profile, done) => {
       const state = JSON.parse((request.query.state as string) || '{}');
 
-      calendarEventCreationEmail(profile._json.email, _refreshToken);
+      if (state.message === 'getRefreshToken') {
+        calendarEventCreationEmail(profile._json.email, _refreshToken, done);
+      } else {
+        const user = new UserModel({
+          user_id: profile.id,
+          first_name: profile._json?.given_name,
+          last_name: profile._json?.family_name,
+          email: profile._json?.email,
+          image_link: profile._json?.picture,
+          oauth_provider: profile.provider,
+          is_mentor: state.isMentor === 'true',
+          verified: true,
+        });
 
-      const user = new UserModel({
-        user_id: profile.id,
-        first_name: profile._json?.given_name,
-        last_name: profile._json?.family_name,
-        email: profile._json?.email,
-        image_link: profile._json?.picture,
-        oauth_provider: profile.provider,
-        is_mentor: state.isMentor === 'true',
-        verified: true,
-      });
-
-      createUserIfNotExists(user, state.loginMode, done);
+        createUserIfNotExists(user, state.loginMode, done);
+      }
     },
   ),
 );
