@@ -1,4 +1,4 @@
-import { CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
+import { ADMIN_URL, CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
 import { NextFunction, Request, Response } from 'express';
 import { Document } from 'mongoose';
 import { UserModel, MentorModel } from '../Models/User';
@@ -14,9 +14,19 @@ export const googleController = async (req: Request, res: Response) => {
   const { isMentor, loginMode } = req.query;
 
   passport.authenticate('google', {
-    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
-    accessType: 'offline',
+    scope: ['profile', 'email'],
     state: JSON.stringify({ isMentor, loginMode }),
+  })(req, res);
+};
+
+export const googleRefreshTokenController = async (
+  req: Request,
+  res: Response,
+) => {
+  passport.authenticate('google', {
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
+    state: JSON.stringify({ message: 'getRefreshToken' }),
+    accessType: 'offline',
   })(req, res);
 };
 
@@ -33,12 +43,20 @@ export const passportGoogle = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const page =
-    JSON.parse((req.query.state as string) || '{}')?.loginMode === 'true'
-      ? 'login'
-      : 'signup';
+  const state = JSON.parse((req.query.state as string) || '{}');
+  const page = state?.loginMode === 'true' ? 'login' : 'signup';
+
+  const refreshTokenReq = state.message === 'getRefreshToken';
 
   passport.authenticate('google', (err, user) => {
+    if (refreshTokenReq) {
+      if (err) {
+        return res.redirect(`${ADMIN_URL}/settings?error=${err}`);
+      }
+
+      return res.redirect(`${ADMIN_URL}/settings?success=true`);
+    }
+
     if (err)
       return res.redirect(
         `${CLIENT_URL}/auth?page=${page}&socialAuthFailed=${err}`,

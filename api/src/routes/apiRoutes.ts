@@ -15,6 +15,7 @@ import {
   passportGoogle,
   passportLinkedin,
   socialAuthCallback,
+  googleRefreshTokenController,
 } from '../controllers/auth-controller';
 import {
   getTopicsController,
@@ -69,6 +70,7 @@ router.post('/auth/signup', jwtSignupController);
 router.post('/auth/login', jwtLoginController);
 router.get('/auth/verify-email', verifyEmailController);
 router.get('/auth/google', googleController);
+router.get('/get-refresh-token', googleRefreshTokenController);
 router.get('/auth/linkedin', linkedinController);
 router.get('/auth/googleCallback', passportGoogle, socialAuthCallback);
 router.get('/auth/linkedinCallback', passportLinkedin, socialAuthCallback);

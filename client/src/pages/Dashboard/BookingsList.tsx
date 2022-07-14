@@ -169,7 +169,7 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
                 </MuiButton>
               </a>
             )}
-            {booking.status === 'waiting' && (
+            {booking.mentor._id === user?._id && booking.status === 'waiting' && (
               <Stack direction="row" spacing={2}>
                 <Button
                   disabled={mutation.isLoading}
@@ -183,6 +183,13 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
                   color="error"
                   onClick={() => console.log('Cancel')}>
                   Cancel
+                </Button>
+              </Stack>
+            )}
+            {booking.mentor._id !== user?._id && (
+              <Stack mt={1} alignItems="flex-start">
+                <Button variant="outlined" color="primary">
+                  {booking.status === 'accepted' ? 'Accepted' : 'Waiting'}
                 </Button>
               </Stack>
             )}
