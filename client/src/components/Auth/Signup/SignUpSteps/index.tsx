@@ -50,7 +50,7 @@ const SignUpSteps: React.FC = () => {
   const onContinue = (step: number, data: FieldValues) => {
     if (!auth.user!.is_mentor && step === 0) {
       const apiData = convertToFormData({
-        ...formData[0],
+        ...data,
         interests,
         timezone: moment.tz.guess(),
       });
@@ -58,7 +58,7 @@ const SignUpSteps: React.FC = () => {
       sendRequest(
         async () => {
           const response = await axios.post(
-            `${SERVER_URL}/api/mentee/register`,
+            `${SERVER_URL}/api/register`,
             apiData,
             {
               withCredentials: true,
