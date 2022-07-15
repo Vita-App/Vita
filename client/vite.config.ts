@@ -5,7 +5,7 @@ import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   build: {
-    outDir: 'build', // Changed output folder, like in CRA
+    outDir: 'dist', // Changed output folder, like in CRA
   },
   plugins: [react(), viteTsconfigPaths(), svgr()],
 });
