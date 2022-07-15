@@ -23,6 +23,7 @@ const sendVerificationMail = async (res: Response, user: UserSchemaType) => {
       emailId,
     });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({
       error: {
         email: 'Invalid email address',
