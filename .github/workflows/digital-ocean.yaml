@@ -50,7 +50,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           source: 'client/dist' # Path to the directory you want to copy
-          target: '~/' # Path to the directory you want to copy to
+          target: '/var/www/html' # Path to the directory you want to copy to
 
       - name: Start Server
         uses: appleboy/ssh-action@v0.1.4 # This is the action
@@ -64,8 +64,7 @@ jobs:
             rm -rf ~/Vita
             git clone https://github.com/Vita-App/Vita.git
             mv ~/api/dist Vita/api/
-            mv ~/client/dist /var/www/html
-            cd ~/Vita/api && npm install && cd ~/ && rm -rf api
+            cd ~/Vita/api && npm install && cd ~/ && rm -rf ./api
             pm2 stop vita-server
             pm2 start ~/env/ecosystem.config.js --env production
             echo 'Deployment successful to digital ocean'
