@@ -8,7 +8,7 @@ import {
   sendBookingRequestMessage,
 } from '../service/whatsapp-service';
 import { sendEmail } from '../service/email-service';
-import { makeTemplate } from '../templates';
+import { makeTemplate } from '../utils/makeTemplate';
 
 import {
   AttendeesEmailTypes,

@@ -6,7 +6,7 @@ import passport from 'passport';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import sendVerificationMail from '../utils/sendVerificationMail';
 import { sendEmail } from '../service/email-service';
-import { makeTemplate } from '../templates';
+import { makeTemplate } from '../utils/makeTemplate';
 import parseFormData from '../utils/parseFormData';
 import { SelectOption, UserSchemaType } from '../types';
 

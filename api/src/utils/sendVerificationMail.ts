@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { CLIENT_URL } from '../config/keys';
 import { sendEmail } from '../service/email-service';
-import { makeTemplate } from '../templates';
+import { makeTemplate } from './makeTemplate';
 import { UserSchemaType } from '../types';
 
 const sendVerificationMail = async (res: Response, user: UserSchemaType) => {
