@@ -32,11 +32,6 @@ const Page1 = () => (
 
 const Landing = () => {
   const { isLoading, data } = useQuery(['mentors'], () => getTopMentors());
-  const [, setPosition] = useRecoilState(swipeCardState);
-
-  useEffect(() => {
-    setPosition(swipeCardsInfo.length - 1);
-  }, []);
 
   const CarouselComponent = () =>
     isLoading === false ? (

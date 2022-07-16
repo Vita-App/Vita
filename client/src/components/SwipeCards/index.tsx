@@ -78,6 +78,10 @@ const SwipeCards = () => {
   const [position, setPosition] = useRecoilState(swipeCardState);
 
   useEffect(() => {
+    setPosition(swipeCardsInfo.length - 1);
+  }, []);
+
+  useEffect(() => {
     const timeoutID = window.setTimeout(() => {
       moveCard(gone, set, position, setPosition);
     }, 5000);
