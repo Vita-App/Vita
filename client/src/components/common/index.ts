@@ -13,7 +13,7 @@ export const Link = styled(router_Link)({
 });
 
 // this is like react mui
-export const ReactSelect = styled(Reactselect)(({ theme }) => ({
+export const ReactSelect = styled(Reactselect)(() => ({
   // width: '100%',
   boxShadow: 'white',
   '.select__single-value': {

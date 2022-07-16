@@ -45,7 +45,7 @@ export const fakeDataController = async (req: Request, res: Response) => {
   });
 };
 
-export const topicDataController = async (req: Request, res: Response) => {
+export const topicDataController = async () => {
   const txn = [];
   for (let i = 0; i < topics.length; i++) {
     const topic = new TopicModel(topics[i]);

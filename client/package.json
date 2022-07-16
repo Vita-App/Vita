@@ -49,9 +49,9 @@
     "start": "vite --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview --port 3000",
-    "pretty": "npx prettier --write \"./**/*.{ts,tsx,js,jsx}\"",
-    "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/",
-    "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --fix",
+    "pretty": "npx prettier --write \"./src/**/*.{ts,tsx,js,jsx}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern --ignore-pattern dist/",
+    "lint:fix": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --ignore-pattern dist/ --fix",
     "pre-commit": "npm run pretty && npm run lint:fix"
   },
   "eslintConfig": {

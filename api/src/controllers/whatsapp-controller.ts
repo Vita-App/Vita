@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { WHATSAPP_WEBHOOK_TOKEN } from '../config/keys';
-import { BookingModel } from '../Models/Booking';
 import { UserModel } from '../Models/User';
 import { acceptBookingController } from './bookings-controller';
 
