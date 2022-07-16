@@ -46,7 +46,7 @@
   },
   "scripts": {
     "dev": "npm run start",
-    "start": "vite --port 3000",
+    "start": "vite --open --port 3000",
     "build": "tsc && vite build",
     "preview": "vite preview --port 3000",
     "pretty": "npx prettier --write \"./src/**/*.{ts,tsx,js,jsx}\"",
