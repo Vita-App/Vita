@@ -6,10 +6,9 @@ import { Add, Delete } from '@mui/icons-material';
 import {
   StyledTextField,
   MuiStyledButton as StyledButton,
-  StyledReactSelect as Select,
   MultiSelectElement,
 } from 'components/common';
-import { LanguageOptions, getTopicOptions, expertiseOptions } from 'data';
+import { getTopicOptions, expertiseOptions } from 'data';
 import { ExperienceType } from 'types';
 
 const ExperienceStep: React.FC<{

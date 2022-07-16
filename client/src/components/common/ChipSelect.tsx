@@ -12,10 +12,14 @@ import {
   Select,
   SelectProps,
 } from '@mui/material';
-import StaticTimePicker from '@mui/lab/StaticTimePicker';
+
+interface ItemType {
+  label: string;
+  value: Object;
+}
 
 export type MultiSelectElementProps = Omit<SelectProps, 'value'> & {
-  menuItems: MenuItemType[];
+  menuItems: ItemType[];
   label?: string;
   required?: boolean;
   validation?: any;
@@ -33,12 +37,7 @@ export type MultiSelectElementProps = Omit<SelectProps, 'value'> & {
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-interface MenuItemType {
-  label: string;
-  value: unknown;
-}
-
-const isPresent = (list: MenuItemType[], item: MenuItemType) => {
+const isPresent = (list: ItemType[], item: ItemType) => {
   for (let i = 0; i < list?.length; i++)
     if (list[i].label === item.label) return true;
 
@@ -116,7 +115,7 @@ export const MultiSelectElement = ({
                 typeof rest.renderValue === 'function'
                   ? rest.renderValue
                   : showChips
-                  ? (selected: MenuItemType[]) => (
+                  ? (selected: ItemType[]) => (
                       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {(selected || []).map(
                           (selectedValue, index: number) => (
@@ -148,7 +147,7 @@ export const MultiSelectElement = ({
                     )
                   : (selected) => selected?.join(', ')
               }>
-              {menuItems.map((item: MenuItemType, index: number) => {
+              {menuItems.map((item: ItemType, index: number) => {
                 const isChecked = isPresent(optionSelected, item);
                 console.log(item.label, isChecked);
                 return (

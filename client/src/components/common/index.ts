@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Reactselect from 'react-select';
 
 export * from './ChipSelect';
+export * from './SingleSelect';
 
 export const Link = styled(router_Link)({
   color: 'inherit',
@@ -13,7 +14,7 @@ export const Link = styled(router_Link)({
 
 // this is like react mui
 export const ReactSelect = styled(Reactselect)(({ theme }) => ({
-  width: '100%',
+  // width: '100%',
   boxShadow: 'white',
   '.select__single-value': {
     color: '#f5f5f5',
