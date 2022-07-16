@@ -5,7 +5,7 @@ import fs from 'fs';
 export const makeTemplate = (template: string, args?: any) => {
   const templateStr = fs
     .readFileSync(
-      path.resolve(__dirname.split('dist')[0], 'template/', template),
+      path.resolve(__dirname.split('api')[0], 'api/template/', template),
     )
     .toString('utf-8');
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Appbar from 'components/Appbar';
 import Grid from '@mui/material/Grid';
 import Particles from 'components/Particles';
@@ -12,6 +12,9 @@ import CompaniesHero from 'components/CompaniesHero';
 import { MentorValues } from 'components/MentorValues';
 import SwipeCards from 'components/SwipeCards';
 import LandingHero from 'components/LandingHero';
+import { useRecoilState } from 'recoil';
+import { swipeCardState } from 'store';
+import { swipeCardsInfo } from 'data';
 
 const Page1 = () => (
   <Grid container flexDirection={'row-reverse'}>
@@ -29,6 +32,11 @@ const Page1 = () => (
 
 const Landing = () => {
   const { isLoading, data } = useQuery(['mentors'], () => getTopMentors());
+  const [, setPosition] = useRecoilState(swipeCardState);
+
+  useEffect(() => {
+    setPosition(swipeCardsInfo.length - 1);
+  }, []);
 
   const CarouselComponent = () =>
     isLoading === false ? (
