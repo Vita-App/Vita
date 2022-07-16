@@ -33,7 +33,6 @@ export const sendBookingRequestMessage = async (
   mentor: string,
   mentee: string,
   at: string,
-  mentor_id: string,
   booking_id: string,
   // eslint-disable-next-line max-params
 ) => {
@@ -55,10 +54,6 @@ export const sendBookingRequestMessage = async (
             {
               type: 'text',
               text: at,
-            },
-            {
-              type: 'text',
-              text: mentor_id,
             },
           ],
         },
