@@ -166,7 +166,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
     mentorName,
     menteeName,
     date.format('dddd, MMMM Do YYYY, h:mm a'),
-    mentor._id,
+    booking._id,
   );
 
   try {

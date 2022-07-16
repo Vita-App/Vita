@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { WHATSAPP_WEBHOOK_TOKEN } from '../config/keys';
 import { BookingModel } from '../Models/Booking';
 import { UserModel } from '../Models/User';
+import { acceptBookingController } from './bookings-controller';
 
 export const verifyWebHook = async (req: Request, res: Response) => {
   if (
@@ -19,23 +20,25 @@ export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
     const entry = req.body.entry[0];
     const change = entry.changes[0];
 
-    const { field, messages } = change.value;
-
-    if (field !== 'messages') return res.sendStatus(400);
+    const { messages } = change.value;
+    if (change.field !== 'messages') return res.sendStatus(400);
 
     const message = messages[0];
 
     if (message.type === 'button') {
       const bookingID = message.button.payload;
-      const booking = await BookingModel.findById(bookingID);
 
-      const user = await UserModel.find({ phone: message.from });
+      const user: any = await UserModel.findOne({ phone: message.from });
 
-      console.log(user);
-
-      if (!user || !booking) {
+      if (!user) {
         return res.sendStatus(400);
       }
+
+      req.user = user;
+      req.params.id = bookingID;
+
+      if (message.button.text === 'Accept')
+        return await acceptBookingController(req, res);
     }
   } catch (err) {
     return res.sendStatus(400);
