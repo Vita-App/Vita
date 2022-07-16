@@ -261,7 +261,7 @@ const ExperienceStep: React.FC<{
           control={control}
           menuItems={expertiseOptions}
           name="expertise[]"
-          defaultValue={props.hydrate?.exepertise}
+          defaultValue={props.hydrate?.exepertise || []}
           showChips
           label="Expertise"
         />
@@ -279,7 +279,7 @@ const ExperienceStep: React.FC<{
             multiple
             control={control}
             name="topics[jobSearch]"
-            defaultValue={props.hydrate?.topics?.jobSearch}
+            defaultValue={props.hydrate?.topics?.jobSearch || []}
             menuItems={getTopicOptions('Job Search')}
             showChips
             label="Job Search"
@@ -288,7 +288,7 @@ const ExperienceStep: React.FC<{
             multiple
             control={control}
             name="topics[career]"
-            defaultValue={props.hydrate?.topics?.career}
+            defaultValue={props.hydrate?.topics?.career || []}
             menuItems={getTopicOptions('Career Advice')}
             showChips
             label="Career Advice"
@@ -297,7 +297,7 @@ const ExperienceStep: React.FC<{
             multiple
             control={control}
             name="topics[leaderShip]"
-            defaultValue={props.hydrate?.topics?.leaderShip}
+            defaultValue={props.hydrate?.topics?.leaderShip || []}
             menuItems={getTopicOptions('Leadership')}
             showChips
             label="Leadership"
@@ -306,7 +306,7 @@ const ExperienceStep: React.FC<{
             multiple
             control={control}
             name="topics[skills]"
-            defaultValue={props.hydrate?.topics?.skills}
+            defaultValue={props.hydrate?.topics?.skills || []}
             menuItems={getTopicOptions('Skills')}
             showChips
             label="Skills"

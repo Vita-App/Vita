@@ -38,7 +38,6 @@ const SignUpSteps: React.FC = () => {
 
   const getTopicsArray = (topics: any) => {
     const topicsArray: any[] = [];
-
     for (const key of Object.keys(topics)) {
       for (const topic of topics[key]) {
         topicsArray.push(topic);

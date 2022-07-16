@@ -59,6 +59,7 @@ export const MultiSelectElement = ({
   variant,
   control,
   showCheckbox,
+  defaultValue,
   ...rest
 }: MultiSelectElementProps) => {
   if (required && !validation.required) {
@@ -70,6 +71,7 @@ export const MultiSelectElement = ({
       name={name}
       rules={validation}
       control={control}
+      defaultValue={defaultValue}
       render={({
         field: { value: optionSelected, onChange, onBlur },
         fieldState: { invalid, error },
@@ -149,7 +151,6 @@ export const MultiSelectElement = ({
               }>
               {menuItems.map((item: ItemType, index: number) => {
                 const isChecked = isPresent(optionSelected, item);
-                console.log(item.label, isChecked);
                 return (
                   // @ts-ignore
                   <MenuItem

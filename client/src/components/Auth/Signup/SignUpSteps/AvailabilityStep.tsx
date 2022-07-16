@@ -96,9 +96,6 @@ const AvailabilityStep: React.FC<{
   };
 
   const isError = isObjectEmpty(form?.slots);
-  console.log(isError);
-  console.log(form);
-  console.log(errors);
   return (
     <Stack
       spacing={3}

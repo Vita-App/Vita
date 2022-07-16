@@ -125,24 +125,6 @@ export const getSlotsByDays = (
   return newSlots;
 };
 
-// const getDays = (month: number, weekDay: number) => {
-//   const days: Moment[] = [];
-
-//   const firstDay = moment({ month }).startOf("month").day(weekDay);
-
-//   console.log(firstDay.date());
-
-//   if (firstDay.date() > 7) firstDay.add(7, 'd');
-
-//   const _month = firstDay.month();
-//   while (_month === firstDay.month()) {
-//     days.push(firstDay);
-//     firstDay.add(7, 'd');
-//   }
-
-//   return days;
-// };
-
 const filterBusy = (
   slots: Record<string, DurationType[]>,
   busySlots: Date[],
