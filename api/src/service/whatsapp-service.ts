@@ -89,7 +89,7 @@ export const sendBookingRequestMessage = async (
 
     return data;
   } catch (err: any) {
-    console.log(err.message);
+    console.log(err);
     return null;
   }
 };
