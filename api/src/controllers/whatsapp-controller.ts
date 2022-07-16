@@ -31,6 +31,8 @@ export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
 
       const user = await UserModel.find({ phone: message.from });
 
+      console.log(user);
+
       if (!user || !booking) {
         return res.sendStatus(400);
       }
