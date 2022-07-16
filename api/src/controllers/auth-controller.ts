@@ -169,11 +169,11 @@ export const jwtLoginController = async (req: Request, res: Response) => {
         message: 'Invalid credentials',
       });
     }
-  } catch (err: any) {
+  } catch (err) {
     return res.status(400).json({
       success: false,
       isLoggedIn: false,
-      message: err.message,
+      message: err instanceof Error ? err.message : err,
     });
   }
 

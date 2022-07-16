@@ -6,41 +6,17 @@ import {
   Avatar,
   Chip,
   CircularProgress,
-  styled,
 } from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
   StyledTextField,
   MuiStyledButton as StyledButton,
-  StyledReactSelect as Select,
-  MultiSelectElement,
+  SingleDropDownItem,
+  StyledReactSelect,
 } from 'components/common';
 import { useMutation, useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
-
-const StyledSelect = styled(Select)({
-  width: '180px',
-  '.select__control': {
-    border: 'none',
-    outline: 'none',
-  },
-  '.select__input-container': {
-    border: 'none',
-    backgroundColor: 'transparent',
-  },
-  '.select__input-container:focus': {
-    border: 'none',
-    backgroundColor: 'transparent',
-  },
-  '.select__input-container:active': {
-    border: 'none',
-    backgroundColor: 'transparent',
-  },
-  '.select__control:focus': {
-    border: 'none',
-  },
-});
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -65,7 +41,10 @@ const defaultCountry = [
     value: '+91',
     label: (
       <Stack direction="row" alignItems="center">
-        <img src="https://flagcdn.com/in.svg" height="20px" width="20px" />
+        <img
+          src="https://flagcdn.com/in.svg"
+          style={{ height: '16x', width: '24px', marginRight: '15px' }}
+        />
         +91
       </Stack>
     ),
@@ -84,11 +63,10 @@ const getCountryCodes = async () => {
       options.push({
         value: `+${code}`,
         label: (
-          <Stack direction="row" alignItems="center">
+          <Stack direction="row" alignItems="stretch">
             <img
               src={country.flags.svg || country.flags.png}
-              height="20px"
-              width="20px"
+              style={{ height: '16px', width: '24px', marginRight: '15px' }}
             />
             {`+${code}`}
           </Stack>
@@ -117,7 +95,10 @@ const ProfileStep: React.FC<{
   const [avatarSrc, setAvatarSrc] = useState('');
   const profilePicRef = useRef<HTMLInputElement>();
 
-  const { data } = useQuery<CountryData[]>('countryCodes', getCountryCodes);
+  const { data: CountryCodeData } = useQuery<CountryData[]>(
+    'countryCodes',
+    getCountryCodes,
+  );
 
   const mutation = useMutation(
     'check-phone',
@@ -314,11 +295,20 @@ const ProfileStep: React.FC<{
                         props.hydrate?.countryCode || defaultCountry[0]
                       }
                       render={({ field }) => (
-                        <StyledSelect
+                        <StyledReactSelect
+                          styles={{
+                            control: (base) => ({
+                              ...base,
+                              width: '150px',
+                              border: 0,
+                              // This line disable the blue border
+                              boxShadow: 'none',
+                            }),
+                          }}
                           {...field}
                           placeholder=""
                           classNamePrefix="select"
-                          options={data || defaultCountry}
+                          options={CountryCodeData || defaultCountry}
                         />
                       )}
                     />
@@ -363,10 +353,9 @@ const ProfileStep: React.FC<{
             required: 'Stream is Required',
           }}
           render={({ field }) => (
-            <Select
-              {...field}
-              placeholder="Choose your course"
-              classNamePrefix="select"
+            <SingleDropDownItem
+              onChange={field.onChange}
+              value={field.value}
               options={streamOptions}
             />
           )}

@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import {
   MuiStyledButton as StyledButton,
-  StyledReactSelect,
   MultiSelectElement,
 } from 'components/common';
 import { TimeSlotsOptions } from 'data';
@@ -64,15 +63,15 @@ const AvailabilityStep: React.FC<{
       {
         label: '11:00 - 12:00',
         value: {
-          start: new Date(2022, 0, 1, 11, 0),
-          end: new Date(2022, 0, 1, 12, 0),
+          start: new Date(2021, 0, 1, 11, 0),
+          end: new Date(2021, 0, 1, 12, 0),
         },
       },
       {
         label: '12:00 - 13:00',
         value: {
-          start: new Date(2022, 0, 1, 12, 0),
-          end: new Date(2022, 0, 1, 13, 0),
+          start: new Date(2021, 0, 1, 12, 0),
+          end: new Date(2021, 0, 1, 13, 0),
         },
       },
     ]);
@@ -82,15 +81,15 @@ const AvailabilityStep: React.FC<{
       {
         label: '11:00 - 12:00',
         value: {
-          start: new Date(2022, 0, 1, 11, 0),
-          end: new Date(2022, 0, 1, 12, 0),
+          start: new Date(2021, 0, 1, 11, 0),
+          end: new Date(2021, 0, 1, 12, 0),
         },
       },
       {
         label: '12:00 - 13:00',
         value: {
-          start: new Date(2022, 0, 1, 12, 0),
-          end: new Date(2022, 0, 1, 13, 0),
+          start: new Date(2021, 0, 1, 12, 0),
+          end: new Date(2021, 0, 1, 13, 0),
         },
       },
     ]);

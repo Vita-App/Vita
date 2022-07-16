@@ -122,3 +122,8 @@ export interface Session {
   topic: string;
   description: string;
 }
+
+export interface MenuItemType {
+  label: string;
+  value: string | number;
+}
