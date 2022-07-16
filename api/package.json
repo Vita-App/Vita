@@ -12,7 +12,11 @@
     "build": "tsc",
     "start": "npm run serve",
     "serve": "node dist/src/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "dev-slow": "nodemon --exec ts-node src/index.ts",
+    "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
+    "watch-compile": "swc src -w --out-dir dist",
+    "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/index.js",
+    "build-fast": "swc src -d dist",
     "pretty": "prettier --write \"./src/**/*.{ts,js}\"",
     "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --ignore-pattern dist/",
     "lint:fix": "eslint \"**/*.ts\" --ignore-pattern node_modules/ --ignore-pattern dist/ --fix",
@@ -54,6 +58,9 @@
     "typescript": "^4.5.2"
   },
   "devDependencies": {
+    "@swc-node/register": "^1.5.1",
+    "@swc/core": "^1.2.215",
+    "@swc/helpers": "^0.4.3",
     "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.19.0",
     "@types/cookie-parser": "^1.4.2",
@@ -78,6 +85,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
+    "regenerator-runtime": "^0.13.9",
+    "swc": "^1.0.11",
     "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.1"
   },
