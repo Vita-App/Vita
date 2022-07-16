@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AdminModel } from '../Models/Admins';
 import { sendEmail } from '../service/email-service';
-import { makeTemplate } from '../templates';
+import { makeTemplate } from '../utils/makeTemplate';
 
 export const adminAuthController = async (req: Request, res: Response) => {
   if (!req.user) {

@@ -17,7 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { transformSlots } from 'utils/helper';
 import moment from 'moment';
 
-const steps = ['Profile', 'Experience', 'Availability'];
+// const steps = ['Profile', 'Experience', 'Availability'];
+const steps = ['Experience', 'Profile', 'Availability'];
 
 const SignUpSteps: React.FC = () => {
   const { loading, sendRequest } = useHttp();
@@ -37,7 +38,6 @@ const SignUpSteps: React.FC = () => {
 
   const getTopicsArray = (topics: any) => {
     const topicsArray: any[] = [];
-
     for (const key of Object.keys(topics)) {
       for (const topic of topics[key]) {
         topicsArray.push(topic);

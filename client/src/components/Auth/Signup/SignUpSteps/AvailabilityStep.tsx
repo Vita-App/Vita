@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import {
   MuiStyledButton as StyledButton,
-  StyledReactSelect,
+  MultiSelectElement,
 } from 'components/common';
 import { TimeSlotsOptions } from 'data';
 import { isObjectEmpty } from 'utils/helper';
@@ -31,6 +31,7 @@ const AvailabilityStep: React.FC<{
     setValue,
     clearErrors,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: props.hydrate,
@@ -54,6 +55,8 @@ const AvailabilityStep: React.FC<{
 
   const onDefaultClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.currentTarget.checked) return;
+    // clearing off previous state
+    reset({});
 
     setValue('dayChecked[Sat]', true);
     setValue('slots[Sat]', [
@@ -93,7 +96,6 @@ const AvailabilityStep: React.FC<{
   };
 
   const isError = isObjectEmpty(form?.slots);
-
   return (
     <Stack
       spacing={3}
@@ -147,21 +149,15 @@ const AvailabilityStep: React.FC<{
                     Unavailable
                   </Typography>
                 ) : (
-                  <Controller
-                    name={`slots[${day}]`}
+                  <MultiSelectElement
+                    multiple
                     control={control}
-                    rules={{ required: 'Please select at least one time slot' }}
-                    render={({ field }) => (
-                      <StyledReactSelect
-                        closeMenuOnSelect={false}
-                        menuPlacement="top"
-                        {...field}
-                        placeholder="Select your time slots"
-                        isMulti
-                        classNamePrefix="select"
-                        options={TimeSlotsOptions}
-                      />
-                    )}
+                    menuItems={TimeSlotsOptions}
+                    name={`slots[${day}]`}
+                    showChips
+                    showCheckbox
+                    label="Select your time slots"
+                    error={errors?.slots?.[day]}
                   />
                 )}
                 {errors?.slots?.[day] && (

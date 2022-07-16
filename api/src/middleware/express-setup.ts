@@ -32,8 +32,8 @@ export const useMiddleWare = (app: Express) => {
       store: MongoStore.create({ mongoUrl: DATABASE_URL }),
       cookie: {
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: true,
-        httpOnly: true,
+        sameSite: false,
+        // httpOnly: true,
         secure: false,
       },
     }),

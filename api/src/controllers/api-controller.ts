@@ -4,7 +4,7 @@ import { TopicModel } from '../Models/Topics';
 import { Document, FilterQuery, isValidObjectId } from 'mongoose';
 import { MentorSchemaType, UserSchemaType } from '../types';
 import { sendEmail } from '../service/email-service';
-import { makeTemplate } from '../templates';
+import { makeTemplate } from '../utils/makeTemplate';
 import { BannerModel } from '../Models/Banner';
 
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&page=1&mentorSearchText=Google
