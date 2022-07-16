@@ -40,7 +40,7 @@ export const sendBookingRequestMessage = async (
   try {
     const { data } = await axios.post(
       URL,
-      getTemplate('booking__request', to, [
+      getTemplate('booking_request', to, [
         {
           type: 'body',
           parameters: [
