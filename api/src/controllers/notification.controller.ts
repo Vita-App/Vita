@@ -13,6 +13,15 @@ const markAllAsRead = async (req: Request, res: Response) => {
   });
 };
 
+const getNotifications = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+
+  const notifications = await Notifications.find({ user: user._id });
+
+  return res.status(200).json(notifications);
+};
+
 export default {
   markAllAsRead,
+  getNotifications,
 };

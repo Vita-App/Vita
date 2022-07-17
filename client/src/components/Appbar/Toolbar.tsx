@@ -10,6 +10,7 @@ import { authState } from 'store';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 import { useNavigate } from 'react-router-dom';
+import Notification from 'components/Notification';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -60,6 +61,7 @@ const Toolbar = () => {
               <Button>VITA APP</Button>
             </Link>
           </Box>
+          <Notification />
           <Link to="/search">
             <Button>Get a match</Button>
           </Link>
