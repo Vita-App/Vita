@@ -280,7 +280,7 @@ const getBookings = async (req: Request, res: Response) => {
   const user = req.user as UserSchemaType & Document;
 
   const searchOptions: FilterQuery<BookingSchemaType> = {
-    $or: [{ mentee_id: user._id }, { mentor_id: user._id }],
+    $or: [{ mentee: user._id }, { mentor: user._id }],
   };
 
   if (type === 'upcoming') {
