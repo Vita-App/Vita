@@ -27,10 +27,6 @@ export const motivationOptions = [
 
 export const expertiseOptions = [
   {
-    value: 'All',
-    label: 'All',
-  },
-  {
     value: 'Design',
     label: 'Design',
   },
