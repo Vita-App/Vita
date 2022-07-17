@@ -1,6 +1,6 @@
 import express from 'express';
 import { PROD } from '../config/keys';
-import { adminController } from '../controllers';
+import adminController from '../controllers/admin.controller';
 import { fakeDataController } from '../data/fakeData-controller';
 import { checkDBUrl } from '../middleware';
 
