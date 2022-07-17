@@ -10,7 +10,7 @@ import { makeTemplate } from '../utils/makeTemplate';
 import parseFormData from '../utils/parseFormData';
 import { SelectOption, UserSchemaType } from '../types';
 
-export const googleController = async (req: Request, res: Response) => {
+const googleCallback = async (req: Request, res: Response) => {
   const { isMentor, loginMode } = req.query;
 
   passport.authenticate('google', {
@@ -19,10 +19,7 @@ export const googleController = async (req: Request, res: Response) => {
   })(req, res);
 };
 
-export const googleRefreshTokenController = async (
-  req: Request,
-  res: Response,
-) => {
+const googleRefreshToken = async (req: Request, res: Response) => {
   passport.authenticate('google', {
     scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
     state: JSON.stringify({ message: 'getRefreshToken' }),
@@ -30,7 +27,7 @@ export const googleRefreshTokenController = async (
   })(req, res);
 };
 
-export const linkedinController = async (req: Request, res: Response) => {
+const linkedinCallback = async (req: Request, res: Response) => {
   const { isMentor, loginMode } = req.query;
 
   passport.authenticate('linkedin', {
@@ -38,7 +35,7 @@ export const linkedinController = async (req: Request, res: Response) => {
   })(req, res);
 };
 
-export const passportGoogle = async (
+const passportGoogle = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -78,7 +75,7 @@ export const passportGoogle = async (
   })(req, res, next);
 };
 
-export const passportLinkedin = async (
+const passportLinkedin = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -110,7 +107,7 @@ export const passportLinkedin = async (
   })(req, res, next);
 };
 
-export const socialAuthCallback = async (req: Request, res: Response) => {
+const socialAuthCallback = async (req: Request, res: Response) => {
   if (req.user) {
     const user = req.user as UserSchemaType;
 
@@ -126,7 +123,7 @@ export const socialAuthCallback = async (req: Request, res: Response) => {
   );
 };
 
-export const authController = (req: Request, res: Response) => {
+const auth = (req: Request, res: Response) => {
   if (!req.user) {
     return res.status(200).json({
       isLoggedIn: false,
@@ -147,7 +144,7 @@ export const authController = (req: Request, res: Response) => {
   });
 };
 
-export const jwtLoginController = async (req: Request, res: Response) => {
+const jwtLogin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email });
@@ -190,7 +187,7 @@ export const jwtLoginController = async (req: Request, res: Response) => {
   return res.status(200).json({ isLoggedIn: true, user });
 };
 
-export const jwtSignupController = async (req: Request, res: Response) => {
+const jwtSignup = async (req: Request, res: Response) => {
   const { email, password, first_name, last_name, mentor } = req.body;
 
   const user = new UserModel({
@@ -217,7 +214,7 @@ export const jwtSignupController = async (req: Request, res: Response) => {
   return await sendVerificationMail(res, user);
 };
 
-export const changePasswordController = async (req: Request, res: Response) => {
+const changePassword = async (req: Request, res: Response) => {
   const token = req.body?.token;
 
   try {
@@ -285,7 +282,7 @@ export const changePasswordController = async (req: Request, res: Response) => {
   }
 };
 
-export const verifyEmailController = async (req: Request, res: Response) => {
+const verifyEmail = async (req: Request, res: Response) => {
   const token = req.query.token as string;
   try {
     const { user_id } = jwt.verify(
@@ -325,7 +322,7 @@ export const verifyEmailController = async (req: Request, res: Response) => {
   }
 };
 
-export const sendMailController = async (req: Request, res: Response) => {
+const sendMail = async (req: Request, res: Response) => {
   const { email, template } = req.body;
 
   const user = await UserModel.findOne({ email });
@@ -367,7 +364,7 @@ export const sendMailController = async (req: Request, res: Response) => {
   });
 };
 
-export const logoutController = (req: Request, res: Response) => {
+const logout = (req: Request, res: Response) => {
   req.logout();
   res.clearCookie('jwt');
   req.session.destroy((err) => {
@@ -382,7 +379,7 @@ export const logoutController = (req: Request, res: Response) => {
   });
 };
 
-export const registerUserController = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
   const data = parseFormData(req.body);
 
   if (!req.user) {
@@ -434,4 +431,21 @@ export const registerUserController = async (req: Request, res: Response) => {
   return res.json({
     success: true,
   });
+};
+
+export default {
+  jwtLogin,
+  jwtSignup,
+  auth,
+  socialAuthCallback,
+  passportGoogle,
+  passportLinkedin,
+  registerUser,
+  logout,
+  changePassword,
+  verifyEmail,
+  sendMail,
+  googleCallback,
+  linkedinCallback,
+  googleRefreshToken,
 };

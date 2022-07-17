@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { WHATSAPP_WEBHOOK_TOKEN } from '../config/keys';
 import { UserModel } from '../Models/User';
-import { acceptBookingController } from './bookings-controller';
+import bookingsController from './bookings.controller';
 
-export const verifyWebHook = async (req: Request, res: Response) => {
+const verifyWebHook = async (req: Request, res: Response) => {
   if (
     req.query['hub.mode'] === 'subscribe' &&
     req.query['hub.verify_token'] === WHATSAPP_WEBHOOK_TOKEN
@@ -14,7 +14,7 @@ export const verifyWebHook = async (req: Request, res: Response) => {
   }
 };
 
-export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
+const handleWhatsAppWebHook = async (req: Request, res: Response) => {
   try {
     const entry = req.body.entry[0];
     const change = entry.changes[0];
@@ -37,11 +37,16 @@ export const handleWhatsAppWebHook = async (req: Request, res: Response) => {
       req.params.id = bookingID;
 
       if (message.button.text === 'Accept')
-        return await acceptBookingController(req, res);
+        return await bookingsController.acceptBooking(req, res);
     }
   } catch (err) {
     return res.sendStatus(400);
   }
 
   return res.sendStatus(200);
+};
+
+export default {
+  verifyWebHook,
+  handleWhatsAppWebHook,
 };

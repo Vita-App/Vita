@@ -2,7 +2,7 @@ import express from 'express';
 import chalk from 'chalk';
 import http from 'http';
 import { port } from './config/keys';
-import apiRoutes from './routes/apiRoutes';
+import apiRoutes from './routes';
 import connectDB from './config/connectDatabase';
 import './Models/User';
 import './config/passport-config';

@@ -26,7 +26,7 @@ enum BookingStatus {
   CANCELLED = 'cancelled',
 }
 
-export const availabilityController = async (req: Request, res: Response) => {
+const availability = async (req: Request, res: Response) => {
   const { id } = req.query as { id: string };
 
   const mentor = await MentorModel.findById(id);
@@ -55,7 +55,7 @@ export const availabilityController = async (req: Request, res: Response) => {
   return res.status(200).json(busySlots);
 };
 
-export const bookSlotController = async (req: Request, res: Response) => {
+const bookSlot = async (req: Request, res: Response) => {
   const user = req.user as UserSchemaType & Document;
   const { start_date, mentor_id, email, topic, description } = req.body as {
     start_date: string;
@@ -196,7 +196,7 @@ export const bookSlotController = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptBookingController = async (req: Request, res: Response) => {
+const acceptBooking = async (req: Request, res: Response) => {
   try {
     const mentor = req.user as UserSchemaType & Document;
     const { id } = req.params;
@@ -275,7 +275,7 @@ export const acceptBookingController = async (req: Request, res: Response) => {
   }
 };
 
-export const getBookings = async (req: Request, res: Response) => {
+const getBookings = async (req: Request, res: Response) => {
   const type = req.query.type as string;
   const user = req.user as UserSchemaType & Document;
 
@@ -302,4 +302,11 @@ export const getBookings = async (req: Request, res: Response) => {
     .populate('mentee', 'first_name last_name');
 
   return res.json(bookings);
+};
+
+export default {
+  availability,
+  bookSlot,
+  acceptBooking,
+  getBookings,
 };
