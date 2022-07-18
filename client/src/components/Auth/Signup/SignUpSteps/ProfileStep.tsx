@@ -352,11 +352,14 @@ const ProfileStep: React.FC<{
           rules={{
             required: 'Stream is Required',
           }}
-          render={({ field }) => (
+          render={({ field, fieldState: { error } }) => (
             <SingleDropDownItem
+              name="stream"
               onChange={field.onChange}
               value={field.value}
               options={streamOptions}
+              error={error?.message}
+              label="Select your stream"
             />
           )}
         />

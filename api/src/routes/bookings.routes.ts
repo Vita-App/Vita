@@ -1,5 +1,5 @@
 import express from 'express';
-import { bookingsController } from '../controllers';
+import bookingsController from '../controllers/bookings.controller';
 import { isAuth } from '../middleware/isAuth';
 
 const router = express.Router();

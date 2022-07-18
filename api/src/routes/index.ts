@@ -4,6 +4,7 @@ import adminRoutes from './admin.routes';
 import authRoutes from './auth.routes';
 import bookingsRoutes from './bookings.routes';
 import webhooksRoutes from './webhooks.routes';
+import notificationRoutes from './notification.routes';
 import devRoutes from './dev.routes';
 
 const router = Router();
@@ -13,6 +14,7 @@ router.use(adminRoutes);
 router.use(authRoutes);
 router.use(bookingsRoutes);
 router.use(webhooksRoutes);
+router.use(notificationRoutes);
 router.use(devRoutes);
 
 export default router;

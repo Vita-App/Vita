@@ -127,3 +127,14 @@ export interface MenuItemType {
   label: string;
   value: string | number;
 }
+
+export interface NotificationType {
+  _id: string;
+  user: string;
+  title: string;
+  text: string;
+  link?: string;
+  status: 'read' | 'unread';
+  createdAt: Date;
+  updatedAt: Date;
+}

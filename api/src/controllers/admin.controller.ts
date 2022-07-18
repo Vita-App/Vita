@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Document, isValidObjectId } from 'mongoose';
 import { AdminModel } from '../Models/Admins';
 import { BannerModel } from '../Models/Banner';
+import Notifications from '../Models/Notifications';
 import { MentorModel, UserModel } from '../Models/User';
 import { sendEmail } from '../service/email-service';
 import { MentorSchemaType, UserSchemaType } from '../types';
@@ -132,6 +133,14 @@ const approveMentor = async (req: Request, res: Response) => {
 
   await mentor.save();
 
+  const notification = new Notifications({
+    user: mentor._id,
+    text: 'Your application has been approved',
+    title: 'Application Approved',
+  });
+
+  await notification.save();
+
   try {
     await sendEmail(
       mentor.email,
@@ -233,6 +242,18 @@ const changeTopMentorStatus = async (req: Request, res: Response) => {
   mentor.top_mentor = !mentor.top_mentor;
 
   await mentor.save();
+
+  const notification = new Notifications({
+    user: mentor._id,
+    title: mentor.top_mentor
+      ? "Congratulations! You're a top mentor"
+      : 'You are not a top mentor anymore',
+    text: mentor.top_mentor
+      ? 'You are now a top mentor'
+      : 'Sorry, we are not able to make you a top mentor anymore',
+  });
+
+  await notification.save();
 
   try {
     await sendEmail(

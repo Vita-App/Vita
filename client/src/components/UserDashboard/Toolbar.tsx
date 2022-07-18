@@ -12,6 +12,7 @@ import { authState } from 'store';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
+import Notification from 'components/Notification';
 
 const ToolbarComponent: React.FC<{
   handleDrawerToggle: () => void;
@@ -79,6 +80,7 @@ const ToolbarComponent: React.FC<{
                 <Button>VITA APP</Button>
               </Link>
             </Box>
+            <Notification />
             <Link to="/search">
               <Button>Get a match</Button>
             </Link>

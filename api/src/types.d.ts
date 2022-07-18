@@ -178,3 +178,11 @@ export interface CalendarOptionTypes {
   summary: string | undefined;
   description: string | undefined;
 }
+
+export interface NotificationType {
+  user: Types.ObjectId;
+  title: string;
+  text: string;
+  link: string;
+  status: 'read' | 'unread';
+}

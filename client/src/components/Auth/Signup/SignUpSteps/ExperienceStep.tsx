@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, IconButton } from '@mui/material';
@@ -263,6 +263,9 @@ const ExperienceStep: React.FC<{
           name="expertise[]"
           defaultValue={props.hydrate?.exepertise || []}
           showChips
+          validation={{
+            required: 'Please select at least one expertise',
+          }}
           label="Expertise"
         />
       </Stack>

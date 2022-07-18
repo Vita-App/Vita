@@ -399,7 +399,7 @@ const registerUser = async (req: Request, res: Response) => {
     filename: req.file?.filename,
   };
   user.graduation_year = data.graduation_year;
-  user.stream = data.stream?.value;
+  user.stream = data.stream;
   user.phone = data.countryCode.value.replace('+', '') + data.phone;
   user.bio = data.bio;
   user.timezone = data.timezone;

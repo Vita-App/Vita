@@ -3,6 +3,7 @@ import { Document, FilterQuery } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel, UserModel } from '../Models/User';
+import Notifications from '../Models/Notifications';
 import {
   sendBookingConfirmationMessage,
   sendBookingRequestMessage,
@@ -161,6 +162,8 @@ const bookSlot = async (req: Request, res: Response) => {
   const menteeName = `${user.first_name} ${user.last_name}`;
   const mentorName = `${mentor.first_name} ${mentor.last_name}`;
   const date = moment(startDate).tz(mentor.timezone);
+  await booking.save();
+
   await sendBookingRequestMessage(
     mentor.phone,
     mentorName,
@@ -168,6 +171,17 @@ const bookSlot = async (req: Request, res: Response) => {
     date.format('dddd, MMMM Do YYYY, h:mm a'),
     booking._id,
   );
+
+  const notification = new Notifications({
+    user: mentor._id,
+    title: `Booking Request from ${menteeName}`,
+    text: `${menteeName} has requested a booking slot on ${date.format(
+      'dddd, MMMM Do YYYY, h:mm a',
+    )}`,
+    link: `/dashboard`,
+  });
+
+  await notification.save();
 
   try {
     await sendEmail(
@@ -181,8 +195,6 @@ const bookSlot = async (req: Request, res: Response) => {
         },
       }),
     );
-
-    await booking.save();
 
     res.json({
       success: true,
@@ -246,6 +258,19 @@ const acceptBooking = async (req: Request, res: Response) => {
     const mentorName = `${mentor.first_name} ${mentor.last_name}`;
     const menteeName = `${mentee.first_name} ${mentee.last_name}`;
 
+    await booking.save();
+
+    const notification = new Notifications({
+      user: booking.mentee,
+      title: `Booking Accepted by ${mentorName}`,
+      text: `${mentorName} has accepted your booking slot on ${slot.format(
+        'dddd, MMMM Do YYYY, h:mm a',
+      )}`,
+      link: `/dashboard`,
+    });
+
+    await notification.save();
+
     await sendBookingConfirmationMessage(
       mentee.phone,
       menteeName,
@@ -264,11 +289,9 @@ const acceptBooking = async (req: Request, res: Response) => {
       googleMeetCode,
     );
 
-    await booking.save();
-
     return res.status(200).json({ message: 'Meet Scheduled!' });
-  } catch (err: any) {
-    console.log(err.message);
+  } catch (err) {
+    console.log(err instanceof Error ? err.message : err);
     return res.status(500).json({
       message: 'Unable to Schedule meet',
     });

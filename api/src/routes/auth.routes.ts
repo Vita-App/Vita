@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { storage } from '../config/cloudinary';
-import { authController } from '../controllers';
+import authController from '../controllers/auth.controller';
 
 const upload = multer({ storage });
 const router = express.Router();
