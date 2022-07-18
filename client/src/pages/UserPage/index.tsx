@@ -128,21 +128,12 @@ const UserPage = () => {
     linkedIn,
     experiences,
     expertise,
-    languages,
+    is_mentoring,
     topics: topicNums,
   } = data;
 
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
-  // const job_title = 'Member of Technical Staff';
-  // const company = 'Adobe';
-  // const description = [
-  //   'As an engineer with a design-focused MBA and experience in Entrepreneurship, I combine the perspectives from business, design, and technology to challenge conventional thinking about innovation and deliver critical & creative insights. I am a technology generalist with a deep interest and understanding of emerging technologies such as ML, chatbot, and Voice assistant technologies. I create experiential prototypes to tell stories about Future and digital experiences.',
-  //   'Currently, I work as a Manager, Customer Experience at Questrade, leading a team of CX and Service Designers, managing and improving the customer experience for our existing offering, and designing and developing the new experiences through product and service innovation.',
-  //   'I am passionate about innovation in financial services, transportation, and retail and actively write on LinkedIn and Medium on innovation, strategy, and Futures.',
-  // ];
-  // const expertise = ['Software Development', 'Product Management'];
-  // const language = ['Hindi', 'English'];
 
   return (
     <>
@@ -228,9 +219,13 @@ const UserPage = () => {
                 md={6}
                 spacing={1}>
                 <Grid item fontWeight={700}>
-                  Languages
+                  Mentoring
                 </Grid>
-                <Grid item>{commaString(languages)}</Grid>
+                <Grid item>
+                  {is_mentoring
+                    ? 'Mentor is currently mentoring'
+                    : 'Mentor is currently unavailable'}
+                </Grid>
               </Grid>
             </Grid>
             <Divider />

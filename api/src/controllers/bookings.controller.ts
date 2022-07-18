@@ -82,6 +82,12 @@ const bookSlot = async (req: Request, res: Response) => {
     });
   }
 
+  if (!mentor.is_mentoring) {
+    return res.json(404).json({
+      error: 'Mentor currently is not mentoring',
+    });
+  }
+
   const alreadyWaiting = await BookingModel.findOne({
     mentee_id: user._id,
     mentor_id,
