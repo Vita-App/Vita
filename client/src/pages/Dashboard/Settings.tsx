@@ -7,10 +7,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import { SERVER_URL } from 'config.keys';
 
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
-import { mentorState } from 'store';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'store';
+import { MentorSchemaType } from 'types';
 
 const updateUserMentoringStatus = async () => {
   const { data } = await axios.put(
@@ -24,15 +25,31 @@ const updateUserMentoringStatus = async () => {
   return data;
 };
 
+const getMentor = async (id: string | undefined) => {
+  const { data: response } = await axios.get<MentorSchemaType>(
+    `${SERVER_URL}/api/get-mentor`,
+    {
+      params: {
+        id,
+      },
+    },
+  );
+  return response;
+};
+
 const Settings = () => {
-  const [mentor, setMentor] = useRecoilState(mentorState);
+  const auth = useRecoilValue(authState);
+  const id = auth.user?._id;
+  const { data: mentor, refetch } = useQuery(['getMentorInfo', id], () =>
+    getMentor(id),
+  );
   const mutation = useMutation(
     'updateUserMentoringStatus',
     updateUserMentoringStatus,
     {
       onSuccess: () => {
         toast.success('Successfully updated your mentoring status');
-        setMentor({ ...mentor, is_mentoring: !mentor.is_mentoring });
+        refetch();
       },
       onError: () => {
         toast.error('Failed to update your mentoring status');
@@ -48,7 +65,7 @@ const Settings = () => {
           label="Mentoring"
           control={
             <Switch
-              checked={mentor.is_mentoring}
+              checked={mentor?.is_mentoring}
               onChange={() => mutation.mutate()}
             />
           }
