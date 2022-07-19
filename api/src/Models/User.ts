@@ -46,7 +46,10 @@ const MentorSchema = new Schema<MentorSchemaType>({
   timezone: String,
   expertise: [String],
   languages: [String],
-  is_mentoring: Boolean,
+  is_mentoring: {
+    type: Boolean,
+    default: true,
+  },
   topics: [Number],
   top_mentor: {
     type: Boolean,

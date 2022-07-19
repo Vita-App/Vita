@@ -7,10 +7,13 @@ import { Topic } from 'types';
 import { colorPalatte } from 'data';
 import { authState, mentorState } from 'store';
 import { useRecoilValue } from 'recoil';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 interface BookingCardProps {
   topic: Topic;
 }
 const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
+  const navigate = useNavigate();
   const auth = useRecoilValue(authState);
   const mentor = useRecoilValue(mentorState);
   const { motivation, topicName, description: topicDescription } = topic;
@@ -61,9 +64,19 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
               {topicDescription}
             </Typography>
           </Grid>
-          {auth.user?._id !== mentor._id && (
+          {auth.user?._id !== mentor._id && mentor.is_mentoring && (
             <Grid item xs={12} sm={1} sx={{ px: 2 }}>
-              <Button sx={{ p: 1 }} onClick={() => setOpen(true)}>
+              <Button
+                sx={{ p: 1 }}
+                onClick={() => {
+                  if (!auth.isLoggedIn) {
+                    toast.error('You must be logged in to book a mentorship');
+                    navigate('/auth');
+                    return;
+                  }
+
+                  setOpen(true);
+                }}>
                 Book
               </Button>
             </Grid>

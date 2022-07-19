@@ -8,6 +8,7 @@ import { drawerWidth } from 'utils/settings';
 import { styled } from '@mui/material/styles';
 import Bookings from './Booking';
 import ApplicationSubmitted from 'components/Modals/ApplicationSubmitted';
+import Settings from './Settings';
 
 const Container = styled(Box)(({ theme }) => ({
   flexGrow: 1,
@@ -23,11 +24,9 @@ const renderPage = (page: number) => {
     case 0:
       return <Bookings />;
     case 1:
-      return <h1>{page}</h1>;
-    case 2:
-      return <h1>{page}</h1>;
+      return <Settings />;
     default:
-      return <div> HELLO</div>;
+      return <div>HELLO</div>;
   }
 };
 

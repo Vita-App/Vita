@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { styled, Grid, Avatar, IconButton, Typography } from '@mui/material';
+import {
+  styled,
+  Grid,
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+} from '@mui/material';
 import { Favorite, LinkedIn } from '@mui/icons-material';
 import { lightGreen } from '@mui/material/colors';
 import PaginatedBookingCard from 'components/PaginatedBookingCard';
@@ -18,6 +25,23 @@ import Loader from 'components/Loader';
 import { topics as topicData } from 'data';
 import { useRecoilState } from 'recoil';
 import { mentorState } from 'store';
+
+interface IProps {
+  active: boolean;
+}
+
+const ActiveBadge: React.FC<IProps> = ({ active }) => (
+  <Box
+    sx={{
+      display: 'inline-block',
+      width: '10px',
+      height: '10px',
+      mr: '2px',
+      borderRadius: '50%',
+      backgroundColor: active ? 'success.main' : 'warning.main',
+    }}
+  />
+);
 
 const Wrapper = styled('div')`
   font-family: 'Circular Std';
@@ -128,21 +152,12 @@ const UserPage = () => {
     linkedIn,
     experiences,
     expertise,
-    languages,
+    is_mentoring,
     topics: topicNums,
   } = data;
 
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
-  // const job_title = 'Member of Technical Staff';
-  // const company = 'Adobe';
-  // const description = [
-  //   'As an engineer with a design-focused MBA and experience in Entrepreneurship, I combine the perspectives from business, design, and technology to challenge conventional thinking about innovation and deliver critical & creative insights. I am a technology generalist with a deep interest and understanding of emerging technologies such as ML, chatbot, and Voice assistant technologies. I create experiential prototypes to tell stories about Future and digital experiences.',
-  //   'Currently, I work as a Manager, Customer Experience at Questrade, leading a team of CX and Service Designers, managing and improving the customer experience for our existing offering, and designing and developing the new experiences through product and service innovation.',
-  //   'I am passionate about innovation in financial services, transportation, and retail and actively write on LinkedIn and Medium on innovation, strategy, and Futures.',
-  // ];
-  // const expertise = ['Software Development', 'Product Management'];
-  // const language = ['Hindi', 'English'];
 
   return (
     <>
@@ -168,14 +183,16 @@ const UserPage = () => {
                 </Avatar>
               </Photo>
               <span style={{ flexGrow: 1 }}></span>
-              <IconButton
-                target="_blank"
-                href={linkedIn}
-                aria-label="linkedIn"
-                size="large"
-                color="primary">
-                <LinkedIn fontSize="inherit" />
-              </IconButton>
+              {linkedIn && (
+                <IconButton
+                  target="_blank"
+                  href={linkedIn}
+                  aria-label="linkedIn"
+                  size="large"
+                  color="primary">
+                  <LinkedIn fontSize="inherit" />
+                </IconButton>
+              )}
               <IconButton
                 onClick={() => {
                   setHeart(heart === 'inherit' ? 'error' : 'inherit');
@@ -221,6 +238,7 @@ const UserPage = () => {
                 <Grid item>{commaString(expertise)}</Grid>
               </Grid>
               <Grid
+                mt={{ xs: 2, sm: 0 }}
                 container
                 direction="column"
                 item
@@ -228,9 +246,14 @@ const UserPage = () => {
                 md={6}
                 spacing={1}>
                 <Grid item fontWeight={700}>
-                  Languages
+                  {<ActiveBadge active={is_mentoring} />}{' '}
+                  {is_mentoring ? 'Mentoring' : 'Currently not mentoring'}
                 </Grid>
-                <Grid item>{commaString(languages)}</Grid>
+                <Grid item>
+                  {is_mentoring
+                    ? 'Mentor is currently mentoring'
+                    : 'Mentor is currently unavailable'}
+                </Grid>
               </Grid>
             </Grid>
             <Divider />

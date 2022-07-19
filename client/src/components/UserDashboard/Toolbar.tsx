@@ -80,7 +80,7 @@ const ToolbarComponent: React.FC<{
                 <Button>VITA APP</Button>
               </Link>
             </Box>
-            <Notification />
+            {auth.isLoggedIn && <Notification />}
             <Link to="/search">
               <Button>Get a match</Button>
             </Link>
