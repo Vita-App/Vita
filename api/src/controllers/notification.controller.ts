@@ -21,7 +21,46 @@ const getNotifications = async (req: Request, res: Response) => {
   return res.status(200).json(notifications);
 };
 
+const notify = async (
+  userId: string,
+  title: string,
+  text: string,
+  link?: string,
+) => {
+  const count = await Notifications.find({ user: userId }).count();
+
+  if (count >= 10) {
+    // Delete the oldest with status 'read'
+    const oldest = await Notifications.findOne({
+      user: userId,
+      status: 'read',
+    });
+
+    if (oldest) {
+      await oldest.remove();
+    } else {
+      // Delete the oldest with status 'unread'
+      const oldest = await Notifications.findOne({ user: userId });
+
+      if (oldest) {
+        await oldest.remove();
+      }
+    }
+  } else {
+    // Create a new notification
+    const notification = new Notifications({
+      user: userId,
+      title,
+      text,
+      link,
+    });
+
+    await notification.save();
+  }
+};
+
 export default {
   markAllAsRead,
   getNotifications,
+  notify,
 };

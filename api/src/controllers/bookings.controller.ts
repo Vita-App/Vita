@@ -3,7 +3,6 @@ import { Document, FilterQuery } from 'mongoose';
 
 import { BookingModel } from '../Models/Booking';
 import { MentorModel, UserModel } from '../Models/User';
-import Notifications from '../Models/Notifications';
 import {
   sendBookingConfirmationMessage,
   sendBookingRequestMessage,
@@ -20,6 +19,7 @@ import {
 
 import createCalenderEvent from '../utils/createCalendarEvent';
 import moment from 'moment-timezone';
+import notificationController from './notification.controller';
 
 enum BookingStatus {
   ACCEPTED = 'accepted',
@@ -178,16 +178,14 @@ const bookSlot = async (req: Request, res: Response) => {
     booking._id,
   );
 
-  const notification = new Notifications({
-    user: mentor._id,
-    title: `Booking Request from ${menteeName}`,
-    text: `${menteeName} has requested a booking slot on ${date.format(
+  await notificationController.notify(
+    mentor._id,
+    `Booking Request from ${menteeName}`,
+    `${menteeName} has requested a booking slot on ${date.format(
       'dddd, MMMM Do YYYY, h:mm a',
     )}`,
-    link: `/dashboard`,
-  });
-
-  await notification.save();
+    `/dashboard`,
+  );
 
   try {
     await sendEmail(
@@ -266,16 +264,14 @@ const acceptBooking = async (req: Request, res: Response) => {
 
     await booking.save();
 
-    const notification = new Notifications({
-      user: booking.mentee,
-      title: `Booking Accepted by ${mentorName}`,
-      text: `${mentorName} has accepted your booking slot on ${slot.format(
+    await notificationController.notify(
+      booking.mentee?.toString() || '',
+      `Booking Accepted by ${mentorName}`,
+      `${mentorName} has accepted your booking slot on ${slot.format(
         'dddd, MMMM Do YYYY, h:mm a',
       )}`,
-      link: `/dashboard`,
-    });
-
-    await notification.save();
+      `/dashboard`,
+    );
 
     await sendBookingConfirmationMessage(
       mentee.phone,

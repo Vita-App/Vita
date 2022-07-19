@@ -183,7 +183,9 @@ const ExperienceStep: React.FC<{
                 defaultValue={exp.end_year || ''}
                 rules={{
                   required: 'End Year is required',
-                  validate: (val) => {
+                  validate: (_val) => {
+                    const val = _val.trim();
+
                     if (val.toLowerCase() === 'present') {
                       return true;
                     }
@@ -228,6 +230,9 @@ const ExperienceStep: React.FC<{
           name="linkedin"
           control={control}
           defaultValue={props.hydrate?.linkedin || ''}
+          rules={{
+            required: 'Linkedin Profile is required',
+          }}
           render={({ field }) => (
             <StyledTextField
               {...field}

@@ -61,7 +61,7 @@ const Toolbar = () => {
               <Button>VITA APP</Button>
             </Link>
           </Box>
-          <Notification />
+          {auth.isLoggedIn && <Notification />}
           <Link to="/search">
             <Button>Get a match</Button>
           </Link>
