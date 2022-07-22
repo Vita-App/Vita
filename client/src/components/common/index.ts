@@ -104,8 +104,8 @@ export const StyledTextField = styled(TextField)({
     fontSize: '0.85rem',
   },
   '& :-webkit-autofill': {
-    '-webkit-box-shadow': '0 0 0 100px #222222 inset !important',
-    '-webkit-text-fill-color': '#fff',
+    WebkitBoxShadow: '0 0 0 100px #222222 inset !important',
+    WebkitTextFillColor: '#fff',
     caretColor: '#fff',
     borderRadius: 'inherit',
   },

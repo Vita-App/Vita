@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import { FieldValues } from 'react-hook-form';
 import { Card, Stepper, Step, StepLabel, LinearProgress } from '@mui/material';
 import { LocalizationProvider } from '@mui/lab';
@@ -16,25 +16,30 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { transformSlots } from 'utils/helper';
 import moment from 'moment';
+import useLocalState from 'hooks/useLocalState';
+import { UserType } from 'types';
 
-// const steps = ['Profile', 'Experience', 'Availability'];
-const steps = ['Experience', 'Profile', 'Availability'];
+const steps = ['Profile', 'Experience', 'Availability'];
 
 const SignUpSteps: React.FC = () => {
   const { loading, sendRequest } = useHttp();
   const navigate = useNavigate();
-  const auth = useRecoilValue(authState);
-  const [formData, setFormData] = useState<{
+  const [auth, setAuth] = useRecoilState(authState);
+  const userId = auth.user?._id;
+  const [formData, setFormData] = useLocalState<{
     [key: number]: FieldValues;
-  }>({
+  }>(`${userId}-register-form`, {
     0: {
       first_name: auth.user?.first_name,
       last_name: auth.user?.last_name,
       email: auth.user?.email,
     },
   });
-  const [activeStep, setActiveStep] = useState(0);
-  const [interests, setInterests] = useState<string[]>([]);
+  const [activeStep, setActiveStep] = useLocalState(`${userId}-active-step`, 0);
+  const [interests, setInterests] = useLocalState<string[]>(
+    `${userId}-interests`,
+    [],
+  );
 
   const getTopicsArray = (topics: any) => {
     const topicsArray: any[] = [];
@@ -57,7 +62,7 @@ const SignUpSteps: React.FC = () => {
 
       sendRequest(
         async () => {
-          const response = await axios.post(
+          const response = await axios.post<UserType>(
             `${SERVER_URL}/api/register`,
             apiData,
             {
@@ -67,7 +72,8 @@ const SignUpSteps: React.FC = () => {
 
           return response.data;
         },
-        () => {
+        (data: UserType) => {
+          setAuth((prev) => ({ ...prev, user: data }));
           toast.success(
             "You're all set now! You can now explore the Vita community.",
           );
@@ -97,7 +103,8 @@ const SignUpSteps: React.FC = () => {
 
           return response.data;
         },
-        () => {
+        (data: UserType) => {
+          setAuth((prev) => ({ ...prev, user: data }));
           navigate('/dashboard', { state: { newlyCreated: true } });
         },
       );
@@ -106,7 +113,7 @@ const SignUpSteps: React.FC = () => {
         ...formData,
         [step]: { ...data },
       });
-      setActiveStep((prev) => prev + 1);
+      setActiveStep(activeStep + 1);
     }
   };
 
@@ -116,7 +123,7 @@ const SignUpSteps: React.FC = () => {
       ...formData,
       [step]: { ...data },
     });
-    setActiveStep((prev) => prev - 1);
+    setActiveStep(activeStep - 1);
   };
 
   const renderStep = (step: number) => {

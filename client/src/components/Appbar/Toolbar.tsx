@@ -38,16 +38,16 @@ const Toolbar = () => {
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
-            onLogout();
+            navigate('/dashboard');
           }}>
-          Logout
+          Dashboard
         </MenuItem>
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
-            navigate('/dashboard');
+            onLogout();
           }}>
-          Dashboard
+          Logout
         </MenuItem>
       </Menu>
       <MaterialToolbar>

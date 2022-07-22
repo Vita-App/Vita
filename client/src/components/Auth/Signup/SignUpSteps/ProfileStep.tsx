@@ -17,6 +17,7 @@ import {
 import { useMutation, useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
+import { isObjectEmpty } from 'utils/helper';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -33,21 +34,21 @@ interface RestCountriesAPIResponse {
 
 interface CountryData {
   value: string;
-  label: any;
+  label: {
+    name: string;
+    flag: string;
+    code: string;
+  };
 }
 
-const defaultCountry = [
+const defaultCountry: CountryData[] = [
   {
-    value: '+91',
-    label: (
-      <Stack direction="row" alignItems="center">
-        <img
-          src="https://flagcdn.com/in.svg"
-          style={{ height: '16x', width: '24px', marginRight: '15px' }}
-        />
-        +91
-      </Stack>
-    ),
+    value: 'India',
+    label: {
+      name: 'India',
+      flag: 'https://flagcdn.com/in.svg',
+      code: '91',
+    },
   },
 ];
 
@@ -61,16 +62,12 @@ const getCountryCodes = async () => {
   data.forEach((country) =>
     country.callingCodes?.forEach((code) => {
       options.push({
-        value: `+${code}`,
-        label: (
-          <Stack direction="row" alignItems="stretch">
-            <img
-              src={country.flags.svg || country.flags.png}
-              style={{ height: '16px', width: '24px', marginRight: '15px' }}
-            />
-            {`+${code}`}
-          </Stack>
-        ),
+        value: country.name,
+        label: {
+          name: country.name,
+          flag: country.flags.svg || country.flags.png,
+          code,
+        },
       });
     }),
   );
@@ -134,7 +131,7 @@ const ProfileStep: React.FC<{
   );
 
   const onSubmit = (data: FieldValues) => {
-    mutation.mutate(`${data.countryCode.value}${data.phone}`.replace('+', ''));
+    mutation.mutate(`${data.countryCode.label.code}${data.phone}`);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,12 +152,14 @@ const ProfileStep: React.FC<{
 
   useEffect(() => {
     if (props.hydrate && props.hydrate.profilePicture) {
-      const reader = new FileReader();
+      try {
+        const reader = new FileReader();
 
-      reader.readAsDataURL(props.hydrate.profilePicture);
-      reader.onload = () => {
-        setAvatarSrc(reader.result as string);
-      };
+        reader.readAsDataURL(props.hydrate.profilePicture);
+        reader.onload = () => {
+          setAvatarSrc(reader.result as string);
+        };
+      } catch (err) {}
     }
   }, []);
 
@@ -268,7 +267,7 @@ const ProfileStep: React.FC<{
       </Stack>
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
         <Stack flexGrow={1} position="relative">
-          <Typography variant="body2">Phone</Typography>
+          <Typography variant="body2">Phone (Whatsapp)</Typography>
           <Controller
             name="phone"
             control={control}
@@ -309,6 +308,19 @@ const ProfileStep: React.FC<{
                           placeholder=""
                           classNamePrefix="select"
                           options={CountryCodeData || defaultCountry}
+                          formatOptionLabel={(option: any) => (
+                            <Stack direction="row" alignItems="center">
+                              <img
+                                src={option.label.flag}
+                                style={{
+                                  height: '16x',
+                                  width: '24px',
+                                  marginRight: '15px',
+                                }}
+                              />
+                              +{option.label.code}
+                            </Stack>
+                          )}
                         />
                       )}
                     />
@@ -359,7 +371,6 @@ const ProfileStep: React.FC<{
               value={field.value}
               options={streamOptions}
               error={error?.message}
-              label="Select your stream"
             />
           )}
         />
@@ -393,7 +404,7 @@ const ProfileStep: React.FC<{
         </Stack>
       </Stack>
       <Stack>
-        <Typography variant="body2">Referal code (if any)</Typography>
+        <Typography variant="body2">Referal code (Optional)</Typography>
         <Controller
           name="referalCode"
           control={control}
