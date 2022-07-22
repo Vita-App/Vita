@@ -32,9 +32,7 @@ export const fakeDataController = async (req: Request, res: Response) => {
     user.mentor_information = mentor._id;
 
     txn.push(user.save());
-    console.log(chalk.magenta('user is Saved in the database'));
     txn.push(mentor.save());
-    console.log(chalk.magenta('Mentor is Saved in the database'));
   }
 
   await Promise.all(txn);

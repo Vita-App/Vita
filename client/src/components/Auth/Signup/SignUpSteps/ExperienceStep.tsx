@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, IconButton } from '@mui/material';
@@ -225,7 +225,7 @@ const ExperienceStep: React.FC<{
         <Typography variant="h5" gutterBottom>
           Profiles
         </Typography>
-        <Typography variant="body2">Linkedin Profile</Typography>
+        <Typography variant="body2">Linkedin Profile*</Typography>
         <Controller
           name="linkedin"
           control={control}
@@ -266,7 +266,7 @@ const ExperienceStep: React.FC<{
           control={control}
           menuItems={expertiseOptions}
           name="expertise[]"
-          defaultValue={props.hydrate?.exepertise || []}
+          defaultValue={props.hydrate?.expertise || []}
           showChips
           validation={{
             required: 'Please select at least one expertise',

@@ -400,7 +400,7 @@ const registerUser = async (req: Request, res: Response) => {
   };
   user.graduation_year = data.graduation_year;
   user.stream = data.stream;
-  user.phone = data.countryCode.value.replace('+', '') + data.phone;
+  user.phone = data.countryCode.label.code + data.phone;
   user.bio = data.bio;
   user.timezone = data.timezone;
 
@@ -428,9 +428,7 @@ const registerUser = async (req: Request, res: Response) => {
   user.signup_completed = true;
   await user.save();
 
-  return res.json({
-    success: true,
-  });
+  return res.json(user);
 };
 
 export default {

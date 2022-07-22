@@ -27,7 +27,9 @@ const notify = async (
   text: string,
   link?: string,
 ) => {
-  const count = await Notifications.find({ user: userId }).count();
+  const count = await Notifications.find({
+    user: userId,
+  }).count();
 
   if (count >= 10) {
     // Delete the oldest with status 'read'
@@ -46,17 +48,17 @@ const notify = async (
         await oldest.remove();
       }
     }
-  } else {
-    // Create a new notification
-    const notification = new Notifications({
-      user: userId,
-      title,
-      text,
-      link,
-    });
-
-    await notification.save();
   }
+
+  // Create a new notification
+  const notification = new Notifications({
+    user: userId,
+    title,
+    text,
+    link,
+  });
+
+  await notification.save();
 };
 
 export default {
