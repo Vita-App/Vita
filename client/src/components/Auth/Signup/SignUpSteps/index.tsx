@@ -73,6 +73,9 @@ const SignUpSteps: React.FC = () => {
           return response.data;
         },
         (data: UserType) => {
+          localStorage.removeItem(`${userId}-register-form`);
+          localStorage.removeItem(`${userId}-active-step`);
+          localStorage.removeItem(`${userId}-interests`);
           setAuth((prev) => ({ ...prev, user: data }));
           toast.success(
             "You're all set now! You can now explore the Vita community.",
@@ -104,6 +107,9 @@ const SignUpSteps: React.FC = () => {
           return response.data;
         },
         (data: UserType) => {
+          localStorage.removeItem(`${userId}-register-form`);
+          localStorage.removeItem(`${userId}-active-step`);
+          localStorage.removeItem(`${userId}-interests`);
           setAuth((prev) => ({ ...prev, user: data }));
           navigate('/dashboard', { state: { newlyCreated: true } });
         },

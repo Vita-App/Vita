@@ -17,7 +17,6 @@ import {
 import { useMutation, useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
-import { isObjectEmpty } from 'utils/helper';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
