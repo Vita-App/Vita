@@ -55,6 +55,7 @@ const MentorsPage = () => {
   const [motivation, setMotivation] = useRecoilState(motivationState);
   const setTabIndex = useSetRecoilState(tabIndexState);
   const setTopic = useSetRecoilState(topicState);
+  const [search, setSearch] = useState('');
   const [items, setItems] = useState(topics.slice(0, LEN));
 
   const theme = useTheme();
@@ -77,7 +78,15 @@ const MentorsPage = () => {
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
             <InputBase
-              disabled
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setItems(
+                  topics.filter((item) =>
+                    item.topicName.includes(e.target.value),
+                  ),
+                );
+              }}
               className="Search_Input"
               placeholder="Search by Topics"
               inputProps={{ 'aria-label': 'Search by Topics' }}
