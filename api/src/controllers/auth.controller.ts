@@ -1,6 +1,6 @@
 import { ADMIN_URL, CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
 import { NextFunction, Request, Response } from 'express';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { UserModel, MentorModel } from '../Models/User';
 import passport from 'passport';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -402,8 +402,8 @@ const registerUser = async (req: Request, res: Response) => {
   user.last_name = data.last_name;
   user.interests = data.interests;
   user.avatar = {
-    url: req.file?.path,
-    filename: req.file?.filename,
+    url: req.file?.path || user.avatar.url,
+    filename: req.file?.filename || user.avatar.filename,
   };
   user.graduation_year = data.graduation_year;
   user.stream = data.stream;
@@ -415,7 +415,10 @@ const registerUser = async (req: Request, res: Response) => {
     const mentor = new MentorModel({
       ...user.toObject(),
       time_slots: data.timeSlots,
-      experiences: data.experiences,
+      experiences: data.experiences.map((exp: any) => ({
+        ...exp,
+        _id: new Types.ObjectId(),
+      })),
       topics: data.topics?.map((topic: SelectOption) => topic.value),
       expertise: data.expertise?.map(
         (expertise: SelectOption) => expertise.value,

@@ -3,6 +3,7 @@ import { Document, isValidObjectId } from 'mongoose';
 import { AdminModel } from '../Models/Admins';
 import { BannerModel } from '../Models/Banner';
 import { MentorModel, UserModel } from '../Models/User';
+import { BookingModel } from '../Models/Booking';
 import { sendEmail } from '../service/email-service';
 import { MentorSchemaType, UserSchemaType } from '../types';
 import { makeTemplate } from '../utils/makeTemplate';
@@ -285,6 +286,34 @@ const modifyBanner = async (req: Request, res: Response) => {
   }
 };
 
+const getUserMeetings = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const meetings = await BookingModel.find({
+      $or: [{ mentor: id }, { mentee: id }],
+    })
+      .populate('mentor', 'first_name last_name')
+      .populate('mentee', 'first_name last_name');
+
+    return res.status(200).json({ meetings });
+  } catch (error) {
+    return res.json({ error: error instanceof Error ? error.message : error });
+  }
+};
+
+const getAllBookings = async (req: Request, res: Response) => {
+  try {
+    const meetings = await BookingModel.find()
+      .populate('mentor', 'first_name last_name')
+      .populate('mentee', 'first_name last_name');
+
+    return res.status(200).json({ meetings });
+  } catch (error) {
+    return res.json({ error: error instanceof Error ? error.message : error });
+  }
+};
+
 export default {
   adminAuth,
   adminLogin,
@@ -296,4 +325,6 @@ export default {
   approveMentor,
   changeTopMentorStatus,
   rejectMentor,
+  getUserMeetings,
+  getAllBookings,
 };

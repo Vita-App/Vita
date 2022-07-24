@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
 import { FilterQuery, isValidObjectId } from 'mongoose';
-import { MentorSchemaType } from '../types';
+import { MentorSchemaType, StatsType } from '../types';
 import { BannerModel } from '../Models/Banner';
+import { BookingModel } from '../Models/Booking';
 
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&page=1&mentorSearchText=Google
 const getMentors = async (req: Request, res: Response) => {
@@ -138,15 +139,30 @@ const getBanner = async (req: Request, res: Response) => {
 
 const getMentorStats = async (req: Request, res: Response) => {
   try {
-    const mentor = await MentorModel.findById(req.params.id);
+    const [meetings, mentor] = await Promise.all([
+      BookingModel.find({ mentor: req.params.id }),
+      MentorModel.findById(req.params.id),
+    ]);
 
     if (!mentor) return res.status(404).json({ error: 'Mentor not found' });
 
-    const stats: { likes: number } = { likes: 0 };
+    const stats: StatsType = {
+      likes: 0,
+      meetings: 0,
+      reports: 0,
+    };
 
     if (mentor.likes) {
       stats.likes = mentor.likes;
     }
+
+    stats.meetings = meetings.reduce((acc, cur) => {
+      if (cur.session.status === 'rated') {
+        return acc + 1;
+      }
+
+      return acc;
+    }, 0);
 
     return res.json(stats);
   } catch (err) {

@@ -21,6 +21,7 @@ interface IStatProps {
 
 interface StatsProps {
   likes: number;
+  meetings: number;
 }
 
 const Stat: React.FC<IStatProps> = ({ icon, stat, label }) => (
@@ -59,8 +60,12 @@ const Stats = () => {
         <Divider />
         <Stack direction="column" spacing={3}>
           <Stat icon="⭐" stat={0} label="Average Rating" />
-          <Stat icon="🔥" stat={0} label="Sessions Completed" />
-          <Stat icon="🧡" stat={query.data?.likes || 0} label="Total Hearts" />
+          <Stat
+            icon="🔥"
+            stat={query.data?.meetings}
+            label="Sessions Completed"
+          />
+          <Stat icon="🧡" stat={query.data?.likes} label="Total Hearts" />
         </Stack>
       </Stack>
     </Card>

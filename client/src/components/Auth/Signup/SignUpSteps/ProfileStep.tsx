@@ -17,6 +17,8 @@ import {
 import { useMutation, useQuery } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { authState } from 'store';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -81,6 +83,7 @@ const ProfileStep: React.FC<{
   setInterests: (interests: string[]) => void;
   isMentor: boolean;
 }> = (props) => {
+  const auth = useRecoilValue(authState);
   const {
     handleSubmit,
     control,
@@ -185,7 +188,10 @@ const ProfileStep: React.FC<{
           borderRadius="4px"
           borderColor="#767676"
           alignItems="center">
-          <Avatar sx={{ width: '50px', height: '50px' }} src={avatarSrc} />
+          <Avatar
+            sx={{ width: '50px', height: '50px' }}
+            src={avatarSrc || auth.user?.avatar?.url}
+          />
           <Stack spacing={1}>
             <Stack direction="row" spacing={1}>
               <StyledButton
