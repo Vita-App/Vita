@@ -79,6 +79,7 @@ const ProfileStep: React.FC<{
   hydrate?: FieldValues;
   interests: string[];
   setInterests: (interests: string[]) => void;
+  isMentor: boolean;
 }> = (props) => {
   const {
     handleSubmit,
@@ -402,17 +403,22 @@ const ProfileStep: React.FC<{
           ))}
         </Stack>
       </Stack>
-      <Stack>
-        <Typography variant="body2">Referal code (Optional)</Typography>
-        <Controller
-          name="referalCode"
-          control={control}
-          defaultValue={props.hydrate?.referalCode || ''}
-          render={({ field }) => (
-            <StyledTextField {...field} placeholder="Enter your referal code" />
-          )}
-        />
-      </Stack>
+      {!props.isMentor && (
+        <Stack>
+          <Typography variant="body2">Referal code (Optional)</Typography>
+          <Controller
+            name="referalCode"
+            control={control}
+            defaultValue={props.hydrate?.referalCode || ''}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                placeholder="Enter your referal code"
+              />
+            )}
+          />
+        </Stack>
+      )}
       <Stack direction="row" justifyContent="center">
         <StyledButton
           type="submit"
