@@ -90,7 +90,7 @@ const getMentor = async (req: Request, res: Response) => {
 
 // curl -X GET http://localhost:5000/api/get-users
 const getUsers = async (req: Request, res: Response) => {
-  const users = await UserModel.find({});
+  const users = await UserModel.find({}).sort({ create_time: -1 });
   res.json(users);
 };
 
