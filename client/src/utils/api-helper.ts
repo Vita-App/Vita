@@ -13,6 +13,7 @@ export interface GetMentorsResponse {
 
 export const getMentors = async (
   expertise = 'All',
+  mentorSearchText = '',
   topic = -1,
   page = 1,
   limit = 0,
@@ -25,6 +26,7 @@ export const getMentors = async (
         topic,
         page,
         limit,
+        mentorSearchText,
       },
     },
   );

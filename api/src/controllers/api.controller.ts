@@ -21,8 +21,25 @@ const getMentors = async (req: Request, res: Response) => {
   searchOptions.approved = true;
   if (topic !== -1) searchOptions.topics = topic;
   if (expertise !== 'All') searchOptions.expertise = expertise;
-  if (mentorSearchText !== '')
-    searchOptions.$text = { $search: mentorSearchText };
+  if (mentorSearchText !== '') {
+    searchOptions.$or = [
+      { first_name: { $regex: mentorSearchText, $options: 'i' } },
+      { last_name: { $regex: mentorSearchText, $options: 'i' } },
+      {
+        experiences: {
+          $elemMatch: {
+            $or: [
+              { company: { $regex: mentorSearchText, $options: 'i' } },
+              { role: { $regex: mentorSearchText, $options: 'i' } },
+            ],
+          },
+        },
+      },
+      {
+        expertise: { $elemMatch: { $regex: mentorSearchText, $options: 'i' } },
+      },
+    ];
+  }
 
   let mentors = [] as Partial<MentorSchemaType>[];
   // Since we are using user input we need need to handle when user sends wrong data
@@ -73,10 +90,15 @@ const getTopMentors = async (req: Request, res: Response) => {
 // curl -X GET http://localhost:5000/api/get-topics?textSearch=a
 const getTopics = async (req: Request, res: Response) => {
   const searchString = req.query.textSearch?.toString() || '';
-  let topics;
-  if (searchString)
-    topics = await TopicModel.find({ $text: { $search: searchString } });
+  const searchOptions = {} as FilterQuery<MentorSchemaType>;
+  if (searchString) {
+    searchOptions.$or = [
+      { topicName: { $regex: searchString, $options: 'i' } },
+      { motivation: { $regex: searchString, $options: 'i' } },
+    ];
+  }
 
+  const topics = await TopicModel.find(searchOptions);
   return res.json(topics);
 };
 
