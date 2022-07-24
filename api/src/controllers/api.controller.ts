@@ -136,6 +136,26 @@ const getBanner = async (req: Request, res: Response) => {
   return res.json(banner || {});
 };
 
+const getMentorStats = async (req: Request, res: Response) => {
+  try {
+    const mentor = await MentorModel.findById(req.params.id);
+
+    if (!mentor) return res.status(404).json({ error: 'Mentor not found' });
+
+    const stats: { likes: number } = { likes: 0 };
+
+    if (mentor.likes) {
+      stats.likes = mentor.likes;
+    }
+
+    return res.json(stats);
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ error: err instanceof Error ? err.message : err });
+  }
+};
+
 export default {
   getMentors,
   getUsers,
@@ -145,4 +165,5 @@ export default {
   getTopics,
   isPhoneRegistered,
   getBanner,
+  getMentorStats,
 };

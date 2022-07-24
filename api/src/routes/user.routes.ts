@@ -10,4 +10,6 @@ router.put(
   userController.changeMentoringStatus,
 );
 
+router.get('/like/:mentor_id', isAuth, userController.likeMentor);
+
 export default router;

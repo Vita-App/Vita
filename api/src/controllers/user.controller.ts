@@ -12,4 +12,31 @@ const changeMentoringStatus = async (req: Request, res: Response) => {
   return res.status(200).json(user);
 };
 
-export default { changeMentoringStatus };
+const likeMentor = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+  let liked: boolean;
+  try {
+    const mentor = await MentorModel.findById(req.params.mentor_id);
+    if (!mentor) return res.status(404).json({ message: 'Mentor not found' });
+
+    if (user.liked_mentors.includes(mentor._id)) {
+      user.liked_mentors = user.liked_mentors.filter(
+        (id) => id.toString() !== mentor._id.toString(),
+      );
+      mentor.likes -= 1;
+      liked = false;
+    } else {
+      user.liked_mentors.push(mentor._id);
+      mentor.likes += 1;
+      liked = true;
+    }
+
+    await Promise.all([user.save(), mentor.save()]);
+
+    return res.status(200).json({ liked });
+  } catch (err) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+};
+
+export default { changeMentoringStatus, likeMentor };

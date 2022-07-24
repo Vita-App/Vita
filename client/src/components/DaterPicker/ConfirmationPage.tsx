@@ -130,6 +130,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   const [topic, setTopic] = useState<{ label: string; value: string } | null>(
     null,
   );
+  const [isTouched, setIsTouched] = useState(false);
   const queryClient = useQueryClient();
   const [email, setEmail] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -205,22 +206,14 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         name="Topic"
         options={optionsData}
         isSearchable={matches}
+        onBlur={() => setIsTouched(true)}
         classNamePrefix="select"
       />
-
-      <label style={{ fontWeight: 500 }}>Add your email id</label>
-      <TextAreaWrapper>
-        <Email sx={{ color: 'darkgrey' }} />
-        <InputBase
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="Search_Input"
-          placeholder="Get invite link in your mail"
-          inputProps={{
-            'aria-label': 'Enter Email address to recieve invite link',
-          }}
-        />
-      </TextAreaWrapper>
+      {isTouched && !topic?.value && (
+        <Typography variant="caption" color="error.main">
+          Topic is required
+        </Typography>
+      )}
       <div style={{ padding: '1rem 0rem' }}>
         <TextArea
           value={description}
@@ -236,15 +229,21 @@ const Confirmation: React.FC<ConfirmationProps> = ({
       <StyledButton
         sx={{ cursor: 'pointer' }}
         disabled={mutation.isLoading}
-        onClick={() =>
+        onClick={() => {
+          if (!isTouched) {
+            setIsTouched(true);
+          }
+
+          if (!topic?.value) return;
+
           mutation.mutate({
             mentor_id: _id,
             start_date: start.format(),
             email: email.trim(),
             description: description.trim(),
             topic: topic?.value,
-          })
-        }>
+          });
+        }}>
         {mutation.isLoading ? 'Booking...' : 'Confirm your Booking'}
       </StyledButton>
       <div style={{ marginTop: '1rem' }}>

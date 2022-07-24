@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   styled,
   Grid,
@@ -20,15 +20,16 @@ import Appbar from 'components/Appbar';
 import axios from 'axios';
 import { MentorSchemaType, Topic } from 'types';
 import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import Loader from 'components/Loader';
 import { topics as topicData } from 'data';
-import { useRecoilState } from 'recoil';
-import { mentorState } from 'store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { authState, mentorState } from 'store';
 import Stats from 'components/UserPage/Stats';
 import Tips from 'components/UserPage/Tips';
 import Experiences from 'components/UserPage/Experiences';
+import { toast } from 'react-toastify';
 
 interface IProps {
   active: boolean;
@@ -115,18 +116,65 @@ const getMentor = async (id: string | undefined) => {
   return response;
 };
 
+const likeMentor = async (id: string | undefined) => {
+  const { data: response } = await axios.get<{ liked: boolean }>(
+    `${SERVER_URL}/api/like/${id}`,
+    {
+      withCredentials: true,
+    },
+  );
+  return response;
+};
+
 const getTopics = (topicNums: number[]) =>
   topicNums.map((el) => topicData[Number(el)]);
 
+let likeDebounceTimer: any;
+
 const UserPage = () => {
+  const queryClient = useQueryClient();
+  const auth = useRecoilValue(authState);
   const [isExpanded, setIsExpanded] = useState(false);
   const [motivation, setMotivation] = useState('All');
-  const [heart, setHeart] = useState<'error' | 'inherit'>('inherit');
-
   const { id } = useParams();
+
+  useEffect(() => {
+    if (auth.user?.liked_mentors.includes(id || '')) {
+      setHeart('error');
+      setLiked(true);
+    } else {
+      setHeart('inherit');
+      setLiked(false);
+    }
+  }, [auth.user]);
+
   if (typeof id === 'undefined') return <div />;
   const { isLoading, data } = useQuery(['mentor', id], () => getMentor(id));
   const [mentorData, setMentorData] = useRecoilState(mentorState);
+  const [liked, setLiked] = useState(false);
+  const [heart, setHeart] = useState<'error' | 'inherit'>(
+    liked ? 'error' : 'inherit',
+  );
+  const likeMutation = useMutation(
+    ['likeMentor', id],
+    (id: string) => likeMentor(id),
+    {
+      onSuccess: (data) => {
+        if (data.liked) {
+          setHeart('error');
+          setLiked(true);
+        } else {
+          setHeart('inherit');
+          setLiked(false);
+        }
+
+        queryClient.invalidateQueries('getStats');
+      },
+      onError: () => {
+        toast.error('You must be logged in to like a mentor');
+      },
+    },
+  );
   const [page, setPage] = useState(1);
 
   if (isLoading) return <Loader />;
@@ -149,6 +197,21 @@ const UserPage = () => {
 
   const name = `${first_name} ${last_name}`;
   const topics: Topic[] = getTopics(topicNums);
+
+  const debounceLike = () => {
+    setHeart(heart === 'inherit' ? 'error' : 'inherit');
+    clearTimeout(likeDebounceTimer);
+
+    likeDebounceTimer = setTimeout(() => {
+      if (!liked && heart === 'inherit') {
+        likeMutation.mutate(id);
+      }
+
+      if (liked && heart === 'error') {
+        likeMutation.mutate(id);
+      }
+    }, 600);
+  };
 
   return (
     <>
@@ -189,12 +252,12 @@ const UserPage = () => {
                   <LinkedIn fontSize="inherit" />
                 </IconButton>
               )}
-              <Tooltip title="Add to Wishlist">
+              <Tooltip title="Like">
                 <IconButton
                   onClick={() => {
-                    setHeart(heart === 'inherit' ? 'error' : 'inherit');
+                    debounceLike();
                   }}
-                  aria-label="add to wish list"
+                  aria-label="like"
                   size="large"
                   color={heart}>
                   <Favorite fontSize="inherit" />

@@ -62,6 +62,10 @@ const MentorSchema = new Schema<MentorSchemaType>({
     type: Boolean,
     default: false,
   },
+  likes: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const UserSchema = new Schema<UserSchemaType>({
@@ -102,6 +106,7 @@ const UserSchema = new Schema<UserSchemaType>({
     type: Boolean,
     default: false,
   },
+  liked_mentors: [{ type: Schema.Types.ObjectId, ref: 'Mentor' }],
 });
 
 UserSchema.pre('save', async function (next) {

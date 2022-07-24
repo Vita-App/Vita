@@ -47,6 +47,7 @@ export interface MentorSchemaType {
   is_mentoring: boolean;
   topics: number[];
   time_slots: SlotType[];
+  likes: number;
 }
 
 export type MotivationEnumType =
@@ -94,6 +95,7 @@ export type UserType = {
     url?: string;
     filename?: string;
   };
+  liked_mentors: string[];
 };
 
 export interface BookingType {
