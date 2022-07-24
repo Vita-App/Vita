@@ -7,6 +7,7 @@ router.get('/check-phone', apiController.isPhoneRegistered);
 router.get('/get-users', apiController.getUsers);
 router.get('/get-user', apiController.getUser);
 router.get('/get-mentor', apiController.getMentor);
+router.get('/get-mentor-stats/:id', apiController.getMentorStats);
 router.get('/get-mentors', apiController.getMentors);
 router.get('/top-mentors', apiController.getTopMentors);
 router.get('/get-topics', apiController.getTopics);

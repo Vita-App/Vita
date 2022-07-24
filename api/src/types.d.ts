@@ -32,6 +32,7 @@ export interface UserSchemaType {
   bookings: Types.ObjectId[] | undefined;
   verified: boolean;
   token: string;
+  liked_mentors: Types.ObjectId[];
   issueToken: () => string;
   comparePassword: (password: string) => Promise<boolean>;
   createVerificationToken: () => string;
@@ -108,6 +109,7 @@ export interface MentorSchemaType {
   time_slots: DurationType[];
   approved: boolean;
   top_mentor: boolean;
+  likes: number;
 }
 
 interface Session {
