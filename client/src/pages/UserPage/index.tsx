@@ -199,6 +199,11 @@ const UserPage = () => {
   const topics: Topic[] = getTopics(topicNums);
 
   const debounceLike = () => {
+    if (!auth.isLoggedIn) {
+      toast.error('You must be logged in to like a mentor');
+      return;
+    }
+
     setHeart(heart === 'inherit' ? 'error' : 'inherit');
     clearTimeout(likeDebounceTimer);
 
