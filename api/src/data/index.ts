@@ -159,6 +159,7 @@ export const getUser = (user_id: string) => {
     issueToken: () => '',
     createVerificationToken: () => '',
     verified: true,
+    liked_mentors: [],
   };
   return user;
 };
