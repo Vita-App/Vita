@@ -323,8 +323,8 @@ const getBookings = async (req: Request, res: Response) => {
   }
 
   const bookings = await BookingModel.find(searchOptions)
-    .populate('mentor', 'first_name last_name')
-    .populate('mentee', 'first_name last_name');
+    .populate('mentor', 'first_name last_name avatar.url')
+    .populate('mentee', 'first_name last_name avatar.url');
 
   return res.json(bookings);
 };

@@ -110,14 +110,17 @@ export interface BookingType {
   __v: number;
   event_id: string;
   google_meeting_link: string;
-  mentee: User;
-  mentor: User;
+  mentee: BookingTypeUser;
+  mentor: BookingTypeUser;
 }
 
-export interface User {
+export interface BookingTypeUser {
   _id: string;
   first_name: string;
   last_name: string;
+  avatar: {
+    url?: string;
+  };
 }
 
 export interface Session {

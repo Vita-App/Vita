@@ -75,7 +75,7 @@ const DrawerComponenet: React.FC<{
   <Box
     component="nav"
     sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-    aria-label="dahsboard-drawer">
+    aria-label="dashboard-drawer">
     {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
     <Drawer
       variant="temporary"

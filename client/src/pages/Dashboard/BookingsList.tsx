@@ -8,14 +8,16 @@ import {
   Grid,
   Stack,
   Typography,
+  Avatar,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import MuiButton from '@mui/material/Button';
 import { StyledButton as Button } from 'components/common';
 import { styled } from '@mui/material/styles';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import { BookingType, User } from 'types';
+import { BookingType, BookingTypeUser, UserType } from 'types';
 import moment from 'moment';
 import { VideoCall } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
@@ -25,11 +27,11 @@ import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 import { toast } from 'react-toastify';
 import NoBooking from 'components/NoBookingCard';
-import { grey } from '@mui/material/colors';
+import { blue, pink } from '@mui/material/colors';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
-  width: '80%',
+  maxWidth: '700px',
   backgroundColor: '#181818',
   border: '1px solid #6c757d',
   padding: '1rem 2rem',
@@ -85,7 +87,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-const getName = (user: User) => `${user?.first_name} ${user?.last_name}`;
+const getName = (user: BookingTypeUser) =>
+  `${user?.first_name} ${user?.last_name}`;
 
 const ExpandMore: React.FC<{ description: string }> = ({ description }) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -114,6 +117,9 @@ const acceptBooking = async (id: string) => {
   return data;
 };
 
+const getMentorOrMentee = (user: UserType | null, booking: BookingType) =>
+  user?._id === booking.mentor?._id ? booking.mentee : booking.mentor;
+
 const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
@@ -137,12 +143,19 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
     <>
       {bookings.map((booking) => (
         <GridWrapper sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
-          <Grid item className="mentor-text">
-            Session with{' '}
-            {user?._id === booking.mentor?._id
-              ? getName(booking.mentee)
-              : getName(booking.mentor)}{' '}
-            on {booking.session.topic}
+          <Grid item container className="mentor-text">
+            <Grid item sx={{ my: 1, mr: 1 }}>
+              <Avatar src={getMentorOrMentee(user, booking).avatar?.url} />
+            </Grid>
+            <Grid item xs={8} sm={9} md={10}>
+              Session with{' '}
+              <Link
+                style={{ color: 'gray' }}
+                to={`/user/${getMentorOrMentee(user, booking)._id}`}>
+                {getName(getMentorOrMentee(user, booking))}
+              </Link>{' '}
+              on {booking.session.topic}
+            </Grid>
           </Grid>
           <Grid item className="time-container">
             <EventAvailableTwoToneIcon color="action" />
@@ -154,9 +167,11 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
               {moment(booking.start_date).format('hh:mm a')}
             </span>
           </Grid>
-          {booking.session.description && (
+          {!booking.session.description && (
             <Grid item>
-              <ExpandMore description={booking.session.description} />
+              <ExpandMore
+                description={booking.session.description || 'lorem ipsum'}
+              />
             </Grid>
           )}
           <Grid item mt={1}>
@@ -176,22 +191,27 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
               <Stack direction="row" spacing={2}>
                 <Button
                   disabled={mutation.isLoading}
+                  fullWidth
                   variant="contained"
-                  color="primary"
+                  style={{ backgroundColor: blue[900] }}
                   onClick={() => mutation.mutate(booking._id)}>
                   Accept
                 </Button>
                 <Button
-                  variant="outlined"
-                  color="error"
+                  fullWidth
+                  variant="contained"
+                  style={{ backgroundColor: pink[900] }}
                   onClick={() => console.log('Cancel')}>
                   Cancel
                 </Button>
               </Stack>
             )}
             {booking.mentor._id !== user?._id && (
-              <Stack mt={1} alignItems="flex-start">
-                <Button variant="outlined" color="primary">
+              <Stack mt={1} alignItems="flex-start" width="100%">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  style={{ backgroundColor: blue[900], color: 'white' }}>
                   {booking.status === 'accepted' ? 'Accepted' : 'Waiting'}
                 </Button>
               </Stack>
