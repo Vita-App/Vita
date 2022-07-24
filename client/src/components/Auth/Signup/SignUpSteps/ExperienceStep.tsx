@@ -19,7 +19,7 @@ const ExperienceStep: React.FC<{
   const [experiences, setExperiences] = useState<ExperienceType[]>(
     props.hydrate?.experiences || [
       {
-        id: uuid(),
+        _id: uuid(),
         company: '',
         role: '',
       },
@@ -43,7 +43,7 @@ const ExperienceStep: React.FC<{
 
   const onExperienceChange = (id: string, exp: Partial<ExperienceType>) => {
     const experience = experiences.map((e) => {
-      if (e.id === id) {
+      if (e._id === id) {
         return { ...e, ...exp };
       }
 
@@ -69,7 +69,7 @@ const ExperienceStep: React.FC<{
             setExperiences((prev) => [
               ...prev,
               {
-                id: uuid(),
+                _id: uuid(),
                 company: '',
                 role: '',
               },
@@ -79,14 +79,14 @@ const ExperienceStep: React.FC<{
         </IconButton>
       </Stack>
       {experiences.map((exp) => (
-        <Stack spacing={1} key={exp.id}>
+        <Stack spacing={1} key={exp._id}>
           {experiences.length > 1 && (
             <IconButton
               color="error"
               sx={{ alignSelf: 'flex-start' }}
               onClick={() => {
                 setExperiences((prevExp) =>
-                  prevExp.filter((e) => e.id !== exp.id),
+                  prevExp.filter((e) => e._id !== exp._id),
                 );
               }}>
               <Delete />
@@ -96,7 +96,7 @@ const ExperienceStep: React.FC<{
             <Stack flexGrow={1}>
               <Typography variant="body2">Company name</Typography>
               <Controller
-                name={`experience[${exp.id}].company`}
+                name={`experience[${exp._id}].company`}
                 control={control}
                 defaultValue={exp.company || ''}
                 rules={{ required: 'Company name is required' }}
@@ -105,11 +105,11 @@ const ExperienceStep: React.FC<{
                     {...other}
                     onChange={(e) => {
                       onChange(e);
-                      onExperienceChange(exp.id, { company: e.target.value });
+                      onExperienceChange(exp._id, { company: e.target.value });
                     }}
                     placeholder="Company name"
-                    error={Boolean(errors.experience?.[exp.id]?.company)}
-                    helperText={errors.experience?.[exp.id]?.company?.message}
+                    error={Boolean(errors.experience?.[exp._id]?.company)}
+                    helperText={errors.experience?.[exp._id]?.company?.message}
                   />
                 )}
               />
@@ -117,7 +117,7 @@ const ExperienceStep: React.FC<{
             <Stack flexGrow={1}>
               <Typography variant="body2">Professional role</Typography>
               <Controller
-                name={`experience[${exp.id}].role`}
+                name={`experience[${exp._id}].role`}
                 control={control}
                 defaultValue={exp.role || ''}
                 rules={{ required: 'Professional Role is Required' }}
@@ -126,10 +126,10 @@ const ExperienceStep: React.FC<{
                     {...other}
                     onChange={(e) => {
                       onChange(e);
-                      onExperienceChange(exp.id, { role: e.target.value });
+                      onExperienceChange(exp._id, { role: e.target.value });
                     }}
-                    error={Boolean(errors.experience?.[exp.id]?.role)}
-                    helperText={errors.experience?.[exp.id]?.role?.message}
+                    error={Boolean(errors.experience?.[exp._id]?.role)}
+                    helperText={errors.experience?.[exp._id]?.role?.message}
                     placeholder="e.g. Software Engineer"
                   />
                 )}
@@ -138,7 +138,7 @@ const ExperienceStep: React.FC<{
             <Stack flexGrow={1}>
               <Typography variant="body2">Start Year</Typography>
               <Controller
-                name={`experience[${exp.id}].start_year`}
+                name={`experience[${exp._id}].start_year`}
                 control={control}
                 defaultValue={exp.start_year || ''}
                 rules={{
@@ -149,7 +149,7 @@ const ExperienceStep: React.FC<{
 
                     if (
                       parseInt(val, 10) >
-                      parseInt(getValues().experience[exp.id]?.end_year, 10)
+                      parseInt(getValues().experience[exp._id]?.end_year, 10)
                     ) {
                       return 'Start year is invalid';
                     }
@@ -162,13 +162,13 @@ const ExperienceStep: React.FC<{
                     {...other}
                     onChange={(e) => {
                       onChange(e);
-                      onExperienceChange(exp.id, {
+                      onExperienceChange(exp._id, {
                         start_year: e.target.value,
                       });
                     }}
-                    error={Boolean(errors.experience?.[exp.id]?.start_year)}
+                    error={Boolean(errors.experience?.[exp._id]?.start_year)}
                     helperText={
-                      errors.experience?.[exp.id]?.start_year?.message
+                      errors.experience?.[exp._id]?.start_year?.message
                     }
                     placeholder="e.g. 2018"
                   />
@@ -178,7 +178,7 @@ const ExperienceStep: React.FC<{
             <Stack flexGrow={1} position="relative">
               <Typography variant="body2">End Year</Typography>
               <Controller
-                name={`experience[${exp.id}].end_year`}
+                name={`experience[${exp._id}].end_year`}
                 control={control}
                 defaultValue={exp.end_year || ''}
                 rules={{
@@ -196,7 +196,7 @@ const ExperienceStep: React.FC<{
 
                     if (
                       parseInt(val, 10) <
-                      parseInt(getValues().experience[exp.id]?.start_year, 10)
+                      parseInt(getValues().experience[exp._id]?.start_year, 10)
                     ) {
                       return 'End Year is Invalid';
                     }
@@ -209,10 +209,10 @@ const ExperienceStep: React.FC<{
                     {...other}
                     onChange={(e) => {
                       onChange(e);
-                      onExperienceChange(exp.id, { end_year: e.target.value });
+                      onExperienceChange(exp._id, { end_year: e.target.value });
                     }}
-                    error={Boolean(errors.experience?.[exp.id]?.end_year)}
-                    helperText={errors.experience?.[exp.id]?.end_year?.message}
+                    error={Boolean(errors.experience?.[exp._id]?.end_year)}
+                    helperText={errors.experience?.[exp._id]?.end_year?.message}
                     placeholder="e.g. Present"
                   />
                 )}
