@@ -14,7 +14,7 @@ const ApplicationSubmitted: FC<{
   onClose: () => void;
 }> = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
-    <DialogContent sx={{ minWidth: '500px', p: 8 }}>
+    <DialogContent sx={{ p: 8 }}>
       <Stack
         spacing={2}
         justifyContent="center"

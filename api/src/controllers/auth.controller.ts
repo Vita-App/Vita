@@ -402,8 +402,8 @@ const registerUser = async (req: Request, res: Response) => {
   user.last_name = data.last_name;
   user.interests = data.interests;
   user.avatar = {
-    url: req.file?.path || user.avatar.url,
-    filename: req.file?.filename || user.avatar.filename,
+    url: req.file?.path || user.avatar?.url,
+    filename: req.file?.filename || user.avatar?.filename,
   };
   user.graduation_year = data.graduation_year;
   user.stream = data.stream;

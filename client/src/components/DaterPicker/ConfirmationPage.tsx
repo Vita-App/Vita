@@ -5,7 +5,8 @@ import {
   styled,
   TextareaAutosize,
   Button,
-  InputBase,
+  Box,
+  Paper,
 } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -132,7 +133,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   );
   const [isTouched, setIsTouched] = useState(false);
   const queryClient = useQueryClient();
-  const [email, setEmail] = useState<string>('');
+  const [email] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const { first_name, last_name, _id } = useRecoilValue(mentorState);
   const { start } = selectedSlot;
@@ -171,7 +172,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
 
   const timeString = getDurationLabel(selectedSlot);
   return (
-    <div>
+    <Box>
       <Typography variant="h5" sx={{ fontWeight: 800, p: '8px 0px' }}>
         Confirm your Booking
       </Typography>
@@ -259,7 +260,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           Change Date or Time
         </Button>
       </div>
-    </div>
+    </Box>
   );
 };
 

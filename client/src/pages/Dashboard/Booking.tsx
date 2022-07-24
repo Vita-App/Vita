@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabList from '@mui/lab/TabList';
@@ -22,7 +22,7 @@ const getBookings = async (type: string) => {
 };
 
 const Bookings = () => {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState('2');
   const type = value === '1' ? 'upcoming' : value === '2' ? 'pending' : 'past';
   const { data, isLoading } = useQuery(['getBookings', type], () =>
     getBookings(type),
@@ -37,25 +37,35 @@ const Bookings = () => {
   if (!data) return <div>No data</div>;
 
   return (
-    <Box sx={{ width: '100%', typography: 'body1' }}>
-      <Typography
-        variant="h3"
-        fontFamily="inter"
-        fontWeight={600}
-        paddingBottom={2}>
-        Bookings
-      </Typography>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabContext value={value}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Upcoming" value="1" />
-            <Tab label="Pending" value="2" />
-            <Tab label="Past" value="3" />
-          </TabList>
-        </TabContext>
-      </Box>
-      <BookingsList bookings={data} />
-    </Box>
+    <Grid container>
+      <Grid item xs={12} lg={9}>
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+          <Typography
+            variant="h3"
+            fontFamily="inter"
+            fontWeight={600}
+            paddingBottom={2}>
+            Bookings
+          </Typography>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabContext value={value}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example">
+                <Tab label="Upcoming" value="1" />
+                <Tab label="Pending" value="2" />
+                <Tab label="Past" value="3" />
+              </TabList>
+            </TabContext>
+          </Box>
+          <BookingsList bookings={data} />
+        </Box>
+      </Grid>
+      <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
+        {/* Add A list of top mentors components here */}
+        <h3>Hello</h3>
+      </Grid>
+    </Grid>
   );
 };
 
