@@ -139,7 +139,7 @@ const UserPage = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if (auth.user?.liked_mentors.includes(id || '')) {
+    if (auth.user?.liked_mentors?.includes(id || '')) {
       setHeart('error');
       setLiked(true);
     } else {
