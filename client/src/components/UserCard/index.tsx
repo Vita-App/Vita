@@ -1,8 +1,9 @@
-import { Paper, styled, Grid } from '@mui/material';
-import BookmarksRoundedIcon from '@mui/icons-material/BookmarksRounded';
-import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
 import React from 'react';
-import { commaString } from 'utils/helper';
+import { Paper, styled, Grid } from '@mui/material';
+import WorkRoundedIcon from '@mui/icons-material/WorkRounded';
+import SchoolIcon from '@mui/icons-material/School';
+// import BookmarksRoundedIcon from '@mui/icons-material/BookmarksRounded';
+// import { commaString } from 'utils/helper';
 import { MentorSchemaType } from 'types';
 import { Link } from 'components/common';
 
@@ -54,22 +55,36 @@ const AbsoluteGrid = styled(Grid)`
   .UserCard_topics {
     text-overflow: ellipsis;
   }
+  .UserCard_batch {
+    display: flex;
+    flex-grow: 1;
+  }
 `;
 
 const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
-  const { first_name, last_name, experiences, expertise, avatar, _id } = user;
-  const name = `${first_name} ${last_name}`;
+  const { first_name, graduation_year, last_name, experiences, avatar, _id } =
+    user;
+  if (first_name === 'Rishabh') console.log(user);
 
+  const name = `${first_name} ${last_name}`;
+  // change this
+  const _graduation_year = graduation_year || 2022;
+  const default_image =
+    'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png';
   return (
     <Link to={`/user/${_id}`}>
       <Wrapper elevation={4}>
-        <StyledImage src={avatar?.url} />
+        <StyledImage src={avatar?.url || default_image} />
         <AbsoluteGrid container>
-          <Grid item>
+          {/* <Grid item>
             <BookmarksRoundedIcon />
             <span className="UserCard_topics">{commaString(expertise)}</span>
+          </Grid> */}
+          <Grid item alignItems="center">
+            <SchoolIcon />
+            <span>{`Batch ${_graduation_year}`}</span>
           </Grid>
-          <Grid item>
+          <Grid item alignItems="center">
             <WorkRoundedIcon />
             <span>{experiences && experiences[0].role}</span>
           </Grid>

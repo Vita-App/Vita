@@ -40,6 +40,7 @@ export interface MentorSchemaType {
     filename: string;
   };
   experiences: ExperienceType[];
+  graduation_year: number;
   bio: string;
   expertise: string[];
   languages: string[];

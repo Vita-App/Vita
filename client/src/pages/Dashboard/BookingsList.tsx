@@ -25,9 +25,12 @@ import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 import { toast } from 'react-toastify';
 import NoBooking from 'components/NoBookingCard';
+import { grey } from '@mui/material/colors';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
+  width: '80%',
+  backgroundColor: '#181818',
   border: '1px solid #6c757d',
   padding: '1rem 2rem',
   borderRadius: '4px',
@@ -133,7 +136,7 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
   return (
     <>
       {bookings.map((booking) => (
-        <GridWrapper container sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
+        <GridWrapper sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
           <Grid item className="mentor-text">
             Session with{' '}
             {user?._id === booking.mentor?._id
