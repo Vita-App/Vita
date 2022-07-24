@@ -11,6 +11,12 @@ router.post('/admin/verify-otp', adminController.adminVerifyOtp);
 
 router.put('/approve-mentor', checkAdmin, adminController.approveMentor);
 router.get('/reject-mentor', checkAdmin, adminController.rejectMentor);
+router.get('/get-all-meetings', checkAdmin, adminController.getAllBookings);
+router.get(
+  '/get-user-meetings/:id',
+  checkAdmin,
+  adminController.getUserMeetings,
+);
 router.put(
   '/change-topmentor',
   checkAdmin,

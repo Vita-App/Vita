@@ -116,6 +116,8 @@ interface Session {
   email?: string;
   topic?: string;
   description?: string;
+  status?: 'rated' | 'unrated';
+  rating?: number;
 }
 
 export interface BookingSchemaType {
@@ -187,4 +189,10 @@ export interface NotificationType {
   text: string;
   link: string;
   status: 'read' | 'unread';
+}
+
+export interface StatsType {
+  likes: number;
+  meetings: number;
+  reports: number;
 }

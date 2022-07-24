@@ -91,7 +91,10 @@ passport.use(
           first_name: profile._json?.given_name,
           last_name: profile._json?.family_name,
           email: profile._json?.email,
-          image_link: profile._json?.picture,
+          avatar: {
+            filename: 'default',
+            url: profile._json?.picture,
+          },
           oauth_provider: profile.provider,
           is_mentor: state.isMentor === 'true',
           verified: true,

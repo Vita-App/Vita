@@ -17,6 +17,13 @@ const BookingSchema = new Schema<BookingSchemaType>({
     email: String,
     topic: String,
     description: String,
+    status: {
+      type: String,
+      enum: ['rated', 'unrated'],
+    },
+    rating: {
+      type: Number,
+    },
   },
   event_id: String,
   google_meeting_link: String,
