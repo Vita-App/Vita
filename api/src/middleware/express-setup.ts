@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import mongoSanitize from 'express-mongo-sanitize';
 import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
@@ -23,6 +24,11 @@ export const useMiddleWare = (app: Express) => {
   app.use(cookieParser()); // Parse cookies
 
   app.use(express.urlencoded({ extended: true }));
+  app.use(
+    mongoSanitize({
+      replaceWith: '_',
+    }),
+  );
   app.use(
     session({
       secret: COOKIE_KEYS,

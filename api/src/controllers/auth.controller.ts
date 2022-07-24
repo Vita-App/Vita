@@ -334,6 +334,13 @@ const sendMail = async (req: Request, res: Response) => {
   }
 
   if (template === 'verification') {
+    if (user.verified) {
+      return res.status(200).json({
+        success: false,
+        error: 'You are already verified, you can now login!',
+      });
+    }
+
     return await sendVerificationMail(res, user);
   }
 

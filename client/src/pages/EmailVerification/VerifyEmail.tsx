@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card, Grid, Stack, Typography, LinearProgress } from '@mui/material';
 import { ReactComponent as EmailSVG } from './email_verification.svg';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import useHttp from 'hooks/useHttp';
 import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const VerifyEmail = ({ params }: { params: URLSearchParams }) => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const { loading, sendRequest } = useHttp();
   const onSendMail = () => {
@@ -28,6 +29,11 @@ const VerifyEmail = ({ params }: { params: URLSearchParams }) => {
               autoClose: false,
             },
           );
+        } else {
+          toast.error(data.error, {
+            autoClose: false,
+          });
+          navigate('/auth');
         }
       },
     );

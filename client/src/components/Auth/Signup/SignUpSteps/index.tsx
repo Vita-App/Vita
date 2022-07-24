@@ -141,6 +141,7 @@ const SignUpSteps: React.FC = () => {
             hydrate={formData[step]}
             interests={interests}
             setInterests={setInterests}
+            isMentor={auth.user?.is_mentor || false}
           />
         );
       case 1:

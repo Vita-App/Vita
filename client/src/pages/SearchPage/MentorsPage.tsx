@@ -73,18 +73,22 @@ const RenderCards = ({
   );
 };
 
+let timer: any;
+
 const MentorsPage = () => {
   const [expertise, setExpertise] = useRecoilState(expertiseState);
   // @ts-ignore
   const expertiseValue = expertise?.value;
+  const [mentorSearchText, setMentorSearchText] = React.useState('');
   const topic = useRecoilValue(topicState);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
-  const { isLoading, data, fetchNextPage, hasNextPage } =
+  const { isLoading, data, fetchNextPage, hasNextPage, refetch } =
     useInfiniteQuery<GetMentorsResponse>(
       ['mentors', expertiseValue, topic],
-      ({ pageParam }) => getMentors(expertiseValue, topic, pageParam),
+      ({ pageParam }) =>
+        getMentors(expertiseValue, mentorSearchText, topic, pageParam),
       {
         getNextPageParam: (lastPage) =>
           lastPage.nextPage === null ? undefined : lastPage.nextPage,
@@ -92,6 +96,14 @@ const MentorsPage = () => {
           lastPage.prevPage === null ? undefined : lastPage.prevPage,
       },
     );
+
+  const debounceSearch = (text: string) => {
+    setMentorSearchText(text);
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      refetch();
+    }, 700);
+  };
 
   const content = (
     <>
@@ -121,12 +133,13 @@ const MentorsPage = () => {
           <TextAreaWrapper>
             <SearchIcon sx={{ color: 'darkgrey' }} />
             <InputBase
-              disabled
               className="Search_Input"
               placeholder="Search by Company, Position"
               inputProps={{
                 'aria-label': 'Search by Company Position',
               }}
+              value={mentorSearchText}
+              onChange={(e) => debounceSearch(e.currentTarget.value)}
             />
           </TextAreaWrapper>
         </Grid>
@@ -136,8 +149,8 @@ const MentorsPage = () => {
             <Select
               menuPlacement="auto"
               name="Expertise"
-              sx={{ fontSize: '20px' }}
-              options={expertiseOptions}
+              sx={{ fontSize: '20px', width: '100%' }}
+              options={[...expertiseOptions, { label: 'All', value: 'All' }]}
               value={expertise}
               onChange={setExpertise}
               isSearchable={matches}
