@@ -6,8 +6,9 @@ import {
   IconButton,
   Typography,
   Box,
+  Tooltip,
 } from '@mui/material';
-import { Favorite, LinkedIn } from '@mui/icons-material';
+import { Favorite, LinkedIn, Flag } from '@mui/icons-material';
 import { lightGreen } from '@mui/material/colors';
 import PaginatedBookingCard from 'components/PaginatedBookingCard';
 import ShowMoreText from 'react-show-more-text';
@@ -25,6 +26,9 @@ import Loader from 'components/Loader';
 import { topics as topicData } from 'data';
 import { useRecoilState } from 'recoil';
 import { mentorState } from 'store';
+import Stats from 'components/UserPage/Stats';
+import Tips from 'components/UserPage/Tips';
+import Experiences from 'components/UserPage/Experiences';
 
 interface IProps {
   active: boolean;
@@ -42,17 +46,6 @@ const ActiveBadge: React.FC<IProps> = ({ active }) => (
     }}
   />
 );
-
-const Wrapper = styled('div')`
-  font-family: 'Circular Std';
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* height: 100vh; */
-  width: '100vw';
-  background-color: #242424;
-  color: #f5f5f5;
-`;
 
 const TextWrapper = styled('div')`
   width: 100%;
@@ -83,9 +76,7 @@ const Banner = styled('div')`
 `;
 const Container = styled(Grid)`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  max-width: 800px;
+  width: 100%;
   /* background: #393939; */
   font-family: inter;
 `;
@@ -162,13 +153,18 @@ const UserPage = () => {
   return (
     <>
       <Appbar />
-      <Wrapper>
-        <Banner />
+      <Grid container>
+        <Grid item xs={12}>
+          <Banner />
+        </Grid>
         <Grid
+          item
           container
-          height="100%"
-          justifyContent="center"
-          sx={{ background: '#242424', padding: '0rem 1rem' }}>
+          xs={12}
+          md={7}
+          sx={{ color: '#f5f5f5' }}
+          justifyContent="space-between"
+          pl={{ xs: 2, md: 10 }}>
           <Container item>
             <PhotoWrapper>
               <Photo>
@@ -193,15 +189,22 @@ const UserPage = () => {
                   <LinkedIn fontSize="inherit" />
                 </IconButton>
               )}
-              <IconButton
-                onClick={() => {
-                  setHeart(heart === 'inherit' ? 'error' : 'inherit');
-                }}
-                aria-label="add to wish list"
-                size="large"
-                color={heart}>
-                <Favorite fontSize="inherit" />
-              </IconButton>
+              <Tooltip title="Add to Wishlist">
+                <IconButton
+                  onClick={() => {
+                    setHeart(heart === 'inherit' ? 'error' : 'inherit');
+                  }}
+                  aria-label="add to wish list"
+                  size="large"
+                  color={heart}>
+                  <Favorite fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Report">
+                <IconButton aria-label="report" size="large" color="inherit">
+                  <Flag fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
             </PhotoWrapper>
 
             <TextWrapper>
@@ -231,6 +234,7 @@ const UserPage = () => {
                 item
                 xs={12}
                 md={6}
+                mb={2}
                 spacing={1}>
                 <Grid item fontWeight={700}>
                   Expertise
@@ -238,7 +242,6 @@ const UserPage = () => {
                 <Grid item>{commaString(expertise)}</Grid>
               </Grid>
               <Grid
-                mt={{ xs: 2, sm: 0 }}
                 container
                 direction="column"
                 item
@@ -255,6 +258,12 @@ const UserPage = () => {
                     : 'Mentor is currently unavailable'}
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item xs={12} mb={2}>
+              <Experiences experiences={experiences} />
+            </Grid>
+            <Grid item xs={12} display={{ md: 'none' }}>
+              <Stats />
             </Grid>
             <Divider />
 
@@ -276,8 +285,7 @@ const UserPage = () => {
                 />
               </div>
             </Grid>
-
-            <Grid container width="100%">
+            <Grid item container width="100%">
               <PaginatedBookingCard
                 motivation={motivation}
                 topics={topics}
@@ -287,7 +295,21 @@ const UserPage = () => {
             </Grid>
           </Container>
         </Grid>
-      </Wrapper>
+        <Grid
+          container
+          item
+          md={5}
+          p={2}
+          display={{ xs: 'none', md: 'block' }}
+          spacing={4}>
+          <Grid item xs={12}>
+            <Stats />
+          </Grid>
+          <Grid item xs={12}>
+            <Tips />
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

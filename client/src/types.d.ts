@@ -23,7 +23,7 @@ export interface Topic {
 export type DayEnumType = 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
 
 export interface ExperienceType {
-  id: string;
+  _id: string;
   company: string;
   role: string;
   start_year?: string;
