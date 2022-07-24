@@ -6,7 +6,7 @@ import { StyledButton as Button } from 'components/common';
 const Card = () => {
   const navigate = useNavigate();
   return (
-    <div style={{ padding: '1rem' }}>
+    <div style={{ padding: '1rem 0rem' }}>
       <Grid
         container
         sx={{

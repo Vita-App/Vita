@@ -38,7 +38,7 @@ const Bookings = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} lg={9}>
+      <Grid item xs={12} sm={11} md={9}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <Typography
             variant="h3"
@@ -61,7 +61,7 @@ const Bookings = () => {
           <BookingsList bookings={data} />
         </Box>
       </Grid>
-      <Grid item sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <Grid item sx={{ display: { sm: 'none', md: 'block' } }}>
         {/* Add A list of top mentors components here */}
         <h3>Hello</h3>
       </Grid>
