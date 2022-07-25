@@ -9,6 +9,7 @@ import { SERVER_URL } from 'config.keys';
 import { BookingType } from 'types';
 import BookingsList from './BookingsList';
 import { TabContext } from '@mui/lab';
+import BookingSideBar from './BookingSideBar';
 
 const getBookings = async (type: string) => {
   const { data } = await axios.get<BookingType[]>(
@@ -38,7 +39,7 @@ const Bookings = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={11} md={9}>
+      <Grid item xs={12} sm={11} md={10} lg={9}>
         <Box sx={{ width: '100%', typography: 'body1' }}>
           <Typography
             variant="h3"
@@ -61,9 +62,19 @@ const Bookings = () => {
           <BookingsList bookings={data} />
         </Box>
       </Grid>
-      <Grid item sx={{ display: { sm: 'none', md: 'block' } }}>
-        {/* Add A list of top mentors components here */}
-        <h3>Hello</h3>
+      <Grid
+        item
+        lg={3}
+        sx={{
+          display: {
+            xs: 'none',
+            sm: 'none',
+            md: 'none',
+            lg: 'block',
+            flexGrow: 1,
+          },
+        }}>
+        <BookingSideBar />
       </Grid>
     </Grid>
   );

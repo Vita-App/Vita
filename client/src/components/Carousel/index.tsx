@@ -13,7 +13,6 @@ SwiperCore.use([Navigation, Mousewheel, Pagination]);
 const Carousel = ({ userList }: { userList: Partial<MentorSchemaType>[] }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
-  console.log(prevRef, nextRef);
   return (
     <CarouselDiv style={{ margin: '2rem', backgroundColor: 'inherit' }}>
       <Toolbar prevRef={prevRef} nextRef={nextRef} />
