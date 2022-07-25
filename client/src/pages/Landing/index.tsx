@@ -5,7 +5,7 @@ import Particles from 'components/Particles';
 import Footer from 'components/Footer/Footer';
 import Carousel from 'components/Carousel';
 import { useQuery } from 'react-query';
-import { getTopMentors } from 'utils/api-helper';
+import { getMentors } from 'utils/api-helper';
 import Loader from 'react-loader-spinner';
 import LandingCards from 'components/LandingCards';
 import CompaniesHero from 'components/CompaniesHero';
@@ -28,11 +28,13 @@ const Page1 = () => (
 );
 
 const Landing = () => {
-  const { isLoading, data } = useQuery(['mentors'], () => getTopMentors());
+  const { isLoading, data } = useQuery(['topMentors'], () =>
+    getMentors('All', '', -1, 1, 50, true),
+  );
 
   const CarouselComponent = () =>
     isLoading === false ? (
-      <Carousel userList={data || []} />
+      <Carousel userList={data?.mentors || []} />
     ) : (
       <div>
         <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />

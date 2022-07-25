@@ -15,11 +15,13 @@ const getMentors = async (req: Request, res: Response) => {
   const expertise = req.query.expertise?.toString() || 'All';
   const topic = Number(req.query.topic?.toString() || -1);
   const mentorSearchText = req.query.mentorSearchText?.toString() || '';
+  const topMentor = req.query.topMentor?.toString() === 'true' || undefined;
   //  A limit() value of 0 is equivalent to setting no limit.
   const limit = Number(req.query.limit) === 0 ? 15 : Number(req.query.limit);
 
   const searchOptions = {} as FilterQuery<MentorSchemaType>;
   searchOptions.approved = true;
+  searchOptions.top_mentor = topMentor;
   if (topic !== -1) searchOptions.topics = topic;
   if (expertise !== 'All') searchOptions.expertise = expertise;
   if (mentorSearchText !== '') {
@@ -80,12 +82,6 @@ const getMentors = async (req: Request, res: Response) => {
   }
 
   res.json({ mentors, totalPages, nextPage, prevPage, page });
-};
-
-const getTopMentors = async (req: Request, res: Response) => {
-  const mentors = await MentorModel.find({ top_mentor: true });
-
-  return res.status(200).json(mentors);
 };
 
 // curl -X GET http://localhost:5000/api/get-topics?textSearch=a
@@ -175,7 +171,6 @@ const getMentorStats = async (req: Request, res: Response) => {
 export default {
   getMentors,
   getUsers,
-  getTopMentors,
   getMentor,
   getUser,
   getTopics,

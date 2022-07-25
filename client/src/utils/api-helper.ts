@@ -17,6 +17,7 @@ export const getMentors = async (
   topic = -1,
   page = 1,
   limit = 0,
+  topMentor = false,
 ) => {
   const { data: response } = await axios.get<GetMentorsResponse>(
     `${SERVER_URL}/api/get-mentors`,
@@ -27,16 +28,9 @@ export const getMentors = async (
         page,
         limit,
         mentorSearchText,
+        topMentor,
       },
     },
-  );
-
-  return response;
-};
-
-export const getTopMentors = async () => {
-  const { data: response } = await axios.get<MentorSchemaType[]>(
-    `${SERVER_URL}/api/top-mentors`,
   );
 
   return response;
