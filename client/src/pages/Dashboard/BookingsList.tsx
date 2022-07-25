@@ -11,8 +11,7 @@ import {
   Avatar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import MuiButton from '@mui/material/Button';
-import { StyledButton as Button } from 'components/common';
+import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
@@ -27,7 +26,7 @@ import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 import { toast } from 'react-toastify';
 import NoBooking from 'components/NoBookingCard';
-import { blue, pink } from '@mui/material/colors';
+import { blue, pink, teal } from '@mui/material/colors';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
@@ -50,6 +49,15 @@ const GridWrapper = styled(Grid)({
     margin: '1rem 0rem',
     display: 'flex',
     padding: '1rem 0 rem',
+  },
+});
+
+const StyledButton = styled(Button)({
+  padding: '4px',
+  color: 'white',
+  fontWeight: 600,
+  '&:hover': {
+    opacity: 0.8,
   },
 });
 
@@ -85,6 +93,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: '1px solid rgba(0, 0, 0, .125)',
+  border: '0px 0px 0px 4px solid black',
 }));
 
 const getName = (user: BookingTypeUser) =>
@@ -99,7 +108,7 @@ const ExpandMore: React.FC<{ description: string }> = ({ description }) => {
         expanded={expanded}
         onChange={(event, newExpanded) => setExpanded(newExpanded)}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Description</Typography>
+          <Typography fontWeight={600}>Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>{description}</Typography>
@@ -144,13 +153,13 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
       {bookings.map((booking) => (
         <GridWrapper sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
           <Grid item container className="mentor-text">
-            <Grid item sx={{ my: 1, mr: 1 }}>
+            <Grid item sx={{ my: 1, mr: 2 }}>
               <Avatar src={getMentorOrMentee(user, booking).avatar?.url} />
             </Grid>
             <Grid item xs={8} sm={9} md={10}>
               Session with{' '}
               <Link
-                style={{ color: 'gray' }}
+                style={{ color: 'lightblue' }}
                 to={`/user/${getMentorOrMentee(user, booking)._id}`}>
                 {getName(getMentorOrMentee(user, booking))}
               </Link>{' '}
@@ -167,7 +176,7 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
               {moment(booking.start_date).format('hh:mm a')}
             </span>
           </Grid>
-          {!booking.session.description && (
+          {booking.session.description && (
             <Grid item>
               <ExpandMore
                 description={booking.session.description || 'lorem ipsum'}
@@ -175,47 +184,46 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
             </Grid>
           )}
           <Grid item mt={1}>
-            {booking.google_meeting_link && (
-              <a
-                style={{ textDecoration: 'none' }}
-                href={booking.google_meeting_link}>
-                <MuiButton
-                  variant="contained"
-                  color="success"
-                  startIcon={<VideoCall />}>
-                  Join Meet
-                </MuiButton>
-              </a>
-            )}
             {booking.mentor._id === user?._id && booking.status === 'waiting' && (
               <Stack direction="row" spacing={2}>
-                <Button
+                <StyledButton
                   disabled={mutation.isLoading}
                   fullWidth
                   variant="contained"
                   style={{ backgroundColor: blue[900] }}
                   onClick={() => mutation.mutate(booking._id)}>
                   Accept
-                </Button>
-                <Button
+                </StyledButton>
+                <StyledButton
                   fullWidth
                   variant="contained"
+                  color={'secondary'}
                   style={{ backgroundColor: pink[900] }}
                   onClick={() => console.log('Cancel')}>
                   Cancel
-                </Button>
+                </StyledButton>
               </Stack>
             )}
-            {booking.mentor._id !== user?._id && (
-              <Stack mt={1} alignItems="flex-start" width="100%">
-                <Button
+            <Stack mt={1} direction="row" spacing={2}>
+              {booking.google_meeting_link && (
+                <StyledButton
+                  href={booking.google_meeting_link || 'https://google.co.in'}
+                  variant="contained"
+                  fullWidth
+                  style={{ backgroundColor: teal[900] }}
+                  startIcon={<VideoCall />}>
+                  Join Meet
+                </StyledButton>
+              )}
+              {booking.mentor._id !== user?._id && (
+                <StyledButton
                   fullWidth
                   variant="contained"
                   style={{ backgroundColor: blue[900], color: 'white' }}>
                   {booking.status === 'accepted' ? 'Accepted' : 'Waiting'}
-                </Button>
-              </Stack>
-            )}
+                </StyledButton>
+              )}
+            </Stack>
           </Grid>
         </GridWrapper>
       ))}
