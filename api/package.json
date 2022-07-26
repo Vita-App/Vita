@@ -9,14 +9,14 @@
     "node": ">=16.13.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "swc src -d dist",
+    "build-slow": "tsc",
     "start": "npm run serve",
     "serve": "node dist/src/index.js",
     "dev-slow": "nodemon --exec ts-node src/index.ts",
     "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/index.js",
-    "build-fast": "swc src -d dist",
     "pretty": "prettier --write \"./src/**/*.{ts,js}\"",
     "lint": "eslint \"**/*.{ts,tsx}\" --ignore-pattern node_modules/ --ignore-pattern dist/",
     "lint:fix": "eslint \"**/*.ts\" --ignore-pattern node_modules/ --ignore-pattern dist/ --fix",
