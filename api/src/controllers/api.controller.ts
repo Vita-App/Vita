@@ -21,7 +21,10 @@ const getMentors = async (req: Request, res: Response) => {
 
   const searchOptions = {} as FilterQuery<MentorSchemaType>;
   searchOptions.approved = true;
-  searchOptions.top_mentor = topMentor;
+  if (topMentor) {
+    searchOptions.top_mentor = topMentor;
+  }
+
   if (topic !== -1) searchOptions.topics = topic;
   if (expertise !== 'All') searchOptions.expertise = expertise;
   if (mentorSearchText !== '') {
