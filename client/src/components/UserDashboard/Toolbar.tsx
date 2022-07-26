@@ -6,55 +6,27 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import { Link, StyledButton as Button } from 'components/common';
 import { drawerWidth } from 'utils/settings';
-import { Avatar, Box, Menu, MenuItem, Stack } from '@mui/material';
-import { useRecoilState } from 'recoil';
+import { Avatar, Box, Stack } from '@mui/material';
+import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
-import { useNavigate } from 'react-router-dom';
-import { SERVER_URL } from 'config.keys';
-import axios from 'axios';
 import Notification from 'components/Notification';
+import MenuComponent from 'components/Menu';
 
 const ToolbarComponent: React.FC<{
   handleDrawerToggle: () => void;
 }> = ({ handleDrawerToggle }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate();
-  const [auth, setAuthState] = useRecoilState(authState);
-
-  const onLogout = async () => {
-    try {
-      await axios.get(`${SERVER_URL}/api/logout`, { withCredentials: true });
-      setAuthState({
-        isLoggedIn: false,
-        user: null,
-        message: 'User is not logged in',
-      });
-      navigate('/auth');
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const auth = useRecoilValue(authState);
 
   return (
     <>
       <CssBaseline />
-      <Menu open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
-        <MenuItem
-          onClick={() => {
-            setAnchorEl(null);
-            navigate('/dashboard');
-          }}>
-          Dashboard
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchorEl(null);
-            onLogout();
-          }}>
-          Logout
-        </MenuItem>
-      </Menu>
+      <MenuComponent
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+      />
       <AppBar
         position="fixed"
         sx={{

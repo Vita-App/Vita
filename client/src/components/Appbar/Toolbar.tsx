@@ -3,53 +3,25 @@ import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import { Menu, MenuItem, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { Link, StyledButton as Button } from 'components/common';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
-import axios from 'axios';
-import { SERVER_URL } from 'config.keys';
-import { useNavigate } from 'react-router-dom';
 import Notification from 'components/Notification';
+import MenuComponent from 'components/Menu';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate();
-  const [auth, setAuthState] = useRecoilState(authState);
-
-  const onLogout = async () => {
-    try {
-      await axios.get(`${SERVER_URL}/api/logout`, { withCredentials: true });
-      setAuthState({
-        isLoggedIn: false,
-        user: null,
-        message: 'User is not logged in',
-      });
-      navigate('/auth');
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const auth = useRecoilValue(authState);
 
   return (
     <div>
-      <Menu open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
-        <MenuItem
-          onClick={() => {
-            setAnchorEl(null);
-            navigate('/dashboard');
-          }}>
-          Dashboard
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setAnchorEl(null);
-            onLogout();
-          }}>
-          Logout
-        </MenuItem>
-      </Menu>
+      <MenuComponent
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => setAnchorEl(null)}
+      />
       <MaterialToolbar>
         <Stack
           direction="row"
