@@ -4,7 +4,7 @@ module.exports = {
   apps: [
     {
       name: 'vita-server',
-      script: '/root/Vita/api/dist/src/index.js',
+      script: '/root/Vita/api/dist/index.js',
       watch: true,
       env: {
         NODE_ENV: '',
