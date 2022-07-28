@@ -39,4 +39,16 @@ const likeMentor = async (req: Request, res: Response) => {
   }
 };
 
-export default { changeMentoringStatus, likeMentor };
+const updateProfile = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+  const { first_name, last_name } = req.body;
+
+  if (first_name) user.first_name = first_name;
+  if (last_name) user.last_name = last_name;
+
+  await user.save();
+
+  return res.status(200).json(user);
+};
+
+export default { changeMentoringStatus, likeMentor, updateProfile };

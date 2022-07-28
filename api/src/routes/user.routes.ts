@@ -11,5 +11,6 @@ router.put(
 );
 
 router.get('/like/:mentor_id', isAuth, userController.likeMentor);
+router.put('/profile', isAuth, userController.updateProfile);
 
 export default router;
