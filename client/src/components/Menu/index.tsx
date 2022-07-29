@@ -7,7 +7,7 @@ import {
   Menu,
   Avatar,
 } from '@mui/material';
-import { pink } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { VideoCall, Logout } from '@mui/icons-material';
 import { useRecoilState } from 'recoil';
 import { authState } from 'store';
@@ -59,8 +59,8 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
           navigate(`/dashboard`);
         }}>
         <ListItemAvatar>
-          <Avatar>
-            <VideoCall sx={{ color: pink[300] }} />
+          <Avatar sx={{ bgcolor: '#fafafa' }}>
+            <VideoCall sx={{ color: green[900] }} />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -74,8 +74,8 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
           onLogout();
         }}>
         <ListItemAvatar>
-          <Avatar>
-            <Logout />
+          <Avatar sx={{ bgcolor: '#fafafa' }}>
+            <Logout sx={{ color: red[700] }} />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary="Logout" />

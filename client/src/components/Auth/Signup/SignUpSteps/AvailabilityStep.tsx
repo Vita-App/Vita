@@ -18,8 +18,9 @@ import { isObjectEmpty } from 'utils/helper';
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const AvailabilityStep: React.FC<{
-  onBack: (step: number, formData: FieldValues) => void;
-  onContinue: (step: number, formData: FieldValues) => void;
+  onBack?: (step: number, formData: FieldValues) => void;
+  onSubmit?: (formData: FieldValues) => void;
+  onContinue?: (step: number, formData: FieldValues) => void;
   hydrate: FieldValues;
   loading: boolean;
 }> = (props) => {
@@ -39,8 +40,8 @@ const AvailabilityStep: React.FC<{
 
   const form = watch();
 
-  const onBackClick = () => {
-    props.onBack(2, getValues());
+  const onBackClick = (): void => {
+    if (props.onBack) props.onBack(2, getValues());
   };
 
   const onSumbit = (formData: FieldValues) => {
@@ -50,7 +51,9 @@ const AvailabilityStep: React.FC<{
       return;
     }
 
-    props.onContinue(2, formData);
+    if (props.onContinue) props.onContinue(2, formData);
+
+    if (props.onSubmit) props.onSubmit(formData);
   };
 
   const onDefaultClick = (e: React.ChangeEvent<HTMLInputElement>) => {

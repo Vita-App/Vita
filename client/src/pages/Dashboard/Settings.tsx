@@ -10,8 +10,8 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import { MentorSchemaType } from 'types';
 import Profile from 'components/UserDashboard/Profile';
-import Personal from 'components/UserDashboard/Personal';
 import Security from 'components/UserDashboard/Security';
+import TimeSlots from 'components/UserDashboard/TimeSlots';
 
 const getMentor = async (id: string | undefined) => {
   const { data: response } = await axios.get<MentorSchemaType>(
@@ -27,7 +27,7 @@ const getMentor = async (id: string | undefined) => {
 
 enum TabsEnum {
   Profile,
-  Personal,
+  TimeSlots,
   Security,
 }
 
@@ -38,16 +38,19 @@ const Settings = () => {
   const { data: mentor } = useQuery(['getMentorInfo', id], () => getMentor(id));
 
   const renderTab = (tab: TabsEnum) => {
-    switch (tab) {
-      case TabsEnum.Profile:
-        return <Profile mentor={mentor} user={auth.user!} />;
-      case TabsEnum.Personal:
-        return <Personal />;
-      case TabsEnum.Security:
-        return <Security />;
-      default:
-        return <div>Error</div>;
+    if (tab === TabsEnum.Profile) {
+      return <Profile mentor={mentor} user={auth.user!} />;
     }
+
+    if (tab === TabsEnum.TimeSlots && auth?.user?.is_mentor) {
+      return <TimeSlots timeSlots={mentor?.time_slots} />;
+    }
+
+    if (tab === TabsEnum.Security) {
+      return <Security />;
+    }
+
+    return <div>Error</div>;
   };
 
   return (
@@ -60,7 +63,7 @@ const Settings = () => {
           value={tab}
           onChange={(event, value) => setTab(value as TabsEnum)}>
           <Tab label="Profile" />
-          <Tab label="Personal" />
+          {auth.user?.is_mentor && <Tab label="TImeSlots" />}
           <Tab label="Security" />
         </Tabs>
       </Box>

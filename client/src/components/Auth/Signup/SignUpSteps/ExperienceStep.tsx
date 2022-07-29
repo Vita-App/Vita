@@ -183,7 +183,7 @@ const ExperienceStep: React.FC<{
                 defaultValue={exp.end_year || ''}
                 rules={{
                   required: 'End Year is required',
-                  validate: (_val) => {
+                  validate: (_val: string) => {
                     const val = _val.trim();
 
                     if (val.toLowerCase() === 'present') {
