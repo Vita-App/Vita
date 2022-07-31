@@ -23,30 +23,28 @@ const Profile: React.FC<IProps> = ({ mentor, user }) => (
       name="last_name"
       updateLabel="Update your last name"
     />
-    <EditableField
-      value={mentor?.expertise}
-      label="Expertise"
-      name="expertise[]"
-      updateLabel="Choose your Expertise!"
-    />
-    <EditableField
-      value={mentor?.linkedIn}
-      label="LinkedIn"
-      name="linkedIn"
-      updateLabel="Update your LinkedIn Profile"
-    />
-    <EditableField
-      value={mentor?.twitter}
-      label="Twitter"
-      name="twitter"
-      updateLabel="Update your twitter Profile"
-    />
-    <EditableField
-      value={user?.timezone}
-      label="Time Zone"
-      name="time_zone"
-      updateLabel="Update your Time Zone"
-    />
+    {user.is_mentor && (
+      <>
+        <EditableField
+          value={mentor?.expertise}
+          label="Expertise"
+          name="expertise[]"
+          updateLabel="Choose your Expertise!"
+        />
+        <EditableField
+          value={mentor?.linkedIn}
+          label="LinkedIn"
+          name="linkedIn"
+          updateLabel="Update your LinkedIn Profile"
+        />
+        <EditableField
+          value={mentor?.twitter || 'Not Provided'}
+          label="Twitter"
+          name="twitter"
+          updateLabel="Update your twitter Profile"
+        />
+      </>
+    )}
   </Stack>
 );
 

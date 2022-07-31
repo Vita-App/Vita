@@ -1,6 +1,14 @@
 import moment from 'moment-timezone';
 import { AvailabilitySlots, DurationType, SlotType } from 'types';
 
+interface SlotOptionType {
+  label: string;
+  value: {
+    start: Date;
+    end: Date;
+  };
+}
+
 export const commaString = (words: string[] | undefined) => {
   let result = '';
   if (typeof words === 'undefined') return result;
@@ -79,6 +87,50 @@ export const transformSlots = (slots: AvailabilitySlots) =>
 
     return [...acc, ...daySlots];
   }, [] as SlotType[]);
+
+export const serializeTimeSlots = (slots: SlotType[]) => {
+  const daysChecked: { [key: string]: boolean } = {};
+  const serialized: { [key: string]: SlotOptionType[] } = {};
+
+  for (const slot of slots) {
+    let startMoment = moment(slot.start);
+    let endMoment = moment(slot.end);
+
+    const day = Object.entries(WeekDays).find(
+      ([, value]) => value === startMoment.day(),
+    )?.[0];
+
+    if (!day) continue;
+
+    if (!daysChecked[day]) daysChecked[day] = true;
+
+    if (!serialized[day]) {
+      startMoment = startMoment.tz(moment.tz.guess());
+      endMoment = endMoment.tz(moment.tz.guess());
+
+      const label = `${startMoment.hour()}:00 - ${endMoment.hour()}:00`;
+
+      const value = {
+        start: new Date(2021, 0, 1, startMoment.hours(), 0),
+        end: new Date(2021, 0, 1, endMoment.hours(), 0),
+      };
+
+      serialized[day] = [
+        {
+          label,
+          value,
+        },
+      ];
+    }
+  }
+
+  console.log(serialized);
+
+  return {
+    dayChecked: daysChecked,
+    slots: serialized,
+  };
+};
 
 export const getSlotsByDays = (
   slots: SlotType[],

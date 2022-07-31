@@ -41,14 +41,15 @@ const likeMentor = async (req: Request, res: Response) => {
 
 const updateProfile = async (req: Request, res: Response) => {
   const user = req.user as Document & UserSchemaType;
-  const { first_name, last_name } = req.body;
 
-  if (first_name) user.first_name = first_name;
-  if (last_name) user.last_name = last_name;
+  try {
+    await user.updateOne(req.body);
+    await MentorModel.findByIdAndUpdate(user.mentor_information, req.body);
+  } catch (err) {
+    return res.status(400).json({ message: 'Invalid Data Provided' });
+  }
 
-  await user.save();
-
-  return res.status(200).json(user);
+  return res.status(200).json(req.body);
 };
 
 export default { changeMentoringStatus, likeMentor, updateProfile };

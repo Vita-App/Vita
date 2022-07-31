@@ -10,7 +10,6 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import { MentorSchemaType } from 'types';
 import Profile from 'components/UserDashboard/Profile';
-import Security from 'components/UserDashboard/Security';
 import TimeSlots from 'components/UserDashboard/TimeSlots';
 
 const getMentor = async (id: string | undefined) => {
@@ -28,7 +27,6 @@ const getMentor = async (id: string | undefined) => {
 enum TabsEnum {
   Profile,
   TimeSlots,
-  Security,
 }
 
 const Settings = () => {
@@ -43,11 +41,7 @@ const Settings = () => {
     }
 
     if (tab === TabsEnum.TimeSlots && auth?.user?.is_mentor) {
-      return <TimeSlots timeSlots={mentor?.time_slots} />;
-    }
-
-    if (tab === TabsEnum.Security) {
-      return <Security />;
+      return <TimeSlots timeSlots={mentor?.time_slots || []} />;
     }
 
     return <div>Error</div>;
@@ -64,7 +58,6 @@ const Settings = () => {
           onChange={(event, value) => setTab(value as TabsEnum)}>
           <Tab label="Profile" />
           {auth.user?.is_mentor && <Tab label="TImeSlots" />}
-          <Tab label="Security" />
         </Tabs>
       </Box>
       {renderTab(tab)}

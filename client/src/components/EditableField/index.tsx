@@ -1,10 +1,17 @@
 import { Edit } from '@mui/icons-material';
+import { useQueryClient } from 'react-query';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 import { MultiSelectElement } from 'components/common';
+import { SERVER_URL } from 'config.keys';
 import { expertiseOptions } from 'data';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { UserType } from 'types';
 import { commaString } from 'utils/helper';
+import { useSetRecoilState } from 'recoil';
+import { authState } from 'store';
 
 interface IProps {
   label: string;
@@ -18,13 +25,17 @@ interface SelectOption {
   value: string;
 }
 
+type UpdateDataFormat = {
+  [key: string]: string | string[];
+};
+
 const makeOptions = (options: string[]): SelectOption[] =>
   options.map((option) => ({
     label: option,
     value: option,
   }));
 
-const getProperValue = (value: string | string[]) => {
+const serializeValue = (value: string | string[]) => {
   if (value instanceof Array) {
     return makeOptions(value);
   }
@@ -32,13 +43,49 @@ const getProperValue = (value: string | string[]) => {
   return value;
 };
 
+const deserializeValue = (value: string | SelectOption[]) => {
+  if (value instanceof Array) {
+    return value.map((option) => option.value);
+  }
+
+  return value;
+};
+
+const updateProfile = async (apiData: UpdateDataFormat) => {
+  const { data } = await axios.put<UserType>(
+    `${SERVER_URL}/api/profile`,
+    apiData,
+    {
+      withCredentials: true,
+    },
+  );
+
+  return data;
+};
+
 const EditableField: React.FC<IProps> = (props) => {
+  const queryClient = useQueryClient();
+  const setAuth = useSetRecoilState(authState);
   const [original, setOriginal] = useState<string | SelectOption[]>();
   const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { handleSubmit, control, setValue } = useForm();
 
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    const keyName = Object.keys(data)[0];
+    const value = deserializeValue(data[keyName]);
+    setLoading(true);
+    try {
+      const data = await updateProfile({ [keyName]: value });
+      toast.success('Profile updated successfully');
+      queryClient.invalidateQueries('getMentorInfo');
+      setAuth((prev) => ({ ...prev, user: { ...prev.user, ...data } }));
+      setDisabled(true);
+    } catch (err) {
+      toast.error('Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onCancel = () => {
@@ -81,10 +128,11 @@ const EditableField: React.FC<IProps> = (props) => {
   };
 
   useEffect(() => {
-    if (props.value) setOriginal(getProperValue(props.value));
+    if (props.value) {
+      setOriginal(serializeValue(props.value));
+      setValue(props.name, serializeValue(props.value));
+    }
   }, [props.value]);
-
-  if (!props.value) return null;
 
   return (
     <Box>
@@ -117,8 +165,13 @@ const EditableField: React.FC<IProps> = (props) => {
           alignItems="flex-start"
           onSubmit={handleSubmit(onSubmit)}>
           {getControl()}
-          <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-            Update
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={loading}
+            sx={{ my: 2 }}
+            type="submit">
+            {loading ? 'Updating' : 'Update'}
           </Button>
         </Stack>
       )}
