@@ -18,6 +18,7 @@ interface IProps {
   name: string;
   value?: string | string[];
   updateLabel?: string;
+  validators?: any;
 }
 
 interface SelectOption {
@@ -69,7 +70,13 @@ const EditableField: React.FC<IProps> = (props) => {
   const [original, setOriginal] = useState<string | SelectOption[]>();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { handleSubmit, control, setValue } = useForm();
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+    clearErrors,
+  } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
     const keyName = Object.keys(data)[0];
@@ -90,6 +97,7 @@ const EditableField: React.FC<IProps> = (props) => {
 
   const onCancel = () => {
     setValue(props.name, original);
+    clearErrors();
     setDisabled(true);
   };
 
@@ -101,8 +109,15 @@ const EditableField: React.FC<IProps> = (props) => {
         <Controller
           name={props.name}
           control={control}
+          rules={props.validators}
           defaultValue={props.value}
-          render={({ field }) => <TextField {...field} />}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={Boolean(errors[props.name])}
+              helperText={<>{errors[props.name]?.message}</>}
+            />
+          )}
         />
       );
     } else if (props.value instanceof Array) {
@@ -114,9 +129,7 @@ const EditableField: React.FC<IProps> = (props) => {
           name={props.name}
           defaultValue={makeOptions(props.value)}
           showChips
-          validation={{
-            required: 'Please select at least one expertise',
-          }}
+          validation={props.validators}
           label="Expertise"
         />
       );
@@ -142,7 +155,7 @@ const EditableField: React.FC<IProps> = (props) => {
         alignItems="flex-start">
         <Stack mb={2} spacing={2}>
           <Typography variant="h6">{props.label}</Typography>
-          <Typography variant="body1">
+          <Typography variant="body1" color="textSecondary">
             {disabled
               ? props.value instanceof Array
                 ? commaString(props.value)
