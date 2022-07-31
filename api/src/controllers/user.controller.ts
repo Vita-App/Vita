@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Document } from 'mongoose';
+import { cloudinary } from '../config/cloudinary';
 import { MentorModel } from '../Models/User';
 import { UserSchemaType } from '../types';
 
@@ -39,4 +40,63 @@ const likeMentor = async (req: Request, res: Response) => {
   }
 };
 
-export default { changeMentoringStatus, likeMentor };
+const updateProfile = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+
+  try {
+    await user.updateOne(req.body);
+    await MentorModel.findByIdAndUpdate(user.mentor_information, req.body);
+  } catch (err) {
+    return res.status(400).json({ message: 'Invalid Data Provided' });
+  }
+
+  return res.status(200).json(req.body);
+};
+
+const updateProfilePic = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+
+  const prevProfilePic = user.avatar?.filename;
+
+  if (req.file) {
+    user.avatar = {
+      url: req.file?.path || user.avatar?.url,
+      filename: req.file?.filename || user.avatar?.filename,
+    };
+  }
+
+  const allPromises = [user.save()];
+
+  // Delete old profile pic
+  if (prevProfilePic && prevProfilePic !== 'default')
+    allPromises.push(cloudinary.uploader.destroy(prevProfilePic));
+
+  await Promise.all(allPromises);
+
+  return res.status(200).json({
+    url: user.avatar.url,
+    filename: user.avatar.filename,
+  });
+};
+
+const updateMentorSlots = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+
+  const mentor = await MentorModel.findById(user.mentor_information);
+
+  if (!mentor) return res.status(404).json({ message: 'User not found' });
+
+  mentor.time_slots = req.body;
+
+  await mentor.save();
+
+  return res.status(200).json({ success: true });
+};
+
+export default {
+  changeMentoringStatus,
+  likeMentor,
+  updateProfile,
+  updateProfilePic,
+  updateMentorSlots,
+};

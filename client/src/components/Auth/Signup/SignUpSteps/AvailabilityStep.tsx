@@ -17,12 +17,15 @@ import { isObjectEmpty } from 'utils/helper';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const AvailabilityStep: React.FC<{
-  onBack: (step: number, formData: FieldValues) => void;
-  onContinue: (step: number, formData: FieldValues) => void;
+interface IProps {
+  onBack?: (step: number, formData: FieldValues) => void;
+  onSubmit?: (formData: FieldValues) => void;
+  onContinue?: (step: number, formData: FieldValues) => void;
   hydrate: FieldValues;
   loading: boolean;
-}> = (props) => {
+}
+
+const AvailabilityStep: React.FC<IProps> = (props) => {
   const [isTouched, setIsTouched] = useState(false);
   const {
     handleSubmit,
@@ -39,8 +42,8 @@ const AvailabilityStep: React.FC<{
 
   const form = watch();
 
-  const onBackClick = () => {
-    props.onBack(2, getValues());
+  const onBackClick = (): void => {
+    if (props.onBack) props.onBack(2, getValues());
   };
 
   const onSumbit = (formData: FieldValues) => {
@@ -50,7 +53,9 @@ const AvailabilityStep: React.FC<{
       return;
     }
 
-    props.onContinue(2, formData);
+    if (props.onContinue) props.onContinue(2, formData);
+
+    if (props.onSubmit) props.onSubmit(formData);
   };
 
   const onDefaultClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,13 +182,15 @@ const AvailabilityStep: React.FC<{
         </Typography>
       )}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <StyledButton onClick={onBackClick}>Back</StyledButton>
+        {!props.onSubmit && (
+          <StyledButton onClick={onBackClick}>Back</StyledButton>
+        )}
         <StyledButton
           disabled={props.loading}
           type="submit"
           variant="contained"
           sx={{ flex: 0.3 }}>
-          Finish
+          {props.onSubmit ? 'Update' : 'Finish'}
         </StyledButton>
       </Stack>
     </Stack>

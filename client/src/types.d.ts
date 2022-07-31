@@ -45,6 +45,7 @@ export interface MentorSchemaType {
   expertise: string[];
   languages: string[];
   linkedIn: string;
+  twitter: string;
   is_mentoring: boolean;
   topics: number[];
   time_slots: SlotType[];
@@ -97,6 +98,7 @@ export type UserType = {
     filename?: string;
   };
   liked_mentors: string[];
+  timezone: string;
 };
 
 export interface BookingType {

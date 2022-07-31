@@ -143,7 +143,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     {
       onSuccess: () => {
         toast.success(
-          'We have let the mentor know about your interest. Keeping checking your email for further updates!',
+          'We have let the mentor know about your interest. Keep checking your email for further updates!',
         );
         setSelectedSlot(undefined);
         setDate(null);

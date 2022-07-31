@@ -19,6 +19,7 @@ import { SERVER_URL } from 'config.keys';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
+import { toast } from 'react-toastify';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -121,6 +122,14 @@ const ProfileStep: React.FC<{
           file = profilePicRef.current!.files[0];
         } else if (avatarSrc) {
           file = props.hydrate?.profilePicture;
+        }
+
+        // Max size of file is 600Kb
+        if (file.size > 600000) {
+          toast.error(
+            'This image is too powerful(Max Allowed 600Kb). Please try a smaller one.',
+          );
+          return;
         }
 
         const form = getValues();

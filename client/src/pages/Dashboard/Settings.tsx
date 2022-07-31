@@ -1,29 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { SERVER_URL } from 'config.keys';
-
-import { useMutation, useQuery } from 'react-query';
-import { toast } from 'react-toastify';
+import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import { MentorSchemaType } from 'types';
-
-const updateUserMentoringStatus = async () => {
-  const { data } = await axios.put(
-    `${SERVER_URL}/api/mentor/mentoring-status`,
-    {},
-    {
-      withCredentials: true,
-    },
-  );
-
-  return data;
-};
+import Profile from 'components/UserDashboard/Profile';
+import TimeSlots from 'components/UserDashboard/TimeSlots';
 
 const getMentor = async (id: string | undefined) => {
   const { data: response } = await axios.get<MentorSchemaType>(
@@ -37,40 +24,43 @@ const getMentor = async (id: string | undefined) => {
   return response;
 };
 
+enum TabsEnum {
+  Profile,
+  TimeSlots,
+}
+
 const Settings = () => {
+  const [tab, setTab] = useState(TabsEnum.Profile);
   const auth = useRecoilValue(authState);
   const id = auth.user?._id;
-  const { data: mentor, refetch } = useQuery(['getMentorInfo', id], () =>
-    getMentor(id),
-  );
-  const mutation = useMutation(
-    'updateUserMentoringStatus',
-    updateUserMentoringStatus,
-    {
-      onSuccess: () => {
-        toast.success('Successfully updated your mentoring status');
-        refetch();
-      },
-      onError: () => {
-        toast.error('Failed to update your mentoring status');
-      },
-    },
-  );
+  const { data: mentor } = useQuery(['getMentorInfo', id], () => getMentor(id));
+
+  const renderTab = (tab: TabsEnum) => {
+    if (tab === TabsEnum.Profile) {
+      return <Profile mentor={mentor} user={auth.user!} />;
+    }
+
+    if (tab === TabsEnum.TimeSlots && auth?.user?.is_mentor) {
+      return <TimeSlots timeSlots={mentor?.time_slots || []} />;
+    }
+
+    return <div>Error</div>;
+  };
 
   return (
     <Box>
-      <Typography variant="h4">Settings</Typography>
-      <Stack spacing={2} direction="row" mt={1}>
-        <FormControlLabel
-          label="Mentoring"
-          control={
-            <Switch
-              checked={mentor?.is_mentoring}
-              onChange={() => mutation.mutate()}
-            />
-          }
-        />
-      </Stack>
+      <Typography variant="h4" my={2}>
+        Settings
+      </Typography>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          value={tab}
+          onChange={(event, value) => setTab(value as TabsEnum)}>
+          <Tab label="Profile" />
+          {auth.user?.is_mentor && <Tab label="TImeSlots" />}
+        </Tabs>
+      </Box>
+      {renderTab(tab)}
     </Box>
   );
 };
