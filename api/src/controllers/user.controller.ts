@@ -79,9 +79,24 @@ const updateProfilePic = async (req: Request, res: Response) => {
   });
 };
 
+const updateMentorSlots = async (req: Request, res: Response) => {
+  const user = req.user as Document & UserSchemaType;
+
+  const mentor = await MentorModel.findById(user.mentor_information);
+
+  if (!mentor) return res.status(404).json({ message: 'User not found' });
+
+  mentor.time_slots = req.body;
+
+  await mentor.save();
+
+  return res.status(200).json({ success: true });
+};
+
 export default {
   changeMentoringStatus,
   likeMentor,
   updateProfile,
   updateProfilePic,
+  updateMentorSlots,
 };

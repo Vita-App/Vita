@@ -56,7 +56,7 @@ export const transformSlots = (slots: AvailabilitySlots) =>
   Object.keys(slots).reduce((acc, day) => {
     if (!slots[day]) return [...acc];
 
-    const daySlots = slots[day].map((s) => {
+    const daySlots: SlotType[] = slots[day].map((s) => {
       const slot = s.value;
       let newStartDate: Date | null = null;
       let newEndDate: Date | null = null;
@@ -123,8 +123,6 @@ export const serializeTimeSlots = (slots: SlotType[]) => {
       ];
     }
   }
-
-  console.log(serialized);
 
   return {
     dayChecked: daysChecked,

@@ -15,6 +15,7 @@ router.put(
 
 router.get('/like/:mentor_id', isAuth, userController.likeMentor);
 router.put('/profile', isAuth, userController.updateProfile);
+router.put('/update-mentor-slots', isAuth, userController.updateMentorSlots);
 router.put(
   '/profile-pic',
   isAuth,

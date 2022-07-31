@@ -17,13 +17,15 @@ import { isObjectEmpty } from 'utils/helper';
 
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const AvailabilityStep: React.FC<{
+interface IProps {
   onBack?: (step: number, formData: FieldValues) => void;
   onSubmit?: (formData: FieldValues) => void;
   onContinue?: (step: number, formData: FieldValues) => void;
   hydrate: FieldValues;
   loading: boolean;
-}> = (props) => {
+}
+
+const AvailabilityStep: React.FC<IProps> = (props) => {
   const [isTouched, setIsTouched] = useState(false);
   const {
     handleSubmit,
@@ -180,13 +182,15 @@ const AvailabilityStep: React.FC<{
         </Typography>
       )}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <StyledButton onClick={onBackClick}>Back</StyledButton>
+        {!props.onSubmit && (
+          <StyledButton onClick={onBackClick}>Back</StyledButton>
+        )}
         <StyledButton
           disabled={props.loading}
           type="submit"
           variant="contained"
           sx={{ flex: 0.3 }}>
-          Finish
+          {props.onSubmit ? 'Update' : 'Finish'}
         </StyledButton>
       </Stack>
     </Stack>
