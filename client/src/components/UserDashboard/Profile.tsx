@@ -155,13 +155,12 @@ const Profile: React.FC<IProps> = ({ mentor, user }) => {
           />
           <EditableField
             validators={{
-              required: 'Twitter is required',
               pattern: {
                 value: /^(https?:\/\/)?(www\.)?twitter\.com\/.+$/,
                 message: 'Please enter a valid Twitter URL',
               },
             }}
-            value={mentor?.twitter || 'Not Provided'}
+            value={mentor?.twitter}
             label="Twitter"
             name="twitter"
             updateLabel="Update your twitter Profile"

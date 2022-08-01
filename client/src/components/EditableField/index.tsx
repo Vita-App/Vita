@@ -147,6 +147,22 @@ const EditableField: React.FC<IProps> = (props) => {
     }
   }, [props.value]);
 
+  const displayValue = () => {
+    if (!disabled) {
+      return props.updateLabel;
+    }
+
+    if (!props.value) {
+      return 'Not set';
+    }
+
+    if (props.value instanceof Array) {
+      return commaString(props.value);
+    }
+
+    return props.value;
+  };
+
   return (
     <Box>
       <Stack
@@ -156,11 +172,7 @@ const EditableField: React.FC<IProps> = (props) => {
         <Stack mb={2} spacing={2}>
           <Typography variant="h6">{props.label}</Typography>
           <Typography variant="body1" color="textSecondary">
-            {disabled
-              ? props.value instanceof Array
-                ? commaString(props.value)
-                : props.value
-              : props.updateLabel}
+            {displayValue()}
           </Typography>
         </Stack>
         <Button
