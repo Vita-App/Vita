@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Stack, Typography, Box, Link } from '@mui/material';
+import { Avatar, Stack, Typography, Link } from '@mui/material';
 import { contributors, topContributors } from './contributors';
 
 const Contributors = () => (
