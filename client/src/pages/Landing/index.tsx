@@ -12,6 +12,7 @@ import CompaniesHero from 'components/CompaniesHero';
 import { MentorValues } from 'components/MentorValues';
 import SwipeCards from 'components/SwipeCards';
 import LandingHero from 'components/LandingHero';
+import Contributors from 'components/Contributors';
 
 const Page1 = () => (
   <Grid container flexDirection={'row-reverse'}>
@@ -49,6 +50,7 @@ const Landing = () => {
       <MentorValues />
       <CarouselComponent />
       <LandingCards />
+      <Contributors />
       <Footer />
     </>
   );
