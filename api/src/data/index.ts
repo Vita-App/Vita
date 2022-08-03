@@ -171,6 +171,7 @@ export const getMentor = (
   image_link: string,
   email: string,
   phone: string,
+  graduation_year: string,
 ): Partial<MentorSchemaType> => ({
   user_id,
   first_name,
@@ -183,6 +184,7 @@ export const getMentor = (
   phone,
   bio: getRandom(descriptions)[0],
   approved: true,
+  graduation_year,
   languages: ['English', ...getRandomArray(languages, 1)],
   expertise: getRandomArray(expertise),
   is_mentoring: getRandomBool(0.3),
