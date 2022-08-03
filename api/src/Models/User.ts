@@ -46,6 +46,7 @@ const MentorSchema = new Schema<MentorSchemaType>({
   timezone: String,
   expertise: [String],
   languages: [String],
+  graduation_year: String,
   is_mentoring: {
     type: Boolean,
     default: true,

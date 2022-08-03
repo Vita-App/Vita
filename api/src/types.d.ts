@@ -97,6 +97,7 @@ export interface MentorSchemaType {
   };
   experiences: ExperienceType[];
   email: string;
+  graduation_year: string;
   timezone: string;
   bio: string;
   phone: string;
