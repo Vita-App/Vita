@@ -7,3 +7,5 @@ export const SOCKET_URL =
 export const PRODUCTION = import.meta.env.VITE_PROD === 'true';
 export const GOOGLE_ANALYTICS_KEY =
   import.meta.env.VITE_GOOGLE_ANALYTICS_KEY || 'UA-000000000-0';
+export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Vita';
+export const ASSET_FOLDER = import.meta.env.VITE_ASSET_FOLDER || 'Vita';
