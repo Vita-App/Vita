@@ -17,10 +17,10 @@ const Wrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   paddingTop: '4rem',
   [theme.breakpoints.down('sm')]: {
-    height: '300px',
+    height: '200px',
   },
   [theme.breakpoints.up('sm')]: {
-    height: '360px',
+    height: '300px',
   },
   [theme.breakpoints.up('md')]: {
     height: '400px',
@@ -45,12 +45,12 @@ const StyledCard = styled(Card)(({ theme }) => ({
   WebkitUserDrag: 'none',
   boxShadow: 'rgba(0, 0, 0, 0.1) 2px 5px 27px !important',
   [theme.breakpoints.down('sm')]: {
-    height: '300px',
-    width: '300px',
+    height: '200px',
+    width: '200px',
   },
   [theme.breakpoints.up('sm')]: {
-    height: '360px',
-    width: '360px',
+    height: '300px',
+    width: '300px',
   },
   [theme.breakpoints.up('md')]: {
     height: '400px',

@@ -30,27 +30,27 @@ export const swipeCardsInfo = [
   //   info: 'Breaking Into Tech',
   // },
   {
-    src: '/swipe_cards/imposter_syndrome.png',
+    src: '/swipe_cards/compressed/imposter_syndrome.webp',
     info: 'Dealing with Imposter Syndrome',
   },
   {
-    src: '/swipe_cards/drawing.webp',
+    src: '/swipe_cards/compressed/drawing.webp',
     info: 'Designing Your Carrer Path',
   },
   {
-    src: '/swipe_cards/acing_technical_interviews.png',
+    src: '/swipe_cards/compressed/acing_technical_interviews.webp',
     info: 'Acing Technical Interviews',
   },
   {
-    src: '/swipe_cards/getting_promoted.png',
+    src: '/swipe_cards/compressed/getting_promoted.webp',
     info: 'Getting Promoted',
   },
   {
-    src: '/swipe_cards/resume_review.png',
+    src: '/swipe_cards/compressed/resume_review.webp',
     info: 'Resume Portfolio Review',
   },
   {
-    src: '/swipe_cards/getting_most_of_my_internship.png',
+    src: '/swipe_cards/compressed/getting_most_of_my_internship.webp',
     info: 'Getting the most out of my Internship',
   },
 ];

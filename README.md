@@ -18,13 +18,13 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-[![Build Test][actions-badge]][actions-url]
+[![CI/CD Digital Ocean][action-url]][action-url]
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://vitaa-app.netlify.app/">
-    <img src="client/public/logo192.png" alt="Logo" width="256" height="256">
+    <img src="client/public/Vita/logo192.png" alt="Logo" width="256" height="256">
   </a>
 
   <strong>
@@ -265,9 +265,12 @@ Project Link: [https://vitaa-app.netlify.app/](https://vitaa-app.netlify.app/)
 [product-screenshotiv]: assets/scheduler.png
 [product-screenshotv]: assets/confirm-booking.png
 [vita-hld]: assets/vita-hld.png
+[action-url]: https://github.com/Vita-App/Vita/actions/workflows/digital-ocean.yaml/badge.svg
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## Stargazers over time

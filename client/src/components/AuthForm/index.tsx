@@ -178,7 +178,7 @@ const AuthForm: React.FC = () => {
           }}
         />
       )}
-      <Avatar src="/logo192.png" />
+      <Avatar src="/Vita/logo192.png" />
       <Stack>
         <Typography variant="h4">{loginMode ? 'Login' : 'Sign up'}</Typography>
         <Typography variant="body1" color="textSecondary">

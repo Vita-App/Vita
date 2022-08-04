@@ -17,7 +17,7 @@ const Footer = () => (
           justifyContent="space-between"
           alignItems="center">
           <Stack direction="row" alignItems="center" spacing={1}>
-            <img src="/logo192.png" alt="logo" width="30" height="30" />
+            <img src="/Vita/logo192.png" alt="logo" width="30" height="30" />
             <Typography variant="caption" color="#777676">
               To inspire powerful conversations and collaborations among members
               worldwide so together we can change the world with creativity.
