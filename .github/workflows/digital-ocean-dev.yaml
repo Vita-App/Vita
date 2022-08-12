@@ -1,4 +1,4 @@
-name: CI/CD Digital Ocean
+name: CI/CD Digital Ocean DEV
 
 on:
   push:
