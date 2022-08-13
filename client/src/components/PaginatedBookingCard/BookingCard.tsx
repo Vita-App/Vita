@@ -11,8 +11,9 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 interface BookingCardProps {
   topic: Topic;
+  topics: Topic[];
 }
-const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
+const BookingCard: React.FC<BookingCardProps> = ({ topic, topics }) => {
   const navigate = useNavigate();
   const auth = useRecoilValue(authState);
   const mentor = useRecoilValue(mentorState);
@@ -84,7 +85,11 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic }) => {
         </Grid>
       </Paper>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DatePicker close={() => setOpen(false)} />
+        <DatePicker
+          topics={topics}
+          topic={topic}
+          close={() => setOpen(false)}
+        />
       </Dialog>
     </>
   );

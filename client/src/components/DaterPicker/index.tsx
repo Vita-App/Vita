@@ -4,13 +4,15 @@ import Grid from '@mui/material/Grid';
 import Calendar from './Calendar';
 import TimeSelector from './TimeSelector';
 import Confirmation from './ConfirmationPage';
-import { DurationType } from 'types';
+import { DurationType, Topic } from 'types';
 
 interface IProps {
+  topic: Topic;
+  topics: Topic[];
   close: () => void;
 }
 
-const Scheduler: React.FC<IProps> = ({ close }) => {
+const Scheduler: React.FC<IProps> = ({ topic, topics, close }) => {
   const [timeslot, setTimeslot] = useState<DurationType[]>([]);
   const [date, setDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<DurationType | undefined>();
@@ -56,6 +58,8 @@ const Scheduler: React.FC<IProps> = ({ close }) => {
               color: '#f5f5f5',
             }}>
             <Confirmation
+              topic={topic}
+              topics={topics}
               date={date}
               setDate={setDate}
               selectedSlot={selectedSlot}

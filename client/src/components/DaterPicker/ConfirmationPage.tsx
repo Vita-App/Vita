@@ -6,7 +6,6 @@ import {
   TextareaAutosize,
   Button,
   Box,
-  Paper,
 } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -14,61 +13,21 @@ import { ReactSelect } from 'components/common';
 import { Link } from 'react-router-dom';
 import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
-import Email from '@mui/icons-material/Email';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useRecoilValue } from 'recoil';
 import { mentorState } from 'store';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { DurationType } from 'types';
+import { DurationType, Topic } from 'types';
 import { getDurationLabel } from 'utils/helper';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
 
-export const optionsData = [
-  {
-    value: 'General Mentorship',
-    label: 'General Mentorship',
-  },
-  {
-    value: 'Acing the Technical Interview',
-    label: 'Acing the Technical Interview',
-  },
-  {
-    value: 'Mock Coding Interview',
-    label: 'Mock Coding Interview',
-  },
-  {
-    value: 'Make the Most out of your Internship',
-    label: 'Make the Most out of your Internship',
-  },
-  {
-    value: 'Dealing with Imposter Syndrome',
-    label: 'Dealing with Imposter Syndrome',
-  },
-  {
-    value: 'Managing Burnout',
-    label: 'Managing Burnout',
-  },
-];
-
-const TextAreaWrapper = styled('div')({
-  padding: '2px 4px',
-  display: 'flex',
-  alignItems: 'center',
-  border: '1px solid white',
-  borderRadius: '4px',
-  marginTop: '6px',
-
-  '&:focus-within': {
-    border: '1px solid #2684ff',
-  },
-
-  '.Search_Input': {
-    padding: '0px 6px',
-    width: '100%',
-  },
-});
+const getOptionData = (topics: Topic[]) =>
+  topics.map((topic) => ({
+    label: topic.topicName,
+    value: topic.topicName,
+  }));
 
 const TextArea = styled(TextareaAutosize)`
   width: 320px;
@@ -96,6 +55,8 @@ const StyledButton = styled(Button)`
   transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68);
 `;
 interface ConfirmationProps {
+  topic: Topic;
+  topics: Topic[];
   close: () => void;
   date: Date | null;
   setDate: React.Dispatch<React.SetStateAction<Date | null>>;
@@ -127,10 +88,14 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   setDate,
   selectedSlot,
   close,
+  topic: topic_,
+  topics,
 }) => {
-  const [topic, setTopic] = useState<{ label: string; value: string } | null>(
-    null,
-  );
+  const [topic, setTopic] = useState<{ label: string; value: string }>({
+    label: topic_.topicName,
+    value: topic_.topicName,
+  });
+  console.log(topic_, topics);
   const [isTouched, setIsTouched] = useState(false);
   const queryClient = useQueryClient();
   const [email] = useState<string>('');
@@ -205,12 +170,12 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           },
         }}
         name="Topic"
-        options={optionsData}
+        options={getOptionData(topics)}
         isSearchable={matches}
         onBlur={() => setIsTouched(true)}
         classNamePrefix="select"
       />
-      {isTouched && !topic?.value && (
+      {isTouched && !topic && (
         <Typography variant="caption" color="error.main">
           Topic is required
         </Typography>
@@ -242,7 +207,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             start_date: start.format(),
             email: email.trim(),
             description: description.trim(),
-            topic: topic?.value,
+            topic: topic.value,
           });
         }}>
         {mutation.isLoading ? 'Booking...' : 'Confirm your Booking'}

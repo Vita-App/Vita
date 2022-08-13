@@ -64,7 +64,7 @@ const PaginatedBookingCard: React.FC<PaginatedBookingCardProps> = ({
               )
             : topics
           ).map((topic: Topic, index) => (
-            <BookingCard topic={topic} key={index} />
+            <BookingCard topic={topic} topics={topics} key={index} />
           ))}
         </List>
       </Grid>
