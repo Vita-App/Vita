@@ -40,7 +40,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
         flexDirection: 'column',
         backgroundColor: '#303030',
         padding: '1rem 2rem',
-        height: '360px',
+        height: '100%',
         color: '#f5f5f5',
         overflowY: 'scroll',
       }}>

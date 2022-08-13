@@ -22,19 +22,26 @@ const Scheduler: React.FC<IProps> = ({ close }) => {
             container
             direction="row"
             justifyContent="center"
-            maxHeight="500px">
+            // flexWrap={'wrap'}
+            maxHeight="600px">
             <Calendar
               date={date}
               setDate={setDate}
               setTimeslot={setTimeslot}
               setSelectedSlot={setSelectedSlot}
             />
+
             {/* <Divider orientation="vertical" flexItem /> */}
-            <TimeSelector
-              date={date}
-              setSelectedSlot={setSelectedSlot}
-              timeslot={timeslot}
-            />
+
+            <Grid
+              item
+              sx={{ display: 'flex', flexGrow: 1, justifyContent: 'center' }}>
+              <TimeSelector
+                date={date}
+                setSelectedSlot={setSelectedSlot}
+                timeslot={timeslot}
+              />
+            </Grid>
           </Grid>
         </>
       )}
