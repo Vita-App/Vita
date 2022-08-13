@@ -41,10 +41,8 @@ const Profile: React.FC<IProps> = ({ mentor, user }) => {
     const file = e.target.files[0];
 
     // Max size of file is 600Kb
-    if (file.size > 600000) {
-      toast.error(
-        'This image is too powerful(Max allowed 600Kb). Please try a smaller one.',
-      );
+    if (file?.size > 600000) {
+      toast.error('Please upload an image smaller than 600KB');
       return;
     }
 
