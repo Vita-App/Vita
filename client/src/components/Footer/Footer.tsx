@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import MUILink from '@mui/material/Link';
 import { GitHub, LinkedIn, Email } from '@mui/icons-material';
 import { Link } from 'components/common';
+import { APP_NAME, ASSET_FOLDER } from 'config.keys';
 
 const Footer = () => (
   <Box component="footer" bgcolor="#131516" color="#d8d4cf">
@@ -17,7 +18,12 @@ const Footer = () => (
           justifyContent="space-between"
           alignItems="center">
           <Stack direction="row" alignItems="center" spacing={1}>
-            <img src="/Vita/logo192.png" alt="logo" width="30" height="30" />
+            <img
+              src={`/${ASSET_FOLDER}/logo192.png`}
+              alt="logo"
+              width="30"
+              height="30"
+            />
             <Typography variant="caption" color="#777676">
               To inspire powerful conversations and collaborations among members
               worldwide so together we can change the world with creativity.
@@ -56,13 +62,13 @@ const Footer = () => (
               </Link>
             </Stack>
             <Typography variant="caption" color="#777676">
-              &copy; Copyright 2022 - VITA
+              &copy; Copyright 2022 - {APP_NAME}
             </Typography>
           </Stack>
           <Stack direction="column">
             <Stack direction="row" spacing={2} justifyContent="end">
               <Link to="#">
-                <Typography variant="body2">Join VITA</Typography>
+                <Typography variant="body2">Join {APP_NAME}</Typography>
               </Link>
               <Link to="#">
                 <Typography variant="body2">FAQs</Typography>

@@ -3,6 +3,7 @@ import Appbar from 'components/Appbar';
 import AuthForm from 'components/AuthForm';
 import { Grid, Container, Card } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Footer from 'components/Footer/Footer';
 
 const PageWrapper = styled('div')({
   backgroundColor: 'transparent',
@@ -34,6 +35,7 @@ const Auth = () => (
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </PageWrapper>
   </>
 );

@@ -3,7 +3,7 @@ import axios from 'axios';
 import useHttp from 'hooks/useHttp';
 import { authState } from 'store';
 import { useSetRecoilState } from 'recoil';
-import { SERVER_URL } from 'config.keys';
+import { ASSET_FOLDER, SERVER_URL } from 'config.keys';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { Link } from 'components/common';
@@ -179,7 +179,10 @@ const AuthForm: React.FC = () => {
           }}
         />
       )}
-      <Avatar src="/Vita/logo192.png" />
+      <Avatar
+        src={`/${ASSET_FOLDER}/logo192.png`}
+        sx={{ width: '80px', height: '80px' }}
+      />
       <Stack>
         <Typography variant="h4">{loginMode ? 'Login' : 'Sign up'}</Typography>
         <Typography variant="body1" color="textSecondary">

@@ -3,7 +3,7 @@ import { Card, Grid, Stack, Typography, LinearProgress } from '@mui/material';
 import { ReactComponent as EmailSVG } from './email_verification.svg';
 import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import useHttp from 'hooks/useHttp';
-import { SERVER_URL } from 'config.keys';
+import { APP_NAME, SERVER_URL } from 'config.keys';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -67,10 +67,11 @@ const VerifyEmail = ({ params }: { params: URLSearchParams }) => {
               style={{ margin: 'auto', fill: '#deecf9', paddingBottom: '1rem' }}
             />
             <Typography fontSize={'24px'} fontWeight={800}>
-              Thanks for Signing for a Vita Account
+              Thanks for Signing for a {APP_NAME} Account
             </Typography>
             <Typography variant="body1" fontWeight={800}>
-              Please Verify you account in order to access your Vita Account
+              Please Verify you account in order to access your {APP_NAME}{' '}
+              Account
             </Typography>
             <Typography>
               We have sent an email to <b>{state?.email}</b> <br />
