@@ -10,7 +10,7 @@ import AvailabilityStep from './AvailabilityStep';
 import { authState } from 'store';
 import { convertToFormData } from 'utils/api-helper';
 import axios from 'axios';
-import { SERVER_URL } from 'config.keys';
+import { APP_NAME, SERVER_URL } from 'config.keys';
 import useHttp from 'hooks/useHttp';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -78,7 +78,7 @@ const SignUpSteps: React.FC = () => {
           localStorage.removeItem(`${userId}-interests`);
           setAuth((prev) => ({ ...prev, user: data }));
           toast.success(
-            "You're all set now! You can now explore the Vita community.",
+            `You're all set now! You can now explore the ${APP_NAME} community.`,
           );
           navigate('/dashboard');
         },

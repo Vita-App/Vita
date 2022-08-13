@@ -30,6 +30,7 @@ import Stats from 'components/UserPage/Stats';
 import Tips from 'components/UserPage/Tips';
 import Experiences from 'components/UserPage/Experiences';
 import { toast } from 'react-toastify';
+import Footer from 'components/Footer/Footer';
 
 interface IProps {
   active: boolean;
@@ -378,6 +379,7 @@ const UserPage = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Footer />
     </>
   );
 };

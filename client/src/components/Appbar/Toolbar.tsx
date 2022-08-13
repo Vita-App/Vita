@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import Notification from 'components/Notification';
 import MenuComponent from 'components/Menu';
+import { APP_NAME } from 'config.keys';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,7 +31,7 @@ const Toolbar = () => {
           alignItems="center">
           <Box sx={{ flexGrow: 1 }}>
             <Link to="/">
-              <Button>VITA APP</Button>
+              <Button>{APP_NAME}</Button>
             </Link>
           </Box>
           {auth.isLoggedIn && <Notification />}

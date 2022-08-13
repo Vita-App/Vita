@@ -11,6 +11,7 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import Notification from 'components/Notification';
 import MenuComponent from 'components/Menu';
+import { APP_NAME } from 'config.keys';
 
 const ToolbarComponent: React.FC<{
   handleDrawerToggle: () => void;
@@ -49,7 +50,7 @@ const ToolbarComponent: React.FC<{
             alignItems="center">
             <Box sx={{ flexGrow: 1 }}>
               <Link to="/">
-                <Button>VITA APP</Button>
+                <Button>{APP_NAME}</Button>
               </Link>
             </Box>
             {auth.isLoggedIn && <Notification />}
