@@ -141,6 +141,7 @@ const AuthForm: React.FC = () => {
   const isMentor = role === 'mentor';
 
   const googleLogin = () => {
+    console.log(SERVER_URL);
     window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 

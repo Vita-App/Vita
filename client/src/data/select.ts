@@ -51,15 +51,31 @@ export const streamOptions = [
   },
   {
     value: 'Electronics and Communications Engineering',
-    label: 'Electronics Engineering',
+    label: 'Electronics and Communications Engineering',
+  },
+  {
+    value: 'Electronics (Instrumentation & Control) Engineering',
+    label: 'Electronics (Instrumentation & Control) Engineering',
   },
   {
     value: 'Electrical Engineering',
     label: 'Electrical Engineering',
   },
   {
+    value: 'Electronics and Computer Engineering',
+    label: 'Electronics and Computer Engineering',
+  },
+  {
     value: 'Mechanical Engineering',
     label: 'Mechanical Engineering',
+  },
+  {
+    value: 'Mechatroincs',
+    label: 'Mechatroincs',
+  },
+  {
+    value: 'Biotechnology',
+    label: 'Biotechnology',
   },
   {
     value: 'Civil Engineering',

@@ -2,7 +2,7 @@ name: CI/CD Digital Ocean PROD
 
 on:
   push:
-    branches: [main]
+    branches: [deploy]
 env:
   VITE_CLIENT_URL: ${{secrets.VITE_CLIENT_URL_PROD}}
   VITE_SERVER_URL: ${{secrets.VITE_SERVER_URL_PROD}}

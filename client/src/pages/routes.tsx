@@ -7,7 +7,7 @@ import SearchPage from 'pages/SearchPage';
 import Loader from 'components/Loader';
 import usePageTracking from 'utils/hooks/use-page-tracking';
 import useHttp from 'hooks/useHttp';
-import { SERVER_URL } from 'config.keys';
+import { CLIENT_URL, SERVER_URL } from 'config.keys';
 import { useSetRecoilState } from 'recoil';
 import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
@@ -26,7 +26,6 @@ const App = () => {
   const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
-
   useEffect(() => {
     sendRequest(
       async () => {
