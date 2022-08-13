@@ -8,12 +8,12 @@ interface IProps {
 }
 
 const topContributorStyle = {
-  backgroundColor: 'primary.main',
+  backgroundColor: 'background.paper',
   width: '250px',
   p: 2,
-  color: '#000',
+  color: 'text.secondary',
   '&:hover': {
-    boxShadow: '0px 2px 50px 0px #000000',
+    boxShadow: '0px 2px 25px 0px #000000',
   },
 };
 
