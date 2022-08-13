@@ -168,6 +168,17 @@ Run the following command to setup the DB
 curl -X GET http://localhost:5000/api/seed-data
 ```
 
+The following command will create a Password for admin panel access
+
+```sh
+curl -X POST http://localhost:5000/api/admin/create --header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Rishabh Malhtora",
+    "email": "rishabhmalhotraa01@gmail.com",
+    "password": "password"
+}'
+```
+
 To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
 
 ## Roadmap

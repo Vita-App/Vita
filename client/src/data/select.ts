@@ -46,8 +46,8 @@ export const expertiseOptions = [
 
 export const streamOptions = [
   {
-    value: 'Computer Science',
-    label: 'Computer Science',
+    value: 'Computer Engineering',
+    label: 'Computer Engineering',
   },
   {
     value: 'Electronics and Communications Engineering',

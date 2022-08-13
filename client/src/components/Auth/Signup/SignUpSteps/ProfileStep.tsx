@@ -125,10 +125,8 @@ const ProfileStep: React.FC<{
         }
 
         // Max size of file is 600Kb
-        if (file.size > 600000) {
-          toast.error(
-            'This image is too powerful(Max Allowed 600Kb). Please try a smaller one.',
-          );
+        if (file?.size > 600000) {
+          toast.error('Please upload an image of size smaller than 600KB.');
           return;
         }
 
