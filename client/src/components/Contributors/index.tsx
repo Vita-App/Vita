@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
-import { contributors, topContributors } from './contributors';
+import { topContributors } from './contributors';
 import Contributor from './Contributor';
 
 const Contributors = () => (
@@ -18,7 +18,7 @@ const Contributors = () => (
         <Contributor key={index} contributor={contributor} topContributor />
       ))}
     </Stack>
-    <Stack
+    {/* <Stack
       direction="row"
       justifyContent="center"
       alignItems="center"
@@ -26,7 +26,7 @@ const Contributors = () => (
       {contributors.map((contributor, index) => (
         <Contributor key={index} contributor={contributor} />
       ))}
-    </Stack>
+    </Stack> */}
   </Stack>
 );
 
