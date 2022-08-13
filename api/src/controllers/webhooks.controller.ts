@@ -5,10 +5,10 @@ import bookingsController from './bookings.controller';
 
 const verifyWebHook = async (req: Request, res: Response) => {
   if (
-    req.query['hub.mode'] === 'subscribe' &&
-    req.query['hub.verify_token'] === WHATSAPP_WEBHOOK_TOKEN
+    req.query?.hub_mode === 'subscribe' &&
+    req.query?.hub_verify_token === WHATSAPP_WEBHOOK_TOKEN
   ) {
-    res.send(req.query['hub.challenge']);
+    res.send(req.query?.hub_challenge);
   } else {
     res.sendStatus(400);
   }
