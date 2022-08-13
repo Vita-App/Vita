@@ -11,6 +11,7 @@ import { authState } from 'store';
 import Notification from 'components/Notification';
 import MenuComponent from 'components/Menu';
 import { APP_NAME, ASSET_FOLDER } from 'config.keys';
+import Hidden from '@mui/material/Hidden';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -39,14 +40,16 @@ const Toolbar = () => {
                   width="40px"
                   height="40px"
                 />
-                <strong
-                  style={{
-                    paddingLeft: '8px',
-                    fontSize: '24px',
-                    color: 'white',
-                  }}>
-                  {APP_NAME}
-                </strong>
+                <Hidden smDown>
+                  <strong
+                    style={{
+                      paddingLeft: '8px',
+                      fontSize: '24px',
+                      color: 'white',
+                    }}>
+                    {APP_NAME}
+                  </strong>
+                </Hidden>
               </MuiButton>
             </Link>
           </Box>

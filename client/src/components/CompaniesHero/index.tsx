@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import { Typography, Hidden } from '@mui/material';
 
 const TextWrapper = styled(Typography)({
   marginTop: '2rem',
@@ -26,7 +26,7 @@ const CompaniesWrapper = styled('div')(({ theme }) => ({
 }));
 
 const CompaniesHero = () => (
-  <>
+  <Hidden smDown>
     <TextWrapper variant="h2">Meet Alumni from</TextWrapper>
     <CompaniesWrapper>
       <img src="/company/Google.svg" />
@@ -35,7 +35,7 @@ const CompaniesHero = () => (
       <img src="/company/Flipkart.svg" />
       <img src="/company/Intuit.svg" />
     </CompaniesWrapper>
-  </>
+  </Hidden>
 );
 
 export default CompaniesHero;
