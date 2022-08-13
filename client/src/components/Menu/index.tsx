@@ -42,9 +42,10 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
   return (
     <Menu open={open} anchorEl={anchorEl} onClose={onClose}>
       <ListItemButton
+        disabled={!auth.user?.signup_completed}
         onClick={() => {
           onClose();
-          if (auth.user?.signup_completed) navigate(`/user/${auth.user?._id}`);
+          navigate(`/user/${auth.user?._id}`);
         }}>
         <ListItemAvatar>
           <Avatar src={auth.user?.avatar?.url} />
