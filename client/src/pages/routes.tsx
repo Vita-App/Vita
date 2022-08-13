@@ -7,7 +7,7 @@ import SearchPage from 'pages/SearchPage';
 import Loader from 'components/Loader';
 import usePageTracking from 'utils/hooks/use-page-tracking';
 import useHttp from 'hooks/useHttp';
-import { CLIENT_URL, SERVER_URL } from 'config.keys';
+import { SERVER_URL } from 'config.keys';
 import { useSetRecoilState } from 'recoil';
 import { authState } from 'store';
 import { toast, ToastContainer } from 'react-toastify';
@@ -15,6 +15,7 @@ import axios from 'axios';
 import ProtectedRoute from 'service/ProtectedRoute';
 import ForgotPassword from 'pages/ForgotPassword';
 import Banner from 'components/Banner';
+import useMetaData from 'hooks/useMetaData';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -26,6 +27,8 @@ const App = () => {
   const { loading, sendRequest } = useHttp(true);
   const setAuthState = useSetRecoilState(authState);
   usePageTracking();
+  useMetaData();
+
   useEffect(() => {
     sendRequest(
       async () => {
