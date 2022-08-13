@@ -8,6 +8,7 @@ import { sendEmail } from '../service/email-service';
 import { MentorSchemaType, UserSchemaType } from '../types';
 import { makeTemplate } from '../utils/makeTemplate';
 import notificationController from './notification.controller';
+import { APP_NAME, ASSET_FOLDER } from '../config/keys';
 
 const adminAuth = async (req: Request, res: Response) => {
   if (!req.user) {
@@ -49,8 +50,14 @@ const adminLogin = async (req: Request, res: Response) => {
   const otp = await admin.generateOTP();
   const template = makeTemplate('adminOtp.hbs', {
     otp,
+    appName: APP_NAME,
+    assetFolder: ASSET_FOLDER,
   });
-  const emailId = await sendEmail(admin.email, 'Vita Admin Login', template);
+  const emailId = await sendEmail(
+    admin.email,
+    `${APP_NAME} Admin Login`,
+    template,
+  );
   return res.status(200).json({
     message: 'Email sent',
     emailId,
@@ -143,8 +150,11 @@ const approveMentor = async (req: Request, res: Response) => {
   try {
     await sendEmail(
       mentor.email,
-      'Vita Application Approved!',
-      makeTemplate('acceptMentor.hbs'),
+      `${APP_NAME} Application Approved!`,
+      makeTemplate('acceptMentor.hbs', {
+        appName: APP_NAME,
+        assetFolder: ASSET_FOLDER,
+      }),
     );
   } catch (err) {
     return res.status(500).json({
@@ -178,8 +188,11 @@ const rejectMentor = async (req: Request, res: Response) => {
   try {
     await sendEmail(
       user.email,
-      'Vita Application rejected',
-      makeTemplate('rejectMentor.hbs'),
+      `${APP_NAME} Application rejected`,
+      makeTemplate('rejectMentor.hbs', {
+        appName: APP_NAME,
+        assetFolder: ASSET_FOLDER,
+      }),
     );
     return res.status(200).json({
       success: true,
@@ -213,7 +226,11 @@ const deleteUser = async (req: Request, res: Response) => {
     await sendEmail(
       user.email,
       'User account deleted',
-      makeTemplate('accountDeleted.hbs', { email: user.email }),
+      makeTemplate('accountDeleted.hbs', {
+        email: user.email,
+        appName: APP_NAME,
+        assetFolder: ASSET_FOLDER,
+      }),
     );
     return res.status(200).json({
       success: true,
@@ -252,16 +269,22 @@ const changeTopMentorStatus = async (req: Request, res: Response) => {
       : 'Sorry, we are not able to make you a top mentor anymore',
   );
 
-  try {
-    await sendEmail(
-      mentor.email,
-      'Vita top mentor',
-      makeTemplate('topMentor.hbs', { top_mentor: mentor.top_mentor }),
-    );
-  } catch (err) {
-    return res.status(500).json({
-      message: "Email didn't sent",
-    });
+  if (mentor.top_mentor) {
+    try {
+      await sendEmail(
+        mentor.email,
+        `${APP_NAME} top mentor`,
+        makeTemplate('topMentor.hbs', {
+          top_mentor: mentor.top_mentor,
+          appName: APP_NAME,
+          assetFolder: ASSET_FOLDER,
+        }),
+      );
+    } catch (err) {
+      return res.status(500).json({
+        message: "Email didn't sent",
+      });
+    }
   }
 
   return res.status(200).json({

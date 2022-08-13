@@ -1,5 +1,11 @@
 import nodemailer, { SendMailOptions } from 'nodemailer';
-import { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS } from '../config/keys';
+import {
+  EMAIL_HOST,
+  EMAIL_PORT,
+  EMAIL_USER,
+  EMAIL_PASS,
+  APP_NAME,
+} from '../config/keys';
 
 export const sendEmail = async (
   to: string,
@@ -18,7 +24,7 @@ export const sendEmail = async (
   });
 
   const emailOptions = <SendMailOptions>{
-    from: `"Vita" <${EMAIL_USER}>`,
+    from: `"${APP_NAME}" <${EMAIL_USER}>`,
     to,
     subject,
     html: msg,

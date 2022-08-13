@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { CLIENT_URL } from '../config/keys';
+import { APP_NAME, ASSET_FOLDER, CLIENT_URL } from '../config/keys';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from './makeTemplate';
 import { UserSchemaType } from '../types';
@@ -15,6 +15,8 @@ const sendVerificationMail = async (res: Response, user: UserSchemaType) => {
       makeTemplate('emailVerification.hbs', {
         url: verificationUrl,
         name: user.first_name,
+        appName: APP_NAME,
+        assetFolder: ASSET_FOLDER,
       }),
     );
 

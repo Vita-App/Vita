@@ -71,3 +71,6 @@ export const CLOUDINARY = {
   api_key: process.env.CLOUDINARY_API_KEY || ' ',
   api_secret: process.env.CLOUDINARY_API_SECRET || ' ',
 };
+
+export const APP_NAME = process.env.APP_NAME || 'Vita';
+export const ASSET_FOLDER = process.env.ASSET_FOLDER || 'Vita';

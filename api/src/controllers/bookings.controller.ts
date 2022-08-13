@@ -20,6 +20,7 @@ import {
 import createCalenderEvent from '../utils/createCalendarEvent';
 import moment from 'moment-timezone';
 import notificationController from './notification.controller';
+import { APP_NAME, ASSET_FOLDER } from '../config/keys';
 
 enum BookingStatus {
   ACCEPTED = 'accepted',
@@ -197,6 +198,8 @@ const bookSlot = async (req: Request, res: Response) => {
           topic,
           description,
         },
+        appName: APP_NAME,
+        assetFolder: ASSET_FOLDER,
       }),
     );
 

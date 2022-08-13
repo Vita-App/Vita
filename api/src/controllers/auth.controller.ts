@@ -1,4 +1,10 @@
-import { ADMIN_URL, CLIENT_URL, EMAIL_VERIFICATION_JWT } from '../config/keys';
+import {
+  ADMIN_URL,
+  APP_NAME,
+  ASSET_FOLDER,
+  CLIENT_URL,
+  EMAIL_VERIFICATION_JWT,
+} from '../config/keys';
 import { NextFunction, Request, Response } from 'express';
 import { Document, Types } from 'mongoose';
 import { UserModel, MentorModel } from '../Models/User';
@@ -352,7 +358,11 @@ const sendMail = async (req: Request, res: Response) => {
       const emailId = await sendEmail(
         email,
         'Reset Your Password',
-        makeTemplate('forgotPassword.hbs', { url }),
+        makeTemplate('forgotPassword.hbs', {
+          url,
+          appName: APP_NAME,
+          assetFolder: ASSET_FOLDER,
+        }),
       );
 
       return res.status(200).json({
