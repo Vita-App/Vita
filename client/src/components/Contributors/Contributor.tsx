@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Stack, Typography, Link } from '@mui/material';
+import { Avatar, Stack, Typography, Link, Paper } from '@mui/material';
 import { contributors } from './contributors';
 
 interface IProps {
@@ -8,13 +8,13 @@ interface IProps {
 }
 
 const topContributorStyle = {
-  backgroundColor: 'background.paper',
+  backgroundColor: 'black',
   width: '250px',
   p: 2,
   color: 'text.secondary',
-  '&:hover': {
-    boxShadow: '0px 2px 25px 0px #000000',
-  },
+  // '&:hover': {
+  //   boxShadow: '0px 2px 25px 0px #000000',
+  // },
 };
 
 const contributorStyle = {
@@ -25,14 +25,16 @@ const contributorStyle = {
   borderRadius: 2,
   p: 2,
   color: 'text.secondary',
-  '&:hover': {
-    boxShadow: '0px 2px 15px 0px #000000',
-  },
+  // '&:hover': {
+  //   boxShadow: '0px 2px 15px 0px #000000',
+  // },
 };
 
 const Contributor: React.FC<IProps> = ({ contributor, topContributor }) => (
   <Link href={contributor.profile} underline="none">
     <Stack
+      component={Paper}
+      elevation={6}
       position="relative"
       direction="row"
       justifyContent="center"

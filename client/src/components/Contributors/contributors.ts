@@ -3,7 +3,7 @@ export const topContributors = [
     login: 'Rishabh-malhotraa',
     name: 'Rishabh',
     avatar_url: 'https://avatars.githubusercontent.com/u/54576074?v=4',
-    profile: 'https://rishabh-malhotraa.github.io/Rishabh-Portfolio-main/',
+    profile: 'https://www.linkedin.com/in/rishabh-malhotra-4536a418b/',
     contributions: ['infra', 'data', 'design', 'code', 'video', 'review'],
   },
   {

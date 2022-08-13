@@ -6,7 +6,7 @@ import Contributor from './Contributor';
 const Contributors = () => (
   <Stack spacing={2} mb={4} p={2}>
     <Typography variant="h5" textAlign="center" color="#fff" gutterBottom>
-      Thanks to these awesome contributors 🧡
+      Made with ❤️ by
     </Typography>
     <Stack
       direction="row"
