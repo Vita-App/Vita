@@ -38,12 +38,13 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
     }
   };
 
+  console.log(auth);
   return (
     <Menu open={open} anchorEl={anchorEl} onClose={onClose}>
       <ListItemButton
         onClick={() => {
           onClose();
-          navigate(`/user/${auth.user?._id}`);
+          if (auth.user?.signup_completed) navigate(`/user/${auth.user?._id}`);
         }}>
         <ListItemAvatar>
           <Avatar src={auth.user?.avatar?.url} />
