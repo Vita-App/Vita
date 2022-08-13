@@ -5,11 +5,12 @@ import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import { IconButton } from '@mui/material';
 import { Link, StyledButton as Button } from 'components/common';
+import MuiButton from '@mui/material/Button';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import Notification from 'components/Notification';
 import MenuComponent from 'components/Menu';
-import { APP_NAME } from 'config.keys';
+import { APP_NAME, ASSET_FOLDER } from 'config.keys';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -31,7 +32,22 @@ const Toolbar = () => {
           alignItems="center">
           <Box sx={{ flexGrow: 1 }}>
             <Link to="/">
-              <Button>{APP_NAME}</Button>
+              <MuiButton>
+                <img
+                  src={`/${ASSET_FOLDER}/logo192.png`}
+                  alt="logo"
+                  width="40px"
+                  height="40px"
+                />
+                <strong
+                  style={{
+                    paddingLeft: '8px',
+                    fontSize: '24px',
+                    color: 'white',
+                  }}>
+                  {APP_NAME}
+                </strong>
+              </MuiButton>
             </Link>
           </Box>
           {auth.isLoggedIn && <Notification />}

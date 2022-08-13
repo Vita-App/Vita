@@ -198,8 +198,7 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
                   fullWidth
                   variant="contained"
                   color={'secondary'}
-                  style={{ backgroundColor: pink[900] }}
-                  onClick={() => console.log('Cancel')}>
+                  style={{ backgroundColor: pink[900] }}>
                   Cancel
                 </StyledButton>
               </Stack>

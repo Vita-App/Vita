@@ -64,7 +64,6 @@ const AbsoluteGrid = styled(Grid)`
 const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
   const { first_name, graduation_year, last_name, experiences, avatar, _id } =
     user;
-  if (first_name === 'Rishabh') console.log(user);
 
   const name = `${first_name} ${last_name}`;
   // change this

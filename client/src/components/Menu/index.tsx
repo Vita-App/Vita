@@ -38,7 +38,6 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
     }
   };
 
-  console.log(auth);
   return (
     <Menu open={open} anchorEl={anchorEl} onClose={onClose}>
       <ListItemButton
