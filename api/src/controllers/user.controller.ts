@@ -55,6 +55,7 @@ const updateProfile = async (req: Request, res: Response) => {
 
 const updateProfilePic = async (req: Request, res: Response) => {
   const user = req.user as Document & UserSchemaType;
+  const mentor = await MentorModel.findById(user.mentor_information);
 
   const prevProfilePic = user.avatar?.filename;
 
@@ -63,9 +64,11 @@ const updateProfilePic = async (req: Request, res: Response) => {
       url: req.file?.path || user.avatar?.url,
       filename: req.file?.filename || user.avatar?.filename,
     };
+
+    if (mentor) mentor.avatar = user.avatar;
   }
 
-  const allPromises = [user.save()];
+  const allPromises = [user.save(), mentor?.save()];
 
   // Delete old profile pic
   if (prevProfilePic && prevProfilePic !== 'default')
