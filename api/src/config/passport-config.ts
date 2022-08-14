@@ -121,9 +121,12 @@ passport.use(
         first_name: profile.name?.givenName,
         last_name: profile.name?.familyName,
         email: profile.emails[0].value,
-        image_link: profile._json?.profilePicture?.displayImage,
+        avatar: {
+          filename: 'default',
+          url: profile._json?.profilePicture?.displayImage,
+        },
         oauth_provider: profile.provider,
-        is_mentor: state.isMentor,
+        is_mentor: state.isMentor === 'true',
         verified: true,
       });
 
