@@ -4,26 +4,36 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { authState } from 'store';
 
 interface ProtectedRouteProps {
-  redirectTo: string;
+  isRegisteredGuard?: boolean;
+  redirectTo?: string;
   inverse?: boolean;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  isRegisteredGuard = false,
   redirectTo,
   inverse = false,
 }) => {
   const auth = useRecoilValue(authState);
 
-  if (inverse) {
-    if (auth.isLoggedIn) {
-      return <Navigate to={redirectTo} />;
+  if (!inverse && !auth.isLoggedIn) {
+    return <Navigate to={redirectTo || '/auth'} />;
+  }
+
+  if (isRegisteredGuard) {
+    if (!auth.user?.signup_completed) {
+      return <Navigate to="/registration-form" />;
     }
 
     return <Outlet />;
   }
 
-  if (!auth.isLoggedIn) {
-    return <Navigate to={redirectTo} />;
+  if (inverse) {
+    if (auth.isLoggedIn) {
+      return <Navigate to={redirectTo || '/'} />;
+    }
+
+    return <Outlet />;
   }
 
   return <Outlet />;

@@ -72,7 +72,7 @@ const App = () => {
         </Route>
         <Route path="/search/" element={<SearchPage />} />
         <Route path="/user/:id" element={<UserPage />} />
-        <Route element={<ProtectedRoute redirectTo="/auth" />}>
+        <Route element={<ProtectedRoute isRegisteredGuard />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
         <Route element={<ProtectedRoute inverse redirectTo="/" />}>

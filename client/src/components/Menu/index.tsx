@@ -55,6 +55,7 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
         />
       </ListItemButton>
       <ListItemButton
+        disabled={!auth.user?.signup_completed}
         onClick={() => {
           onClose();
           navigate(`/dashboard`);
