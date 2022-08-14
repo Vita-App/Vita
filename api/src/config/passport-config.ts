@@ -123,7 +123,8 @@ passport.use(
         email: profile.emails[0].value,
         avatar: {
           filename: 'default',
-          url: profile._json?.profilePicture?.displayImage,
+          url: profile._json.profilePicture['displayImage~'].elements[0]
+            .identifiers[0].identifier,
         },
         oauth_provider: profile.provider,
         is_mentor: state.isMentor === 'true',
