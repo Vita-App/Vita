@@ -446,7 +446,15 @@ const registerUser = async (req: Request, res: Response) => {
   }
 
   user.signup_completed = true;
-  await user.save();
+
+  try {
+    await user.save();
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid data',
+    });
+  }
 
   return res.json(user);
 };

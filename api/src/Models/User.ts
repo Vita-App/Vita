@@ -34,6 +34,7 @@ const MentorSchema = new Schema<MentorSchemaType>({
       url: String,
       filename: String,
     },
+    required: true,
   },
   experiences: {
     type: [Experience],

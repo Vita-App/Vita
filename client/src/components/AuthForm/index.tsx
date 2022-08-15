@@ -52,10 +52,11 @@ const StyledTextField = styled(TextField)({
 });
 
 const AuthForm: React.FC = () => {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const setAuthState = useSetRecoilState(authState);
+  const pageParam = params.get('page');
   const [authMode, setAuthMode] = useState(
-    params.get('page') === 'signup' ? AuthMode.signup : AuthMode.login,
+    pageParam === 'signup' ? AuthMode.signup : AuthMode.login,
   );
   const [oauthErr, setOauthErr] = useState(params.get('socialAuthFailed'));
   const [showPassword, setShowPassword] = useState(false);
@@ -70,6 +71,9 @@ const AuthForm: React.FC = () => {
 
   const authSwitchHandler = () => {
     setAuthMode(authMode === AuthMode.login ? AuthMode.signup : AuthMode.login);
+    setParams({
+      page: authMode === AuthMode.login ? 'signup' : 'login',
+    });
     clearError();
     setOauthErr(null);
   };
@@ -147,6 +151,10 @@ const AuthForm: React.FC = () => {
   const linkedInLogin = () => {
     window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
+
+  useEffect(() => {
+    setAuthMode(pageParam === 'signup' ? AuthMode.signup : AuthMode.login);
+  }, [pageParam]);
 
   useEffect(() => {
     const subscription = watch((_, { type }) => {

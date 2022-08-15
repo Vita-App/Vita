@@ -124,6 +124,11 @@ const ProfileStep: React.FC<{
           file = props.hydrate?.profilePicture;
         }
 
+        if (!file && !auth.user?.avatar?.url) {
+          toast.error('Please upload a profile picture');
+          return;
+        }
+
         // Max size of file is 600Kb
         if (file?.size > 600000) {
           toast.error('Please upload an image of size smaller than 600KB.');
