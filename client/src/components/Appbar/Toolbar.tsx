@@ -11,7 +11,6 @@ import { authState } from 'store';
 import Notification from 'components/Notification';
 import MenuComponent from 'components/Menu';
 import { APP_NAME, ASSET_FOLDER } from 'config.keys';
-import Hidden from '@mui/material/Hidden';
 
 const Toolbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -40,7 +39,10 @@ const Toolbar = () => {
                   width="40px"
                   height="40px"
                 />
-                <Hidden smDown>
+                <Box
+                  sx={{
+                    display: { xs: 'none', sm: 'block' },
+                  }}>
                   <strong
                     style={{
                       paddingLeft: '8px',
@@ -49,18 +51,27 @@ const Toolbar = () => {
                     }}>
                     {APP_NAME}
                   </strong>
-                </Hidden>
+                </Box>
               </MuiButton>
             </Link>
           </Box>
           {auth.isLoggedIn && <Notification />}
-          <Link to="/search">
-            <Button>Get a match</Button>
-          </Link>
-          {!auth.isLoggedIn ? (
-            <Link to="/auth">
-              <Button sx={{ color: '' }}>Login</Button>
+          <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Link to="/search">
+              <Button>Get a match</Button>
             </Link>
+          </Box>
+          {!auth.isLoggedIn ? (
+            <>
+              <Link to="/auth">
+                <Button sx={{ color: '' }}>Login</Button>
+              </Link>
+              <Link to="/auth?page=signup">
+                <MuiButton color="primary" variant="contained" size="large">
+                  Signup
+                </MuiButton>
+              </Link>
+            </>
           ) : (
             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
               <Avatar src={auth.user?.avatar?.url} alt={auth.user?.email} />
