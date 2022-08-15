@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useForm, FieldValues, Controller } from 'react-hook-form';
 import { Stack, Typography, IconButton } from '@mui/material';
@@ -16,6 +16,7 @@ const ExperienceStep: React.FC<{
   onContinue: (step: number, formData: FieldValues) => void;
   hydrate?: FieldValues;
 }> = (props) => {
+  const [topicsError, setTopicsError] = useState(false);
   const [experiences, setExperiences] = useState<ExperienceType[]>(
     props.hydrate?.experiences || [
       {
@@ -34,6 +35,17 @@ const ExperienceStep: React.FC<{
   } = useForm();
 
   const onSubmit = (formData: FieldValues) => {
+    const topics = getValues('topics');
+
+    const hasOneTopic = Object.keys(topics).some(
+      (topic) => topics[topic].length,
+    );
+
+    if (!hasOneTopic) {
+      setTopicsError(true);
+      return;
+    }
+
     props.onContinue(1, { ...formData, experiences });
   };
 
@@ -51,6 +63,10 @@ const ExperienceStep: React.FC<{
     });
     setExperiences(experience);
   };
+
+  useEffect(() => {
+    setTopicsError(false);
+  }, []);
 
   return (
     <Stack
@@ -320,6 +336,11 @@ const ExperienceStep: React.FC<{
             label="Skills"
           />
         </Stack>
+        {topicsError && (
+          <Typography variant="body2" color="error" sx={{ mt: 2 }}>
+            Please select at least 1 topic to mentor on.
+          </Typography>
+        )}
       </Stack>
       <Stack direction="row" justifyContent="space-between">
         <StyledButton onClick={onBack}>Back</StyledButton>
