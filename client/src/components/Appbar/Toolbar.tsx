@@ -3,7 +3,8 @@ import MaterialToolbar from '@mui/material/Toolbar';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { blue } from '@mui/material/colors';
 import { Link, StyledButton as Button } from 'components/common';
 import MuiButton from '@mui/material/Button';
 import { useRecoilValue } from 'recoil';
@@ -67,9 +68,18 @@ const Toolbar = () => {
                 <Button sx={{ color: '' }}>Login</Button>
               </Link>
               <Link to="/auth?page=signup">
-                <MuiButton color="primary" variant="contained" size="large">
+                <Button
+                  sx={{
+                    backgroundColor: blue[900],
+                    '&:hover': {
+                      opacity: 1,
+                      backgroundColor: blue[800],
+                    },
+                  }}
+                  variant="contained"
+                  size="large">
                   Signup
-                </MuiButton>
+                </Button>
               </Link>
             </>
           ) : (
