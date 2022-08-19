@@ -43,6 +43,7 @@ const Footer = () => (
         </Stack>
         <Stack
           direction={{ sm: 'row', xs: 'column-reverse' }}
+          display={{ xs: 'none', sm: 'none', md: 'block' }}
           justifyContent="space-between"
           spacing={2}
           alignItems="center">

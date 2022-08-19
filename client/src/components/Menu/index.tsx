@@ -41,7 +41,7 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
   return (
     <Menu open={open} anchorEl={anchorEl} onClose={onClose}>
       <ListItemButton
-        disabled={!auth.user?.signup_completed}
+        disabled={!auth.user?.signup_completed || !auth.user.is_mentor}
         onClick={() => {
           onClose();
           navigate(`/user/${auth.user?._id}`);
