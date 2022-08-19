@@ -20,6 +20,7 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import { toast } from 'react-toastify';
+import { parsePhoneNumber } from 'awesome-phonenumber';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -32,6 +33,7 @@ interface RestCountriesAPIResponse {
   name: string;
   callingCodes?: string[];
   flags: { png: string; svg: string };
+  alpha2Code: string;
 }
 
 interface CountryData {
@@ -40,6 +42,7 @@ interface CountryData {
     name: string;
     flag: string;
     code: string;
+    alphaCode: string;
   };
 }
 
@@ -50,6 +53,7 @@ const defaultCountry: CountryData[] = [
       name: 'India',
       flag: 'https://flagcdn.com/in.svg',
       code: '91',
+      alphaCode: 'IN',
     },
   },
 ];
@@ -69,6 +73,7 @@ const getCountryCodes = async () => {
           name: country.name,
           flag: country.flags.svg || country.flags.png,
           code,
+          alphaCode: country.alpha2Code,
         },
       });
     }),
@@ -292,9 +297,16 @@ const ProfileStep: React.FC<{
             defaultValue={props.hydrate?.phone || ''}
             rules={{
               required: 'Phone Number is Required',
-              pattern: {
-                value: /^\d{10}$/,
-                message: 'Invalid Phone Number',
+              validate: (value) => {
+                const { alphaCode } = getValues('countryCode').label;
+
+                const phone = parsePhoneNumber(value, alphaCode);
+
+                if (!phone.isValid()) {
+                  return 'Invalid Phone Number';
+                }
+
+                return true;
               },
             }}
             render={({ field }) => (
