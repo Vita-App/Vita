@@ -40,6 +40,25 @@ const MentorSchema = new Schema<MentorSchemaType>({
     type: [Experience],
   },
   email: String,
+  maxSessionReqsPerMonth: {
+    type: Number,
+    default: 5,
+  },
+  currentSessions: {
+    type: Number,
+    default: 0,
+  },
+  currSessionReqs: {
+    type: Number,
+    default: 0,
+  },
+  maxSessionsPerMonth: {
+    type: Number,
+    default: 8,
+  },
+  lastSessionReq: {
+    type: Date,
+  },
   phone: { type: String },
   bio: { type: String },
   linkedIn: String,
@@ -109,6 +128,17 @@ const UserSchema = new Schema<UserSchemaType>({
     default: false,
   },
   liked_mentors: [{ type: Schema.Types.ObjectId, ref: 'Mentor' }],
+  maxSessionsCanReqPerMonth: {
+    type: Number,
+    default: 5,
+  },
+  currentSessionsRequested: {
+    type: Number,
+    default: 0,
+  },
+  lastSessionRequested: {
+    type: Date,
+  },
 });
 
 UserSchema.pre('save', async function (next) {
