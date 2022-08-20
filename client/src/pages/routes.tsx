@@ -16,6 +16,8 @@ import ProtectedRoute from 'service/ProtectedRoute';
 import ForgotPassword from 'pages/ForgotPassword';
 import Banner from 'components/Banner';
 import useMetaData from 'hooks/useMetaData';
+import Bookings from './Dashboard/Booking';
+import Settings from './Dashboard/Settings';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -73,7 +75,10 @@ const App = () => {
         <Route path="/search/" element={<SearchPage />} />
         <Route path="/user/:id" element={<UserPage />} />
         <Route element={<ProtectedRoute isRegisteredGuard />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="" element={<Bookings />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Route>
         <Route element={<ProtectedRoute inverse redirectTo="/" />}>
           <Route path="/email-verification" element={<EmailVerification />} />

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from 'components/UserDashboard/Toolbar';
 import Drawer from 'components/UserDashboard/Drawer';
 import MuiToolbar from '@mui/material/Toolbar';
 import { drawerWidth } from 'utils/settings';
 import { styled } from '@mui/material/styles';
-import Bookings from './Booking';
 import ApplicationSubmitted from 'components/Modals/ApplicationSubmitted';
-import Settings from './Settings';
 
 const Container = styled(Box)(({ theme }) => ({
   flexGrow: 1,
@@ -19,26 +17,28 @@ const Container = styled(Box)(({ theme }) => ({
   },
 }));
 
-const renderPage = (page: number) => {
-  switch (page) {
-    case 0:
-      return <Bookings />;
-    case 1:
-      return <Settings />;
-    default:
-      return <div>HELLO</div>;
-  }
-};
-
 const ResponsiveDrawer = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const [open, setOpen] = React.useState<boolean>(state?.newlyCreated || false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const [tabIndex, setTabIndex] = React.useState(0);
-
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-  const handleTabIndexChange = (index: number) => setTabIndex(index);
+  const handleTabIndexChange = (index: number) => {
+    renderPage(index);
+  };
+
+  const renderPage = (page: number) => {
+    switch (page) {
+      case 0:
+        return navigate('/dashboard');
+      case 1:
+        return navigate('/dashboard/settings');
+      default:
+        return <div>HELLO</div>;
+    }
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <ApplicationSubmitted open={open} onClose={() => setOpen(false)} />
@@ -50,11 +50,9 @@ const ResponsiveDrawer = () => {
       />
       <Container component="main">
         <MuiToolbar />
-        {renderPage(tabIndex)}
+        {/* {renderPage(tabIndex)} */}
+        <Outlet />
       </Container>
-
-      {/* {<h1>{tabIndex}</h1>}
-      {renderPage(tabIndex)} */}
     </Box>
   );
 };

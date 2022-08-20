@@ -8,7 +8,13 @@ import {
   Avatar,
 } from '@mui/material';
 import { green, red } from '@mui/material/colors';
-import { VideoCall, Logout } from '@mui/icons-material';
+import {
+  VideoCall,
+  Logout,
+  VerifiedUser,
+  Group,
+  Settings,
+} from '@mui/icons-material';
 import { useRecoilState } from 'recoil';
 import { authState } from 'store';
 import axios from 'axios';
@@ -68,6 +74,22 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
         <ListItemText
           primary="My Bookings"
           secondary="View and manage all your bookings"
+        />
+      </ListItemButton>
+      <ListItemButton
+        disabled={!auth.user?.signup_completed}
+        onClick={() => {
+          onClose();
+          navigate(`/dashboard/settings`);
+        }}>
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: '#fafafa' }}>
+            <Settings sx={{ color: green[900] }} />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary="Settings"
+          secondary="Update your profile settings"
         />
       </ListItemButton>
       <ListItemButton
