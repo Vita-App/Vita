@@ -17,12 +17,11 @@ const limitSessions = async (
   next: NextFunction,
 ) => {
   const user = req.user as UserSchemaType & Document;
-  const { start_date, mentor_id } = req.body as {
-    start_date: string;
+  const { mentor_id } = req.body as {
     mentor_id: string;
   };
 
-  const startDate = new Date(start_date);
+  const startDate = new Date(Date.now());
   const mentor = await MentorModel.findById(mentor_id);
 
   if (!mentor) {
@@ -35,7 +34,7 @@ const limitSessions = async (
     const lastSessionRequested = moment(user.lastSessionRequested).tz(
       moment.tz.guess(),
     );
-    const requestedDate = moment(start_date).tz(moment.tz.guess());
+    const requestedDate = moment(startDate).tz(moment.tz.guess());
     const diff = requestedDate.diff(lastSessionRequested, 'months');
 
     if (diff > 0) {
@@ -70,8 +69,7 @@ const limitSessions = async (
 
   if (mentor.currSessionReqs >= mentor.maxSessionReqsPerMonth) {
     return res.status(400).json({
-      error:
-        'Mentor already has too many requests for this month and is not accepting any more',
+      error: 'Mentor not accepting any more requests!',
     });
   }
 
