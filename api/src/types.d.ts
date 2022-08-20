@@ -36,6 +36,9 @@ export interface UserSchemaType {
   issueToken: () => string;
   comparePassword: (password: string) => Promise<boolean>;
   createVerificationToken: () => string;
+  maxSessionsCanReqPerMonth: number;
+  currentSessionsRequested: number;
+  lastSessionRequested: Date;
 }
 
 export interface AdminSchemaType {
@@ -111,6 +114,11 @@ export interface MentorSchemaType {
   approved: boolean;
   top_mentor: boolean;
   likes: number;
+  maxSessionReqsPerMonth: number;
+  currentSessions: number;
+  maxSessionsPerMonth: number;
+  currSessionReqs: number;
+  lastSessionReq: Date;
 }
 
 interface Session {
@@ -176,6 +184,7 @@ export interface CalenderCredentialsSchemaTypes {
 export interface AttendeesEmailTypes {
   email: string;
 }
+
 export interface CalendarOptionTypes {
   startTime: Date;
   endTime: Date;

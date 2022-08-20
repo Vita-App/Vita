@@ -40,7 +40,7 @@ const availability = async (req: Request, res: Response) => {
   }
 
   const bookings = await BookingModel.find({
-    mentor_id: mentor._id,
+    mentor: mentor._id,
     status: BookingStatus.ACCEPTED,
   });
 
@@ -90,8 +90,8 @@ const bookSlot = async (req: Request, res: Response) => {
   }
 
   const alreadyWaiting = await BookingModel.findOne({
-    mentee_id: user._id,
-    mentor_id,
+    mentee: user._id,
+    mentor: mentor_id,
     status: BookingStatus.WAITING,
   });
 
@@ -115,7 +115,7 @@ const bookSlot = async (req: Request, res: Response) => {
     });
   }
 
-  const existingBookings = await BookingModel.find({ mentor_id: mentor._id });
+  const existingBookings = await BookingModel.find({ mentor: mentor._id });
 
   const existingBooking = existingBookings.find(({ start_date }) => {
     if (
@@ -169,24 +169,40 @@ const bookSlot = async (req: Request, res: Response) => {
   const menteeName = `${user.first_name} ${user.last_name}`;
   const mentorName = `${mentor.first_name} ${mentor.last_name}`;
   const date = moment(startDate).tz(mentor.timezone);
-  await booking.save();
 
-  await sendBookingRequestMessage(
-    mentor.phone,
-    mentorName,
-    menteeName,
-    date.format('dddd, MMMM Do YYYY, h:mm a'),
-    booking._id,
+  user.currentSessionsRequested += 1;
+  user.lastSessionRequested = startDate;
+
+  mentor.currSessionReqs += 1;
+  mentor.lastSessionReq = startDate;
+
+  const allPromises = [];
+  allPromises.push(booking.save());
+  allPromises.push(mentor.save());
+  allPromises.push(user.save());
+
+  allPromises.push(
+    sendBookingRequestMessage(
+      mentor.phone,
+      mentorName,
+      menteeName,
+      date.format('dddd, MMMM Do YYYY, h:mm a'),
+      booking._id,
+    ),
   );
 
-  await notificationController.notify(
-    mentor._id,
-    `Booking Request from ${menteeName}`,
-    `${menteeName} has requested a booking slot on ${date.format(
-      'dddd, MMMM Do YYYY, h:mm a',
-    )}`,
-    `/dashboard`,
+  allPromises.push(
+    notificationController.notify(
+      mentor._id,
+      `Booking Request from ${menteeName}`,
+      `${menteeName} has requested a booking slot on ${date.format(
+        'dddd, MMMM Do YYYY, h:mm a',
+      )}`,
+      `/dashboard`,
+    ),
   );
+
+  await Promise.all(allPromises);
 
   try {
     await sendEmail(
@@ -293,6 +309,14 @@ const acceptBooking = async (req: Request, res: Response) => {
       slot.tz(mentor.timezone).format('dddd, MMMM Do YYYY, h:mm a'),
       googleMeetCode,
     );
+
+    const mentorDoc = await MentorModel.findOne({ _id: booking.mentor });
+
+    if (mentorDoc) {
+      mentorDoc.currentSessions += 1;
+      mentorDoc.currSessionReqs -= 1;
+      await mentorDoc.save();
+    }
 
     return res.status(200).json({ message: 'Meet Scheduled!' });
   } catch (err) {
