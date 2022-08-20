@@ -8,13 +8,7 @@ import {
   Avatar,
 } from '@mui/material';
 import { green, red } from '@mui/material/colors';
-import {
-  VideoCall,
-  Logout,
-  VerifiedUser,
-  Group,
-  Settings,
-} from '@mui/icons-material';
+import { VideoCall, Logout, Settings } from '@mui/icons-material';
 import { useRecoilState } from 'recoil';
 import { authState } from 'store';
 import axios from 'axios';
