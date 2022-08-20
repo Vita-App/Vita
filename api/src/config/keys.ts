@@ -74,3 +74,6 @@ export const CLOUDINARY = {
 
 export const APP_NAME = process.env.APP_NAME || 'Vita';
 export const ASSET_FOLDER = process.env.ASSET_FOLDER || 'Vita';
+export const ALLOW_MENTEE_SIGNUP = process.env.ALLOW_MENTEE_SIGNUP
+  ? process.env.ALLOW_MENTEE_SIGNUP === 'true'
+  : false;

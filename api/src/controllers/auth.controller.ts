@@ -1,5 +1,6 @@
 import {
   ADMIN_URL,
+  ALLOW_MENTEE_SIGNUP,
   APP_NAME,
   ASSET_FOLDER,
   CLIENT_URL,
@@ -19,6 +20,12 @@ import { SelectOption, UserSchemaType } from '../types';
 const googleCallback = async (req: Request, res: Response) => {
   const { isMentor, loginMode } = req.query;
 
+  if (loginMode === 'false' && isMentor === 'false' && !ALLOW_MENTEE_SIGNUP) {
+    return res.redirect(
+      `${CLIENT_URL}/auth?socialAuthFailed=Signup is disabled for mentees for now!`,
+    );
+  }
+
   passport.authenticate('google', {
     scope: ['profile', 'email'],
     state: JSON.stringify({ isMentor, loginMode }),
@@ -35,6 +42,12 @@ const googleRefreshToken = async (req: Request, res: Response) => {
 
 const linkedinCallback = async (req: Request, res: Response) => {
   const { isMentor, loginMode } = req.query;
+
+  if (loginMode === 'false' && isMentor === 'false' && !ALLOW_MENTEE_SIGNUP) {
+    return res.redirect(
+      `${CLIENT_URL}/auth?socialAuthFailed=Signup is disabled for mentees for now!`,
+    );
+  }
 
   passport.authenticate('linkedin', {
     state: JSON.stringify({ isMentor, loginMode }),
@@ -195,6 +208,14 @@ const jwtLogin = async (req: Request, res: Response) => {
 
 const jwtSignup = async (req: Request, res: Response) => {
   const { email, password, first_name, last_name, mentor } = req.body;
+
+  if (!mentor && !ALLOW_MENTEE_SIGNUP) {
+    return res.status(400).json({
+      success: false,
+      isLoggedIn: false,
+      message: 'Mentee signup is disabled for now!',
+    });
+  }
 
   const user = new UserModel({
     email,
