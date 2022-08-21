@@ -126,7 +126,7 @@ export const getUser = (user_id: string) => {
   const email = faker.internet.email(first_name, last_name);
   const oauth_provider = 'google';
   const is_mentor = getRandomBool();
-  const signup_completed = getRandomBool();
+  const signup_completed = true;
   const mentor_information = undefined;
   const bookings: Types.ObjectId[] = [];
   const create_time = randomDate(new Date(2021, 11, 8), new Date());

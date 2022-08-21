@@ -123,6 +123,7 @@ const getUsers = async (req: Request, res: Response) => {
     mentor_information: 1,
     verified: 1,
     graduation_year: 1,
+    signup_completed: 1,
   });
 
   const _mentors = MentorModel.find({}).select({
