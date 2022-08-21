@@ -122,6 +122,7 @@ const getUsers = async (req: Request, res: Response) => {
     is_mentor: 1,
     mentor_information: 1,
     verified: 1,
+    graduation_year: 1,
   });
 
   const _mentors = MentorModel.find({}).select({
