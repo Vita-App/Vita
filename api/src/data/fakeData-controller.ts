@@ -15,25 +15,28 @@ export const fakeDataController = async (req: Request, res: Response) => {
   for (let i = 0; i < 100; i++) {
     const id = nanoid();
     const userData = getUser(id);
-    const mentorData = getMentor(
-      id,
-      userData.first_name,
-      userData.last_name,
-      userData.avatar.url || '',
-      userData.email,
-      userData.phone,
-      userData.graduation_year,
-    );
 
     const user = new UserModel(userData);
-    const mentor = new MentorModel({
-      ...mentorData,
-      timezone: userData.timezone,
-    });
-    user.mentor_information = mentor._id;
+    if (userData.is_mentor) {
+      const mentorData = getMentor(
+        id,
+        userData.first_name,
+        userData.last_name,
+        userData.avatar.url || '',
+        userData.email,
+        userData.phone,
+        userData.graduation_year,
+      );
+
+      const mentor = new MentorModel({
+        ...mentorData,
+        timezone: userData.timezone,
+      });
+      user.mentor_information = mentor._id;
+      txn.push(mentor.save());
+    }
 
     txn.push(user.save());
-    txn.push(mentor.save());
   }
 
   await Promise.all(txn);

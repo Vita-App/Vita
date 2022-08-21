@@ -160,6 +160,8 @@ export const getUser = (user_id: string) => {
     createVerificationToken: () => '',
     verified: true,
     liked_mentors: [],
+    maxSessionsCanReqPerMonth: 5,
+    currentSessionsRequested: 0,
   };
   return user;
 };

@@ -114,8 +114,41 @@ const getMentor = async (req: Request, res: Response) => {
 
 // curl -X GET http://localhost:5000/api/get-users
 const getUsers = async (req: Request, res: Response) => {
-  const users = await UserModel.find({}).sort({ create_time: -1 });
-  res.json(users);
+  const _users = UserModel.find({}).sort({ create_time: -1 }).select({
+    _id: 1,
+    first_name: 1,
+    last_name: 1,
+    email: 1,
+    is_mentor: 1,
+    mentor_information: 1,
+    verified: 1,
+  });
+
+  const _mentors = MentorModel.find({}).select({
+    _id: 1,
+    top_mentor: 1,
+    approved: 1,
+    experiences: 1,
+  });
+
+  const [users, mentors] = await Promise.all([_users, _mentors]);
+
+  const modified_users = users.map((user) => {
+    const mentor = mentors.find((mentor) =>
+      mentor._id.equals(user.mentor_information),
+    );
+    if (mentor) {
+      return {
+        ...user.toObject(),
+        ...mentor.toObject(),
+        _id: user._id,
+      };
+    }
+
+    return user;
+  });
+
+  res.json(modified_users);
 };
 
 // curl -X GET http://localhost:5000/api/get-user?id=61a211ab8e41a1fc1c49c2a4

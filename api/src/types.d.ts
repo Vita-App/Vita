@@ -38,7 +38,7 @@ export interface UserSchemaType {
   createVerificationToken: () => string;
   maxSessionsCanReqPerMonth: number;
   currentSessionsRequested: number;
-  lastSessionRequested: Date;
+  lastSessionRequested?: Date;
 }
 
 export interface AdminSchemaType {
@@ -118,7 +118,7 @@ export interface MentorSchemaType {
   currentSessions: number;
   maxSessionsPerMonth: number;
   currSessionReqs: number;
-  lastSessionReq: Date;
+  lastSessionReq?: Date;
 }
 
 interface Session {
