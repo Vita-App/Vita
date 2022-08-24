@@ -1,6 +1,6 @@
 import React from 'react';
 import Stack from '@mui/material/Stack';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import ChevronLeftOutlined from '@mui/icons-material/ChevronLeftOutlined';
 import ChevronRightOutlined from '@mui/icons-material/ChevronRightOutlined';
 import { Link, StyledButton } from 'components/common';
@@ -16,7 +16,13 @@ interface AppProps {
 }
 
 const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
-  <CarouselToolbarContainer>
+  <Box
+    sx={{
+      display: { xs: 'none', sm: 'flex', md: 'flex' },
+      alignItems: 'center',
+      padding: '20px',
+      justifyContent: 'space-between',
+    }}>
     <Typography
       variant="h5"
       sx={{
@@ -51,7 +57,7 @@ const CarouselToolbar: React.FC<AppProps> = ({ prevRef, nextRef }) => (
         </div>
       </Stack>
     </CarouselNavContainer>
-  </CarouselToolbarContainer>
+  </Box>
 );
 
 export default CarouselToolbar;

@@ -12,8 +12,7 @@ const Contributors = () => (
       direction="row"
       justifyContent="center"
       alignItems="center"
-      flexWrap="wrap"
-      spacing={2}>
+      flexWrap="wrap">
       {topContributors.map((contributor, index) => (
         <Contributor key={index} contributor={contributor} topContributor />
       ))}

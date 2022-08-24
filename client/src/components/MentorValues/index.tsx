@@ -2,10 +2,15 @@ import React from 'react';
 import { ValueCard } from './ValueCard';
 import { mentorValuesData } from './mentorValuesData';
 import { MentorValuesTitle, CardContainer } from './MentorValues.styles';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 
 export const MentorValues = () => (
-  <div style={{ color: 'white', margin: '10% 0%' }}>
+  <Box
+    sx={{
+      color: 'white',
+      margin: '10% 0%',
+      display: { xs: 'none', sm: 'none', md: 'block' },
+    }}>
     <MentorValuesTitle>
       <Typography sx={{ typography: { xs: 'h5', sm: 'h4', md: 'h3' } }}>
         Unique stories. Real Experiences.
@@ -20,5 +25,5 @@ export const MentorValues = () => (
         <ValueCard key={index} cardInfo={mentorValue} />
       ))}
     </CardContainer>
-  </div>
+  </Box>
 );

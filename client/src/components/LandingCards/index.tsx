@@ -10,6 +10,7 @@ const LandingCards: FC = () => (
     m={8}
     spacing={2}
     sx={{
+      display: { xs: 'none', sm: 'none', md: 'flex' },
       width: '80%',
       mx: 'auto',
     }}>

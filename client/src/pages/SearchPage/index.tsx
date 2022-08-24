@@ -88,7 +88,10 @@ const SearchPage = () => {
             </Tabs>
           </Box>
           <TabPanel index="1" value={tabIndex}>
-            <Box sx={{ padding: '0px 32px 32px 32px' }}>
+            <Box
+              sx={{
+                padding: { xs: '0px 16px 32px 16px', sm: '0px 32px 32px 32px' },
+              }}>
               <MentorsPage />
             </Box>
           </TabPanel>
