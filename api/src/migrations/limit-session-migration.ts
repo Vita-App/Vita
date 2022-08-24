@@ -1,7 +1,21 @@
 import { UserModel, MentorModel } from '../Models/User';
+import { Request, Response } from 'express';
+import { MentorSchemaType } from '../types';
 
-const migrate = async () => {
-  const txns = [
+const migrate = async (req: Request, res: Response) => {
+  const users = await UserModel.find({}).populate('mentor_information');
+
+  const txns1 = users.map((user, index) => {
+    if (user.mentor_information) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      user.avatar = user.mentor_information.avatar;
+    }
+
+    return user.save();
+  });
+
+  const txns2 = [
     UserModel.updateMany(
       {},
       {
@@ -25,7 +39,9 @@ const migrate = async () => {
     ),
   ];
 
-  await Promise.all(txns);
+  await Promise.all([...txns1, ...txns2]);
+
+  res.json('Migration Successful');
 };
 
 export default migrate;
