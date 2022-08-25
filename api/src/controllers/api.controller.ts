@@ -52,6 +52,7 @@ const getMentors = async (req: Request, res: Response) => {
   try {
     const [mentors_, totalDocs] = await Promise.all([
       MentorModel.find(searchOptions)
+        .sort({ top_mentor: -1, _id: 1 })
         .skip(limit * (page - 1))
         .limit(limit),
       MentorModel.countDocuments(searchOptions),
@@ -124,6 +125,7 @@ const getUsers = async (req: Request, res: Response) => {
     verified: 1,
     graduation_year: 1,
     signup_completed: 1,
+    avatar: 1,
   });
 
   const _mentors = MentorModel.find({}).select({
