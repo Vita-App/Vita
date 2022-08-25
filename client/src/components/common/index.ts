@@ -79,7 +79,7 @@ export const StyledButton = styled(Button)(({ theme }) => ({
   // Margin: '1rem',
 
   [theme.breakpoints.up('xs')]: {
-    padding: '12px 6px',
+    padding: '6px 16px',
   },
   [theme.breakpoints.up('sm')]: {
     padding: '12px 16px',

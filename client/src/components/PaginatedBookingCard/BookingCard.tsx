@@ -32,11 +32,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic, topics }) => {
             my: 1,
             border: '2px ridge rgba(255, 255, 255, 0.12)',
           }}
+          // spacing={1}
           container
           direction="row"
           // JustifyContent="center"
           alignItems="center">
-          <Grid item xs={12} sm={2} sx={{ px: 2 }}>
+          <Grid item xs={12} sm={2} sx={{ px: 2, py: { xs: 1, sm: 0 } }}>
             <Chip
               style={{
                 width: '100%',
@@ -55,7 +56,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic, topics }) => {
             direction="column"
             xs={12}
             sm={8}
-            sx={{ color: 'white', px: 2 }}>
+            sx={{ color: 'white', px: 2, py: { xs: 1, sm: 0 } }}>
             <Typography variant="h6" sx={{ fontWeight: 800 }}>
               {topicName}
             </Typography>
@@ -66,7 +67,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic, topics }) => {
             </Typography>
           </Grid>
           {auth.user?._id !== mentor._id && mentor.is_mentoring && (
-            <Grid item xs={12} sm={1} sx={{ px: 2 }}>
+            <Grid item xs={12} sm={1} sx={{ px: 2, pb: { xs: 1, sm: 0 } }}>
               <Button
                 sx={{ p: 1 }}
                 onClick={() => {

@@ -233,7 +233,8 @@ const UserPage = () => {
           md={7}
           sx={{ color: '#f5f5f5' }}
           justifyContent="space-between"
-          pl={{ xs: 2, md: 10 }}>
+          pl={{ xs: 2, md: 10 }}
+          pr={{ xs: 2, sm: 0 }}>
           <Container item>
             <PhotoWrapper>
               <Photo>
