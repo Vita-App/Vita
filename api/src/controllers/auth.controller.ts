@@ -19,17 +19,9 @@ import parseFormData from '../utils/parseFormData';
 import { SelectOption, UserSchemaType } from '../types';
 
 const googleCallback = async (req: Request, res: Response) => {
-  const { isMentor, loginMode } = req.query;
-
-  if (loginMode === 'false' && isMentor === 'false' && !ALLOW_MENTEE_SIGNUP) {
-    return res.redirect(
-      `${CLIENT_URL}/auth?socialAuthFailed=Signup is disabled for mentees for now!`,
-    );
-  }
-
   passport.authenticate('google', {
     scope: ['profile', 'email'],
-    state: JSON.stringify({ isMentor, loginMode }),
+    state: JSON.stringify(req.query),
   })(req, res);
 };
 
@@ -42,16 +34,8 @@ const googleRefreshToken = async (req: Request, res: Response) => {
 };
 
 const linkedinCallback = async (req: Request, res: Response) => {
-  const { isMentor, loginMode } = req.query;
-
-  if (loginMode === 'false' && isMentor === 'false' && !ALLOW_MENTEE_SIGNUP) {
-    return res.redirect(
-      `${CLIENT_URL}/auth?socialAuthFailed=Signup is disabled for mentees for now!`,
-    );
-  }
-
   passport.authenticate('linkedin', {
-    state: JSON.stringify({ isMentor, loginMode }),
+    state: JSON.stringify(req.query),
   })(req, res);
 };
 
@@ -210,14 +194,6 @@ const jwtLogin = async (req: Request, res: Response) => {
 const jwtSignup = async (req: Request, res: Response) => {
   const { email, password, first_name, last_name, mentor, inviteCode } =
     req.body;
-
-  if (!mentor && !ALLOW_MENTEE_SIGNUP) {
-    return res.status(400).json({
-      success: false,
-      isLoggedIn: false,
-      message: 'Mentee signup is disabled for now!',
-    });
-  }
 
   if (!mentor) {
     const invite = await Waitlist.findOne({ inviteCode, email });
