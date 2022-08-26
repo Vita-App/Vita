@@ -9,6 +9,7 @@ import {
 import { NextFunction, Request, Response } from 'express';
 import { Document, Types } from 'mongoose';
 import { UserModel, MentorModel } from '../Models/User';
+import { Waitlist } from '../Models/Waitlist';
 import passport from 'passport';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import sendVerificationMail from '../utils/sendVerificationMail';
@@ -207,7 +208,8 @@ const jwtLogin = async (req: Request, res: Response) => {
 };
 
 const jwtSignup = async (req: Request, res: Response) => {
-  const { email, password, first_name, last_name, mentor } = req.body;
+  const { email, password, first_name, last_name, mentor, inviteCode } =
+    req.body;
 
   if (!mentor && !ALLOW_MENTEE_SIGNUP) {
     return res.status(400).json({
@@ -215,6 +217,20 @@ const jwtSignup = async (req: Request, res: Response) => {
       isLoggedIn: false,
       message: 'Mentee signup is disabled for now!',
     });
+  }
+
+  if (!mentor) {
+    const invite = await Waitlist.findOne({ inviteCode, email });
+
+    if (!invite) {
+      return res.status(400).json({
+        success: false,
+        isLoggedIn: false,
+        message: 'Invalid or used invite code',
+      });
+    }
+
+    await invite.remove();
   }
 
   const user = new UserModel({
