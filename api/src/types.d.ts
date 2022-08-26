@@ -53,6 +53,13 @@ export interface AdminSchemaType {
   issueToken: () => string;
 }
 
+export interface WaitListSchemaType {
+  name: string;
+  email: string;
+  inviteCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface TopicSchemaType {
   value: number;
   emojiIcon: string;

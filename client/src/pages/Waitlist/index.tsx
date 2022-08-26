@@ -1,9 +1,16 @@
 import React from 'react';
 import Appbar from 'components/Appbar';
 import { Stack, Typography, TextField, Button, styled } from '@mui/material';
+import { useMutation } from 'react-query';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
-import { APP_NAME } from 'config.keys';
-// import Footer from 'components/Footer/Footer';
+import { APP_NAME, SERVER_URL } from 'config.keys';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+
+interface FormData {
+  name: string;
+  email: string;
+}
 
 const StyledButton = styled(Button)`
   background-size: 200%;
@@ -22,15 +29,37 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const joinWaitlist = async (formData: FormData) => {
+  const { data } = await axios.post(
+    `${SERVER_URL}/api/join-waitlist`,
+    formData,
+  );
+
+  return data;
+};
+
 const WaitListPage = () => {
   const {
     handleSubmit,
     formState: { errors },
     control,
   } = useForm();
+  const mutation = useMutation(
+    'join-waitlist',
+    (formData: FormData) => joinWaitlist(formData),
+    {
+      onSuccess: () => {
+        toast.success('You have been added to the waitlist');
+      },
+      onError: (err: AxiosError) => {
+        toast.error(err.response?.data.error);
+      },
+    },
+  );
 
   const onSubmit = (formData: FieldValues) => {
-    console.log(formData);
+    const data = formData as FormData;
+    mutation.mutate(data);
   };
 
   return (
@@ -96,8 +125,12 @@ const WaitListPage = () => {
               )}
             />
           </Stack>
-          <StyledButton type="submit" variant="contained" color="primary">
-            Join Waitlist
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={mutation.isLoading}>
+            {mutation.isLoading ? 'Adding you to Waitlist' : 'Join Waitlist'}
           </StyledButton>
         </Stack>
       </Stack>
