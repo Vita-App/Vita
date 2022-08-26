@@ -73,9 +73,11 @@ const ToolbarComponent: React.FC<{
               </Link>
             </Box>
             {auth.isLoggedIn && <Notification />}
-            <Link to="/search">
-              <Button>Get a match</Button>
-            </Link>
+            <Hidden smDown>
+              <Link to="/search">
+                <Button>Get a match</Button>
+              </Link>
+            </Hidden>
             {!auth.isLoggedIn ? (
               <Link to="/auth">
                 <Button sx={{ color: '' }}>Login</Button>
