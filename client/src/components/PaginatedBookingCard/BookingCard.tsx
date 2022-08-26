@@ -9,6 +9,7 @@ import { authState, mentorState } from 'store';
 import { useRecoilValue } from 'recoil';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { blue } from '@mui/material/colors';
 interface BookingCardProps {
   topic: Topic;
   topics: Topic[];
@@ -67,9 +68,23 @@ const BookingCard: React.FC<BookingCardProps> = ({ topic, topics }) => {
             </Typography>
           </Grid>
           {auth.user?._id !== mentor._id && mentor.is_mentoring && (
-            <Grid item xs={12} sm={1} sx={{ px: 2, pb: { xs: 1, sm: 0 } }}>
+            <Grid
+              item
+              xs={12}
+              sm={2}
+              sx={{ px: 2, pb: { xs: 1, sm: 0 }, width: '100%' }}>
               <Button
-                sx={{ p: 1 }}
+                sx={{
+                  padding: { sx: '4px !important', sm: 1 },
+                  backgroundColor: blue[900],
+                  width: '100%',
+                  fontWeight: 600,
+                  font: '12px',
+                  '&:hover': {
+                    opacity: 1,
+                    backgroundColor: blue[800],
+                  },
+                }}
                 onClick={() => {
                   if (!auth.isLoggedIn) {
                     toast.error('You must be logged in to book a mentorship');
