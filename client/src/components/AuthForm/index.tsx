@@ -78,19 +78,6 @@ const AuthForm: React.FC = () => {
     setOauthErr(null);
   };
 
-  const getPattern = (authMode: AuthMode, isMentor: boolean) => {
-    if (!isMentor && authMode === AuthMode.signup)
-      return {
-        value: /^[A-Za-z0-9._%+-]+@thapar.edu$/i,
-        message: 'Mentee must use thapar.edu mail',
-      };
-
-    return {
-      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-      message: 'Invalid email address',
-    };
-  };
-
   const loginMode = authMode === AuthMode.login;
 
   const onSubmit = async (formData: FieldValues) => {
@@ -143,13 +130,14 @@ const AuthForm: React.FC = () => {
 
   const role = watch('role');
   const isMentor = role === 'mentor';
+  const inviteCode = watch('inviteCode');
 
   const googleLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}`;
+    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}&inviteCode=${inviteCode}`;
   };
 
   const linkedInLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}`;
+    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}&inviteCode=${inviteCode}`;
   };
 
   useEffect(() => {
@@ -204,9 +192,6 @@ const AuthForm: React.FC = () => {
           defaultValue=""
           rules={{
             required: 'Email is required',
-            pattern: {
-              ...getPattern(authMode, role === 'mentor'),
-            },
           }}
           render={({ field }) => (
             <StyledTextField
@@ -250,6 +235,27 @@ const AuthForm: React.FC = () => {
           )}
         />
       </Stack>
+      {role === 'mentee' && (
+        <Stack>
+          <Typography variant="body2">Invitation Code</Typography>
+          <Controller
+            control={control}
+            name="inviteCode"
+            defaultValue=""
+            rules={{
+              required: 'Invitation Code is required',
+            }}
+            render={({ field }) => (
+              <StyledTextField
+                {...field}
+                placeholder="Invitation Code"
+                error={Boolean(errors.inviteCode)}
+                helperText={errors.inviteCode?.message}
+              />
+            )}
+          />
+        </Stack>
+      )}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         {!loginMode && (
           <Stack spacing={1}>

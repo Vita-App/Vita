@@ -28,7 +28,8 @@
     "capitalized-comments": "off",
     "no-negated-condition": "off",
     "new-cap": "off",
-    "no-return-await": "off"
+    "no-return-await": "off",
+    "max-params": [1, 8]
   },
   "settings": {
     "node": {

@@ -18,6 +18,7 @@ import Banner from 'components/Banner';
 import useMetaData from 'hooks/useMetaData';
 import Bookings from './Dashboard/Booking';
 import Settings from './Dashboard/Settings';
+import WaitListPage from './Waitlist';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -85,6 +86,7 @@ const App = () => {
         </Route>
         <Route path="/registration-form" element={<Signup />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
+        <Route path="/join-waitlist" element={<WaitListPage />} />
       </Routes>
     </Suspense>
   );
