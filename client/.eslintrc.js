@@ -45,6 +45,7 @@ module.exports = {
       },
     ],
     'operator-linebreak': 'off',
+    complexity: 'off',
   },
   settings: {
     react: {

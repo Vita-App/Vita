@@ -3,6 +3,7 @@ import GoogleStrategy from 'passport-google-oauth20';
 import LinkedinStrategy from 'passport-linkedin-oauth2';
 import { CREATE_CALENDER_EMAIL, GOOGLE_KEY, LINKEDIN_KEY } from './keys';
 import { UserModel } from '../Models/User';
+import { Waitlist } from '../Models/Waitlist';
 import { CalendarCredentialsModel } from '../Models/CalendarCredentials';
 
 const calendarEventCreationEmail = async (
@@ -86,6 +87,19 @@ passport.use(
       if (state.message === 'getRefreshToken') {
         calendarEventCreationEmail(profile._json.email, _refreshToken, done);
       } else {
+        if (state.loginMode === 'false' && state.isMentor === 'false') {
+          const invite = await Waitlist.findOne({
+            email: profile._json?.email,
+            inviteCode: state.inviteCode,
+          });
+
+          if (!invite) {
+            return done('Invalid invite code');
+          }
+
+          await invite.remove();
+        }
+
         const user = new UserModel({
           user_id: profile.id,
           first_name: profile._json?.given_name,
@@ -113,8 +127,21 @@ passport.use(
       scope: ['r_emailaddress', 'r_liteprofile'],
       passReqToCallback: true,
     },
-    (request, _accessToken, _refreshToken, profile, done) => {
+    async (request, _accessToken, _refreshToken, profile, done) => {
       const state = JSON.parse((request.query.state as string) || '{}');
+
+      if (state.loginMode === 'false' && state.isMentor === 'false') {
+        const invite = await Waitlist.findOne({
+          email: profile._json?.email,
+          inviteCode: state.inviteCode,
+        });
+
+        if (!invite) {
+          return done('Invalid invite code');
+        }
+
+        await invite.remove();
+      }
 
       const user = new UserModel({
         user_id: profile.id,

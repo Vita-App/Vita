@@ -66,9 +66,14 @@ const LandingHero = () => {
           springConfig={presets.stiff}
         />
       </Typography>
-      <Link to="/search">
-        <StyledButton variant="contained">Find a Mentor ⚡</StyledButton>
-      </Link>
+      <Stack direction="row" spacing={2}>
+        <Link to="/search">
+          <StyledButton variant="contained">Find a Mentor ⚡</StyledButton>
+        </Link>
+        <Link to="/join-waitlist">
+          <StyledButton variant="contained">Join Waitlist 📃</StyledButton>
+        </Link>
+      </Stack>
     </Wrapper>
   );
 };

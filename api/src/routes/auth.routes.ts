@@ -12,6 +12,7 @@ router.post('/auth/login', authController.jwtLogin);
 router.get('/auth/verify-email', authController.verifyEmail);
 router.get('/auth/google', authController.googleCallback);
 router.get('/get-refresh-token', authController.googleRefreshToken);
+router.post('/send-email', authController.sendMail);
 router.get('/auth/linkedin', authController.linkedinCallback);
 router.get(
   '/auth/googleCallback',

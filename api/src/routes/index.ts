@@ -7,6 +7,7 @@ import bookingsRoutes from './bookings.routes';
 import webhooksRoutes from './webhooks.routes';
 import notificationRoutes from './notification.routes';
 import devRoutes from './dev.routes';
+import waitlistRoutes from './waitlist.routes';
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use(authRoutes);
 router.use(bookingsRoutes);
 router.use(webhooksRoutes);
 router.use(notificationRoutes);
+router.use(waitlistRoutes);
 router.use(devRoutes);
 
 export default router;

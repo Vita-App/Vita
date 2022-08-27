@@ -34,7 +34,6 @@ export const sendBookingRequestMessage = async (
   mentee: string,
   at: string,
   booking_id: string,
-  // eslint-disable-next-line max-params
 ) => {
   try {
     const { data } = await axios.post(
