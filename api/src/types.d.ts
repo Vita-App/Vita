@@ -57,8 +57,7 @@ export interface WaitListSchemaType {
   name: string;
   email: string;
   inviteCode: string;
-  createdAt: Date;
-  updatedAt: Date;
+  invited: boolean;
 }
 export interface TopicSchemaType {
   value: number;
