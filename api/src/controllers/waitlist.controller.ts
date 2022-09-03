@@ -5,8 +5,9 @@ import { Waitlist } from '../Models/Waitlist';
 import { sendEmail } from '../service/email-service';
 import { makeTemplate } from '../utils/makeTemplate';
 import faker from '@faker-js/faker';
+import { UserModel } from '../Models/User';
 
-const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const chars = 'abcdefghijklmnopqrstuvwxyz';
 
 const nanoidThree = customAlphabet(chars, 3);
 const nanoidFour = customAlphabet(chars, 4);
@@ -39,6 +40,14 @@ const seedWaitlist = async (req: Request, res: Response) => {
 const joinWaitlist = async (req: Request, res: Response) => {
   const { name, email } = req.body;
 
+  // Checking if user already exists in UserModel
+  const user = await UserModel.findOne({ email });
+  if (user) {
+    return res.status(400).json({
+      error: 'You are already a member of TI MentorShip',
+    });
+  }
+
   // Checking if user has valid email address
   if (!/^[A-Za-z0-9._%+-]+@thapar.edu$/i.test(email)) {
     return res.status(400).json({
@@ -66,13 +75,48 @@ const joinWaitlist = async (req: Request, res: Response) => {
 
 const getWaitlist = async (req: Request, res: Response) => {
   const waitlist = await Waitlist.find();
+
   res.status(200).json({
-    waitlist,
+    people: waitlist.filter(
+      (entry) => entry.name !== '*' && entry.email !== '*',
+    ),
+    genrated: waitlist.filter(
+      (entry) => entry.name === '*' && entry.email === '*',
+    ),
   });
 };
 
+const createInvitationCodes = async (req: Request, res: Response) => {
+  const { count } = req.query as { count: string };
+  const _count = count ? parseInt(count, 10) : 50;
+
+  await Waitlist.deleteMany({
+    email: '*',
+    name: '*',
+  });
+
+  const txns = [];
+  const entries = [];
+
+  for (let i = 0; i < _count; i++) {
+    const inviteCode = `${nanoidThree()}-${nanoidFour()}-${nanoidThree()}`;
+
+    const entry = new Waitlist({ inviteCode, name: '*', email: '*' });
+    entries.push(entry);
+    txns.push(entry.save());
+  }
+
+  try {
+    await Promise.all(txns);
+    res.json({ codes: entries });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 const sendInvites = async (req: Request, res: Response) => {
-  const limitEntries = 100;
+  // ? Max Limit of emails to send at once using node mailer is 10 (experimentally)
+  const limitEntries = 10;
 
   // Select 100 random entries from the waitlist which have not been invited yet
   const randomEntries = await Waitlist.aggregate([
@@ -92,10 +136,7 @@ const sendInvites = async (req: Request, res: Response) => {
         assetFolder: ASSET_FOLDER,
       });
 
-      if (entry.email === 'lalitkumarsingh3716@gmail.com') {
-        txns.push(sendEmail(email, 'Invite to join TI MentorShip', template));
-      }
-
+      txns.push(sendEmail(email, 'Invite to join TI MentorShip', template));
       txns.push(Waitlist.findByIdAndUpdate(entry._id, { invited: true }));
     }
 
@@ -117,4 +158,5 @@ export default {
   joinWaitlist,
   getWaitlist,
   sendInvites,
+  createInvitationCodes,
 };

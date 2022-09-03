@@ -1,6 +1,5 @@
 import {
   ADMIN_URL,
-  ALLOW_MENTEE_SIGNUP,
   APP_NAME,
   ASSET_FOLDER,
   CLIENT_URL,
@@ -196,17 +195,17 @@ const jwtSignup = async (req: Request, res: Response) => {
     req.body;
 
   if (!mentor) {
-    const invite = await Waitlist.findOne({ inviteCode, email });
+    const invite = await Waitlist.findOne({ inviteCode });
 
-    if (!invite) {
-      return res.status(400).json({
-        success: false,
-        isLoggedIn: false,
-        message: 'Invalid or used invite code',
+    if (!invite || (invite.email !== email && invite.email !== '*')) {
+      return res.status(401).json({
+        error: 'Invalid or used invite code',
       });
     }
 
-    await invite.remove();
+    if (invite.email === email) {
+      await invite.remove();
+    }
   }
 
   const user = new UserModel({

@@ -89,15 +89,19 @@ passport.use(
       } else {
         if (state.loginMode === 'false' && state.isMentor === 'false') {
           const invite = await Waitlist.findOne({
-            email: profile._json?.email,
             inviteCode: state.inviteCode,
           });
 
-          if (!invite) {
+          if (
+            !invite ||
+            (invite.email !== profile._json.email && invite.email !== '*')
+          ) {
             return done('Invalid invite code');
           }
 
-          await invite.remove();
+          if (invite.email === profile._json.email) {
+            await invite.remove();
+          }
         }
 
         const user = new UserModel({
@@ -132,15 +136,19 @@ passport.use(
 
       if (state.loginMode === 'false' && state.isMentor === 'false') {
         const invite = await Waitlist.findOne({
-          email: profile._json?.email,
           inviteCode: state.inviteCode,
         });
 
-        if (!invite) {
+        if (
+          !invite ||
+          (invite.email !== profile.emails[0]?.value && invite.email !== '*')
+        ) {
           return done('Invalid invite code');
         }
 
-        await invite.remove();
+        if (invite.email === profile.emails[0]?.value) {
+          await invite.remove();
+        }
       }
 
       const user = new UserModel({

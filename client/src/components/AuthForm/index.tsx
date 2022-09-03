@@ -121,6 +121,7 @@ const AuthForm: React.FC = () => {
           return data;
         },
         (data: any) => {
+          if (!data.success) return;
           setAuthState(data);
           navigate('/email-verification', { state: { email: formData.email } });
         },
@@ -250,7 +251,19 @@ const AuthForm: React.FC = () => {
                 {...field}
                 placeholder="Invitation Code"
                 error={Boolean(errors.inviteCode)}
-                helperText={errors.inviteCode?.message}
+                helperText={
+                  <Typography variant="body2" color="textSecondary">
+                    Don&apos;t have an invitation code? Join the waitlist{' '}
+                    <Link
+                      sx={{
+                        color: 'primary.main',
+                        textDecoration: 'underline',
+                      }}
+                      to="/join-waitlist">
+                      here
+                    </Link>
+                  </Typography>
+                }
               />
             )}
           />
