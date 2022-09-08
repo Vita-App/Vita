@@ -100,7 +100,7 @@ const WaitListPage = () => {
                 <TextField
                   {...field}
                   sx={{ flex: 1 }}
-                  placeholder="Enter your Name"
+                  label="Enter your Name"
                   error={Boolean(errors.name)}
                   helperText={errors.name && errors.name.message}
                 />
@@ -118,7 +118,7 @@ const WaitListPage = () => {
                   {...field}
                   sx={{ flex: 1 }}
                   type="email"
-                  placeholder="Enter your email"
+                  label="Enter your email"
                   error={Boolean(errors.email)}
                   helperText={errors.email && errors.email.message}
                 />
