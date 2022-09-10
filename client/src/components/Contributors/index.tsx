@@ -4,7 +4,7 @@ import { topContributors } from './contributors';
 import Contributor from './Contributor';
 
 const Contributors = () => (
-  <Stack spacing={2} mb={4} p={2}>
+  <Stack spacing={2} p={2} pb={4}>
     <Typography variant="h5" textAlign="center" color="#fff" gutterBottom>
       Made with ❤️ by
     </Typography>
