@@ -1,11 +1,10 @@
 import { UserModel, MentorModel } from '../Models/User';
 import { Request, Response } from 'express';
-import { MentorSchemaType } from '../types';
 
 const migrate = async (req: Request, res: Response) => {
   const users = await UserModel.find({}).populate('mentor_information');
 
-  const txns1 = users.map((user, index) => {
+  const txns1 = users.map((user) => {
     if (user.mentor_information) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

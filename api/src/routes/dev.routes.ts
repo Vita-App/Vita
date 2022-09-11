@@ -4,7 +4,7 @@ import adminController from '../controllers/admin.controller';
 import waitlistController from '../controllers/waitlist.controller';
 import { fakeDataController } from '../data/fakeData-controller';
 import { checkDBUrl } from '../middleware';
-import migrate from '../migrations/limit-session-migration';
+import migrate from '../migrations/country-migration';
 
 const router = express.Router();
 

@@ -39,6 +39,10 @@ export interface MentorSchemaType {
     url: string;
     filename: string;
   };
+  country: {
+    name: string;
+    flag: string;
+  };
   experiences: ExperienceType[];
   graduation_year: string;
   bio: string;

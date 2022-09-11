@@ -48,9 +48,17 @@ const AbsoluteGrid = styled(Grid)`
   }
 
   .UserCard_text {
+    display: flex;
+    align-items: center;
     font-size: 24px;
     font-weight: 700;
-    padding: 8px px;
+    padding: 8px 0px;
+  }
+  .UserCard_text > img {
+    height: 24px;
+    width: 24px;
+    margin-left: 5px;
+    margin-top: 7px;
   }
   .UserCard_topics {
     text-overflow: ellipsis;
@@ -62,8 +70,15 @@ const AbsoluteGrid = styled(Grid)`
 `;
 
 const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
-  const { first_name, graduation_year, last_name, experiences, avatar, _id } =
-    user;
+  const {
+    first_name,
+    graduation_year,
+    last_name,
+    experiences,
+    avatar,
+    _id,
+    country,
+  } = user;
 
   const name = `${first_name} ${last_name}`;
   // change this
@@ -89,7 +104,7 @@ const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
           </Grid>
           <Grid item>{experiences && experiences[0].company}</Grid>
           <Grid item className="UserCard_text">
-            {name}
+            {name} <img src={country?.flag} />
           </Grid>
         </AbsoluteGrid>
       </Wrapper>
