@@ -18,6 +18,11 @@ const Duration = new Schema<DurationType>({
   },
 });
 
+const Country = new Schema<{ name: string; flag: string }>({
+  name: String,
+  flag: String,
+});
+
 const Experience = new Schema<ExperienceType>({
   company: String,
   role: String,
@@ -29,6 +34,7 @@ const MentorSchema = new Schema<MentorSchemaType>({
   user_id: { type: String },
   first_name: { type: String },
   last_name: { type: String },
+  country: { type: Country },
   avatar: {
     type: {
       url: String,
@@ -94,6 +100,7 @@ const UserSchema = new Schema<UserSchemaType>({
   first_name: String,
   last_name: String,
   password: String,
+  country: { type: Country },
   graduation_year: String,
   phone: { type: String },
   email: String,
