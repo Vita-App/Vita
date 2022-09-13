@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
-import { FilterQuery, isValidObjectId } from 'mongoose';
+import { FilterQuery, isValidObjectId, ObjectId } from 'mongoose';
 import { MentorSchemaType, StatsType } from '../types';
 import { BannerModel } from '../Models/Banner';
 import { BookingModel } from '../Models/Booking';
+import { sortExperiences } from '../utils/sortExperiences';
 
 // curl -X GET http://localhost:5000/api/get-mentors?expertise=Leadership&topic=1&limit=10&page=1&mentorSearchText=Google
 const getMentors = async (req: Request, res: Response) => {
@@ -78,7 +79,7 @@ const getMentors = async (req: Request, res: Response) => {
         first_name,
         expertise,
         last_name,
-        experiences,
+        experiences: sortExperiences(experiences),
         avatar,
         topics,
         graduation_year,
@@ -110,8 +111,9 @@ const getTopics = async (req: Request, res: Response) => {
 // curl -X GET http://localhost:5000/api/get-mentor?id=61a211ab8e41a1fc1c49c2a4
 const getMentor = async (req: Request, res: Response) => {
   const id = req.query.id?.toString() || '';
-  let mentor;
+  let mentor: MentorSchemaType | null = {} as MentorSchemaType;
   if (id && isValidObjectId(id)) mentor = await MentorModel.findById(id);
+  if (mentor) mentor.experiences = sortExperiences(mentor.experiences);
   res.json(mentor);
 };
 
