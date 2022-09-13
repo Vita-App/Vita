@@ -72,7 +72,7 @@ export const StyledReactSelect = styled(ReactSelect)({
 });
 
 export const StyledButton = styled(Button)(({ theme }) => ({
-  background: 'rgb(59,57,57,0.4)',
+  background: 'rgb(59,57,57,0.9)',
   textTransform: 'none',
   color: '#f5f5f5',
   fontWeight: 700,

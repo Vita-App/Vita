@@ -71,7 +71,7 @@ export const AbsoluteGrid = styled(Grid)`
 
 export const StyledIconButton = styled(IconButton)(
   ({ theme }) => `
-  background: rgb(57,57,57,0.4);
+  background: rgb(57,57,57,0.9);
   textTransform: none;
   color: #f5f5f5;
   border: 1px solid ${theme.palette.grey[800]};
