@@ -8,7 +8,7 @@ import { ControllerRenderProps, FieldValues } from 'react-hook-form';
 const CountrySelect = ({
   field,
 }: {
-  field: ControllerRenderProps<FieldValues, 'country'>;
+  field: ControllerRenderProps<FieldValues, 'countryCode'>;
 }) => (
   <Autocomplete
     id="country-select-demo"
