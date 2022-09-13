@@ -27,7 +27,6 @@ export const fakeDataController = async (req: Request, res: Response) => {
         userData.phone,
         userData.graduation_year,
       );
-
       const mentor = new MentorModel({
         ...mentorData,
         timezone: userData.timezone,

@@ -194,6 +194,7 @@ const UserPage = () => {
     expertise,
     is_mentoring,
     topics: topicNums,
+    countryCode,
   } = data;
 
   const name = `${first_name} ${last_name}`;
@@ -278,8 +279,22 @@ const UserPage = () => {
             </PhotoWrapper>
 
             <TextWrapper>
-              <Typography variant="h5" fontWeight={700}>
+              <Typography
+                variant="h5"
+                fontWeight={700}
+                sx={{ display: 'flex', alignItems: 'center' }}>
                 Hi, I m {name}
+                {countryCode ? (
+                  <img
+                    style={{ paddingLeft: '8px' }}
+                    src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.png`}
+                    srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.png 2x`}
+                    width="32"
+                    height="24"
+                  />
+                ) : (
+                  <></>
+                )}
               </Typography>
               <Typography fontWeight={600} sx={{ py: 1 }}>
                 {experiences[0].role} at {experiences[0].company}

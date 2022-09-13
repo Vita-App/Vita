@@ -450,6 +450,7 @@ const registerUser = async (req: Request, res: Response) => {
       ),
       linkedIn: data.linkedin,
       twitter: data.twitter,
+      countryCode: data.countryCode,
     });
 
     await mentor.save();

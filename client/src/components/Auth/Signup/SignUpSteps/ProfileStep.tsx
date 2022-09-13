@@ -6,6 +6,7 @@ import {
   Avatar,
   Chip,
   CircularProgress,
+  Box,
 } from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
@@ -21,6 +22,7 @@ import { useRecoilValue } from 'recoil';
 import { authState } from 'store';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber } from 'awesome-phonenumber';
+import CountrySelect from 'components/CountryDropdown';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -183,7 +185,7 @@ const ProfileStep: React.FC<{
     }
   }, []);
 
-  const minGraduationYear = 1975;
+  const minGraduationYear = 1950;
   const maxGraduationYear = new Date().getFullYear() + 5;
 
   return (
@@ -383,27 +385,42 @@ const ProfileStep: React.FC<{
           />
         </Stack>
       </Stack>
-      <Stack flexGrow={1}>
-        <Typography variant="body2" gutterBottom>
-          Stream
-        </Typography>
-        <Controller
-          name="stream"
-          control={control}
-          defaultValue={props.hydrate?.stream || ''}
-          rules={{
-            required: 'Stream is Required',
-          }}
-          render={({ field, fieldState: { error } }) => (
-            <SingleDropDownItem
-              name="stream"
-              onChange={field.onChange}
-              value={field.value}
-              options={streamOptions}
-              error={error?.message}
-            />
-          )}
-        />
+      <Stack direction={{ xs: 'column', md: 'row' }} spacing={1}>
+        <Stack flexGrow={1} position="relative" sx={{ minWidth: '50%' }}>
+          <Typography variant="body2" gutterBottom>
+            Stream
+          </Typography>
+          <Controller
+            name="stream"
+            control={control}
+            defaultValue={props.hydrate?.stream || ''}
+            rules={{
+              required: 'Stream is Required',
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <SingleDropDownItem
+                name="stream"
+                onChange={field.onChange}
+                value={field.value}
+                options={streamOptions}
+                error={error?.message}
+              />
+            )}
+          />
+        </Stack>
+        <Stack flexGrow={1} sx={{ display: props.isMentor ? 'block' : 'none' }}>
+          <Typography variant="body2" gutterBottom>
+            Location
+          </Typography>
+          <Controller
+            name={'countryCode'}
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field }) => <CountrySelect field={field} />}
+          />
+        </Stack>
       </Stack>
       <Stack>
         <Typography variant="h6" mb={1}>
@@ -433,7 +450,7 @@ const ProfileStep: React.FC<{
           ))}
         </Stack>
       </Stack>
-      {!props.isMentor && (
+      {/* {!props.isMentor && (
         <Stack>
           <Typography variant="body2">Referal code (Optional)</Typography>
           <Controller
@@ -448,7 +465,7 @@ const ProfileStep: React.FC<{
             )}
           />
         </Stack>
-      )}
+      )} */}
       <Stack direction="row" justifyContent="center">
         <StyledButton
           type="submit"

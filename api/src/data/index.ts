@@ -17,6 +17,7 @@ import {
   graduationYears,
   interests,
   streams,
+  countryCode,
 } from './fakeData';
 import faker from '@faker-js/faker';
 import moment from 'moment-timezone';
@@ -196,4 +197,5 @@ export const getMentor = (
   experiences: getRandomExperiences(3),
   time_slots: getRandomTimeSlots(),
   top_mentor: getRandomBool(-0.3),
+  countryCode: getRandom(countryCode),
 });

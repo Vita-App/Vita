@@ -77,7 +77,7 @@ const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
     experiences,
     avatar,
     _id,
-    country,
+    countryCode,
   } = user;
 
   const name = `${first_name} ${last_name}`;
@@ -104,7 +104,16 @@ const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
           </Grid>
           <Grid item>{experiences && experiences[0].company}</Grid>
           <Grid item className="UserCard_text">
-            {name} <img src={country?.flag} />
+            {name}
+            {countryCode ? (
+              <img
+                src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.webp`}
+                srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.webp 2x,                `}
+                style={{ width: '32px', height: '24px' }}
+              />
+            ) : (
+              <></>
+            )}
           </Grid>
         </AbsoluteGrid>
       </Wrapper>

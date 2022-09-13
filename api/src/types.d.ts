@@ -21,10 +21,6 @@ export interface UserSchemaType {
   };
   bio: string;
   timezone: string;
-  country: {
-    name: string;
-    flag: string;
-  };
   graduation_year: string;
   stream: string;
   interests: string[];
@@ -111,10 +107,7 @@ export interface MentorSchemaType {
   experiences: ExperienceType[];
   email: string;
   graduation_year: string;
-  country: {
-    name: string;
-    flag: string;
-  };
+  countryCode: string;
   timezone: string;
   bio: string;
   phone: string;

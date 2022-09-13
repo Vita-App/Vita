@@ -73,7 +73,7 @@ const getMentors = async (req: Request, res: Response) => {
         avatar,
         topics,
         graduation_year,
-        country,
+        countryCode,
       }) => ({
         _id,
         first_name,
@@ -83,7 +83,7 @@ const getMentors = async (req: Request, res: Response) => {
         avatar,
         topics,
         graduation_year,
-        country,
+        countryCode,
       }),
     );
   } catch (error) {
