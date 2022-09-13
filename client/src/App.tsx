@@ -9,6 +9,7 @@ import { DebugObserver } from 'store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import getTheme from 'utils/hooks/theme';
+import { useTawkIO } from 'hooks/useTawk-io';
 
 const App = () => {
   const queryClient = new QueryClient({
@@ -18,6 +19,7 @@ const App = () => {
       },
     },
   });
+  useTawkIO();
 
   return (
     <QueryClientProvider client={queryClient}>

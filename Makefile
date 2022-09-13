@@ -19,3 +19,6 @@ start: client server
 
 dev: 
 	npm run dev
+
+dev-full:
+	npm run dev-full

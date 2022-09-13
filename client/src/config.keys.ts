@@ -9,5 +9,8 @@ export const GOOGLE_ANALYTICS_KEY =
   import.meta.env.VITE_GOOGLE_ANALYTICS_KEY || 'UA-000000000-0';
 export const APP_NAME = import.meta.env.VITE_APP_NAME || 'Vita';
 export const ASSET_FOLDER = import.meta.env.VITE_ASSET_FOLDER || 'Vita';
+export const TAWK_PROPERTY_ID = import.meta.env.VITE_TAWK_PROPERTY_ID || '';
+export const TAWK_WIDGET_ID = import.meta.env.VITE_TAWK_WIDGET_ID || '';
+
 // export const ASSET_FOLDER = 'Vita';
 // export const APP_NAME = 'Vita';
