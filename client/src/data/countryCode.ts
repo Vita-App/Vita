@@ -252,4 +252,5 @@ export const countryCodetoName: Record<string, string> = {
   UA: 'Ukraine',
   QA: 'Qatar',
   MZ: 'Mozambique',
+  'gb-eng': 'England',
 };

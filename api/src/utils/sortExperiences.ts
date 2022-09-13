@@ -1,7 +1,7 @@
 import { ExperienceType } from '../types';
 
 export const sortExperiences = (experiences: ExperienceType[]) =>
-  experiences.sort(experienceComparator).reverse();
+  experiences.sort(experienceComparator);
 
 const experienceComparator = (a: ExperienceType, b: ExperienceType) => {
   if (a.end_year.trim().toLowerCase() === 'present') return 1;
