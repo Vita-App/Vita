@@ -23,7 +23,7 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SERVER_URL } from 'config.keys';
 import Loader from 'components/Loader';
-import { topics as topicData } from 'data';
+import { topics as topicData, countryCodetoName } from 'data';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { authState, mentorState } from 'store';
 import Stats from 'components/UserPage/Stats';
@@ -285,13 +285,15 @@ const UserPage = () => {
                 sx={{ display: 'flex', alignItems: 'center' }}>
                 Hi, I m {name}
                 {countryCode ? (
-                  <img
-                    style={{ paddingLeft: '8px' }}
-                    src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.png`}
-                    srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.png 2x`}
-                    width="32"
-                    height="24"
-                  />
+                  <Tooltip title={countryCodetoName[countryCode.toUpperCase()]}>
+                    <img
+                      style={{ paddingLeft: '8px' }}
+                      src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.png`}
+                      srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.png 2x`}
+                      width="32"
+                      height="24"
+                    />
+                  </Tooltip>
                 ) : (
                   <></>
                 )}

@@ -39,7 +39,7 @@ const StyledText = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     display: 'none',
   },
-  color: '#826efe',
+  color: '#b09aff',
   letterSpacing: '6px',
   fontSize: '24px',
   fontWeight: 800,

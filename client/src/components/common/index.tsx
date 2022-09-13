@@ -1,8 +1,10 @@
+import React from 'react';
 import { Link as router_Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Reactselect from 'react-select';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
 export * from './ChipSelect';
 export * from './SingleSelect';
@@ -118,3 +120,14 @@ export const CenteredDiv = styled('div')`
   align-items: center;
   justify-content: center;
 `;
+
+export const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
+}));

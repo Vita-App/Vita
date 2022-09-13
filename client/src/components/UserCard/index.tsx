@@ -6,6 +6,8 @@ import SchoolIcon from '@mui/icons-material/School';
 // import { commaString } from 'utils/helper';
 import { MentorSchemaType } from 'types';
 import { Link } from 'components/common';
+import { countryCodetoName } from 'data';
+import { StyledTooltip } from 'components/common';
 
 const Wrapper = styled(Paper)`
   height: 400px;
@@ -106,11 +108,14 @@ const UserCard = ({ user }: { user: Partial<MentorSchemaType> }) => {
           <Grid item className="UserCard_text">
             {name}
             {countryCode ? (
-              <img
-                src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.webp`}
-                srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.webp 2x,                `}
-                style={{ width: '32px', height: '24px' }}
-              />
+              <StyledTooltip
+                title={countryCodetoName[countryCode.toUpperCase()]}>
+                <img
+                  src={`https://flagcdn.com/96x72/${countryCode.toLowerCase()}.webp`}
+                  srcSet={`https://flagcdn.com/192x144/${countryCode.toLowerCase()}.webp 2x,                `}
+                  style={{ width: '32px', height: '24px' }}
+                />
+              </StyledTooltip>
             ) : (
               <></>
             )}
