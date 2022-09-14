@@ -429,7 +429,7 @@ const registerUser = async (req: Request, res: Response) => {
   };
   user.graduation_year = data.graduation_year;
   user.stream = data.stream;
-  user.phone = data.countryCode.label.code + data.phone;
+  user.phone = data.phoneCode.value.phone + data.phone;
   user.bio = data.bio;
   user.timezone = data.timezone;
 

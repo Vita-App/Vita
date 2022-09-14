@@ -16,6 +16,7 @@ import { StyledReactSelect } from 'components/common';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { SERVER_URL } from 'config.keys';
+import Select_TEMP from './Select_temp';
 
 const Wrapper = styled('div')`
   color: white;

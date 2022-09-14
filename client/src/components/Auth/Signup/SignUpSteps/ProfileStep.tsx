@@ -6,7 +6,6 @@ import {
   Avatar,
   Chip,
   CircularProgress,
-  Box,
 } from '@mui/material';
 import { interestOptions, streamOptions } from 'data';
 import {
@@ -23,6 +22,7 @@ import { authState } from 'store';
 import { toast } from 'react-toastify';
 import { parsePhoneNumber } from 'awesome-phonenumber';
 import CountrySelect from 'components/CountryDropdown';
+import { countries } from 'data/countryCode';
 
 const checkPhone = async (phone: string) => {
   const { data } = await axios.get(
@@ -48,15 +48,13 @@ interface CountryData {
   };
 }
 
-const defaultCountry: CountryData[] = [
+const defaultCountry = [
   {
-    value: 'India',
-    label: {
-      name: 'India',
-      flag: 'https://flagcdn.com/in.svg',
-      code: '91',
-      alphaCode: 'IN',
+    value: {
+      code: 'IN',
+      phone: '91',
     },
+    label: '+91',
   },
 ];
 
@@ -153,7 +151,7 @@ const ProfileStep: React.FC<{
   );
 
   const onSubmit = (data: FieldValues) => {
-    mutation.mutate(`${data.countryCode.label.code}${data.phone}`);
+    mutation.mutate(`${data.phoneCode.value.phone}${data.phone}`);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -300,8 +298,7 @@ const ProfileStep: React.FC<{
             rules={{
               required: 'Phone Number is Required',
               validate: (value) => {
-                const { alphaCode } = getValues('countryCode').label;
-
+                const { code: alphaCode } = getValues('phoneCode').value;
                 const phone = parsePhoneNumber(value, alphaCode);
 
                 if (!phone.isValid()) {
@@ -320,10 +317,10 @@ const ProfileStep: React.FC<{
                 InputProps={{
                   startAdornment: (
                     <Controller
-                      name="countryCode"
+                      name="phoneCode"
                       control={control}
                       defaultValue={
-                        props.hydrate?.countryCode || defaultCountry[0]
+                        props.hydrate?.phoneCode || defaultCountry[0]
                       }
                       render={({ field }) => (
                         <StyledReactSelect
@@ -339,18 +336,27 @@ const ProfileStep: React.FC<{
                           {...field}
                           placeholder=""
                           classNamePrefix="select"
-                          options={CountryCodeData || defaultCountry}
+                          options={countries.map((country) => ({
+                            value: {
+                              code: country.code,
+                              phone: country.phone,
+                            },
+                            label: `+${country.phone}`,
+                          }))}
+                          // getOptionLabel={(option) => option.label.code}
+                          // getOptionValue={(option: any) => option.value.phone}
                           formatOptionLabel={(option: any) => (
                             <Stack direction="row" alignItems="center">
                               <img
-                                src={option.label.flag}
+                                src={`https://flagcdn.com/w20/${option?.value?.code?.toLowerCase()}.png`}
+                                srcSet={`https://flagcdn.com/w40/${option?.value?.code?.toLowerCase()}.png 2x`}
                                 style={{
                                   height: '16x',
                                   width: '24px',
                                   marginRight: '15px',
                                 }}
                               />
-                              +{option.label.code}
+                              {option.label}
                             </Stack>
                           )}
                         />
@@ -415,6 +421,7 @@ const ProfileStep: React.FC<{
           <Controller
             name={'countryCode'}
             control={control}
+            defaultValue={props.hydrate?.countryCode || 'IN'}
             rules={{
               required: true,
             }}
@@ -450,22 +457,6 @@ const ProfileStep: React.FC<{
           ))}
         </Stack>
       </Stack>
-      {/* {!props.isMentor && (
-        <Stack>
-          <Typography variant="body2">Referal code (Optional)</Typography>
-          <Controller
-            name="referalCode"
-            control={control}
-            defaultValue={props.hydrate?.referalCode || ''}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                placeholder="Enter your referal code"
-              />
-            )}
-          />
-        </Stack>
-      )} */}
       <Stack direction="row" justifyContent="center">
         <StyledButton
           type="submit"

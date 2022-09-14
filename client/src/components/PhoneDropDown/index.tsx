@@ -8,14 +8,14 @@ import { countries } from 'data/countryCode';
 const CountrySelect = ({
   field,
 }: {
-  field: ControllerRenderProps<FieldValues, 'countryCode'>;
+  field: ControllerRenderProps<FieldValues, 'phoneCode'>;
 }) => (
   <>
     <Autocomplete
       id="country-select-demo"
       // sx={{ flexGrow: 1 }}
       options={countries}
-      value={countries.find((country) => country.code === field.value)}
+      value={countries.find((country) => country.phone === field.value)}
       autoHighlight
       onChange={(_, data) => field.onChange(data?.code)}
       getOptionLabel={(option) => option.label}
@@ -31,12 +31,14 @@ const CountrySelect = ({
             srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
             alt=""
           />
-          {option.label} ({option.code})
+          {option.phone} ({option.code})
         </Box>
       )}
       renderInput={(params) => (
         <TextField
+          sx={{ width: '200px' }}
           {...params}
+          variant="standard"
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill

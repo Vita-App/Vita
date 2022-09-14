@@ -71,12 +71,13 @@ const WaitListPage = () => {
         my={2}
         alignItems="center"
         maxWidth="sm"
-        mx="auto">
+        mx="auto"
+        sx={{ p: { xs: '2rem', sm: '1rem', md: '0rem' } }}>
         <Stack spacing={2} textAlign="center">
           <Typography variant="body2" color="textSecondary">
             A platform for getting mentorship
           </Typography>
-          <Typography variant="h4">
+          <Typography variant="h4" sx={{ fontWeight: 700 }}>
             Get mentorship <br /> with {APP_NAME}
           </Typography>
           <Typography variant="body1" color="textSecondary">

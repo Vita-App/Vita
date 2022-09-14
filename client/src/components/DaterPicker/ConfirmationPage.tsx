@@ -95,7 +95,6 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     label: topic_.topicName,
     value: topic_.topicName,
   });
-  console.log(topic_, topics);
   const [isTouched, setIsTouched] = useState(false);
   const queryClient = useQueryClient();
   const [email] = useState<string>('');

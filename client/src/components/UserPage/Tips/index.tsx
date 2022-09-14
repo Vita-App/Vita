@@ -28,16 +28,18 @@ const Tips = () => {
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="h6">#{tip + 1} Tip for success</Typography>
           <Stack direction="row">
-            {tip > 0 && (
-              <IconButton aria-label="prev tip" onClick={() => setTip(tip - 1)}>
-                <ArrowBack />
-              </IconButton>
-            )}
-            {tip < 2 && (
-              <IconButton aria-label="next tip" onClick={() => setTip(tip + 1)}>
-                <ArrowForward />
-              </IconButton>
-            )}
+            <IconButton
+              aria-label="prev tip"
+              onClick={() => setTip(tip - 1)}
+              disabled={tip <= 0}>
+              <ArrowBack />
+            </IconButton>
+            <IconButton
+              aria-label="next tip"
+              onClick={() => setTip(tip + 1)}
+              disabled={tip >= 2}>
+              <ArrowForward />
+            </IconButton>
           </Stack>
         </Stack>
         <Divider />

@@ -50,6 +50,8 @@ const TextAreaWrapper = styled(Paper)({
 
 const CardContainer = styled(Grid)({
   display: 'grid',
+  columnGap: '1rem',
+  // padding: '1rem',
   gridTemplateColumns: 'repeat(auto-fill, 300px)',
   justifyContent: 'space-between',
   marginTop: '3rem',
