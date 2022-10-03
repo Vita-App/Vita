@@ -8,6 +8,7 @@ import webhooksRoutes from './webhooks.routes';
 import notificationRoutes from './notification.routes';
 import devRoutes from './dev.routes';
 import waitlistRoutes from './waitlist.routes';
+import topicRoutes from './topics.routes';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use(webhooksRoutes);
 router.use(notificationRoutes);
 router.use(waitlistRoutes);
 router.use(devRoutes);
+router.use(topicRoutes);
 
 export default router;
