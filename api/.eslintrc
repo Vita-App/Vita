@@ -18,7 +18,6 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "indent": ["error", 2],
     "object-curly-spacing": ["error", "always"],
     "node/no-missing-import": "off",
     "arrow-parens": "off",

@@ -16,7 +16,9 @@ const getTopics = async (req: Request, res: Response) => {
 
   const [topicsData, topicsLen] = await Promise.all([
     limit !== 0
-      ? TopicModel.find(searchOptions).skip(limit * (page - 1)).limit(limit)
+      ? TopicModel.find(searchOptions)
+          .skip(limit * (page - 1))
+          .limit(limit)
       : TopicModel.find(searchOptions),
     TopicModel.countDocuments(searchOptions),
   ]);
