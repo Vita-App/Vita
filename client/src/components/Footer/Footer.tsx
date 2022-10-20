@@ -4,7 +4,14 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import MUILink from '@mui/material/Link';
-import { GitHub, LinkedIn, Email } from '@mui/icons-material';
+import {
+  GitHub,
+  LinkedIn,
+  Email,
+  Twitter,
+  Instagram,
+  Facebook,
+} from '@mui/icons-material';
 import { Link } from 'components/common';
 import { APP_NAME, ASSET_FOLDER } from 'config.keys';
 
@@ -17,16 +24,47 @@ const Footer = () => (
           spacing={2}
           justifyContent="space-between"
           alignItems="center">
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="column" spacing={1}>
             <img
               src={`/${ASSET_FOLDER}/logo192.png`}
               alt="logo"
-              width="30"
-              height="30"
+              width="40"
+              height="40"
             />
+            <Stack direction="row" spacing={1}>
+              <Typography variant="caption" color="#777676">
+                To inspire powerful conversations and collaborations among
+                members worldwide so together we can change the world with
+                creativity.
+              </Typography>
+            </Stack>
+          </Stack>
+
+          <Stack direction="column" spacing={1}>
+            <Typography variant="h5" color="#fff">
+              Reach Us
+            </Typography>
+            <Stack>
+              <Typography variant="caption" color="#777676">
+                Email: contact@vita-app.tech
+              </Typography>
+              <Link to="#">
+                <MUILink variant="caption" color="#777676" component="p">
+                  Privacy Policy
+                </MUILink>
+              </Link>
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <Stack
+          direction={{ sm: 'row', xs: 'column-reverse' }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}>
+          <Stack direction="row" spacing={1}>
             <Typography variant="caption" color="#777676">
-              To inspire powerful conversations and collaborations among members
-              worldwide so together we can change the world with creativity.
+              &copy; Copyright 2022 - {APP_NAME}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1}>
@@ -39,70 +77,12 @@ const Footer = () => (
             <Link to="#">
               <Email />
             </Link>
-          </Stack>
-        </Stack>
-        <Stack
-          direction={{ sm: 'row', xs: 'column-reverse' }}
-          display={{ xs: 'none', sm: 'none', md: 'block' }}
-          justifyContent="space-between"
-          spacing={2}
-          alignItems="center">
-          <Stack direction="column" alignItems={{ xs: 'center', sm: 'start' }}>
-            <Stack direction="row" spacing={2}>
-              <Link to="#">
-                <Typography variant="body2">Find mentors</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">Become a mentor</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">Community</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">Blog</Typography>
-              </Link>
-            </Stack>
-            <Typography variant="caption" color="#777676">
-              &copy; Copyright 2022 - {APP_NAME}
-            </Typography>
-          </Stack>
-          <Stack direction="column">
-            <Stack direction="row" spacing={2} justifyContent="end">
-              <Link to="#">
-                <Typography variant="body2">Join {APP_NAME}</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">FAQs</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">Help Center</Typography>
-              </Link>
-              <Link to="#">
-                <Typography variant="body2">Parternships</Typography>
-              </Link>
-            </Stack>
-            <Stack direction="row" spacing={2}>
-              <Link to="#">
-                <MUILink variant="caption" color="#777676" component="p">
-                  Contact Us
-                </MUILink>
-              </Link>
-              <Link to="#">
-                <MUILink variant="caption" color="#777676" component="p">
-                  Privacy Policy
-                </MUILink>
-              </Link>
-              <Link to="#">
-                <MUILink variant="caption" color="#777676" component="p">
-                  Terms of use
-                </MUILink>
-              </Link>
-              <Link to="#">
-                <MUILink variant="caption" color="#777676" component="p">
-                  Sitemap
-                </MUILink>
-              </Link>
-            </Stack>
+            <Link to="#">
+              <Twitter />
+            </Link>
+            <Link to="#">
+              <Instagram />
+            </Link>
           </Stack>
         </Stack>
       </Stack>
