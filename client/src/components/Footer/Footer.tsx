@@ -4,14 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import MUILink from '@mui/material/Link';
-import {
-  GitHub,
-  LinkedIn,
-  Email,
-  Twitter,
-  Instagram,
-  Facebook,
-} from '@mui/icons-material';
+import { GitHub, Email, LinkedIn } from '@mui/icons-material';
 import { Link } from 'components/common';
 import { APP_NAME, ASSET_FOLDER } from 'config.keys';
 
@@ -40,7 +33,10 @@ const Footer = () => (
             </Stack>
           </Stack>
 
-          <Stack direction="column" spacing={1}>
+          <Stack
+            direction={{ xs: 'column' }}
+            spacing={2}
+            justifyContent="space-between">
             <Typography variant="h5" color="#fff">
               Reach Us
             </Typography>
@@ -59,10 +55,9 @@ const Footer = () => (
 
         <Stack
           direction={{ sm: 'row', xs: 'column-reverse' }}
-          justifyContent="space-between"
           alignItems="center"
-          spacing={2}>
-          <Stack direction="row" spacing={1}>
+          spacing={{ xs: 1, sm: 106 }}>
+          <Stack direction="column" spacing={1}>
             <Typography variant="caption" color="#777676">
               &copy; Copyright 2022 - {APP_NAME}
             </Typography>
@@ -76,12 +71,6 @@ const Footer = () => (
             </Link>
             <Link to="#">
               <Email />
-            </Link>
-            <Link to="#">
-              <Twitter />
-            </Link>
-            <Link to="#">
-              <Instagram />
             </Link>
           </Stack>
         </Stack>
