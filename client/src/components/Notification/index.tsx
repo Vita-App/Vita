@@ -36,6 +36,29 @@ const markAsRead = async () => {
   return data;
 };
 
+export const collection = [
+  {
+    _id: '01',
+    user: 'User1',
+    title: 'Notification 1',
+    text: 'This is an Unread notification',
+    link: 'www.google.com',
+    status: 'unread',
+    createdAt: '24/11/1998',
+    updatedAt: '24/11/1998',
+  },
+  {
+    _id: '02',
+    user: 'User1',
+    title: 'Notification 2',
+    text: 'This is an Read Notification',
+    link: 'www.google.com',
+    status: 'unread',
+    createdAt: '24/11/1998',
+    updatedAt: '24/11/1998',
+  },
+];
+
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -52,7 +75,8 @@ const Notification = () => {
     query.refetch();
   }, [pathname]);
 
-  const unreads = query.data?.filter((n) => n.status === 'unread').length;
+  const unreads = collection.filter((n) => n.status === 'unread');
+  const reads = collection.filter((n) => n.status === 'read');
   const data = query.data?.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
@@ -60,7 +84,21 @@ const Notification = () => {
   return (
     <>
       <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
-        {data?.map((n) => (
+        <MenuItem>
+          <Stack>
+            <Typography variant="body1" fontWeight="bold">
+              Notifications
+            </Typography>
+            <Typography variant="caption">
+              You have {unreads.length} unread messages
+            </Typography>
+          </Stack>
+        </MenuItem>
+        <MenuItem>
+          <Typography variant="body1">New</Typography>
+        </MenuItem>
+
+        {unreads.map((n) => (
           <MenuItem
             key={n._id}
             onClick={() => {
@@ -69,21 +107,33 @@ const Notification = () => {
               }
             }}>
             <Stack>
-              <Typography variant="body1" fontWeight="bold">
-                {n.title}
-              </Typography>
-              <Typography variant="subtitle1">{n.text}</Typography>
+              <Typography variant="subtitle1">{n.title}</Typography>
+              <Typography variant="caption">{n.text}</Typography>
             </Stack>
           </MenuItem>
         ))}
-        {!query.isLoading && (!data || data.length === 0) && (
-          <MenuItem>
-            <Typography variant="body1">No notifications</Typography>
+        <MenuItem>
+          <Typography variant="body1">Before That</Typography>
+        </MenuItem>
+        {reads.map((n) => (
+          <MenuItem
+            key={n._id}
+            onClick={() => {
+              if (n.link) {
+                navigate(n.link);
+              }
+            }}>
+            <Stack>
+              <Typography variant="subtitle1">{n.title}</Typography>
+              <Typography variant="caption">{n.text}</Typography>
+            </Stack>
           </MenuItem>
-        )}
-        {query.isLoading && (
+        ))}
+        {!query.isLoading && (!reads || reads.length === 0) && (
           <MenuItem>
-            <Typography variant="body1">Loading...</Typography>
+            <Typography variant="caption">
+              No Past Read Notifications Available
+            </Typography>
           </MenuItem>
         )}
       </Menu>
@@ -92,7 +142,7 @@ const Notification = () => {
           setAnchorEl(e.currentTarget);
           mutate.mutate();
         }}>
-        <Badge badgeContent={unreads} color="secondary">
+        <Badge badgeContent={unreads.length} color="secondary">
           <Notifications />
         </Badge>
       </IconButton>

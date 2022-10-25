@@ -56,7 +56,7 @@ const Toolbar = () => {
               </MuiButton>
             </Link>
           </Box>
-          {auth.isLoggedIn && <Notification />}
+          <Notification />
           <Box sx={{ display: { xs: 'none', md: 'block' } }}>
             <Link to="/search">
               <Button>Get a match</Button>
