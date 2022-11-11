@@ -327,6 +327,76 @@ const acceptBooking = async (req: Request, res: Response) => {
   }
 };
 
+const rejectBooking = async (req: Request, res: Response) => {
+  try {
+    const mentor = req.user as UserSchemaType & Document;
+    const { id } = req.params;
+
+    const booking = await BookingModel.findById(id);
+
+    if (!booking) {
+      return res.status(404).json({
+        message: 'Booking not found',
+      });
+    }
+
+    if (booking.mentor?.toString() !== mentor._id.toString()) {
+      return res
+        .status(404)
+        .json({ error: 'You dont have access to reject this booking!' });
+    }
+
+    const mentee = await UserModel.findById(booking.mentee);
+
+    if (!mentee) {
+      return res.status(404).json({
+        message: 'Mentee not found',
+      });
+    }
+
+    await BookingModel.deleteOne({ _id: booking._id });
+
+    const slot = moment(booking.start_date).tz(mentee.timezone);
+    const template = makeTemplate('bookingRejected.hbs', {
+      mentorName: `${mentor.first_name} ${mentor.last_name}`,
+      menteeName: `${mentee.first_name} ${mentee.last_name}`,
+      appName: APP_NAME,
+      assetFolder: ASSET_FOLDER,
+      date: slot.format('dddd, MMMM Do YYYY'),
+      time: slot.format('h:mm a'),
+      reason: req.body.reason,
+    });
+
+    await sendEmail(mentee.email, 'Booking Rejected', template);
+
+    await notificationController.notify(
+      booking.mentee?.toString() || '',
+      `Booking Rejected by ${mentor.first_name} ${mentor.last_name}`,
+      `${mentor.first_name} ${
+        mentor.last_name
+      } has rejected your booking slot on ${slot.format(
+        'dddd, MMMM Do YYYY, h:mm a',
+      )}`,
+    );
+
+    mentee.currentSessionsRequested -= 1;
+    await Promise.all([
+      mentee.save(),
+      MentorModel.updateOne(
+        { _id: booking.mentor },
+        { $inc: { currSessionReqs: -1 } },
+      ),
+    ]);
+
+    return res.status(200).json({ message: 'Booking Rejected!' });
+  } catch (err) {
+    console.log(err instanceof Error ? err.message : err);
+    return res.status(500).json({
+      message: 'Unable to Schedule meet',
+    });
+  }
+};
+
 const getBookings = async (req: Request, res: Response) => {
   const type = req.query.type as string;
   const user = req.user as UserSchemaType & Document;
@@ -360,5 +430,6 @@ export default {
   availability,
   bookSlot,
   acceptBooking,
+  rejectBooking,
   getBookings,
 };
