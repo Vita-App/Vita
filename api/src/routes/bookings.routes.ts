@@ -9,5 +9,6 @@ router.get('/bookings', isAuth, bookingsController.getBookings);
 router.get('/busySlots', bookingsController.availability);
 router.post('/bookSlot', limitSessions, isAuth, bookingsController.bookSlot);
 router.get('/booking/accept/:id', isAuth, bookingsController.acceptBooking);
+router.post('/booking/reject/:id', isAuth, bookingsController.rejectBooking);
 
 export default router;
