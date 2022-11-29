@@ -234,3 +234,6 @@ export const getDurationLabel = (duration: DurationType) =>
   `${addZero(duration.start.hours())}:${addZero(
     duration.start.minutes(),
   )} - ${addZero(duration.end.hours())}:${addZero(duration.end.minutes())}`;
+
+export const clampString = (s: string, n: number) =>
+  s.substring(0, n) + (s.length > n ? '...' : '');

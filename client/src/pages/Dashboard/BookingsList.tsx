@@ -184,25 +184,26 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
             </Grid>
           )}
           <Grid item mt={1}>
-            {booking.mentor._id === user?._id && booking.status === 'waiting' && (
-              <Stack direction="row" spacing={2}>
-                <StyledButton
-                  disabled={mutation.isLoading}
-                  fullWidth
-                  variant="contained"
-                  style={{ backgroundColor: blue[900] }}
-                  onClick={() => mutation.mutate(booking._id)}>
-                  Accept
-                </StyledButton>
-                <StyledButton
-                  fullWidth
-                  variant="contained"
-                  color={'secondary'}
-                  style={{ backgroundColor: pink[900] }}>
-                  Cancel
-                </StyledButton>
-              </Stack>
-            )}
+            {booking.mentor._id === user?._id &&
+              booking.status === 'waiting' && (
+                <Stack direction="row" spacing={2}>
+                  <StyledButton
+                    disabled={mutation.isLoading}
+                    fullWidth
+                    variant="contained"
+                    style={{ backgroundColor: blue[900] }}
+                    onClick={() => mutation.mutate(booking._id)}>
+                    Accept
+                  </StyledButton>
+                  <StyledButton
+                    fullWidth
+                    variant="contained"
+                    color={'secondary'}
+                    style={{ backgroundColor: pink[900] }}>
+                    Cancel
+                  </StyledButton>
+                </Stack>
+              )}
             <Stack mt={1} direction="row" spacing={2}>
               {booking.google_meeting_link && (
                 <StyledButton
