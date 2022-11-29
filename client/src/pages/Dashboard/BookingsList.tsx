@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Accordion as MuiAccordion,
   AccordionDetails as MuiAccordionDetails,
@@ -27,6 +27,7 @@ import { SERVER_URL } from 'config.keys';
 import { toast } from 'react-toastify';
 import NoBooking from 'components/NoBookingCard';
 import { blue, pink, teal } from '@mui/material/colors';
+import BookingRejectModal from 'components/Modals/BookingRejectModal';
 
 const GridWrapper = styled(Grid)({
   // margin: '2rem',
@@ -126,12 +127,27 @@ const acceptBooking = async (id: string) => {
   return data;
 };
 
+const rejectBooking = async (id: string, reason?: string) => {
+  const { data } = await axios.post(
+    `${SERVER_URL}/api/booking/reject/${id}`,
+    {
+      reason,
+    },
+    {
+      withCredentials: true,
+    },
+  );
+  return data;
+};
+
 const getMentorOrMentee = (user: UserType | null, booking: BookingType) =>
   user?._id === booking.mentor?._id ? booking.mentee : booking.mentor;
 
 const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
+  const [open, setOpen] = useState(false);
+  const [bookingId, setBookingId] = useState('');
   const queryClient = useQueryClient();
-  const mutation = useMutation(
+  const acceptMutation = useMutation(
     'acceptBooking',
     (id: string) => acceptBooking(id),
     {
@@ -145,11 +161,38 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
       },
     },
   );
+  const rejectMutation = useMutation(
+    'rejectBooking',
+    (reason?: string) => rejectBooking(bookingId, reason),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getBookings');
+        setOpen(false);
+        toast.success(
+          'Booking rejected successfully and mentee has been notified',
+        );
+      },
+      onError: () => {
+        toast.error(
+          'Something went wrong! Cannot reject the booking right now',
+        );
+      },
+    },
+  );
+
   const { user } = useRecoilValue(authState);
   if (bookings.length === 0) return <NoBooking />;
 
   return (
     <>
+      <BookingRejectModal
+        open={open}
+        loading={rejectMutation.isLoading}
+        onClose={() => setOpen(false)}
+        onConfirm={(reason) => {
+          rejectMutation.mutate(reason);
+        }}
+      />
       {bookings.map((booking) => (
         <GridWrapper sx={{ boxShadow: 3, mt: 2 }} key={booking._id}>
           <Grid item container className="mentor-text">
@@ -188,18 +231,22 @@ const BookingsList: React.FC<{ bookings: BookingType[] }> = ({ bookings }) => {
               booking.status === 'waiting' && (
                 <Stack direction="row" spacing={2}>
                   <StyledButton
-                    disabled={mutation.isLoading}
+                    disabled={acceptMutation.isLoading}
                     fullWidth
                     variant="contained"
                     style={{ backgroundColor: blue[900] }}
-                    onClick={() => mutation.mutate(booking._id)}>
+                    onClick={() => acceptMutation.mutate(booking._id)}>
                     Accept
                   </StyledButton>
                   <StyledButton
                     fullWidth
                     variant="contained"
                     color={'secondary'}
-                    style={{ backgroundColor: pink[900] }}>
+                    style={{ backgroundColor: pink[900] }}
+                    onClick={() => {
+                      setBookingId(booking._id);
+                      setOpen(true);
+                    }}>
                     Cancel
                   </StyledButton>
                 </Stack>
