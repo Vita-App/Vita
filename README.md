@@ -154,7 +154,19 @@ Install [NodeJS LTS](https://nodejs.org/en/)
    npm run install-modules
    ```
 
-4. Start the react and nodejs server concucrrently
+4. Install MongoDB for your OS.
+   For windows you can also follow [this video guide](https://www.youtube.com/watch?v=FwMwO8pXfq0) to set up MongoDB
+
+   For mac you can also follow [this video guide](https://www.youtube.com/watch?v=MIByvzueqHQ) to set up MongoDB
+
+5. **This step is only required once when setting up the project**
+
+   ```sh
+   cd api
+   npm run build
+   ```
+
+6. Start the react and nodejs server concucrrently. Make sure you have `mongod` running in the background before running this command!
 
    ```sh
    npm run dev
@@ -179,33 +191,30 @@ curl -X POST http://localhost:5000/api/admin/create --header 'Content-Type: appl
 }'
 ```
 
-To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
+**DEPRECATED**: To setup the database with mockdata, follow this [guide](/Setting%20up%20Database.md)
 
 ## Roadmap
 
 See the [open issues](https://github.com/Rishabh-malhotraa/Vita/issues) for a list of proposed features (and known issues).
 
-### Things To do
+### Things done
 
 - [x] Inital Landing Page
 - [x] Linking MongoDB Database with the backend
 - [x] Sprinkling global state with Recoil (highly recommend it as compared to redux if there are no complex state transactions happening)
-- [x] Vita Meet
-- [x] Linking Vita Meet with caucus
 - [x] Infinite Scrolling on Search for Topics
-- [x] Deploy on Netlify and Heroku
 - [x] Design Doc
 - [x] Add github workflows
 
 ### Future Goals
 
-- [ ] Add Google Oauth
-- [ ] Add a login page and a way to add mentors from the Frontend (send form data to the backend, which after validation add user in mentors collection)
-- [ ] Add an admin panel to monitor all meetings.
+- [x] Add Google Oauth
+- [x] Add a login page and a way to add mentors from the Frontend (send form data to the backend, which after validation add user in mentors collection)
+- [x] Add an admin panel to monitor all meetings.
 - [ ] If a mentor/mentee does not show up, report as a no-show, and restrict their account.
 - [ ] Improve Filters & add more topics
 - [ ] Add Full-text Search Functionality for finding mentors!
-- [ ] Add bookings page for each signed-in user, which allows the mentor to accept, deject and reschedule his appointments
+- [x] Add bookings page for each signed-in user, which allows the mentor to accept, deject and reschedule his appointments
 - [ ] Use Redis Adapter instead of Node Cache :3
 - [ ] Write Unit Test
 
