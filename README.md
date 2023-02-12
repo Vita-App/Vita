@@ -166,7 +166,7 @@ Install [NodeJS LTS](https://nodejs.org/en/)
    npm run build
    ```
 
-6. Start the react and nodejs server concucrrently. Make sure you have `mongod` running in the background before running this command!
+6. Start the react and nodejs server concucrrently. Make sure you have `mongod` running in the background before running this command! Also run this command from main project folder.
 
    ```sh
    npm run dev
