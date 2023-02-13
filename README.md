@@ -159,17 +159,30 @@ Install [NodeJS LTS](https://nodejs.org/en/)
 
    For mac you can also follow [this video guide](https://www.youtube.com/watch?v=MIByvzueqHQ) to set up MongoDB
 
-5. **This step is only required once when setting up the project**
+5. **This step is only required if you are using WSL/Linux and only once when setting up the project. (WINDOWS USERS SKIP THIS!!!)**
 
    ```sh
    cd api
    npm run build
    ```
 
-6. Start the react and nodejs server concucrrently. Make sure you have `mongod` running in the background before running this command! Also run this command from main project folder.
+6. **ONLY FOR WIDNOWS USER**. Install `nodemon` and `ts-node` globally
+
+   ```sh
+   npm install -g nodemon ts-node
+   ```
+
+7. Start the react and nodejs server concucrrently. Make sure you have `mongod` running in the background before running this command! Also run this command from main project folder.
+   if you are using **WSL/Linux**, run this command from the main project folder
 
    ```sh
    npm run dev
+   ```
+
+   If you are using **Windows**, run this command from the main project folder
+
+   ```sh
+   npm run dev:ts
    ```
 
 ### Setting up DATABASE
