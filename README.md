@@ -184,6 +184,9 @@ Install [NodeJS LTS](https://nodejs.org/en/)
    ```sh
    npm run dev:ts
    ```
+8. Go to [http://localhost:3000](http://localhost:3000).
+
+**NOTE: Do not use [http://127.0.0.1:3000](http://127.0.0.1:3000)**
 
 ### Setting up DATABASE
 
