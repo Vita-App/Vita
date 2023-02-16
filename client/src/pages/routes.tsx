@@ -19,6 +19,7 @@ import useMetaData from 'hooks/useMetaData';
 import Bookings from './Dashboard/Booking';
 import Settings from './Dashboard/Settings';
 import WaitListPage from './Waitlist';
+import DevLogin from './Auth/DevLogin';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -73,6 +74,9 @@ const App = () => {
         <Route element={<ProtectedRoute redirectTo="/dashboard" inverse />}>
           <Route path="/auth" element={<AuthPage />} />
         </Route>
+        {import.meta.env.DEV && (
+          <Route path="/dev-login" element={<DevLogin />} />
+        )}
         <Route path="/search/" element={<SearchPage />} />
         <Route path="/user/:id" element={<UserPage />} />
         <Route element={<ProtectedRoute isRegisteredGuard />}>

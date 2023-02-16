@@ -429,7 +429,7 @@ export const countries = [
   { code: 'ZW', label: 'Zimbabwe', phone: '263' },
 ];
 
-export type CountryType = (typeof countries)[0];
+export type CountryType = typeof countries[0];
 
 export const countryCodetoName: Record<string, string> = {
   BD: 'Bangladesh',

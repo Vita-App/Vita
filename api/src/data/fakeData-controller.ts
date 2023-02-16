@@ -5,6 +5,7 @@ import { MentorModel, UserModel } from '../Models/User';
 import { TopicModel } from '../Models/Topics';
 import chalk from 'chalk';
 import { topics } from '../utils/topicsData';
+import { getDevUser } from '../dev';
 
 export const fakeDataController = async (req: Request, res: Response) => {
   await Promise.all([UserModel.deleteMany({}), MentorModel.deleteMany({})]);
@@ -37,6 +38,19 @@ export const fakeDataController = async (req: Request, res: Response) => {
 
     txn.push(user.save());
   }
+
+  // Create dev users
+  const { userData: menteeUser } = getDevUser(false);
+  const { userData: mentorUser, mentorData } = getDevUser(true);
+
+  const mentee = new UserModel(menteeUser);
+  txn.push(mentee.save());
+
+  const mentor = new UserModel(mentorUser);
+  const mentorDoc = new MentorModel(mentorData);
+  mentor.mentor_information = mentorDoc._id;
+  txn.push(mentor.save());
+  txn.push(mentorDoc.save());
 
   await Promise.all(txn);
   console.log(chalk.green('All users are saved in the database'));

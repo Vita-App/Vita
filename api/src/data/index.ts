@@ -22,12 +22,12 @@ import {
 import faker from '@faker-js/faker';
 import moment from 'moment-timezone';
 
-const getRandom = <T>(array: T[]): T => {
+export const getRandom = <T>(array: T[]): T => {
   const idx = Math.floor(Math.random() * array.length);
   return array[idx];
 };
 
-const getRandomBool = (offset = 0) =>
+export const getRandomBool = (offset = 0) =>
   Boolean(Math.max(0, Math.round(Math.random() + offset)));
 
 const shuffleArray = <T>(array: T[]) => {
@@ -48,7 +48,7 @@ const shuffleArray = <T>(array: T[]) => {
   return array;
 };
 
-const getRandomArray = <T>(
+export const getRandomArray = <T>(
   array: T[],
   upperBound = Infinity,
   lowerBound = 1,
@@ -66,7 +66,7 @@ const getRandomArray = <T>(
 const randomDate = (start: Date, end: Date) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
-const getRandomTimeSlots = (): DurationType[] => {
+export const getRandomTimeSlots = (): DurationType[] => {
   const Days = [0, 1, 2, 3, 4, 5, 6];
 
   const timeSlots: DurationType[] = [];
@@ -95,7 +95,7 @@ const getRandomTimeSlots = (): DurationType[] => {
   return timeSlots;
 };
 
-const getRandomExperiences = (n: number): ExperienceType[] => {
+export const getRandomExperiences = (n: number): ExperienceType[] => {
   const experiences: ExperienceType[] = [];
 
   for (let i = 0; i < n; i++) {
