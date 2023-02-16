@@ -14,7 +14,9 @@ import PaginatedBookingCard from 'components/PaginatedBookingCard';
 import ShowMoreText from 'react-show-more-text';
 import Divider from '@mui/material/Divider';
 import { commaString } from 'utils/helper';
-import { ReactSelect as Select } from 'components/common';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { motivationOptions } from 'data';
 import Appbar from 'components/Appbar';
 import axios from 'axios';
@@ -148,6 +150,15 @@ const UserPage = () => {
       setLiked(false);
     }
   }, [auth.user]);
+
+  // @ts-ignore
+  const motivationValue = motivation ? motivation?.value : 'All';
+
+  const handleChange = (event: SelectChangeEvent) => {
+    event.preventDefault();
+    setMotivation(event.target.value);
+    setPage(1);
+  };
 
   if (typeof id === 'undefined') return <div />;
   const { isLoading, data } = useQuery(['mentor', id], () => getMentor(id));
@@ -357,19 +368,44 @@ const UserPage = () => {
             {/* adding select here */}
             <Grid item xs={12} md={4} sx={{ paddingTop: '1rem' }}>
               <div style={{ margin: '1rem 0rem' }}>
-                <Select
-                  menuPlacement="auto"
-                  name="Topic"
-                  options={motivationOptions}
-                  // @ts-ignore
-                  onChange={({ value }) => {
-                    setMotivation(value);
-                    setPage(1);
-                  }} // Value - label
-                  isSearchable={true}
-                  classNamePrefix="select"
-                  placeholder={<span>Filter by Motivation</span>}
-                />
+                <FormControl
+                  sx={{ m: 1, minWidth: 200, borderRadius: 4 }}
+                  size="small">
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={motivationValue}
+                    label="Age"
+                    onChange={handleChange}
+                    native={true}
+                    sx={{
+                      width: '100%',
+                      border: 'none',
+                      backgroundColor: '#0c0c0c',
+                      padding: '3px 6px',
+                      borderRadius: 1,
+                      color: '#868686',
+                      fontSize: '20px',
+                    }}
+                    variant={'standard'}
+                    IconComponent={(props) => (
+                      <i
+                        style={{
+                          position: 'absolute',
+                          right: 5,
+                          pointerEvents: 'none',
+                        }}>
+                        <ExpandMoreIcon />
+                      </i>
+                    )}
+                    disableUnderline>
+                    {motivationOptions.map((item, index) => (
+                      <option key={index} value={item.value}>
+                        {item.value}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
             </Grid>
             <Grid item container width="100%">

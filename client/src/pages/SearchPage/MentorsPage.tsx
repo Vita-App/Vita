@@ -2,7 +2,10 @@ import React from 'react';
 import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
-import { ReactSelect as Select } from 'components/common';
+// import { ReactSelect as Select } from 'components/common';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -86,6 +89,14 @@ const MentorsPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
 
+  const handleChange = (event: SelectChangeEvent) => {
+    event.preventDefault();
+    const value = expertiseOptions.find(
+      (item) => item.value === event.target.value,
+    );
+    setExpertise(value);
+  };
+
   const { isLoading, data, fetchNextPage, hasNextPage, refetch } =
     useInfiniteQuery<GetMentorsResponse>(
       ['mentors', expertiseValue, topic],
@@ -146,20 +157,49 @@ const MentorsPage = () => {
           </TextAreaWrapper>
         </Grid>
         <Grid item xs={12} sm={4} lg={3} className="search_wrapper">
-          <Paper
-            sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
-            <Select
-              menuPlacement="auto"
-              name="Expertise"
-              sx={{ fontSize: '20px', width: '100%' }}
-              options={[...expertiseOptions, { label: 'All', value: 'All' }]}
-              value={expertise}
-              onChange={setExpertise}
-              isSearchable={matches}
-              classNamePrefix="select"
-              placeholder={<span>Filter by Expertise</span>}
-            />
-          </Paper>
+          <FormControl
+            sx={{ m: 1, minWidth: 120, borderRadius: 4 }}
+            size="small">
+            <Paper
+              sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={expertiseValue}
+                label="Age"
+                onChange={handleChange}
+                native={true}
+                sx={{
+                  width: '100%',
+                  border: 'none',
+                  backgroundColor: '#0c0c0c',
+                  padding: '3px 6px',
+                  borderRadius: 1,
+                  color: '#868686',
+                  fontSize: '20px',
+                }}
+                variant={'standard'}
+                IconComponent={(props) => (
+                  <i
+                    style={{
+                      position: 'absolute',
+                      right: 5,
+                      pointerEvents: 'none',
+                    }}>
+                    <ExpandMoreIcon />
+                  </i>
+                )}
+                disableUnderline>
+                {[...expertiseOptions, { label: 'All', value: 'All' }].map(
+                  (item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.value}
+                    </option>
+                  ),
+                )}
+              </Select>
+            </Paper>
+          </FormControl>
         </Grid>
       </GridWrapper>
       {content}

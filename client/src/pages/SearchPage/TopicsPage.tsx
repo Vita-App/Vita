@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Grid, InputBase, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
-import { ReactSelect as Select } from 'components/common';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { motivationOptions, shuffleTopics as topics } from 'data';
 import TopicCard from 'components/TopicCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -64,6 +66,14 @@ const MentorsPage = () => {
   // @ts-ignore
   const motivationValue = motivation ? motivation?.value : 'All';
 
+  const handleChange = (event: SelectChangeEvent) => {
+    event.preventDefault();
+    const value = motivationOptions.find(
+      (item) => item.value === event.target.value,
+    );
+    setMotivation(value);
+  };
+
   const fetchMoreData = () => {
     const n = items.length;
     setTimeout(() => {
@@ -94,20 +104,47 @@ const MentorsPage = () => {
           </TextAreaWrapper>
         </Grid>
         <Grid item xs={12} sm={4} lg={3} className="search_wrapper">
-          <Paper
-            sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
-            <Select
-              menuPlacement="auto"
-              name="Motivation"
-              sx={{ fontSize: '20px' }}
-              options={motivationOptions}
-              value={motivation}
-              onChange={setMotivation}
-              isSearchable={matches}
-              classNamePrefix="select"
-              placeholder={<span>Filter by Motivation</span>}
-            />
-          </Paper>
+          <FormControl
+            sx={{ m: 1, minWidth: 200, borderRadius: 4 }}
+            size="small">
+            <Paper
+              sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={motivationValue}
+                label="Age"
+                onChange={handleChange}
+                native={true}
+                sx={{
+                  width: '100%',
+                  border: 'none',
+                  backgroundColor: '#0c0c0c',
+                  padding: '3px 6px',
+                  borderRadius: 1,
+                  color: '#868686',
+                  fontSize: '20px',
+                }}
+                variant={'standard'}
+                IconComponent={(props) => (
+                  <i
+                    style={{
+                      position: 'absolute',
+                      right: 5,
+                      pointerEvents: 'none',
+                    }}>
+                    <ExpandMoreIcon />
+                  </i>
+                )}
+                disableUnderline>
+                {motivationOptions.map((item, index) => (
+                  <option key={index} value={item.value}>
+                    {item.value}
+                  </option>
+                ))}
+              </Select>
+            </Paper>
+          </FormControl>
         </Grid>
       </SearchWrapper>
       <InfiniteScroll
