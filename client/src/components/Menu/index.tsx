@@ -32,7 +32,7 @@ const MenuComponent: React.FC<MenuProps> = ({ anchorEl, open, onClose }) => {
         user: null,
         message: 'User is not logged in',
       });
-      navigate('/auth');
+      navigate(import.meta.env.DEV ? '/dev-login' : '/auth');
     } catch (e) {
       console.log(e);
     }

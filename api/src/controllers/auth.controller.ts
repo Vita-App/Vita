@@ -472,9 +472,32 @@ const registerUser = async (req: Request, res: Response) => {
   return res.json(user);
 };
 
+const devLogin = async (req: Request, res: Response) => {
+  const mentor_login = req.query.mentor_login === 'true';
+  const email = mentor_login ? 'dev@mentor.com' : 'dev@mentee.com';
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    return res.status(400).json({
+      message:
+        'Dev users not found, Run `curl -X GET http://localhost:5000/api/seed-data` to seed data!',
+    });
+  }
+
+  const token = user?.issueToken();
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  });
+  return res.status(200).json({ isLoggedIn: true, user });
+};
+
 export default {
   jwtLogin,
   jwtSignup,
+  devLogin,
   auth,
   socialAuthCallback,
   passportGoogle,

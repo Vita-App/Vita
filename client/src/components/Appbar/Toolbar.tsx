@@ -64,10 +64,11 @@ const Toolbar = () => {
           </Box>
           {!auth.isLoggedIn ? (
             <>
-              <Link to="/auth">
+              <Link to={import.meta.env.DEV ? '/dev-login' : '/auth'}>
                 <Button sx={{ color: '' }}>Login</Button>
               </Link>
-              <Link to="/auth?page=signup">
+              <Link
+                to={import.meta.env.DEV ? '/dev-login' : '/auth?page=signup'}>
                 <Button
                   sx={{
                     backgroundColor: blue[900],
