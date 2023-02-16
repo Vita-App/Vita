@@ -1,3 +1,20 @@
+## Getting Started
+
+Follow the instructions to set up the project on your local machine.
+
+Read the Vita [Case Study](https://rishabh-malhotra.notion.site/Vita-Case-Study-110f30b9278649768ead22affc53c5ed)
+and [User Journey](https://rishabh-malhotra.notion.site/Vita-User-Journey-7495dd0612ec4de1902fce62cc02ddb5) doc.
+
+### Prerequisites
+
+Install [NodeJS LTS](https://nodejs.org/en/)
+
+- npm
+
+  ```sh
+  npm install npm@latest -g
+  ```
+
 ### Installation
 
 1. Fork the repo(required), a star is also appretiated but optional :P
