@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, InputBase, Paper, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
@@ -6,6 +6,8 @@ import { styled } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import { expertiseOptions } from 'data';
 import UserCard from 'components/UserCard';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -79,6 +81,18 @@ const RenderCards = ({
 };
 
 let timer: any;
+
+// mui select styling
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const MentorsPage = () => {
   const [expertise, setExpertise] = useRecoilState(expertiseState);
@@ -160,41 +174,56 @@ const MentorsPage = () => {
           <FormControl
             sx={{ m: 1, minWidth: 120, borderRadius: 4 }}
             size="small">
+            {!expertiseValue && (
+              <InputLabel
+                id="search"
+                sx={{
+                  color: '#868686',
+                  fontSize: '20px',
+                  paddingLeft: 2,
+                  fontWeight: '400',
+                }}>
+                Filter by Expertise
+              </InputLabel>
+            )}
             <Paper
               sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
               <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={expertiseValue}
-                label="Age"
+                labelId="search"
+                fullWidth
+                value={expertiseValue ?? null}
                 onChange={handleChange}
-                native={true}
+                defaultValue=""
                 sx={{
-                  width: '100%',
-                  border: 'none',
-                  backgroundColor: '#0c0c0c',
-                  padding: '3px 6px',
+                  padding: '5px 6px',
                   borderRadius: 1,
                   color: '#868686',
-                  fontSize: '20px',
+                  fontSize: '18px',
+                  backgroundColor: 'black !important',
+                  boxShadow:
+                    '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+                  backgroundImage:
+                    'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
                 }}
                 variant={'standard'}
-                IconComponent={(props) => (
+                disableUnderline
+                IconComponent={() => (
                   <i
                     style={{
                       position: 'absolute',
+                      top: !expertiseValue ? 10 : 5,
                       right: 5,
                       pointerEvents: 'none',
                     }}>
                     <ExpandMoreIcon />
                   </i>
                 )}
-                disableUnderline>
+                MenuProps={MenuProps}>
                 {[...expertiseOptions, { label: 'All', value: 'All' }].map(
                   (item, index) => (
-                    <option key={index} value={item.value}>
+                    <MenuItem key={index} value={item.value}>
                       {item.value}
-                    </option>
+                    </MenuItem>
                   ),
                 )}
               </Select>

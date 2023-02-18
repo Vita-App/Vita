@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, InputBase, Paper } from '@mui/material';
+import { Grid, InputBase, InputLabel, MenuItem, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
@@ -51,6 +51,19 @@ const CardContainer = styled(Grid)({
 const filterTopics = (topics_: Topic[], motivation: string) => {
   if (motivation === 'All' || motivation === null) return topics_;
   return topics.filter((topic) => topic.motivation === motivation);
+};
+
+// mui menuprops
+// mui select styling
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      // width: 250,
+    },
+  },
 };
 
 const MentorsPage = () => {
@@ -105,42 +118,57 @@ const MentorsPage = () => {
         </Grid>
         <Grid item xs={12} sm={4} lg={3} className="search_wrapper">
           <FormControl
-            sx={{ m: 1, minWidth: 200, borderRadius: 4 }}
+            sx={{ m: 1, minWidth: 120, borderRadius: 4 }}
             size="small">
+            {!motivationValue && (
+              <InputLabel
+                id="search"
+                sx={{
+                  color: '#868686',
+                  fontSize: '20px',
+                  paddingLeft: 2,
+                  fontWeight: '400',
+                }}>
+                Filter by Motivation
+              </InputLabel>
+            )}
             <Paper
               sx={{ display: 'flex', minWidth: '240px', marginLeft: '16px' }}>
               <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={motivationValue}
-                label="Age"
+                labelId="search"
+                fullWidth
+                value={motivationValue ?? null}
                 onChange={handleChange}
-                native={true}
+                defaultValue=""
                 sx={{
-                  width: '100%',
-                  border: 'none',
-                  backgroundColor: '#0c0c0c',
-                  padding: '3px 6px',
+                  padding: '5px 6px',
                   borderRadius: 1,
                   color: '#868686',
-                  fontSize: '20px',
+                  fontSize: '18px',
+                  backgroundColor: 'black !important',
+                  boxShadow:
+                    '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+                  backgroundImage:
+                    'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))',
                 }}
                 variant={'standard'}
-                IconComponent={(props) => (
+                disableUnderline
+                IconComponent={() => (
                   <i
                     style={{
                       position: 'absolute',
+                      top: !motivationValue ? 10 : 5,
                       right: 5,
                       pointerEvents: 'none',
                     }}>
                     <ExpandMoreIcon />
                   </i>
                 )}
-                disableUnderline>
+                MenuProps={MenuProps}>
                 {motivationOptions.map((item, index) => (
-                  <option key={index} value={item.value}>
+                  <MenuItem key={index} value={item.value}>
                     {item.value}
-                  </option>
+                  </MenuItem>
                 ))}
               </Select>
             </Paper>
