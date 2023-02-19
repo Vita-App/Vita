@@ -13,14 +13,15 @@ const ErrorIlustration = styled('img')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     height: '55vh',
     margin: 'auto',
-    marginTop:"0rem"
+    marginTop: '0rem',
   },
-  [theme.breakpoints.down('sm')]:{
-    marginTop:"23vh"
-},
-[theme.breakpoints.between(500,'md')]:{
-    marginTop:"10vh"
-}}));
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '23vh',
+  },
+  [theme.breakpoints.between(500, 'md')]: {
+    marginTop: '10vh',
+  },
+}));
 
 const ErrorContent = styled('div')(({ theme }) => ({
   fontWeight: '500',
@@ -43,12 +44,12 @@ const ErrorButton = styled('button')(({ theme }) => ({
   margin: '1rem auto 6rem auto ',
   width: '12rem',
   backgroundColor: '#b09aff',
-  [theme.breakpoints.down('sm')]:{
-      marginBottom:"25vh"
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: '25vh',
   },
-  [theme.breakpoints.between(500,'md')]:{
-    marginBottom:"22vh"
-}
+  [theme.breakpoints.between(500, 'md')]: {
+    marginBottom: '22vh',
+  },
 }));
 
 const Error404 = () => {
@@ -56,7 +57,7 @@ const Error404 = () => {
 
   return (
     <SVGBackground2>
-      <Box >
+      <Box>
         <Grid container>
           <Grid item container md={12} xs={12} sm={12}>
             <ErrorIlustration
