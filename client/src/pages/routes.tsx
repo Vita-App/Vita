@@ -92,7 +92,7 @@ const App = () => {
         <Route path="/registration-form" element={<Signup />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
         <Route path="/join-waitlist" element={<WaitListPage />} />
-        <Route path="/*" element={<Error404/>} />
+        <Route path="*" element={<Error404/>} />
       </Routes>
     </Suspense>
   );
