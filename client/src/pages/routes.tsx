@@ -20,7 +20,7 @@ import Bookings from './Dashboard/Booking';
 import Settings from './Dashboard/Settings';
 import WaitListPage from './Waitlist';
 import DevLogin from './Auth/DevLogin';
-import Error404 from "./Error404/Error404"
+import Error404 from './Error404/Error404';
 
 const Landing = lazy(() => import('pages/Landing'));
 const EmailVerification = lazy(() => import('pages/EmailVerification'));
@@ -92,7 +92,7 @@ const App = () => {
         <Route path="/registration-form" element={<Signup />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
         <Route path="/join-waitlist" element={<WaitListPage />} />
-        <Route path="*" element={<Error404/>} />
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </Suspense>
   );
