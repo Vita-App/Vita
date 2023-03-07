@@ -3,7 +3,7 @@ import { Avatar, Stack, Typography, Link, Paper } from '@mui/material';
 import { contributors } from './contributors';
 
 interface IProps {
-  contributor: typeof contributors[number];
+  contributor: (typeof contributors)[number];
   topContributor?: boolean;
 }
 
