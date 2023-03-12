@@ -1,7 +1,7 @@
 body,
 html {
   margin: 0;
-  background-color: #242424;
+  background-color: #f3b1c2;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -18,19 +18,19 @@ html {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #232728;
+  background: #f4c6f5;
   /* background: #3e3e42; */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  background: #555;
+  background: #d00f83;
+  background: #ee8fdd;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #464c4f;
+  background: #e277c0;
 }
 
 .ms-Modal-scrollableContent {
