@@ -57,7 +57,7 @@ jobs:
           target: '/var/www/html' # Path to the directory you want to copy to
 
       - name: Start Server
-        uses: appleboy/ssh-action@v0.1.4 # This is the action
+        uses: appleboy/ssh-action@v0.1.10 # This is the action
         with:
           host: ${{secrets.SSH_HOST_PROD}} # IP address of the server you wish to ssh into
           key: ${{secrets.SSH_KEY}} # Private or public key of the server

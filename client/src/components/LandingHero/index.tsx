@@ -12,8 +12,12 @@ const StyledButton = styled(Button)`
   color: #f5f5f5;
   font-size: 1rem;
   background-image: linear-gradient(90deg, #3512b2, #d18873);
-  box-shadow: 0 2px 1px transparent, 0 4px 2px transparent,
-    0 8px 4px transparent, 0 16px 8px transparent, 0 32px 16px transparent;
+  box-shadow:
+    0 2px 1px transparent,
+    0 4px 2px transparent,
+    0 8px 4px transparent,
+    0 16px 8px transparent,
+    0 32px 16px transparent;
   transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68);
 
   /* transition: all 0.8s cubic-bezier(0.32, 1.32, 0.42, 0.68); */

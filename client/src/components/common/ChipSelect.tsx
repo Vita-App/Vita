@@ -117,37 +117,37 @@ export const MultiSelectElement = ({
                 typeof rest.renderValue === 'function'
                   ? rest.renderValue
                   : showChips
-                  ? (selected: ItemType[]) => (
-                      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {(selected || []).map(
-                          (selectedValue, index: number) => (
-                            <Chip
-                              key={index}
-                              label={selectedValue.label}
-                              sx={{
-                                margin: '4px',
-                              }}
-                              onDelete={() => {
-                                onChange(
-                                  optionSelected.filter(
-                                    (i: any) => i !== selectedValue,
-                                  ),
-                                );
-                                // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
-                              }}
-                              deleteIcon={
-                                <CloseIcon
-                                  onMouseDown={(ev) => {
-                                    ev.stopPropagation();
-                                  }}
-                                />
-                              }
-                            />
-                          ),
-                        )}
-                      </div>
-                    )
-                  : (selected) => selected?.join(', ')
+                    ? (selected: ItemType[]) => (
+                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                          {(selected || []).map(
+                            (selectedValue, index: number) => (
+                              <Chip
+                                key={index}
+                                label={selectedValue.label}
+                                sx={{
+                                  margin: '4px',
+                                }}
+                                onDelete={() => {
+                                  onChange(
+                                    optionSelected.filter(
+                                      (i: any) => i !== selectedValue,
+                                    ),
+                                  );
+                                  // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
+                                }}
+                                deleteIcon={
+                                  <CloseIcon
+                                    onMouseDown={(ev) => {
+                                      ev.stopPropagation();
+                                    }}
+                                  />
+                                }
+                              />
+                            ),
+                          )}
+                        </div>
+                      )
+                    : (selected) => selected?.join(', ')
               }>
               {menuItems.map((item: ItemType, index: number) => {
                 const isChecked = isPresent(optionSelected, item);
