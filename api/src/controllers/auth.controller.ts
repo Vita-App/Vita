@@ -29,6 +29,7 @@ const googleRefreshToken = async (req: Request, res: Response) => {
     scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar'],
     state: JSON.stringify({ message: 'getRefreshToken' }),
     accessType: 'offline',
+    prompt: 'consent',
   })(req, res);
 };
 
