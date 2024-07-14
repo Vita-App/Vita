@@ -77,3 +77,7 @@ export const ASSET_FOLDER = process.env.ASSET_FOLDER || 'Vita';
 export const ALLOW_MENTEE_SIGNUP = process.env.ALLOW_MENTEE_SIGNUP
   ? process.env.ALLOW_MENTEE_SIGNUP === 'true'
   : false;
+
+export const FEATURE_FLAGS = {
+  waitlist: process.env.WAITLIST_FEATURE || false,
+};

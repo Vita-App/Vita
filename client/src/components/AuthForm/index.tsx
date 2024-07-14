@@ -131,14 +131,13 @@ const AuthForm: React.FC = () => {
 
   const role = watch('role');
   const isMentor = role === 'mentor';
-  const inviteCode = watch('inviteCode');
 
   const googleLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}&inviteCode=${inviteCode}`;
+    window.location.href = `${SERVER_URL}/api/auth/google?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 
   const linkedInLogin = () => {
-    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}&inviteCode=${inviteCode}`;
+    window.location.href = `${SERVER_URL}/api/auth/linkedin?isMentor=${isMentor}&loginMode=${loginMode}`;
   };
 
   useEffect(() => {
@@ -236,39 +235,6 @@ const AuthForm: React.FC = () => {
           )}
         />
       </Stack>
-      {role === 'mentee' && (
-        <Stack>
-          <Typography variant="body2">Invitation Code</Typography>
-          <Controller
-            control={control}
-            name="inviteCode"
-            defaultValue=""
-            rules={{
-              required: 'Invitation Code is required',
-            }}
-            render={({ field }) => (
-              <StyledTextField
-                {...field}
-                placeholder="Invitation Code"
-                error={Boolean(errors.inviteCode)}
-                helperText={
-                  <Typography variant="body2" color="textSecondary">
-                    Don&apos;t have an invitation code? Join the waitlist{' '}
-                    <Link
-                      sx={{
-                        color: 'primary.main',
-                        textDecoration: 'underline',
-                      }}
-                      to="/join-waitlist">
-                      here
-                    </Link>
-                  </Typography>
-                }
-              />
-            )}
-          />
-        </Stack>
-      )}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         {!loginMode && (
           <Stack spacing={1}>

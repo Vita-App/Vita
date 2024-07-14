@@ -1,7 +1,12 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import LinkedinStrategy from 'passport-linkedin-oauth2';
-import { CREATE_CALENDER_EMAIL, GOOGLE_KEY, LINKEDIN_KEY } from './keys';
+import {
+  CREATE_CALENDER_EMAIL,
+  FEATURE_FLAGS,
+  GOOGLE_KEY,
+  LINKEDIN_KEY,
+} from './keys';
 import { UserModel } from '../Models/User';
 import { Waitlist } from '../Models/Waitlist';
 import { CalendarCredentialsModel } from '../Models/CalendarCredentials';
@@ -87,7 +92,11 @@ passport.use(
       if (state.message === 'getRefreshToken') {
         calendarEventCreationEmail(profile._json.email, _refreshToken, done);
       } else {
-        if (state.loginMode === 'false' && state.isMentor === 'false') {
+        if (
+          state.loginMode === 'false' &&
+          state.isMentor === 'false' &&
+          FEATURE_FLAGS.waitlist
+        ) {
           const invite = await Waitlist.findOne({
             inviteCode: state.inviteCode,
           });
@@ -134,7 +143,11 @@ passport.use(
     async (request, _accessToken, _refreshToken, profile, done) => {
       const state = JSON.parse((request.query.state as string) || '{}');
 
-      if (state.loginMode === 'false' && state.isMentor === 'false') {
+      if (
+        state.loginMode === 'false' &&
+        state.isMentor === 'false' &&
+        FEATURE_FLAGS.waitlist
+      ) {
         const invite = await Waitlist.findOne({
           inviteCode: state.inviteCode,
         });

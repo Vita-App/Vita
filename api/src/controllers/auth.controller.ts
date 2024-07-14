@@ -4,6 +4,7 @@ import {
   ASSET_FOLDER,
   CLIENT_URL,
   EMAIL_VERIFICATION_JWT,
+  FEATURE_FLAGS,
 } from '../config/keys';
 import { NextFunction, Request, Response } from 'express';
 import { Document, Types } from 'mongoose';
@@ -195,18 +196,26 @@ const jwtSignup = async (req: Request, res: Response) => {
   const { email, password, first_name, last_name, mentor, inviteCode } =
     req.body;
 
-  if (!mentor) {
-    const invite = await Waitlist.findOne({ inviteCode });
+  if (FEATURE_FLAGS.waitlist) {
+    if (!mentor) {
+      const invite = await Waitlist.findOne({ inviteCode });
 
-    if (!invite || (invite.email !== email && invite.email !== '*')) {
-      return res.status(401).json({
-        error: 'Invalid or used invite code',
-      });
-    }
+      if (!invite || (invite.email !== email && invite.email !== '*')) {
+        return res.status(401).json({
+          error: 'Invalid or used invite code',
+        });
+      }
 
-    if (invite.email === email) {
-      await invite.remove();
+      if (invite.email === email) {
+        await invite.remove();
+      }
     }
+  }
+
+  if (!/^[A-Za-z0-9._%+-]+@thapar.edu$/i.test(email)) {
+    return res.status(400).json({
+      error: 'You must use a Thapar email address',
+    });
   }
 
   const user = new UserModel({

@@ -9,6 +9,7 @@ import notificationRoutes from './notification.routes';
 import devRoutes from './dev.routes';
 import waitlistRoutes from './waitlist.routes';
 import topicRoutes from './topics.routes';
+import { FEATURE_FLAGS } from '../config/keys';
 
 const router = Router();
 
@@ -19,7 +20,7 @@ router.use(authRoutes);
 router.use(bookingsRoutes);
 router.use(webhooksRoutes);
 router.use(notificationRoutes);
-router.use(waitlistRoutes);
+if (FEATURE_FLAGS.waitlist) router.use(waitlistRoutes);
 router.use(devRoutes);
 router.use(topicRoutes);
 
