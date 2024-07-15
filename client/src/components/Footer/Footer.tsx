@@ -42,7 +42,7 @@ const Footer = () => (
             </Typography>
             <Stack>
               <Typography variant="caption" color="#777676">
-                Email: contact@vita-app.tech
+                Email: arctiet@thapar.edu
               </Typography>
               <Link to="#">
                 <MUILink variant="caption" color="#777676" component="p">
