@@ -212,7 +212,7 @@ const jwtSignup = async (req: Request, res: Response) => {
     }
   }
 
-  if (!/^[A-Za-z0-9._%+-]+@thapar.edu$/i.test(email)) {
+  if (!/^[A-Za-z0-9._%+-]+@thapar.edu$/i.test(email) && !mentor) {
     return res.status(400).json({
       error: 'You must use a Thapar email address',
     });
