@@ -1,7 +1,7 @@
 {
   "name": "vita",
   "version": "1.0.0",
-  "description": "",
+  "description": "<!-- LATEST ANNOUNCEMENTS -->",
   "main": "index.js",
   "scripts": {
     "install-client": "cd client && npm install",

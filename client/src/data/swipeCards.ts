@@ -5,7 +5,7 @@ export const swipeCardsInfo = [
   },
   {
     src: 'https://res.cloudinary.com/vita-app/image/upload/v1661346468/Vita/drawing_yojuo7.webp',
-    info: 'Designing Your Carrer Path',
+    info: 'Designing Your Career Path',
   },
   {
     src: 'https://res.cloudinary.com/vita-app/image/upload/v1661346468/Vita/acing_technical_interviews_rpka5i.webp',
